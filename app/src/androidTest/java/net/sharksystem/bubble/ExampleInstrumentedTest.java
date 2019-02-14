@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("ohdm.de.temp", appContext.getPackageName());
+        assertEquals("net.sharksystem", appContext.getPackageName());
     }
 }
