@@ -1,0 +1,4 @@
+#Thu Feb 14 18:47:10 CET 2019
+base.0=C\:\\user\\thsc\\_code_aktuell\\_codeSharkNet_2\\androidProject\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\6
+path.0=classes.dex
+renamed.0=classes.dex

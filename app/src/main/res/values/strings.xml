@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Bubbles</string>
+    <string name="send">hello</string>
+    <string name="hello">hello</string>
+
+    <string name="bubble">bubble</string>
+    <string name="removeBubble">swallow</string>
+
+    <string name="appBubble">Bubble</string>
+    <string name="appRadar">Radar</string>
+    <string name="appTellPosition">Ping</string>
+
+    <string name="bubbleAuthority">net.sharksystem.bubble</string>
+    <string name="syncAuthority">net.sharksystem.sync</string>
+
+    <string name="add">add</string>
+    <string name="abort">abort</string>
+
+</resources>
