@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import net.sharksystem.aasp.AASPChunk;
+import net.sharksystem.aasp.AASPChunkCache;
 import net.sharksystem.aasp.AASPEngineFS;
 import net.sharksystem.aasp.AASPException;
 import net.sharksystem.aasp.AASPStorage;
@@ -21,8 +22,9 @@ import java.util.List;
  * actually a wrapper around an ASP3 file system implementation
  */
 class BubbleAASPStorageWrapper implements BubbleMessageStorage {
+    private AASPChunkCache chunkCache = null;
     private CharSequence topic;
-    private AASPStorage aaspStorage;
+    private AASPStorage aaspStorage = null;
     private boolean anyTopic;
 
     private List<AASPChunk> chunkList = new ArrayList<>();
@@ -38,48 +40,22 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
 
         String dirName = BubbleApp.getAASPRootDirectory(ctx).getAbsolutePath();
 
-        this.aaspStorage = AASPEngineFS.getAASPChunkStorage(dirName);
-        Log.d("BubbleStorageWrapper", "use AASPStorage with root: " + dirName);
+        if(this.aaspStorage == null) {
+            // initialize
+            this.aaspStorage = AASPEngineFS.getAASPChunkStorage(dirName);
+            Log.d("BubbleStorageWrapper", "use AASPStorage with root: " + dirName);
 
-        // setup translation of asp3 messages to bubble messages
+            // setup translation of asp3 messages to bubble messages
 
-        // get all available chunks
-        int oldestEra = this.aaspStorage.getOldestEra();
-        int era = this.aaspStorage.getEra();
+            // get all available chunks
+            int oldestEra = this.aaspStorage.getOldestEra();
+            int era = this.aaspStorage.getEra();
 
-        this.anyTopic = BubbleApp.isAnyTopic(topic);
+            this.anyTopic = BubbleApp.isAnyTopic(topic);
 
-        // get all chunks in reverse temporal order
-        int thisEra = era;
-        boolean anotherRound = era != oldestEra;
-        boolean lastRound = !anotherRound;
-        List<AASPChunk> chunks = null;
-
-        do {
-            if(this.anyTopic) {
-                chunks = this.aaspStorage.getChunkStorage().getChunks(thisEra);
-
-                for(AASPChunk chunk : chunks) {
-                    this.chunkList.add(chunk);
-                    // count messages
-                    this.size += chunk.getNumberMessage();
-                }
-
-            } else {
-                AASPChunk chunk = this.aaspStorage.getChunkStorage().getChunk(topic, thisEra);
-                this.chunkList.add(chunk);
-                this.size += chunk.getNumberMessage();
-            }
-
-            if(anotherRound) {
-                if(lastRound) {
-                    anotherRound = false;
-                } else {
-                    thisEra = this.aaspStorage.getPreviousEra(thisEra);
-                    lastRound = thisEra == oldestEra;
-                }
-            }
-        } while(anotherRound);
+            this.chunkCache =
+                    this.aaspStorage.getChunkStorage().getAASPChunkCache(topic, era, oldestEra);
+        }
     }
 
     // cache
@@ -88,52 +64,16 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
     private int cachedLastIndex = -1;
 
     @Override
-    public BubbleMessage getMessage(int position) throws IOException {
-        if(position > this.size) throw new IOException("Position exceeds number of message");
+    public BubbleMessage getMessage(int position) throws IOException, AASPException {
+        // get message at position in inverse chronological order
+        CharSequence message = this.chunkCache.getMessage(position, false);
 
-        // we want to turn around message list - newest first
-        position = this.size-1 - position; //
-
-        if(bubbleList != null && position >= cachedFirstIndex && position <= cachedLastIndex) {
-            return this.bubbleList.get(position - cachedFirstIndex); // TODO calculation correct?
-        }
-
-        // not yet in cache - find chunk
-        int cachedFirstIndex = 0;
-
-        // TODO assumed temporal sorted list
-        boolean found = false;
-        AASPChunk fittingChunk = null;
-        for(AASPChunk chunk : this.chunkList) {
-            this.cachedLastIndex = this.cachedFirstIndex + chunk.getNumberMessage() - 1;
-
-            if(position >= cachedFirstIndex && position <= cachedLastIndex) {
-                fittingChunk = chunk;
-                break;
-            }
-
-            this.cachedFirstIndex += chunk.getNumberMessage() - 1;
-        }
-
-        // chunk found - copy to memory
-        this.bubbleList = new ArrayList<>();
-        Iterator<CharSequence> messageIter = fittingChunk.getMessages();
-        while(messageIter.hasNext()) {
-            CharSequence message = messageIter.next();
-
-            BubbleMessageInMemo bubbleMessage = new BubbleMessageInMemo(this.topic, message);
-            this.bubbleList.add(bubbleMessage);
-        }
-
-        // cache filled - try again
-        return this.getMessage(position);
-
-        // if missed  get from asp3storage
-//        return new BubbleMessageInMemo(this.topic, "userID", "position #" + position, null);
+        // parse it - TODO: maybe there is a bubble message cache in order as well?
+        return new BubbleMessageInMemo(this.topic, message);
     }
 
     @Override
-    public void addMessage(CharSequence topic, CharSequence userID, CharSequence message) throws IOException {
+    public void addMessage(CharSequence topic, CharSequence userID, CharSequence message) throws IOException, AASPException {
         // date and time
         Date now = new Date();
 
@@ -146,6 +86,7 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
         // save as asp3 message
         this.aaspStorage.add(this.topic, serializedBubbleMessage);
 
+        // TODO!! cache handling is in AASPJava module now
         // cache available
         if(this.bubbleList != null) {
             // not empty
@@ -184,7 +125,7 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
      * Note not all messages are actually in cache.
      */
     @Override
-    public int size() {
-        return this.size;
+    public int size() throws IOException {
+        return this.chunkCache.getNumberMessage();
     }
 }
