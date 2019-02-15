@@ -1,5 +1,7 @@
 package net.sharksystem.bubble.android;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.os.Environment;
 
 import net.sharksystem.aasp.AASPEngineFS;
 import net.sharksystem.aasp.AASPException;
+import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 import net.sharksystem.bubble.model.BubbleMessageStorageFactory;
@@ -31,6 +34,16 @@ public class BubbleApp {
                 AASPEngineFS.DEFAULT_ROOT_FOLDER_NAME));
 
 //        return ctx.getFilesDir();
+    }
+
+    public static void askForPermissions(Activity activity) {
+        // required permissions
+        String[] permissions = new String[] {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        };
+
+        // check for write permissions
+        PermissionCheck.askForPermissions(activity, permissions);
     }
 
     /**

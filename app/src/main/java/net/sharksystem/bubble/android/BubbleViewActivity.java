@@ -26,6 +26,9 @@ public class BubbleViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // check permissions
+        BubbleApp.askForPermissions(this);
+
         this.topic = BubbleApp.getTopicNameFromIntentExtras(this.getIntent());
 
         try {
