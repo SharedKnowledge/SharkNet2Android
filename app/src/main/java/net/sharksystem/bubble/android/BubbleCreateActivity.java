@@ -1,5 +1,6 @@
 package net.sharksystem.bubble.android;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.aasp.AASPException;
+import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 
 import java.io.IOException;
@@ -20,6 +22,10 @@ public class BubbleCreateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // check permissions
+        BubbleApp.askForPermissions(this);
+
         setContentView(R.layout.bubble_create);
 
         this.topic = BubbleApp.getTopicNameFromIntentExtras(this.getIntent());

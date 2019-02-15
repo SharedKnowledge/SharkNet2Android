@@ -26,4 +26,7 @@
         <activity android:name=".radar.android.RadarActivity"></activity>
     </application>
 
+    <!-- AASPEngine needs to write in files -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 </manifest>

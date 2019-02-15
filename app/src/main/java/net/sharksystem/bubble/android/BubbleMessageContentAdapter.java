@@ -11,14 +11,18 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import net.sharksystem.SharkException;
 import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.R;
 import net.sharksystem.bubble.model.BubbleMessageImpl;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 
-public class BubbleMessageContentAdapter extends RecyclerView.Adapter<BubbleMessageContentAdapter.MyViewHolder> {
+public class BubbleMessageContentAdapter extends
+        RecyclerView.Adapter<BubbleMessageContentAdapter.MyViewHolder> {
+
     private final Context ctx;
     private BubbleMessageStorage bubbleStorage;
+    private CharSequence topic = null;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView topic, message, userID;
@@ -31,10 +35,8 @@ public class BubbleMessageContentAdapter extends RecyclerView.Adapter<BubbleMess
         }
     }
 
-    public BubbleMessageContentAdapter(Context ctx, CharSequence topic) {
-        this.ctx = ctx;
+    private BubbleMessageStorage getBubbleMessageStorage() throws SharkException {
         try {
-//            this.bubbleStorage = BubbleMessageStorageFactory.getStorageByTopic(topic);
             if(BubbleApp.isAnyTopic(topic)) {
                 this.bubbleStorage = BubbleApp.getBubbleMessageStorage(ctx);
             } else {
@@ -43,8 +45,15 @@ public class BubbleMessageContentAdapter extends RecyclerView.Adapter<BubbleMess
         }
         catch(Exception ioe) {
             Log.e("ContentAdapter", "cannot open bubble persistent storage");
-            Toast.makeText(this.ctx, "cannot open bubble storage", Toast.LENGTH_LONG).show();
+            Log.e("ContentAdapter", ioe.getLocalizedMessage());
+            throw new SharkException(ioe.getMessage(), ioe);
         }
+
+        return this.bubbleStorage;
+    }
+
+    public BubbleMessageContentAdapter(Context ctx, CharSequence topic) throws SharkException {
+        this.ctx = ctx;
     }
 
     @Override
@@ -84,7 +93,7 @@ public class BubbleMessageContentAdapter extends RecyclerView.Adapter<BubbleMess
 
         // go ahead
         try {
-            BubbleMessage bubbleMessage = this.bubbleStorage.getMessage(position);
+            BubbleMessage bubbleMessage = this.getBubbleMessageStorage().getMessage(position);
 
             holder.topic.setText(bubbleMessage.getTopic());
             holder.userID.setText(bubbleMessage.getUserID());
@@ -92,13 +101,22 @@ public class BubbleMessageContentAdapter extends RecyclerView.Adapter<BubbleMess
         } catch (IOException e) {
             // TODO
             Log.e("error: ", "couldn't get message in position: " + position);
+        } catch (SharkException e) {
+            Log.e("MessageContentAdapter", "cannot access message storage (yet?)");
         }
 
     }
 
     @Override
     public int getItemCount() {
-        int realSize = this.bubbleStorage.size();
+
+        int realSize = 0;
+        try {
+            realSize = this.getBubbleMessageStorage().size();
+        } catch (SharkException e) {
+            Log.e("MessageContentAdapter", "cannot access message storage (yet?)");
+            return 0;
+        }
         int fakeSize = realSize+1;
         return fakeSize;
     }
