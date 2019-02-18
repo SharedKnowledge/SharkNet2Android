@@ -12,6 +12,7 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.aasp.AASPException;
 import net.sharksystem.android.util.PermissionCheck;
+import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 
 import java.io.IOException;
@@ -35,6 +36,8 @@ public class BubbleCreateActivity extends AppCompatActivity {
     }
 
     public void onAddClick(View view) throws IOException, AASPException {
+        CharSequence effectiveTopic = this.topic != null ? this.topic : BubbleMessage.ANY_TOPIC;
+
         // get new message
         EditText messageTextView = (EditText) findViewById(R.id.bubbleCreateMessageText);
 
@@ -43,7 +46,8 @@ public class BubbleCreateActivity extends AppCompatActivity {
         if(messageText == null || messageText.isEmpty()) {
             Toast.makeText(this, "message is empty", Toast.LENGTH_SHORT).show();
         } else {
-            BubbleMessageStorage storage = BubbleApp.getBubbleMessageStorage(this, this.topic);
+            BubbleMessageStorage storage = BubbleApp.getBubbleMessageStorage(this,
+                    effectiveTopic);
             storage.addMessage(this.topic, "DummyUser", messageText); // got place for async task ?!
         }
 

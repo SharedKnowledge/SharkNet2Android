@@ -64,6 +64,10 @@ public class BubbleApp {
     }
 
     public static boolean isAnyTopic(CharSequence topic) {
+        if(topic == null) {
+            return true;
+        }
+
         String tString = topic.toString();
         return tString.equalsIgnoreCase(BubbleMessage.ANY_TOPIC);
     }

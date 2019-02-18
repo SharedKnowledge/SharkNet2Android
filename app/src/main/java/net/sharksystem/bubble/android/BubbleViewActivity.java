@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import net.sharksystem.R;
+import net.sharksystem.bubble.BubbleMessage;
 
 public class BubbleViewActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -30,6 +31,10 @@ public class BubbleViewActivity extends AppCompatActivity {
         BubbleApp.askForPermissions(this);
 
         this.topic = BubbleApp.getTopicNameFromIntentExtras(this.getIntent());
+
+        if(this.topic == null) {
+            this.topic = BubbleMessage.ANY_TOPIC;
+        }
 
         try {
 //        setContentView(R.layout.activity_main);
@@ -49,7 +54,7 @@ public class BubbleViewActivity extends AppCompatActivity {
 
             mRecyclerView = (RecyclerView) findViewById(R.id.bubble_list_recycler_view);
 
-            mAdapter = new BubbleMessageContentAdapter(this,topic);
+            mAdapter = new BubbleMessageContentAdapter(this, this.topic);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());

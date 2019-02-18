@@ -38,7 +38,7 @@ public class BubbleMessageContentAdapter extends
 
     private BubbleMessageStorage getBubbleMessageStorage() throws SharkException {
         try {
-            if(BubbleApp.isAnyTopic(topic)) {
+            if(BubbleApp.isAnyTopic(this.topic)) {
                 this.bubbleStorage = BubbleApp.getBubbleMessageStorage(ctx);
             } else {
                 this.bubbleStorage = BubbleApp.getBubbleMessageStorage(ctx, topic);
@@ -73,7 +73,7 @@ public class BubbleMessageContentAdapter extends
         But that position is never displayed.
 
         So: I'm going to fake it until I understand the problem
-        Fix: When position 0 called - I return a dummy message back
+        Fix: When position 0 called - I return a dummy message
 
         the other calls are handled as they should but with a decreased position
          */
@@ -89,7 +89,7 @@ public class BubbleMessageContentAdapter extends
 
         // else: position > 0
 
-        // now fake position
+        // fake position
         position--;
 
         // go ahead

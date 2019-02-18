@@ -47,26 +47,26 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
 
             // setup translation of asp3 messages to bubble messages
 
-            // get all available chunks
-            int oldestEra = this.aaspStorage.getOldestEra();
-            int era = this.aaspStorage.getEra();
-
             this.anyTopic = BubbleApp.isAnyTopic(topic);
-
-            this.chunkCache =
-                    this.aaspStorage.getChunkStorage().getAASPChunkCache(topic, era, oldestEra);
         }
     }
 
-    // cache
-    private List<BubbleMessage> bubbleList;
-    private int cachedFirstIndex = -1;
-    private int cachedLastIndex = -1;
+    private AASPChunkCache getChunkCache() throws IOException {
+        if(this.chunkCache == null) {
+            int fromEra = this.aaspStorage.getOldestEra();
+            int toEra = this.aaspStorage.getEra();
+            this.chunkCache =
+                    this.aaspStorage.getChunkStorage().getAASPChunkCache(topic, fromEra, toEra);
+        }
+
+        return this.chunkCache;
+    }
 
     @Override
     public BubbleMessage getMessage(int position) throws IOException, AASPException {
+
         // get message at position in inverse chronological order
-        CharSequence message = this.chunkCache.getMessage(position, false);
+        CharSequence message = this.getChunkCache().getMessage(position, false);
 
         // parse it - TODO: maybe there is a bubble message cache in order as well?
         return new BubbleMessageInMemo(this.topic, message);
@@ -83,40 +83,8 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
         // serialize
         CharSequence serializedBubbleMessage = bubbleMessage.getSerializedBubbleMessage();
 
-        // save as asp3 message
+        // save as aasp message
         this.aaspStorage.add(this.topic, serializedBubbleMessage);
-
-        // TODO!! cache handling is in AASPJava module now
-        // cache available
-        if(this.bubbleList != null) {
-            // not empty
-
-            // add message to cache
-            this.bubbleList.add(bubbleMessage);
-
-            // increase size
-            this.size++;
-            this.cachedLastIndex++;
-        } else {
-            /* can be empty
-            a) getMessage was never called - cache wasn't initialized
-            b) storage is empty
-            we can distinguish both cases
-             */
-
-            if(this.size == 0) {
-                // storage was empty
-                this.bubbleList = new ArrayList<>();
-                this.bubbleList.add(bubbleMessage);
-                this.size++;
-                this.cachedFirstIndex = 0;
-                this.cachedLastIndex = 0;
-            } else {
-                // cache wasn't yet initialized - do it
-                this.size++;
-                this.getMessage(this.size-1);
-            }
-        }
     }
 
     /**
@@ -126,6 +94,7 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
      */
     @Override
     public int size() throws IOException {
-        return this.chunkCache.getNumberMessage();
+        AASPChunkCache c = this.getChunkCache();
+        return c.getNumberMessage();
     }
 }
