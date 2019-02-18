@@ -85,6 +85,10 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
 
         // save as aasp message
         this.aaspStorage.add(this.topic, serializedBubbleMessage);
+
+        if(this.chunkCache != null) {
+            this.chunkCache.sync();
+        }
     }
 
     /**
