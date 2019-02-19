@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- https://developer.android.com/training/implementing-navigation/nav-drawer -->
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/appBubble"
+            android:id="@+id/moduleBubble"
             android:title="@string/appBubble" />
         <item
-            android:id="@+id/appRadar"
+            android:id="@+id/moduleRadar"
             android:title="@string/appRadar" />
         <item
-            android:id="@+id/appTellPosition"
+            android:id="@+id/moduleTellPosition"
             android:title="@string/appTellPosition" />
+        <item
+            android:id="@+id/moduleNetworkSettings"
+            android:title="@string/networksettings" />
     </group>
 </menu>
