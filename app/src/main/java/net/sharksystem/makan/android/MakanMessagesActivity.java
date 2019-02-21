@@ -1,4 +1,4 @@
-package net.sharksystem.bubble.android;
+package net.sharksystem.makan.android;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +15,15 @@ import android.view.MenuItem;
 import net.sharksystem.R;
 import net.sharksystem.aasp.AASPException;
 import net.sharksystem.bubble.BubbleMessage;
+import net.sharksystem.bubble.android.BubbleAppAndroid;
+import net.sharksystem.bubble.android.BubbleCreateActivity;
+import net.sharksystem.bubble.android.BubbleMessageContentAdapter;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
-public class BubbleViewActivity extends AppCompatActivity {
+public class MakanMessagesActivity extends AppCompatActivity {
     private static final String LOGSTART = "BubbleView";
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;

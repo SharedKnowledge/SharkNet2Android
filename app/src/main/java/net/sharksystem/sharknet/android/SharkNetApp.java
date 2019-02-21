@@ -26,21 +26,22 @@ import net.sharksystem.bubble.android.BubbleAppAndroid;
 public class SharkNetApp {
 
     private static SharkNetApp singleton;
+    private AASPBroadcastReceiver aaspBroadcastReceiver;
 
     private static final String LOGSTART = "SNApp";
-    private final Activity activity;
 
-    private AASPBroadcastReceiver aaspBroadcastReceiver;
+    private Activity currentActivity;
+
 
     /////////////// service management
     private ServiceConnection mConnection;
     /** Messenger for communicating with the service. */
     Messenger mService = null;
-    /** Flag indicating whether we have called bind on the service. */
-    boolean mBound = false;
+
+    private boolean aaspBroadcastReceiverRegistered = false;
 
     private SharkNetApp(Activity activity) {
-        this.activity = activity;
+        this.currentActivity = activity;
 
         // required permissions
         String[] permissions = new String[] {
@@ -56,23 +57,32 @@ public class SharkNetApp {
         };
 
         // check for write permissions
-        PermissionCheck.askForPermissions(activity, permissions);
+        PermissionCheck.askForPermissions(this.currentActivity, permissions);
 
         // create broadcast receiver dealing with AASP service
         this.aaspBroadcastReceiver = new AASPBroadcastReceiver();
     }
 
+    private void setCurrentActivity(Activity activity) {
+        this.currentActivity = activity;
+    }
+
+    public Activity getCurrentActivity() {
+        return this.currentActivity;
+    }
+
     public static SharkNetApp getSharkNetApp(Activity activity) {
         if(SharkNetApp.singleton == null) {
             SharkNetApp.singleton = new SharkNetApp(activity);
-
         }
+
+        SharkNetApp.singleton.setCurrentActivity(activity);
 
         return SharkNetApp.singleton;
     }
 
     public static BubbleApp getBubbleApp() {
-        return BubbleAppAndroid.getBubbleApp();
+        return BubbleAppAndroid.getBubbleApp(SharkNetApp.singleton.currentActivity);
     }
 
     public void setupDrawerLayout(Activity activity) {
@@ -87,84 +97,137 @@ public class SharkNetApp {
 
     boolean aaspStarted = false;
 
+    ////////////////////////////////////////////////////////////////////////////////////////
+    //                                   AASP management                                  //
+    ////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean isAASPOn() {
+        return this.aaspStarted;
+    }
+
     /**
      * Bind (and start) AASP service and start listening to AASP broadcasts
-     * @param ctx
      */
-    public void startAASP(Context ctx) {
+    public void startAASP() {
         Log.d(LOGSTART, "start aasp");
 
         if(this.aaspStarted) {
             Log.d(LOGSTART, "aasp already started");
+            return;
         }
 
-        /*
         // start service - which allows service to outlive unbind
-        Intent aaspServiceCreationIntent = new Intent(ctx, AASPService.class);
+        Intent aaspServiceCreationIntent = new Intent(this.currentActivity, AASPService.class);
         Log.d(LOGSTART, "TODO: use user alice for aasp service creation");
         aaspServiceCreationIntent.putExtra(AASP.USER, "alice");
 
         Log.d(LOGSTART, "start aasp android service");
-        ctx.startService(aaspServiceCreationIntent);
-        */
+        this.currentActivity.startService(aaspServiceCreationIntent);
 
-        // first: bind to (and maybe create) aasp service
-        Log.d(LOGSTART, "call bind");
-        this.mConnection = new SNServiceConnection();
-        ctx.bindService(new Intent(ctx, AASPService.class),
-                mConnection,
-                Context.BIND_AUTO_CREATE);
-
-        // create broadcast receiver
-        Log.d(LOGSTART, "register broadcast receiver");
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(AASP.BROADCAST_ACTION);
-        ctx.registerReceiver(this.aaspBroadcastReceiver, filter);
+        this.startWifiDirect();
 
         this.aaspStarted = true;
     }
 
     /**
      * Unbind (and stop) AASP service and stop listening to AASP broadcasts
-     * @param ctx
      */
-    public void stopAASP(Context ctx) {
-        Log.d(LOGSTART, "stop aasp");
+    public void stopAASP() {
+        Log.d(LOGSTART, "going to stop aasp service");
 
-        if(this.aaspStarted) {
-            Log.d(LOGSTART, "aasp already stopped");
+        if(!this.aaspStarted) {
+            Log.d(LOGSTART, "aasp not running");
+            return;
         }
-
-        // unregister broadcast receiver
-        Log.d(LOGSTART, "unregister broadcast receiver");
-        ctx.unregisterReceiver(this.aaspBroadcastReceiver);
 
         // TODO: shouldn't we let the service decide what protocols to shutdown?
         Log.d(LOGSTART, "ask aasp service to stop wifi direct");
         Log.d(LOGSTART, "shouldn't we let the service decide what protocols to shutdown?");
-        this.sendMessage2Service(AASPServiceMethods.STOP_WIFI_DIRECT);
+
+        Log.d(LOGSTART, "stop wifi");
+        this.stopWifiDirect();
 
         // stop service
-        Log.d(LOGSTART, "call unbind");
-        if (mBound) {
-            ctx.unbindService(mConnection);
-            mBound = false;
-        }
+        this.unbindServices();
+
+        Intent aaspServiceIntent = new Intent(this.currentActivity, AASPService.class);
+        Log.d(LOGSTART, "stop aasp service");
+        this.currentActivity.stopService(aaspServiceIntent);
 
         this.aaspStarted = false;
     }
 
-    private void sendMessage2Service(int messageNumber) {
-        if(this.mService == null) {
-            Log.d(LOGSTART, "sendMessage called but mService null");
+    public void startWifiDirect() {
+        // are we already bound to the service
+        Log.d(LOGSTART, "startWifi called");
+        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.START_WIFI_DIRECT);
+    }
+
+    public void stopWifiDirect() {
+        // are we already bound to the service
+        Log.d(LOGSTART, "stopWifi called");
+        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.STOP_WIFI_DIRECT);
+    }
+
+    public void startAASPBroadcastReceiver() {
+        // create broadcast receiver
+        if(aaspBroadcastReceiverRegistered) {
+            Log.d(LOGSTART, "broadcast receiver already registered");
             return;
         }
 
-        Message msg = Message.obtain(null, messageNumber, 0, 0);
-        try {
-            mService.send(msg);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+        Log.d(LOGSTART, "register broadcast receiver");
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(AASP.BROADCAST_ACTION);
+        this.currentActivity.registerReceiver(this.aaspBroadcastReceiver, filter);
+
+        aaspBroadcastReceiverRegistered = true;
+
+        // make service broadcast
+        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.START_BROADCASTS);
+        this.unbindServices();
+    }
+
+    public void stopAASPBroadcastReceiver() {
+        // make service stop broadcasting
+        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.STOP_BROADCASTS);
+        this.unbindServices();
+
+        // unregister broadcast receiver
+        if(!aaspBroadcastReceiverRegistered) {
+            Log.d(LOGSTART, "broadcast receiver not registered");
+            return;
+        }
+        Log.d(LOGSTART, "unregister broadcast receiver");
+        this.currentActivity.unregisterReceiver(this.aaspBroadcastReceiver);
+
+        aaspBroadcastReceiverRegistered = false;
+    }
+
+    private void sendMessage2Service(Context ctx, int messageNumber) {
+        Log.d(LOGSTART, "send message 2 aasp service called");
+        if(this.mService != null) {
+            Log.d(LOGSTART, "already bound to aasp service - send message");
+            Message msg = Message.obtain(null, messageNumber, 0, 0);
+            try {
+                mService.send(msg);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(LOGSTART, "not bound to aasp service, bind and call after binding");
+            this.mConnection = new SNServiceConnection(messageNumber);
+            ctx.bindService(new Intent(ctx, AASPService.class),
+                    mConnection,
+                    Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    public void unbindServices() {
+        if(this.mService != null && this.mConnection != null) {
+            Log.d(LOGSTART, "unbind services");
+            this.currentActivity.unbindService(this.mConnection);
+            this.mConnection = null;
         }
     }
 
@@ -177,6 +240,12 @@ public class SharkNetApp {
      */
     private class SNServiceConnection implements ServiceConnection {
 
+        private final int messageNumber;
+
+        SNServiceConnection(int messageNumber) {
+            this.messageNumber = messageNumber;
+        }
+
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been
             // established, giving us the object we can use to
@@ -185,18 +254,21 @@ public class SharkNetApp {
             // representation of that from the raw IBinder object.
             Log.d(LOGSTART, "connected to aasp service");
             mService = new Messenger(service);
-            mBound = true;
 
-            Log.d(LOGSTART, "start wifidirect");
-            sendMessage2Service(AASPServiceMethods.START_WIFI_DIRECT);
+            Log.d(LOGSTART, "initiate sending delayed message");
+            Message msg = Message.obtain(null, messageNumber, 0, 0);
+            try {
+                mService.send(msg);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         public void onServiceDisconnected(ComponentName className) {
             // This is called when the connection with the service has been
             // unexpectedly disconnected -- that is, its process crashed.
-            Log.d(LOGSTART, "disconnected to aasp service");
+            Log.d(LOGSTART, "disconnected from aasp service");
             mService = null;
-            mBound = false;
         }
     };
 }

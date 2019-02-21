@@ -18,6 +18,9 @@
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
+        <activity
+            android:name=".makan.android.MakanListActivity"
+            android:label="@string/title_activity_makan_list"></activity>
         <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
         <activity

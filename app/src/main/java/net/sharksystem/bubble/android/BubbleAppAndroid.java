@@ -41,14 +41,6 @@ public class BubbleAppAndroid extends BubbleApp {
     }
 
     /**
-     * can return null.
-     * @return
-     */
-    public static BubbleApp getBubbleApp() {
-        return bubbleApp;
-    }
-
-    /**
      *
      * @return root directory where persistent data can be stored
      */

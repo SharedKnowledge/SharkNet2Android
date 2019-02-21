@@ -11,10 +11,29 @@ import java.io.IOException;
 
 public class BubbleApp {
     private static final String LOGSTART = "BubbleApp";
+    private static boolean newData = false;
     private final Context ctx;
 
     public BubbleApp(Context ctx) {
         this.ctx = ctx;
+    }
+
+    /**
+     * ask if new data arrived since last call
+     * @return
+     */
+    public static boolean newDataReset() {
+        boolean arrived = BubbleApp.newData;
+        BubbleApp.newData = false;
+        return arrived;
+    }
+
+    /**
+     * New data arrived since whatever..
+     * @return
+     */
+    public static boolean newData() {
+        return BubbleApp.newData;
     }
 
     public static boolean isAnyTopic(CharSequence topic) {
@@ -44,9 +63,10 @@ public class BubbleApp {
                     bubbleMessage.getUserID(),
                     bubbleMessage.getMessage());
 
+            BubbleApp.newData = true;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

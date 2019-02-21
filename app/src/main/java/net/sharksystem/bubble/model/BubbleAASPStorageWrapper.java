@@ -23,6 +23,7 @@ import java.util.List;
  * actually a wrapper around an ASP3 file system implementation
  */
 class BubbleAASPStorageWrapper implements BubbleMessageStorage {
+    private static final String LOGSTART = "AASPStorageWrapper";
     private AASPChunkCache chunkCache = null;
     private CharSequence topic;
     private AASPStorage aaspStorage = null;
@@ -54,8 +55,11 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
 
     private AASPChunkCache getChunkCache() throws IOException {
         if(this.chunkCache == null) {
+            Log.d(LOGSTART, "fill cache");
             int fromEra = this.aaspStorage.getOldestEra();
+            Log.d(LOGSTART, "oldest era: " + fromEra);
             int toEra = this.aaspStorage.getEra();
+            Log.d(LOGSTART, "current era: " + toEra);
             this.chunkCache =
                     this.aaspStorage.getChunkStorage().getAASPChunkCache(topic, fromEra, toEra);
         }
@@ -65,6 +69,12 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
 
     @Override
     public BubbleMessage getMessage(int position) throws IOException, AASPException {
+        // check if something new has arrived from outside
+        if(BubbleApp.newDataReset()) {
+            Log.d(LOGSTART, "new data arrived - clear cache");
+            // refresh chunk cache
+            this.chunkCache = null;
+        }
 
         // get message at position in inverse chronological order
         CharSequence message = this.getChunkCache().getMessage(position, false);

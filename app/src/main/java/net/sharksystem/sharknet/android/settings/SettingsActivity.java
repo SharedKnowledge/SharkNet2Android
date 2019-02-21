@@ -13,6 +13,12 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 public class SettingsActivity extends AppCompatActivity {
     private static final String LOGSTART = "SNSettings";
 
+    private Activity thisActivity;
+
+    public SettingsActivity() {
+        this.thisActivity = this;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,14 +29,44 @@ public class SettingsActivity extends AppCompatActivity {
 
         // add listener for each setting
 
-        // AASP service switch on/off
+        ////////////////////////////////////////////////////////////////////////////
+        //                          AASP service switch on/off                    //
+        ////////////////////////////////////////////////////////////////////////////
         ToggleButton toggle = (ToggleButton) findViewById(R.id.settingsAASPToggleButton);
-        toggle.setOnCheckedChangeListener(new AASPToggleListener(this));
+        // set initial status
+        toggle.setChecked(SharkNetApp.getSharkNetApp(this).isAASPOn());
 
+        // add behaviour
+        toggle.setOnCheckedChangeListener(
+            new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(thisActivity);
+                    if (isChecked) {
+                        Log.d(LOGSTART, "ui said: switch on aasp");
+                        sharkNetApp.startAASP();
+                    } else {
+                        Log.d(LOGSTART, "ui said: switch off aasp");
+                        sharkNetApp.stopAASP();
+                    }
+                }
+            });
 
     }
 
-    private class AASPToggleListener implements  CompoundButton.OnCheckedChangeListener {
+    protected void onPause() {
+        super.onPause();
+        Log.d(LOGSTART, "onPause");
+        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(LOGSTART, "onDestroy");
+        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
+    }
+/*
+    private class AASPToggleListener implements CompoundButton.OnCheckedChangeListener {
         private final Activity activity;
 
         AASPToggleListener(Activity activity) {
@@ -49,4 +85,5 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
     }
+    */
 }
