@@ -1,12 +1,14 @@
 package net.sharksystem.bubble.model;
 
+import net.sharksystem.SharkException;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-class BubbleMessageInMemo extends BubbleMessageImpl {
+public class BubbleMessageInMemo extends BubbleMessageImpl {
     private CharSequence topic, userID, message;
     private Date date;
 
@@ -32,6 +34,20 @@ class BubbleMessageInMemo extends BubbleMessageImpl {
         }
         catch(Throwable t) {
             throw new IOException("malformed message format: " + t.getLocalizedMessage());
+        }
+    }
+
+    public BubbleMessageInMemo(CharSequence serializedMessage) throws SharkException {
+        // deserialize
+        StringTokenizer st = new StringTokenizer(serializedMessage.toString(), DELIMITER);
+        while(st.hasMoreTokens()) {
+            this.userID = st.nextToken();
+            this.message = st.nextToken();
+
+            CharSequence dataString = st.nextToken();
+
+            // TODO parse date
+            this.date = new Date();
         }
     }
 

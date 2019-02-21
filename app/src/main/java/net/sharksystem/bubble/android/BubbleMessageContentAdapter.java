@@ -7,15 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
 import net.sharksystem.SharkException;
 import net.sharksystem.aasp.AASPException;
+import net.sharksystem.bubble.BubbleApp;
 import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.R;
-import net.sharksystem.bubble.model.BubbleMessageImpl;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 
 public class BubbleMessageContentAdapter extends
@@ -39,9 +38,9 @@ public class BubbleMessageContentAdapter extends
     private BubbleMessageStorage getBubbleMessageStorage() throws SharkException {
         try {
             if(BubbleApp.isAnyTopic(this.topic)) {
-                this.bubbleStorage = BubbleApp.getBubbleMessageStorage(ctx);
+                this.bubbleStorage = BubbleAppAndroid.getBubbleMessageStorage(ctx);
             } else {
-                this.bubbleStorage = BubbleApp.getBubbleMessageStorage(ctx, topic);
+                this.bubbleStorage = BubbleAppAndroid.getBubbleMessageStorage(ctx, topic);
             }
         }
         catch(Exception ioe) {

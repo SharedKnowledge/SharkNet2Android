@@ -20,12 +20,15 @@ import net.sharksystem.aasp.android.AASP;
 import net.sharksystem.aasp.android.AASPService;
 import net.sharksystem.aasp.android.AASPServiceMethods;
 import net.sharksystem.android.util.PermissionCheck;
+import net.sharksystem.bubble.BubbleApp;
+import net.sharksystem.bubble.android.BubbleAppAndroid;
 
 public class SharkNetApp {
 
     private static SharkNetApp singleton;
 
     private static final String LOGSTART = "SNApp";
+    private final Activity activity;
 
     private AASPBroadcastReceiver aaspBroadcastReceiver;
 
@@ -37,6 +40,8 @@ public class SharkNetApp {
     boolean mBound = false;
 
     private SharkNetApp(Activity activity) {
+        this.activity = activity;
+
         // required permissions
         String[] permissions = new String[] {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -64,6 +69,10 @@ public class SharkNetApp {
         }
 
         return SharkNetApp.singleton;
+    }
+
+    public static BubbleApp getBubbleApp() {
+        return BubbleAppAndroid.getBubbleApp();
     }
 
     public void setupDrawerLayout(Activity activity) {
@@ -146,6 +155,11 @@ public class SharkNetApp {
     }
 
     private void sendMessage2Service(int messageNumber) {
+        if(this.mService == null) {
+            Log.d(LOGSTART, "sendMessage called but mService null");
+            return;
+        }
+
         Message msg = Message.obtain(null, messageNumber, 0, 0);
         try {
             mService.send(msg);
@@ -172,6 +186,9 @@ public class SharkNetApp {
             Log.d(LOGSTART, "connected to aasp service");
             mService = new Messenger(service);
             mBound = true;
+
+            Log.d(LOGSTART, "start wifidirect");
+            sendMessage2Service(AASPServiceMethods.START_WIFI_DIRECT);
         }
 
         public void onServiceDisconnected(ComponentName className) {

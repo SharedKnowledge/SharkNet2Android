@@ -5,16 +5,17 @@ import android.util.Log;
 
 import net.sharksystem.aasp.AASPChunk;
 import net.sharksystem.aasp.AASPChunkCache;
+import net.sharksystem.aasp.AASPChunkStorage;
 import net.sharksystem.aasp.AASPEngineFS;
 import net.sharksystem.aasp.AASPException;
 import net.sharksystem.aasp.AASPStorage;
+import net.sharksystem.bubble.BubbleApp;
 import net.sharksystem.bubble.BubbleMessage;
-import net.sharksystem.bubble.android.BubbleApp;
+import net.sharksystem.bubble.android.BubbleAppAndroid;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
     public BubbleAASPStorageWrapper(Context ctx, CharSequence topic) throws IOException, AASPException {
         this.topic = topic;
 
-        String dirName = BubbleApp.getAASPRootDirectory(ctx).getAbsolutePath();
+        String dirName = BubbleAppAndroid.getAASPRootDirectory(ctx).getAbsolutePath();
 
         if(this.aaspStorage == null) {
             // initialize
@@ -92,7 +93,24 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
     }
 
     @Override
-    public void removeAllMessages(CharSequence topic) throws IOException, AASPException {
+    public void removeAllMessages() throws IOException, AASPException {
+        int era = this.aaspStorage.getOldestEra();
+        AASPChunkStorage chunkStorage = this.aaspStorage.getChunkStorage();
+
+        boolean again = false;
+        do {
+            chunkStorage.dropChunks(era);
+
+            // another one?
+            if(era != this.aaspStorage.getEra()) {
+                era = this.aaspStorage.getNextEra(era);
+                again = true;
+            }
+        } while(again);
+
+        if(this.chunkCache != null) {
+            this.chunkCache.sync();
+        }
     }
 
     /**

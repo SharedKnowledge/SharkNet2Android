@@ -10,6 +10,7 @@ import android.os.Environment;
 import net.sharksystem.aasp.AASPEngineFS;
 import net.sharksystem.aasp.AASPException;
 import net.sharksystem.android.util.PermissionCheck;
+import net.sharksystem.bubble.BubbleApp;
 import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 import net.sharksystem.bubble.model.BubbleMessageStorageFactory;
@@ -18,12 +19,34 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class BubbleApp {
+public class BubbleAppAndroid extends BubbleApp {
     public static final String EXTRA_TOPIC_KEY = "topic";
 
     private static BubbleMessageStorage storageAnyTopic = null;
 
     private static HashMap<CharSequence, BubbleMessageStorage> bubbleStorages = new HashMap<>();
+
+    private static BubbleApp bubbleApp = null;
+
+    public BubbleAppAndroid(Context ctx) {
+        super(ctx);
+    }
+
+    public static BubbleApp getBubbleApp(Context ctx) {
+        if(bubbleApp == null) {
+            bubbleApp = new BubbleAppAndroid(ctx);
+        }
+
+        return bubbleApp;
+    }
+
+    /**
+     * can return null.
+     * @return
+     */
+    public static BubbleApp getBubbleApp() {
+        return bubbleApp;
+    }
 
     /**
      *
@@ -63,26 +86,17 @@ public class BubbleApp {
         return storageAnyTopic;
     }
 
-    public static boolean isAnyTopic(CharSequence topic) {
-        if(topic == null) {
-            return true;
-        }
-
-        String tString = topic.toString();
-        return tString.equalsIgnoreCase(BubbleMessage.ANY_TOPIC);
-    }
-
     public static BubbleMessageStorage getBubbleMessageStorage(Context ctx, CharSequence topic)
             throws IOException, AASPException {
 
         if(BubbleApp.isAnyTopic(topic)) {
-            return BubbleApp.getBubbleMessageStorage(ctx);
+            return BubbleAppAndroid.getBubbleMessageStorage(ctx);
         }
 
-        BubbleMessageStorage storage = BubbleApp.bubbleStorages.get(topic);
+        BubbleMessageStorage storage = BubbleAppAndroid.bubbleStorages.get(topic);
         if(storage == null) {
             storage = BubbleMessageStorageFactory.getStorage(ctx, topic);
-            BubbleApp.bubbleStorages.put(topic, storage);
+            BubbleAppAndroid.bubbleStorages.put(topic, storage);
         }
 
         return storage;
@@ -93,7 +107,7 @@ public class BubbleApp {
         if(intent != null) {
             Bundle extras = intent.getExtras();
             if(extras != null) {
-                CharSequence topicIExtras = extras.getCharSequence(BubbleApp.EXTRA_TOPIC_KEY);
+                CharSequence topicIExtras = extras.getCharSequence(BubbleAppAndroid.EXTRA_TOPIC_KEY);
                 if(topicIExtras != null) {
                     topic = topicIExtras;
                 }

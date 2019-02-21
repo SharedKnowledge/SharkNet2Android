@@ -26,7 +26,7 @@ public interface BubbleMessageStorage {
      * @throws IOException
      * @throws AASPException
      */
-    void removeAllMessages(CharSequence topic) throws IOException, AASPException;
+    void removeAllMessages() throws IOException, AASPException;
 
     int size() throws IOException;
 }

@@ -3,8 +3,8 @@
     <string name="send">hello</string>
     <string name="hello">hello</string>
 
-    <string name="bubble">bubble</string>
-    <string name="removeBubble">swallow</string>
+    <string name="bubbleAddBubbleText">bubble</string>
+    <string name="bubbleRemoveAllText">clear</string>
 
     <string name="appBubble">Bubble</string>
     <string name="appRadar">Radar</string>

@@ -22,7 +22,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 app:layout_behavior="@string/appbar_scrolling_view_behavior"
 tools:showIn="@layout/activity_main"
-tools:context=".android.BubbleViewActivity">
+tools:context=".bubble.android.BubbleViewActivity">
 
 <android.support.v7.widget.RecyclerView
     android:id="@+id/bubble_list_recycler_view"

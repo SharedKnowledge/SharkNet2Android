@@ -13,10 +13,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import net.sharksystem.R;
+import net.sharksystem.aasp.AASPException;
 import net.sharksystem.bubble.BubbleMessage;
+import net.sharksystem.bubble.model.BubbleMessageStorage;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+import java.io.IOException;
+
 public class BubbleViewActivity extends AppCompatActivity {
+    private static final String LOGSTART = "BubbleView";
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
@@ -29,9 +34,9 @@ public class BubbleViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // check permissions
-        BubbleApp.askForPermissions(this);
+        BubbleAppAndroid.askForPermissions(this);
 
-        this.topic = BubbleApp.getTopicNameFromIntentExtras(this.getIntent());
+        this.topic = BubbleAppAndroid.getTopicNameFromIntentExtras(this.getIntent());
 
         if(this.topic == null) {
             this.topic = BubbleMessage.ANY_TOPIC;
@@ -121,24 +126,50 @@ public class BubbleViewActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, BubbleCreateActivity.class);
 
-        intent.putExtra(BubbleApp.EXTRA_TOPIC_KEY, this.topic);
+        intent.putExtra(BubbleAppAndroid.EXTRA_TOPIC_KEY, this.topic);
 
         startActivity(intent);
 
         // this.chat.addLine(sampleLine);
     }
 
+    private void doRemoveAll() throws IOException, AASPException {
+        String sampleLine = Long.toString(System.currentTimeMillis());
+        Log.d(LOGSTART, "doRemoveAll called");
+
+        BubbleMessageStorage bubbleStorage = BubbleAppAndroid.getBubbleMessageStorage(this);
+        bubbleStorage.removeAllMessages();
+    }
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.bubble:
-                this.doAddBubble();
-                return true;
 
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+        try {
+            switch (item.getItemId()) {
+                case R.id.bubbleAddBubble:
+                    Log.d(LOGSTART, "going to add bubble");
+                    this.doAddBubble();
+                    return true;
+
+                case R.id.bubbleRemoveAll:
+                    Log.d(LOGSTART, "going to remove all");
+                    this.doRemoveAll();
+                    // force adapter to refresh ui
+                    this.mAdapter.notifyDataSetChanged();
+                    return true;
+
+                default:
+                    // If we got here, the user's action was not recognized.
+                    // Invoke the superclass to handle it.
+                    return super.onOptionsItemSelected(item);
+            }
         }
+        catch(Exception e) {
+            Log.d(LOGSTART, e.getLocalizedMessage());
+        }
+
+        return false;
     }
 }
