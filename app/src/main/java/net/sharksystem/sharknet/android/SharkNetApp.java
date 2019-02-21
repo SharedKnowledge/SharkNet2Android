@@ -28,7 +28,9 @@ public class SharkNetApp {
     private static SharkNetApp singleton;
 
     private static final String LOGSTART = "SNApp";
-    private final Activity activity;
+
+    private final Activity firstActivity;
+    private Activity currentActivity;
 
     private AASPBroadcastReceiver aaspBroadcastReceiver;
 
@@ -40,7 +42,7 @@ public class SharkNetApp {
     boolean mBound = false;
 
     private SharkNetApp(Activity activity) {
-        this.activity = activity;
+        this.firstActivity = activity;
 
         // required permissions
         String[] permissions = new String[] {
@@ -62,17 +64,26 @@ public class SharkNetApp {
         this.aaspBroadcastReceiver = new AASPBroadcastReceiver();
     }
 
+    private void setCurrentActivity(Activity activity) {
+        this.currentActivity = activity;
+    }
+
+    public Activity getCurrentActivity() {
+        return this.currentActivity;
+    }
+
     public static SharkNetApp getSharkNetApp(Activity activity) {
         if(SharkNetApp.singleton == null) {
             SharkNetApp.singleton = new SharkNetApp(activity);
-
         }
+
+        SharkNetApp.singleton.setCurrentActivity(activity);
 
         return SharkNetApp.singleton;
     }
 
     public static BubbleApp getBubbleApp() {
-        return BubbleAppAndroid.getBubbleApp();
+        return BubbleAppAndroid.getBubbleApp(SharkNetApp.singleton.currentActivity);
     }
 
     public void setupDrawerLayout(Activity activity) {

@@ -1,5 +1,7 @@
 package net.sharksystem.bubble.model;
 
+import android.util.Log;
+
 import net.sharksystem.SharkException;
 
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 public class BubbleMessageInMemo extends BubbleMessageImpl {
+    private static final String LOGSTART = "BubbleMessageInMemo";
     private CharSequence topic, userID, message;
     private Date date;
 
@@ -38,6 +41,7 @@ public class BubbleMessageInMemo extends BubbleMessageImpl {
     }
 
     public BubbleMessageInMemo(CharSequence serializedMessage) throws SharkException {
+        Log.d(LOGSTART, "that parser seems to fail: TODO");
         // deserialize
         StringTokenizer st = new StringTokenizer(serializedMessage.toString(), DELIMITER);
         while(st.hasMoreTokens()) {
@@ -60,10 +64,17 @@ public class BubbleMessageInMemo extends BubbleMessageImpl {
     }
 
     public CharSequence getTopic() {
+        if(topic == null) {
+            return "todo: topic not set";
+        }
         return topic;
     }
 
     public CharSequence getMessage() {
+        if(message == null) {
+            return "todo: message not set";
+        }
+
         return message;
     }
 
@@ -73,10 +84,18 @@ public class BubbleMessageInMemo extends BubbleMessageImpl {
     }
 
     public CharSequence getUserID() {
+        if(userID == null) {
+            return "todo: userID not set";
+        }
+
         return userID;
     }
 
     public Date getDate() {
+        if(date == null) {
+            return new Date();
+        }
+
         return date;
     }
 }

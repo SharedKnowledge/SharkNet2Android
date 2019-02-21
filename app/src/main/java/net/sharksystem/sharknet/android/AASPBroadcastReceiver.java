@@ -4,12 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import net.sharksystem.aasp.AASPChunkCache;
+import net.sharksystem.aasp.AASPChunkStorage;
 import net.sharksystem.aasp.AASPEngineFS;
 import net.sharksystem.aasp.AASPException;
 import net.sharksystem.aasp.AASPStorage;
 import net.sharksystem.aasp.android.AASP;
+import net.sharksystem.aasp.android.AASPBroadcastIntent;
 import net.sharksystem.bubble.BubbleApp;
 
 import java.io.IOException;
@@ -20,44 +23,61 @@ class AASPBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String folder = intent.getStringExtra(AASP.FOLDER);
-        String uri = intent.getStringExtra(AASP.URI);
-        int era = intent.getIntExtra(AASP.ERA, 0);
 
-        String text = "AASPService notified: "
-                + folder + " / "
-                + uri + " / "
-                + era;
+        try {
+            AASPBroadcastIntent aaspIntent = new AASPBroadcastIntent(intent);
 
-        Log.d(LOGSTART, text);
+            String text = "AASPService notified: "
+                    + aaspIntent.getUser() + " / "
+                    + aaspIntent.getFoldername() + " / "
+                    + aaspIntent.getUri() + " / "
+                    + aaspIntent.getEra();
 
-        // handle that request
-        (new BroadcastHandlerThread(folder, uri, era)).start();
+            Log.d(LOGSTART, text);
+
+            // handle that request
+            Log.d(LOGSTART,"going to start handler thread");
+            (new BroadcastHandlerThread(
+                    aaspIntent.getUser().toString(),
+                    aaspIntent.getFoldername().toString(),
+                    aaspIntent.getUri().toString(),
+                    aaspIntent.getEra())
+            ).start();
+        } catch (AASPException e) {
+            e.printStackTrace();
+        }
     }
 
     private class BroadcastHandlerThread extends Thread {
         private final String folder;
         private final String uri;
         private final int era;
+        private final String user;
 
-        BroadcastHandlerThread(String folder, String uri, int era) {
+        BroadcastHandlerThread(String user, String folder, String uri, int era) {
+            this.user = user;
             this.folder = folder;
             this.uri = uri;
             this.era = era;
         }
 
         public void run() {
+            Log.d(LOGSTART,"handler thread started");
             // create access to that chunk storage
             try {
                 BubbleApp bubbleApp = SharkNetApp.getBubbleApp();
-
-                Log.d(LOGSTART, "got bubble app object");
+                if(bubbleApp == null) {
+                    Log.d(LOGSTART, "failed to get bubble app object - break");
+                    return;
+                }
 
                 AASPStorage chunkStorage = AASPEngineFS.getAASPChunkStorage(folder);
                 Log.d(LOGSTART, "got chunk Storage to read from");
 
+                AASPChunkStorage receivedChunksStorage = chunkStorage.getReceivedChunkStorage(user);
+
                 AASPChunkCache aaspChunkCache =
-                        chunkStorage.getChunkStorage().getAASPChunkCache(uri, era, era);
+                        receivedChunksStorage.getAASPChunkCache(uri, era, era);
 
                 Log.d(LOGSTART, "start iterating received messages");
                 Iterator<CharSequence> messages = aaspChunkCache.getMessages();
@@ -67,7 +87,10 @@ class AASPBroadcastReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                Log.d(LOGSTART, "get message iterator");
+                Log.d(LOGSTART, "got message iterator");
+                if(!messages.hasNext()) {
+                    Log.d(LOGSTART, "no messages in iterator - most probably a failure");
+                }
                 while(messages.hasNext()) {
                     bubbleApp.handleAASPMessage(messages.next());
                 }
