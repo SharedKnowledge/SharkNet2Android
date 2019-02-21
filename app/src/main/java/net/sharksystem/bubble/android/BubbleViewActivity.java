@@ -2,8 +2,6 @@ package net.sharksystem.bubble.android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,8 +14,7 @@ import android.view.MenuItem;
 
 import net.sharksystem.R;
 import net.sharksystem.bubble.BubbleMessage;
-import net.sharksystem.sharknet.DrawerOnNavigationItemListener;
-import net.sharksystem.sharknet.SharkNetApp;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class BubbleViewActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -46,7 +43,7 @@ public class BubbleViewActivity extends AppCompatActivity {
 
             setContentView(R.layout.bubble_drawer_layout);
 
-            SharkNetApp.getSharkNetApp().setupDrawerLayout(this);
+            SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //

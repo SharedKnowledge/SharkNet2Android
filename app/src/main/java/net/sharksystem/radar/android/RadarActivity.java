@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import net.sharksystem.R;
-import net.sharksystem.sharknet.SharkNetApp;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class RadarActivity extends AppCompatActivity {
 
@@ -12,6 +12,6 @@ public class RadarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.radar_drawer_layout);
-        SharkNetApp.getSharkNetApp().setupDrawerLayout(this);
+        SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
     }
 }

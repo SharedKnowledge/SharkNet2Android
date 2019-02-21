@@ -7,14 +7,11 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import net.sharksystem.R;
-import net.sharksystem.bubble.android.BubbleApp;
-import net.sharksystem.bubble.android.BubbleCreateActivity;
 import net.sharksystem.bubble.android.BubbleViewActivity;
 import net.sharksystem.radar.android.RadarActivity;
-import net.sharksystem.sharknet.settings.SettingsActivity;
+import net.sharksystem.sharknet.android.settings.SettingsActivity;
 
 public class DrawerOnNavigationItemListener implements
         NavigationView.OnNavigationItemSelectedListener {

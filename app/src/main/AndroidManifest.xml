@@ -16,7 +16,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:theme">
         <activity
-            android:name=".sharknet.settings.SettingsActivity"
+            android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
         <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
