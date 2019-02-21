@@ -91,6 +91,10 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
         }
     }
 
+    @Override
+    public void removeAllMessages(CharSequence topic) throws IOException, AASPException {
+    }
+
     /**
      *
      * @return number of all messages.

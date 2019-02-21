@@ -20,7 +20,6 @@ import net.sharksystem.aasp.android.AASP;
 import net.sharksystem.aasp.android.AASPService;
 import net.sharksystem.aasp.android.AASPServiceMethods;
 import net.sharksystem.android.util.PermissionCheck;
-import net.sharksystem.sharknet.DrawerOnNavigationItemListener;
 
 public class SharkNetApp {
 

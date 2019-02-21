@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet;
+package net.sharksystem.sharknet.android;
 
 import android.app.Activity;
 import android.content.Intent;
