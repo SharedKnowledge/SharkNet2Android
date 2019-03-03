@@ -19,6 +19,7 @@ import net.sharksystem.bubble.android.BubbleAppAndroid;
 import net.sharksystem.bubble.android.BubbleCreateActivity;
 import net.sharksystem.bubble.android.BubbleMessageContentAdapter;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
+import net.sharksystem.makan.MakanException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
@@ -36,6 +37,18 @@ public class MakanViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(LOGSTART, "onCreate");
+
+        // get parameters
+        try {
+            new MakanViewIntent(this.getIntent());
+        } catch (MakanException e) {
+            Log.d(LOGSTART, "cannot create makan view intent from intent (fatal): "
+                    + e.getLocalizedMessage());
+
+            return;
+        }
+
+        // HIER WEITERMACHEN...
 
         // check permissions
         BubbleAppAndroid.askForPermissions(this);
