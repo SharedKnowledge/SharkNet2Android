@@ -1,6 +1,6 @@
 package net.sharksystem.makan.android.viewadapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,49 +10,74 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.aasp.AASPEngineFS;
+import net.sharksystem.aasp.AASPException;
+import net.sharksystem.aasp.AASPStorage;
+import net.sharksystem.makan.Makan;
+import net.sharksystem.makan.MakanAndroid;
 import net.sharksystem.makan.MakanException;
-import net.sharksystem.makan.android.MakanApp;
-import net.sharksystem.makan.android.model.MakanListStorage;
+import net.sharksystem.makan.MakanMessage;
+import net.sharksystem.sharknet.android.SharkNetApp;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+
+import identity.IdentityStorage;
 
 public class MakanViewContentAdapter extends
     RecyclerView.Adapter<MakanViewContentAdapter.MyViewHolder>  {
 
-        private static final String LOGSTART = "MakanViewContentAdapter";
-        private final Context ctx;
-        private CharSequence topic = null;
+    private static final String LOGSTART = "MakanViewContentAdapter";
+    private final Activity activity;
 
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView dateTextView, messageTextView, senderTextView;
+    // parameter to create makan wrapper
+    private final CharSequence topic;
+    private final CharSequence userFriendlyName;
+    private final CharSequence ownerID;
+    private final IdentityStorage identityStorage;
 
-            public MyViewHolder(View view) {
-                super(view);
-                dateTextView = (TextView) view.findViewById(R.id.makan_message_row_date);
-                messageTextView = (TextView) view.findViewById(R.id.makan_message_row_message);
-                senderTextView = (TextView) view.findViewById(R.id.makan_message_row_sender);
-            }
+    private AASPStorage aaspStorage;
+
+    private MakanAndroid makan;
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView dateTextView, messageTextView, senderTextView;
+
+        public MyViewHolder(View view) {
+            super(view);
+            dateTextView = (TextView) view.findViewById(R.id.makan_message_row_date);
+            messageTextView = (TextView) view.findViewById(R.id.makan_message_row_message);
+            senderTextView = (TextView) view.findViewById(R.id.makan_message_row_sender);
         }
+    }
 
-        public MakanViewContentAdapter(Context ctx, CharSequence uri)
-                throws SharkException {
-            Log.d(LOGSTART, "constructor");
-            this.ctx = ctx;
-            this.topic = uri;
-        }
+    public MakanViewContentAdapter(Activity activity, CharSequence uri,
+               CharSequence userFriendlyName, CharSequence ownerID,
+               IdentityStorage identityStorage) throws SharkException {
 
-        @Override
-        public MakanViewContentAdapter.MyViewHolder onCreateViewHolder(
-                ViewGroup parent, int viewType) {
-            Log.d(LOGSTART, "onCreateViewHolder");
+        this.activity = activity;
+        this.topic = uri;
+        this.userFriendlyName = userFriendlyName;
+        this.ownerID = ownerID;
+        this.identityStorage = identityStorage;
+        Log.d(LOGSTART, "constructor");
+    }
 
-            View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.makan_message_row, parent, false);
+    @Override
+    public MakanViewContentAdapter.MyViewHolder onCreateViewHolder(
+            ViewGroup parent, int viewType) {
+        Log.d(LOGSTART, "onCreateViewHolder");
 
-            return new MakanViewContentAdapter.MyViewHolder(itemView);
-        }
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.makan_message_row, parent, false);
 
-        @Override
-        public void onBindViewHolder(MakanViewContentAdapter.MyViewHolder holder, int position) {
-            Log.d(LOGSTART, "onBindViewHolder with position: " + position);
+        return new MakanViewContentAdapter.MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(MakanViewContentAdapter.MyViewHolder holder, int position) {
+        Log.d(LOGSTART, "onBindViewHolder with position: " + position);
 
         /*
         I assume a bug or more probably - I'm too dull to understand recycler view at all.
@@ -65,47 +90,71 @@ public class MakanViewContentAdapter extends
         the other calls are handled as they should but with a decreased position
          */
 
-            if(position == 0) {
-                // dummy message
-                holder.dateTextView.setText("dummy-date");
-                holder.messageTextView.setText("dummy-message");
-                holder.senderTextView.setText("dummy-sender");
-                return;
-            }
+        if(position == 0) {
+            // dummy message
+            holder.dateTextView.setText("dummy-date");
+            holder.messageTextView.setText("dummy-message");
+            holder.senderTextView.setText("dummy-sender");
+            return;
+        }
 
-            // else: position > 0
+        // else: position > 0
 
-            // fake position
-            position--;
+        // fake position
+        position--;
 
-            // go ahead
+        // go ahead
 //            try {
-                // TODO - use Makan library here
+            // TODO - use Makan library here
+        try {
+            MakanMessage message = this.getMakan().getMessage(position, false);
+            holder.dateTextView.setText(
+                    DateFormat.getInstance().format(message.getSentDate()));
 
-                // dummy
-                holder.dateTextView.setText("1.1.1970 12:12");
-                holder.messageTextView.setText("message");
-                holder.senderTextView.setText("sender");
-//            } catch (SharkException e) {
-//                Log.e(LOGSTART, "cannot access message storage (yet?)");
-//            }
+            holder.messageTextView.setText(message.getContentAsString());
+
+            holder.senderTextView.setText(
+                    this.identityStorage.getNameByID(message.getSenderID()));
+
+        } catch (Exception e) {
+            Log.e(LOGSTART, "cannot access message storage (yet?)");
+            Log.e(LOGSTART, e.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        Log.d(LOGSTART, "getItemCount");
+
+        try {
+            return this.getMakan().size();
+        } catch (AASPException | IOException e) {
+            Log.e(LOGSTART, "cannot access message storage (yet?)");
+            return 0;
+        }
+    }
+
+    private Makan getMakan() throws IOException, AASPException {
+        if(this.makan == null) {
+            File aaspRootDirectory =
+                    SharkNetApp.getSharkNetApp(this.activity).getAASPRootDirectory();
+
+            this.aaspStorage =
+                    AASPEngineFS.getAASPChunkStorage(aaspRootDirectory.getAbsolutePath());
+
+            this.makan = new MakanAndroid(
+                    this.userFriendlyName,
+                    this.topic,
+                    this.aaspStorage,
+                    this.identityStorage.getPersonByID(this.ownerID),
+                    this.identityStorage
+            );
         }
 
-        @Override
-        public int getItemCount() {
-            Log.d(LOGSTART, "getItemCount");
+        return this.makan;
+    }
 
-            return 5;
-/*
-            int realSize = 0;
-            try {
-                realSize = MakanApp.getMakanApp().getMakanListStorage().size();
-            } catch (MakanException e) {
-                Log.e(LOGSTART, "cannot access message storage (yet?)");
-                return 0;
-            }
-            int fakeSize = realSize+1;
-            return fakeSize;
-        */
-        }
+    public void sync() {
+        this.makan = null;
+    }
 }

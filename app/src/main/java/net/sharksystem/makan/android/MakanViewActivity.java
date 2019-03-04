@@ -1,7 +1,6 @@
 package net.sharksystem.makan.android;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,13 +13,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.aasp.AASPException;
-import net.sharksystem.bubble.android.BubbleMessageContentAdapter;
 import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetApp;
-
-import java.io.IOException;
 
 /**
  * View a single makan
@@ -78,7 +73,10 @@ public class MakanViewActivity extends AppCompatActivity {
 
             mRecyclerView = (RecyclerView) findViewById(R.id.makan_view_recycler_view);
 
-            mAdapter = new MakanViewContentAdapter(this, this.topicUri);
+            mAdapter = new MakanViewContentAdapter(this,
+                    this.topicUri, this.name,
+                    SharkNetApp.getOwner(), SharkNetApp.getIdentityStorage());
+
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(mLayoutManager);

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -16,12 +17,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 
 import net.sharksystem.R;
+import net.sharksystem.aasp.AASPEngineFS;
 import net.sharksystem.aasp.android.AASP;
 import net.sharksystem.aasp.android.AASPService;
 import net.sharksystem.aasp.android.AASPServiceMethods;
 import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.bubble.BubbleApp;
 import net.sharksystem.bubble.android.BubbleAppAndroid;
+
+import java.io.File;
+
+import identity.IdentityStorage;
 
 public class SharkNetApp {
 
@@ -63,6 +69,14 @@ public class SharkNetApp {
         this.aaspBroadcastReceiver = new AASPBroadcastReceiver();
     }
 
+    public static CharSequence getOwner() {
+        return "DummyOwner";
+    }
+
+    public static IdentityStorage getIdentityStorage() {
+        return new DummyIdentityStorage();
+    }
+
     private void setCurrentActivity(Activity activity) {
         this.currentActivity = activity;
     }
@@ -93,6 +107,11 @@ public class SharkNetApp {
 
         navigationView.setNavigationItemSelectedListener(
                 new DrawerOnNavigationItemListener(activity, mDrawerLayout));
+    }
+
+    public File getAASPRootDirectory() {
+        return (Environment.getExternalStoragePublicDirectory(
+                AASPEngineFS.DEFAULT_ROOT_FOLDER_NAME));
     }
 
     boolean aaspStarted = false;
