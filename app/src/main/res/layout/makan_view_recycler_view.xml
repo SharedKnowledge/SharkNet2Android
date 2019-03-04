@@ -10,7 +10,7 @@
     tools:context=".makan.android.MakanViewActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/makan_messages_recycler_view"
+        android:id="@+id/makan_view_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical" />

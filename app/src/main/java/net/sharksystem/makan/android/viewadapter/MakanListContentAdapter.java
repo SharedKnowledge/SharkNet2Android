@@ -70,8 +70,8 @@ public class MakanListContentAdapter extends
 
         if(position == 0) {
             // dummy message
-            holder.uriTextView.setText("dummy-uriTextView");
-            holder.nameTextView.setText("dummy-nameTextView");
+            holder.uriTextView.setText("dummy-dateTextView");
+            holder.nameTextView.setText("dummy-senderTextView");
             return;
         }
 

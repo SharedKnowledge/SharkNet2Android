@@ -31,6 +31,7 @@
     <string name="makanMenuAddButtonText">Add Makan</string>
     <string name="makanMenuRemoveAllButtonText">Remove all Makan</string>
     <string name="title_activity_makan_view">Makan View</string>
+    <string name="makanMenuAddMessageButtonText">Add</string>
 
 
 </resources>

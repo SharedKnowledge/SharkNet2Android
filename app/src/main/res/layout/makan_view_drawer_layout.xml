@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/makan_messages_with_toolbar" />
+    <include layout="@layout/makan_view_with_toolbar" />
 
     <include layout="@layout/sharknet_drawer_navigation_view" />
 

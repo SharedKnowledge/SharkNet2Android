@@ -14,15 +14,14 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.aasp.AASPException;
-import net.sharksystem.bubble.BubbleMessage;
-import net.sharksystem.bubble.android.BubbleAppAndroid;
-import net.sharksystem.bubble.android.BubbleMessageContentAdapter;
-import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
+/**
+ * work with makan list
+ */
 public class MakanListActivity extends AppCompatActivity {
     private static final String LOGSTART = "MakanList";
     private RecyclerView mRecyclerView;
@@ -50,7 +49,7 @@ public class MakanListActivity extends AppCompatActivity {
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
             // setup toolbar
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_list_toolbar);
+            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_list_with_toolbar);
             setSupportActionBar(myToolbar);
 
             ////////////////////////////////////////////////////////////////////////
@@ -157,7 +156,7 @@ public class MakanListActivity extends AppCompatActivity {
 /*
         Intent intent = new Intent(this, BubbleCreateActivity.class);
 
-        intent.putExtra(BubbleAppAndroid.EXTRA_TOPIC_KEY, this.uriTextView);
+        intent.putExtra(BubbleAppAndroid.EXTRA_TOPIC_KEY, this.dateTextView);
 
         startActivity(intent);
 */

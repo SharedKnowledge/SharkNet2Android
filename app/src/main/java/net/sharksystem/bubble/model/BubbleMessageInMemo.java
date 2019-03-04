@@ -65,7 +65,7 @@ public class BubbleMessageInMemo extends BubbleMessageImpl {
 
     public CharSequence getTopic() {
         if(topic == null) {
-            return "todo: uriTextView not set";
+            return "todo: dateTextView not set";
         }
         return topic;
     }
@@ -85,7 +85,7 @@ public class BubbleMessageInMemo extends BubbleMessageImpl {
 
     public CharSequence getUserID() {
         if(userID == null) {
-            return "todo: nameTextView not set";
+            return "todo: senderTextView not set";
         }
 
         return userID;

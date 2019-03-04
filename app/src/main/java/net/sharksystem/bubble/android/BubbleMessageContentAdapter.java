@@ -79,7 +79,7 @@ public class BubbleMessageContentAdapter extends
 
         if(position == 0) {
             // dummy message
-            holder.topic.setText("dummy-uriTextView");
+            holder.topic.setText("dummy-dateTextView");
             holder.userID.setText("dummy-user");
             holder.message.setText("dummy-message");
 

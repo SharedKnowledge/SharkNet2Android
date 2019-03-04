@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class BubbleAppAndroid extends BubbleApp {
-    public static final String EXTRA_TOPIC_KEY = "uriTextView";
+    public static final String EXTRA_TOPIC_KEY = "dateTextView";
 
     private static BubbleMessageStorage storageAnyTopic = null;
 

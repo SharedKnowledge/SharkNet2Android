@@ -82,13 +82,13 @@ public class BubbleViewActivity extends AppCompatActivity {
         // debugging
         BubbleMessageStorage storage = null;
         try {
-            storage = BubbleApp.getBubbleMessageStorage(this, this.uriTextView);
-            storage.addMessage(this.uriTextView, "DummyUser", "text 0"); // got place for async task ?!
+            storage = BubbleApp.getBubbleMessageStorage(this, this.dateTextView);
+            storage.addMessage(this.dateTextView, "DummyUser", "text 0"); // got place for async task ?!
 
 //            mAdapter.notifyItemInserted(0);
 
             // debug: do it twice
-            storage.addMessage(this.uriTextView, "DummyUser", "text 1"); // got place for async task ?!
+            storage.addMessage(this.dateTextView, "DummyUser", "text 1"); // got place for async task ?!
 //            mAdapter.notifyItemInserted(1);
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package net.sharksystem.makan.android;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,25 +15,25 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.aasp.AASPException;
-import net.sharksystem.bubble.BubbleMessage;
-import net.sharksystem.bubble.android.BubbleAppAndroid;
 import net.sharksystem.bubble.android.BubbleMessageContentAdapter;
 import net.sharksystem.makan.MakanException;
+import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
 /**
- * View a single makan -- TODO
+ * View a single makan
  */
 public class MakanViewActivity extends AppCompatActivity {
     private static final String LOGSTART = "MakanView";
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
-    private BubbleMessageContentAdapter mAdapter;
+    private MakanViewContentAdapter mAdapter;
 
-    private CharSequence topic = null;
+    private CharSequence topicUri = null;
+    private CharSequence name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,10 @@ public class MakanViewActivity extends AppCompatActivity {
 
         // get parameters
         try {
-            new MakanViewIntent(this.getIntent());
+            MakanViewIntent intent = new MakanViewIntent(this.getIntent());
+            this.topicUri = intent.getUri();
+            this.name = intent.getUserFriendlyName();
+
         } catch (MakanException e) {
             Log.d(LOGSTART, "cannot create makan view intent from intent (fatal): "
                     + e.getLocalizedMessage());
@@ -50,23 +54,14 @@ public class MakanViewActivity extends AppCompatActivity {
         }
 
         // check permissions
-        BubbleAppAndroid.askForPermissions(this);
+        MakanApp.askForPermissions(this);
 
         // activate broadcast receiver for imcomming messages
-        SharkNetApp.getSharkNetApp(this).startAASPBroadcastReceiver();
+//        SharkNetApp.getSharkNetApp(this).startAASPBroadcastReceiver();
 
-
-        this.topic = BubbleAppAndroid.getTopicNameFromIntentExtras(this.getIntent());
-
-        if(this.topic == null) {
-            this.topic = BubbleMessage.ANY_TOPIC;
-        }
 
         try {
-//        setContentView(R.layout.activity_main);
-//            setContentView(R.layout.bubble_with_toolbar);
-
-            setContentView(R.layout.makan_list_drawer_layout);
+            setContentView(R.layout.makan_view_drawer_layout);
 
             SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
 
@@ -74,22 +69,24 @@ public class MakanViewActivity extends AppCompatActivity {
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
             // setup toolbar
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_list_toolbar);
+            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_view_with_toolbar);
             setSupportActionBar(myToolbar);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare recycler view                      //
             ////////////////////////////////////////////////////////////////////////
 
-            mRecyclerView = (RecyclerView) findViewById(R.id.bubble_list_recycler_view);
+            mRecyclerView = (RecyclerView) findViewById(R.id.makan_view_recycler_view);
 
-            mAdapter = new BubbleMessageContentAdapter(this, this.topic);
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            mAdapter = new MakanViewContentAdapter(this, this.topicUri);
+            RecyclerView.LayoutManager mLayoutManager =
+                    new LinearLayoutManager(getApplicationContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
             mRecyclerView.setAdapter(mAdapter);
         }
         catch(Exception e) {
+            // debug break
             int i = 42;
         }
 
@@ -135,7 +132,7 @@ public class MakanViewActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.makan_list_action_buttons, menu);
+        inflater.inflate(R.menu.makan_view_action_buttons, menu);
         return true;
     }
 
@@ -144,14 +141,8 @@ public class MakanViewActivity extends AppCompatActivity {
 
         try {
             switch (item.getItemId()) {
-                case R.id.makanMenuAddButton:
-                    this.doAddMakan();
-                    return true;
-
-                case R.id.makanMenuRemoveAllButton:
-                    this.doRemoveAll();
-                    // force adapter to refresh ui
-                    this.mAdapter.notifyDataSetChanged();
+                case R.id.makanMenuAddMessage:
+                    this.doAddMessage();
                     return true;
 
                 default:
@@ -167,25 +158,18 @@ public class MakanViewActivity extends AppCompatActivity {
         return false;
     }
 
-    private void doAddMakan() {
+    private void doAddMessage() {
         String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d("debugLog", "doBubbleCalled");
+        Log.d("debugLog", "doAddMessageCalled");
 
-        Toast.makeText(this, "add makan called - NYI", Toast.LENGTH_SHORT);
+        Toast.makeText(this, "add message called - NYI", Toast.LENGTH_SHORT);
 /*
         Intent intent = new Intent(this, BubbleCreateActivity.class);
 
-        intent.putExtra(BubbleAppAndroid.EXTRA_TOPIC_KEY, this.uriTextView);
+        intent.putExtra(BubbleAppAndroid.EXTRA_TOPIC_KEY, this.dateTextView);
 
         startActivity(intent);
 */
         // this.chat.addLine(sampleLine);
-    }
-
-    private void doRemoveAll() throws IOException, AASPException {
-        String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(LOGSTART, "doRemoveAll called");
-
-        Toast.makeText(this, "remove all makan called - NYI", Toast.LENGTH_SHORT);
     }
 }

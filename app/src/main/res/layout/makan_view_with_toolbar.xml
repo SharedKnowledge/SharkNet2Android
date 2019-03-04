@@ -6,7 +6,7 @@
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
     <android.support.v7.widget.Toolbar
-        android:id="@+id/makan_messages_toolbar"
+        android:id="@+id/makan_view_with_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -14,6 +14,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <include layout = "@layout/makan_messages"/>
+    <include layout = "@layout/makan_view_recycler_view"/>
 
 </android.support.constraint.ConstraintLayout>
