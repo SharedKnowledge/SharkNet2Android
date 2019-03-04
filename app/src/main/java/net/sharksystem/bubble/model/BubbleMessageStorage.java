@@ -9,7 +9,7 @@ public interface BubbleMessageStorage {
     BubbleMessage getMessage(int position) throws IOException, AASPException;
 
     /**
-     * Add a message to a defined topic
+     * Add a message to a defined uriTextView
      * @param topic
      * @param userID
      * @param message
@@ -21,8 +21,7 @@ public interface BubbleMessageStorage {
                     CharSequence message) throws IOException, AASPException;
 
     /**
-     * Remove all messages of a topic
-     * @param topic
+     * Remove all messages of a uriTextView
      * @throws IOException
      * @throws AASPException
      */

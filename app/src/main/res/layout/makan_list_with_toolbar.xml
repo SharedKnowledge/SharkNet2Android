@@ -16,6 +16,6 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         />
 
-    <include layout = "@layout/makan_list"/>
+    <include layout = "@layout/makan_list_recycler_view"/>
 
 </android.support.constraint.ConstraintLayout>

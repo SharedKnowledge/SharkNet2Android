@@ -61,7 +61,7 @@ class BubbleAASPStorageWrapper implements BubbleMessageStorage {
             int toEra = this.aaspStorage.getEra();
             Log.d(LOGSTART, "current era: " + toEra);
             this.chunkCache =
-                    this.aaspStorage.getChunkStorage().getAASPChunkCache(topic, fromEra, toEra);
+                    this.aaspStorage.getChunkStorage().getAASPChunkCache(topic, toEra);
         }
 
         return this.chunkCache;

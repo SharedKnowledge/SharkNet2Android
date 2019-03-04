@@ -38,10 +38,10 @@ class BroadcastHandlerThread extends Thread {
             AASPStorage chunkStorage = AASPEngineFS.getAASPChunkStorage(folder);
             Log.d(LOGSTART, "got chunk Storage to read from");
 
-            AASPChunkStorage receivedChunksStorage = chunkStorage.getReceivedChunkStorage(user);
+            AASPChunkStorage receivedChunksStorage = chunkStorage.getIncomingChunkStorage(user);
 
             AASPChunkCache aaspChunkCache =
-                    receivedChunksStorage.getAASPChunkCache(uri, era, era);
+                    receivedChunksStorage.getAASPChunkCache(uri, era);
 
             Log.d(LOGSTART, "start iterating received messages");
             Iterator<CharSequence> messages = aaspChunkCache.getMessages();

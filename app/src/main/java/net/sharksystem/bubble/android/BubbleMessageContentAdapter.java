@@ -29,9 +29,9 @@ public class BubbleMessageContentAdapter extends
 
         public MyViewHolder(View view) {
             super(view);
-            topic = (TextView) view.findViewById(R.id.tv_bubble_topic);
-            userID = (TextView) view.findViewById(R.id.tv_bubble_userID);
-            message = (TextView) view.findViewById(R.id.tv_bubble_message);
+            topic = (TextView) view.findViewById(R.id.makan_message_row_date);
+            userID = (TextView) view.findViewById(R.id.makan_message_row_sender);
+            message = (TextView) view.findViewById(R.id.makan_message_row_message);
         }
     }
 
@@ -79,7 +79,7 @@ public class BubbleMessageContentAdapter extends
 
         if(position == 0) {
             // dummy message
-            holder.topic.setText("dummy-topic");
+            holder.topic.setText("dummy-uriTextView");
             holder.userID.setText("dummy-user");
             holder.message.setText("dummy-message");
 

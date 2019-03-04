@@ -18,13 +18,12 @@
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
-        <activity
-            android:name=".makan.android.MakanListActivity"
-            android:label="@string/title_activity_makan_list"></activity>
+
         <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
+
         <activity
-            android:name=".bubble.android.BubbleViewActivity"
+            android:name=".makan.android.MakanListActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +33,7 @@
         </activity>
         <activity android:name=".bubble.android.BubbleCreateActivity" />
         <activity android:name=".radar.android.RadarActivity" />
+        <activity android:name=".makan.android.MakanViewActivity" />
     </application>
 
 </manifest>

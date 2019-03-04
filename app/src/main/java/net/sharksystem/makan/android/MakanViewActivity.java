@@ -1,6 +1,5 @@
 package net.sharksystem.makan.android;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,21 +10,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.aasp.AASPException;
 import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.bubble.android.BubbleAppAndroid;
-import net.sharksystem.bubble.android.BubbleCreateActivity;
 import net.sharksystem.bubble.android.BubbleMessageContentAdapter;
-import net.sharksystem.bubble.model.BubbleMessageStorage;
 import net.sharksystem.makan.MakanException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
+/**
+ * View a single makan -- TODO
+ */
 public class MakanViewActivity extends AppCompatActivity {
-    private static final String LOGSTART = "BubbleView";
+    private static final String LOGSTART = "MakanView";
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
@@ -48,8 +49,6 @@ public class MakanViewActivity extends AppCompatActivity {
             return;
         }
 
-        // HIER WEITERMACHEN...
-
         // check permissions
         BubbleAppAndroid.askForPermissions(this);
 
@@ -67,7 +66,7 @@ public class MakanViewActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_main);
 //            setContentView(R.layout.bubble_with_toolbar);
 
-            setContentView(R.layout.bubble_drawer_layout);
+            setContentView(R.layout.makan_list_drawer_layout);
 
             SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
 
@@ -75,7 +74,7 @@ public class MakanViewActivity extends AppCompatActivity {
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
             // setup toolbar
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.bubble_main_actionbar);
+            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_list_toolbar);
             setSupportActionBar(myToolbar);
 
             ////////////////////////////////////////////////////////////////////////
@@ -94,25 +93,6 @@ public class MakanViewActivity extends AppCompatActivity {
             int i = 42;
         }
 
-        /*
-        // debugging
-        BubbleMessageStorage storage = null;
-        try {
-            storage = BubbleApp.getBubbleMessageStorage(this, this.topic);
-            storage.addMessage(this.topic, "DummyUser", "text 0"); // got place for async task ?!
-
-//            mAdapter.notifyItemInserted(0);
-
-            // debug: do it twice
-            storage.addMessage(this.topic, "DummyUser", "text 1"); // got place for async task ?!
-//            mAdapter.notifyItemInserted(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ASP3Exception e) {
-            e.printStackTrace();
-        }
-*/
-
     }
 
     /**
@@ -121,25 +101,26 @@ public class MakanViewActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(LOGSTART, "onResume");
-
+/*
         //mAdapter.notifyItemInserted(1);
         if(mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
 
         SharkNetApp.getSharkNetApp(this).startAASPBroadcastReceiver();
+        */
     }
 
     protected void onPause() {
         super.onPause();
         Log.d(LOGSTART, "onPause");
-        SharkNetApp.getSharkNetApp(this).stopAASPBroadcastReceiver();
+//        SharkNetApp.getSharkNetApp(this).stopAASPBroadcastReceiver();
     }
 
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOGSTART, "onDestroy");
-        SharkNetApp.getSharkNetApp(this).stopAASPBroadcastReceiver();
+//        SharkNetApp.getSharkNetApp(this).stopAASPBroadcastReceiver();
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -154,45 +135,20 @@ public class MakanViewActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.bubble_action_buttons, menu);
+        inflater.inflate(R.menu.makan_list_action_buttons, menu);
         return true;
     }
-
-    private void doAddBubble() {
-        String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d("debugLog", "doBubbleCalled");
-
-        Intent intent = new Intent(this, BubbleCreateActivity.class);
-
-        intent.putExtra(BubbleAppAndroid.EXTRA_TOPIC_KEY, this.topic);
-
-        startActivity(intent);
-
-        // this.chat.addLine(sampleLine);
-    }
-
-    private void doRemoveAll() throws IOException, AASPException {
-        String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(LOGSTART, "doRemoveAll called");
-
-        BubbleMessageStorage bubbleStorage = BubbleAppAndroid.getBubbleMessageStorage(this);
-        bubbleStorage.removeAllMessages();
-    }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         try {
             switch (item.getItemId()) {
-                case R.id.bubbleAddBubble:
-                    Log.d(LOGSTART, "going to add bubble");
-                    this.doAddBubble();
+                case R.id.makanMenuAddButton:
+                    this.doAddMakan();
                     return true;
 
-                case R.id.bubbleRemoveAll:
-                    Log.d(LOGSTART, "going to remove all");
+                case R.id.makanMenuRemoveAllButton:
                     this.doRemoveAll();
                     // force adapter to refresh ui
                     this.mAdapter.notifyDataSetChanged();
@@ -209,5 +165,27 @@ public class MakanViewActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    private void doAddMakan() {
+        String sampleLine = Long.toString(System.currentTimeMillis());
+        Log.d("debugLog", "doBubbleCalled");
+
+        Toast.makeText(this, "add makan called - NYI", Toast.LENGTH_SHORT);
+/*
+        Intent intent = new Intent(this, BubbleCreateActivity.class);
+
+        intent.putExtra(BubbleAppAndroid.EXTRA_TOPIC_KEY, this.uriTextView);
+
+        startActivity(intent);
+*/
+        // this.chat.addLine(sampleLine);
+    }
+
+    private void doRemoveAll() throws IOException, AASPException {
+        String sampleLine = Long.toString(System.currentTimeMillis());
+        Log.d(LOGSTART, "doRemoveAll called");
+
+        Toast.makeText(this, "remove all makan called - NYI", Toast.LENGTH_SHORT);
     }
 }

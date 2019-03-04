@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bubbles</string>
+    <string name="app_name">SN2</string>
     <string name="send">hello</string>
     <string name="hello">hello</string>
 
@@ -8,7 +8,7 @@
 
     <string name="appBubble">Bubble</string>
     <string name="appRadar">Radar</string>
-    <string name="appTellPosition">Ping</string>
+    <string name="appTellPosition">Position</string>
 
     <string name="bubbleAuthority">net.sharksystem.bubble</string>
     <string name="syncAuthority">net.sharksystem.sync</string>
@@ -24,8 +24,13 @@
     <string name="aaspServiceToggleExplainationText">Switch AASP service on / off</string>
     
     <string name="settingsWifiDirectToggleButtonExplaination">Switch Wifi Direct on / off</string>
+
     <string name="appMakan">Makan</string>
     <string name="title_activity_makan_list">Makan List</string>
+
+    <string name="makanMenuAddButtonText">Add Makan</string>
+    <string name="makanMenuRemoveAllButtonText">Remove all Makan</string>
+    <string name="title_activity_makan_view">Makan View</string>
 
 
 </resources>

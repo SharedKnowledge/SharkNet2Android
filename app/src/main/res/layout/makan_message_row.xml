@@ -16,21 +16,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textColor="@color/topic"
-        android:textSize="16dp"
-        android:textStyle="bold" />
+        android:textColor="@color/makanSentDate"
+        />
 
     <TextView
         android:id="@+id/makan_message_row_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/makan_message_row_date" />
+        android:layout_below="@id/makan_message_row_date"
+        android:textColor="@color/makanMessage"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
 
     <TextView
         android:id="@+id/makan_message_row_sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:textColor="@color/message" />
+        android:textColor="@color/makanSender"
+        />
 
 </RelativeLayout>
