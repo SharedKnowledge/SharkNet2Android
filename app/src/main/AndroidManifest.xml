@@ -34,6 +34,6 @@
         <activity android:name=".bubble.android.BubbleCreateActivity" />
         <activity android:name=".radar.android.RadarActivity" />
         <activity android:name=".makan.android.MakanViewActivity" />
+        <activity android:name=".makan.android.MakanAddMessageActivity" />
     </application>
-
 </manifest>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.Message;
@@ -188,6 +189,16 @@ public class SharkNetApp {
         this.sendMessage2Service(this.currentActivity, AASPServiceMethods.STOP_WIFI_DIRECT);
     }
 
+    public void sendAASPMessage(Context ctx, CharSequence uri, CharSequence aaspMessage) {
+        Message msg = Message.obtain(null, AASPServiceMethods.ADD_MESSAGE, 0, 0);
+        Bundle msgData = new Bundle();
+        msgData.putCharSequence(AASP.URI, uri);
+        msgData.putCharSequence(AASP.MESSAGE_CONTENT, aaspMessage);
+        msg.setData(msgData);
+
+        this.sendMessage2Service(ctx, msg);
+    }
+
     public void startAASPBroadcastReceiver() {
         // create broadcast receiver
         if(aaspBroadcastReceiverRegistered) {
@@ -224,10 +235,15 @@ public class SharkNetApp {
     }
 
     private void sendMessage2Service(Context ctx, int messageNumber) {
+        this.sendMessage2Service(ctx,
+                Message.obtain(null, AASPServiceMethods.ADD_MESSAGE, 0, 0));
+
+    }
+
+    private void sendMessage2Service(Context ctx, Message msg) {
         Log.d(LOGSTART, "send message 2 aasp service called");
         if(this.mService != null) {
             Log.d(LOGSTART, "already bound to aasp service - send message");
-            Message msg = Message.obtain(null, messageNumber, 0, 0);
             try {
                 mService.send(msg);
             } catch (RemoteException e) {
@@ -235,10 +251,9 @@ public class SharkNetApp {
             }
         } else {
             Log.d(LOGSTART, "not bound to aasp service, bind and call after binding");
-            this.mConnection = new SNServiceConnection(messageNumber);
+            this.mConnection = new SNServiceConnection(msg);
             ctx.bindService(new Intent(ctx, AASPService.class),
-                    mConnection,
-                    Context.BIND_AUTO_CREATE);
+                    mConnection, Context.BIND_AUTO_CREATE);
         }
     }
 
@@ -250,6 +265,10 @@ public class SharkNetApp {
         }
     }
 
+    public CharSequence getOwnerID() {
+        return "42"; // TODO
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////
     //                               android service management                            //
     /////////////////////////////////////////////////////////////////////////////////////////
@@ -259,10 +278,14 @@ public class SharkNetApp {
      */
     private class SNServiceConnection implements ServiceConnection {
 
-        private final int messageNumber;
+        private final Message message;
 
         SNServiceConnection(int messageNumber) {
-            this.messageNumber = messageNumber;
+            this(Message.obtain(null, messageNumber, 0, 0));
+        }
+
+        SNServiceConnection(Message msg) {
+            this.message = msg;
         }
 
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -275,9 +298,8 @@ public class SharkNetApp {
             mService = new Messenger(service);
 
             Log.d(LOGSTART, "initiate sending delayed message");
-            Message msg = Message.obtain(null, messageNumber, 0, 0);
             try {
-                mService.send(msg);
+                mService.send(this.message);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

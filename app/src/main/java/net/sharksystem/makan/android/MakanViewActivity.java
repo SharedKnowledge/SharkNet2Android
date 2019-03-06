@@ -1,5 +1,6 @@
 package net.sharksystem.makan.android;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.SharkException;
 import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -37,11 +39,11 @@ public class MakanViewActivity extends AppCompatActivity {
 
         // get parameters
         try {
-            MakanViewIntent intent = new MakanViewIntent(this.getIntent());
+            MakanIntent intent = new MakanIntent(this.getIntent());
             this.topicUri = intent.getUri();
             this.name = intent.getUserFriendlyName();
 
-        } catch (MakanException e) {
+        } catch (SharkException e) {
             Log.d(LOGSTART, "cannot create makan view intent from intent (fatal): "
                     + e.getLocalizedMessage());
 
@@ -96,26 +98,24 @@ public class MakanViewActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(LOGSTART, "onResume");
-/*
-        //mAdapter.notifyItemInserted(1);
         if(mAdapter != null) {
+            this.mAdapter.sync();
             mAdapter.notifyDataSetChanged();
         }
-
-        SharkNetApp.getSharkNetApp(this).startAASPBroadcastReceiver();
-        */
     }
 
     protected void onPause() {
         super.onPause();
         Log.d(LOGSTART, "onPause");
-//        SharkNetApp.getSharkNetApp(this).stopAASPBroadcastReceiver();
     }
 
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOGSTART, "onDestroy");
-//        SharkNetApp.getSharkNetApp(this).stopAASPBroadcastReceiver();
+    }
+
+    private void sync() {
+        this.mAdapter.sync();
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -160,14 +160,11 @@ public class MakanViewActivity extends AppCompatActivity {
         String sampleLine = Long.toString(System.currentTimeMillis());
         Log.d("debugLog", "doAddMessageCalled");
 
-        Toast.makeText(this, "add message called - NYI", Toast.LENGTH_SHORT);
-/*
-        Intent intent = new Intent(this, BubbleCreateActivity.class);
+        MakanIntent intent = new MakanIntent(this,
+                this.name, this.topicUri,
+                MakanAddMessageActivity.class);
 
-        intent.putExtra(BubbleAppAndroid.EXTRA_TOPIC_KEY, this.dateTextView);
 
         startActivity(intent);
-*/
-        // this.chat.addLine(sampleLine);
     }
 }

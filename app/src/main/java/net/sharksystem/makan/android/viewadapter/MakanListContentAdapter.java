@@ -13,7 +13,8 @@ import net.sharksystem.SharkException;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.android.MakanApp;
-import net.sharksystem.makan.android.MakanViewIntent;
+import net.sharksystem.makan.android.MakanIntent;
+import net.sharksystem.makan.android.MakanViewActivity;
 import net.sharksystem.makan.android.model.MakanListStorage;
 
 public class MakanListContentAdapter extends
@@ -96,7 +97,7 @@ public class MakanListContentAdapter extends
 
             holder.uriTextView.setText(makanInfo.getURI());
             holder.nameTextView.setText(makanInfo.getName());
-        } catch (SharkException e) {
+        } catch (MakanException e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
         }
     }
@@ -126,8 +127,12 @@ public class MakanListContentAdapter extends
         TextView nameTextView = (TextView) view.findViewById(R.id.makan_list_row_name);
         Log.d(LOGSTART, "name: " + nameTextView.getText());
 
-        MakanViewIntent intent =
-                new MakanViewIntent(ctx, nameTextView.getText(), uriTextView.getText());
+        MakanIntent intent =
+                new MakanIntent(
+                        ctx,
+                        nameTextView.getText(),
+                        uriTextView.getText(),
+                        MakanViewActivity.class);
 
         ctx.startActivity(intent);
     }
