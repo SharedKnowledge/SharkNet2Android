@@ -41,6 +41,11 @@ public class MakanViewContentAdapter extends
 
     private MakanAndroid makan;
 
+    public void setOutdated(int era, String user, String folder) {
+        // TODO
+        Log.d(LOGSTART, "TODO: got new data from another peer");
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView dateTextView, messageTextView, senderTextView;
 

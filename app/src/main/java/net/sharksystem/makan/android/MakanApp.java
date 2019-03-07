@@ -2,13 +2,22 @@ package net.sharksystem.makan.android;
 
 import android.Manifest;
 import android.app.Activity;
+import android.util.Log;
 
 import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.makan.android.model.MakanListStorage;
+import net.sharksystem.sharknet.android.SharkNetApp;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MakanApp {
+    private static final String LOGSTART = "MakanApp";
     private static MakanApp singleton = null;
     private MakanListStorage makanStorage;
+
+    public static final String URI_START = "sn://makan/";
 
     public static MakanApp getMakanApp() {
         if(MakanApp.singleton == null) {
@@ -43,5 +52,30 @@ public class MakanApp {
 
     public CharSequence getExampleMakanName() {
         return "User Friendly Makan Name";
+    }
+
+    private HashMap<String, MakanViewActivity> makanLister = new HashMap<>();
+
+    public void handleAASPBroadcast(String uri, int era, String user, String folder) {
+        MakanViewActivity makanChangeListener = this.makanLister.get(uri);
+        if(makanChangeListener != null) {
+            Log.d(LOGSTART, "notify makan about external changes");
+            Log.d(LOGSTART, "uri: " + uri);
+            makanChangeListener.doExternalChange(era, user, folder);
+        }
+    }
+
+    public void startAASPBroadcastReceiver(MakanViewActivity makanViewActivity,
+                                           CharSequence topicUri) {
+        // add listener list
+        this.makanLister.put(topicUri.toString(), makanViewActivity);
+        SharkNetApp.getSharkNetApp(makanViewActivity).startAASPBroadcastReceiver();
+    }
+
+    public void stopAASPBroadcastReceiver(MakanViewActivity makanViewActivity,
+                                          CharSequence topicUri) {
+        SharkNetApp.getSharkNetApp(makanViewActivity).stopAASPBroadcastReceiver();
+        // remove from listener list
+        this.makanLister.remove(topicUri);
     }
 }

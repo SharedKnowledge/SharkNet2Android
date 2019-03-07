@@ -192,6 +192,7 @@ public class SharkNetApp {
     public void sendAASPMessage(Context ctx, CharSequence uri, CharSequence aaspMessage) {
         Message msg = Message.obtain(null, AASPServiceMethods.ADD_MESSAGE, 0, 0);
         Bundle msgData = new Bundle();
+        Log.d(LOGSTART, "add uri/aaspMessage to message: " + uri + " / " + aaspMessage);
         msgData.putCharSequence(AASP.URI, uri);
         msgData.putCharSequence(AASP.MESSAGE_CONTENT, aaspMessage);
         msg.setData(msgData);
@@ -236,12 +237,12 @@ public class SharkNetApp {
 
     private void sendMessage2Service(Context ctx, int messageNumber) {
         this.sendMessage2Service(ctx,
-                Message.obtain(null, AASPServiceMethods.ADD_MESSAGE, 0, 0));
+                Message.obtain(null, messageNumber, 0, 0));
 
     }
 
     private void sendMessage2Service(Context ctx, Message msg) {
-        Log.d(LOGSTART, "send message 2 aasp service called");
+        Log.d(LOGSTART, "send message to aasp service");
         if(this.mService != null) {
             Log.d(LOGSTART, "already bound to aasp service - send message");
             try {
@@ -254,6 +255,8 @@ public class SharkNetApp {
             this.mConnection = new SNServiceConnection(msg);
             ctx.bindService(new Intent(ctx, AASPService.class),
                     mConnection, Context.BIND_AUTO_CREATE);
+            Log.d(LOGSTART, "NOTE: race condition. Unbind might be performed before " +
+                    "successfull service binding and message delivery - TODO - give it a thought");
         }
     }
 
@@ -285,7 +288,23 @@ public class SharkNetApp {
         }
 
         SNServiceConnection(Message msg) {
+
             this.message = msg;
+            Log.d("SNServiceConnection", "create service connection object with parameter");
+            this.debugLogMessage(msg);
+        }
+
+        private void debugLogMessage(Message msg) {
+            Bundle msgData = msg.getData();
+            if (msgData != null) {
+                String uri = msgData.getString(AASP.URI);
+                String content = msgData.getString(AASP.MESSAGE_CONTENT);
+                Log.d("SNServiceConnection", "message has data");
+                Log.d("SNServiceConnection", "uri" + uri);
+                Log.d("SNServiceConnection", "message: " + message);
+            } else {
+                Log.d("SNServiceConnection", "message has no data");
+            }
         }
 
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -299,6 +318,7 @@ public class SharkNetApp {
 
             Log.d(LOGSTART, "initiate sending delayed message");
             try {
+                this.debugLogMessage(this.message);
                 mService.send(this.message);
             } catch (RemoteException e) {
                 e.printStackTrace();

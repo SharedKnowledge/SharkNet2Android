@@ -90,6 +90,14 @@ public class MakanViewActivity extends AppCompatActivity {
             int i = 42;
         }
 
+        MakanApp.getMakanApp().startAASPBroadcastReceiver(this, this.topicUri);
+    }
+
+
+    public void doExternalChange(int era, String user, String folder) {
+        // external changes happen
+        this.mAdapter.setOutdated(era, user, folder);
+        // TODO: refresh view
     }
 
     /**
@@ -99,19 +107,22 @@ public class MakanViewActivity extends AppCompatActivity {
         super.onResume();
         Log.d(LOGSTART, "onResume");
         if(mAdapter != null) {
-            this.mAdapter.sync();
             mAdapter.notifyDataSetChanged();
         }
+
+        MakanApp.getMakanApp().startAASPBroadcastReceiver(this, this.topicUri);
     }
 
     protected void onPause() {
         super.onPause();
         Log.d(LOGSTART, "onPause");
+        MakanApp.getMakanApp().stopAASPBroadcastReceiver(this, this.topicUri);
     }
 
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOGSTART, "onDestroy");
+        MakanApp.getMakanApp().stopAASPBroadcastReceiver(this, this.topicUri);
     }
 
     private void sync() {
