@@ -35,5 +35,7 @@
         <activity android:name=".radar.android.RadarActivity" />
         <activity android:name=".makan.android.MakanViewActivity" />
         <activity android:name=".makan.android.MakanAddMessageActivity" />
+        <activity android:name=".identity.android.IdentityActivity" />
+
     </application>
 </manifest>

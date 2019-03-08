@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import net.sharksystem.R;
 import net.sharksystem.bubble.android.BubbleViewActivity;
+import net.sharksystem.identity.android.IdentityActivity;
 import net.sharksystem.makan.android.MakanListActivity;
 import net.sharksystem.radar.android.RadarActivity;
 import net.sharksystem.sharknet.android.settings.SettingsActivity;
@@ -40,13 +41,18 @@ public class DrawerOnNavigationItemListener implements
                     this.activity.startActivity(intent);
                     break;
 
-                case R.id.moduleRadar:
-                    intent = new Intent(this.activity, RadarActivity.class);
+                case R.id.moduleIdentity:
+                    intent = new Intent(this.activity, IdentityActivity.class);
                     this.activity.startActivity(intent);
                     break;
 
                 case R.id.moduleBubble:
                     intent = new Intent(this.activity, BubbleViewActivity.class);
+                    this.activity.startActivity(intent);
+                    break;
+
+                case R.id.moduleRadar:
+                    intent = new Intent(this.activity, RadarActivity.class);
                     this.activity.startActivity(intent);
                     break;
 

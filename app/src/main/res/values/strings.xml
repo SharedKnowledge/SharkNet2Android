@@ -15,6 +15,7 @@
 
     <string name="add">add</string>
     <string name="abort">abort</string>
+    <string name="save">Save</string>
 
     <string name="networksettings">Network Settings</string>
     <string name="title_activity_settings">Settings</string>
@@ -32,6 +33,7 @@
     <string name="makanMenuRemoveAllButtonText">Remove all Makan</string>
     <string name="title_activity_makan_view">Makan View</string>
     <string name="makanMenuAddMessageButtonText">Add</string>
+    <string name="appIdentity">Identity</string>
 
 
 </resources>

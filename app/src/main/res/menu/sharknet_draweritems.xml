@@ -7,6 +7,9 @@
             android:id="@+id/moduleMakan"
             android:title="@string/appMakan" />
         <item
+            android:id="@+id/moduleIdentity"
+            android:title="@string/appIdentity" />
+        <item
             android:id="@+id/moduleBubble"
             android:title="@string/appBubble" />
         <item

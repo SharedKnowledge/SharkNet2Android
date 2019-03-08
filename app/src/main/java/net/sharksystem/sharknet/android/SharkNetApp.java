@@ -25,10 +25,12 @@ import net.sharksystem.aasp.android.AASPServiceMethods;
 import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.bubble.BubbleApp;
 import net.sharksystem.bubble.android.BubbleAppAndroid;
+import net.sharksystem.identity.android.IdentityStorageAndroid;
 
 import java.io.File;
 
 import identity.IdentityStorage;
+import identity.Person;
 
 public class SharkNetApp {
 
@@ -75,7 +77,7 @@ public class SharkNetApp {
     }
 
     public static IdentityStorage getIdentityStorage() {
-        return new DummyIdentityStorage();
+        return IdentityStorageAndroid.getIdentityStorage();
     }
 
     private void setCurrentActivity(Activity activity) {
@@ -269,7 +271,7 @@ public class SharkNetApp {
     }
 
     public CharSequence getOwnerID() {
-        return "42"; // TODO
+        return IdentityStorageAndroid.getIdentityStorage().getOwnerID();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////
