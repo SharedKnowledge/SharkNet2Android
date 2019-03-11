@@ -32,7 +32,7 @@ public class IdentityActivity extends AppCompatActivity {
         // set user name in layout
         EditText userNameView = this.findViewById(R.id.identityUserName);
 
-        userNameView.setText(IdentityStorageAndroid.getIdentityStorage().getOwnerName());
+        userNameView.setText(IdentityStorageAndroid.getIdentityStorage(this).getOwnerName());
 
         SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
     }
@@ -58,7 +58,7 @@ public class IdentityActivity extends AppCompatActivity {
             Toast.makeText(this, "user name is", Toast.LENGTH_SHORT).show();
         } else {
             Log.d(LOGSTART, "set new user name: " + userNameString);
-            IdentityStorageAndroid.getIdentityStorage().setOwnerName(userNameString);
+            IdentityStorageAndroid.getIdentityStorage(this).setOwnerName(userNameString);
             super.onBackPressed();
         }
     }

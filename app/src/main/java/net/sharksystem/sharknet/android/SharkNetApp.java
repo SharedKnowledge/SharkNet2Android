@@ -76,8 +76,8 @@ public class SharkNetApp {
         return "DummyOwner";
     }
 
-    public static IdentityStorage getIdentityStorage() {
-        return IdentityStorageAndroid.getIdentityStorage();
+    public IdentityStorage getIdentityStorage() {
+        return IdentityStorageAndroid.getIdentityStorage(this.currentActivity);
     }
 
     private void setCurrentActivity(Activity activity) {
@@ -271,7 +271,7 @@ public class SharkNetApp {
     }
 
     public CharSequence getOwnerID() {
-        return IdentityStorageAndroid.getIdentityStorage().getOwnerID();
+        return IdentityStorageAndroid.getIdentityStorage(this.currentActivity).getOwnerID();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////

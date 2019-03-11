@@ -77,7 +77,7 @@ public class MakanViewActivity extends AppCompatActivity {
 
             mAdapter = new MakanViewContentAdapter(this,
                     this.topicUri, this.name,
-                    SharkNetApp.getOwner(), SharkNetApp.getIdentityStorage());
+                    SharkNetApp.getOwner(), SharkNetApp.getSharkNetApp(this).getIdentityStorage());
 
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
