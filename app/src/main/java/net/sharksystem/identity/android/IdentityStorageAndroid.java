@@ -93,6 +93,14 @@ public class IdentityStorageAndroid implements SharkIdentityStorage {
     }
 
     @Override
+    public void setNewOwnerUUID(String userNameString) {
+        CharSequence uuid = userNameString + "_"
+                + String.valueOf(System.currentTimeMillis());
+
+        this.setOwnerID(uuid);
+    }
+
+    @Override
     public CharSequence getOwnerID() {
         return this.ownerID;
     }

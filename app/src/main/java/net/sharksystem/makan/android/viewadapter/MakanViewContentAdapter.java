@@ -94,7 +94,6 @@ public class MakanViewContentAdapter extends
 
         the other calls are handled as they should but with a decreased position
          */
-
         if(position == 0) {
             // dummy message
             holder.dateTextView.setText("dummy-date");
@@ -108,9 +107,6 @@ public class MakanViewContentAdapter extends
         // fake position
         position--;
 
-        // go ahead
-//            try {
-            // TODO - use Makan library here
         try {
             MakanMessage message = this.getMakan().getMessage(position, false);
             holder.dateTextView.setText(
@@ -123,6 +119,8 @@ public class MakanViewContentAdapter extends
 
         } catch (Exception e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
+            Log.e(LOGSTART, "position == " + position);
+            Log.e(LOGSTART, e.getClass().getName());
             Log.e(LOGSTART, e.getLocalizedMessage());
         }
     }
@@ -132,7 +130,8 @@ public class MakanViewContentAdapter extends
         Log.d(LOGSTART, "getItemCount");
 
         try {
-            return this.getMakan().size();
+            return this.getMakan().size() + 1; // +1 ?? see comments in onBindViewHolder
+
         } catch (AASPException | IOException e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
             return 0;

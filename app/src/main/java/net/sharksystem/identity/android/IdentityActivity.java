@@ -58,7 +58,9 @@ public class IdentityActivity extends AppCompatActivity {
             Toast.makeText(this, "user name is", Toast.LENGTH_SHORT).show();
         } else {
             Log.d(LOGSTART, "set new user name: " + userNameString);
-            IdentityStorageAndroid.getIdentityStorage(this).setOwnerName(userNameString);
+            SharkIdentityStorage identityStorage = IdentityStorageAndroid.getIdentityStorage(this);
+            identityStorage.setOwnerName(userNameString);
+            identityStorage.setNewOwnerUUID(userNameString);
             super.onBackPressed();
         }
     }
