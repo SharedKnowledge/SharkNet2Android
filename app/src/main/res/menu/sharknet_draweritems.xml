@@ -5,21 +5,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/moduleMakan"
-            android:title="@string/appMakan" />
+            android:title="@string/appMakan"
+            android:icon="@drawable/ic_makan_icon_black"/>
         <item
             android:id="@+id/moduleIdentity"
-            android:title="@string/appIdentity" />
+            android:title="@string/appIdentity"
+            android:icon="@drawable/ic_identity_icon_black"/>
         <item
             android:id="@+id/moduleBubble"
-            android:title="@string/appBubble" />
+            android:title="@string/appBubble"
+            android:icon="@drawable/ic_bubble_icon_black"/>
         <item
             android:id="@+id/moduleRadar"
-            android:title="@string/appRadar" />
+            android:title="@string/appRadar"
+            android:icon="@drawable/ic_radar_icon_black"/>
         <item
             android:id="@+id/moduleTellPosition"
-            android:title="@string/appTellPosition" />
+            android:title="@string/appTellPosition"
+            android:icon="@drawable/ic_position_icon_black"/>
         <item
             android:id="@+id/moduleNetworkSettings"
-            android:title="@string/networksettings" />
+            android:title="@string/networksettings"
+            android:icon="@drawable/ic_settings_icon_black"/>
     </group>
 </menu>
