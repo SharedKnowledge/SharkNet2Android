@@ -1,5 +1,7 @@
 package net.sharksystem.makan.android;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -7,15 +9,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.aasp.AASPException;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetApp;
+import net.sharksystem.storage.Storage;
 
 import java.io.IOException;
 
@@ -28,6 +34,10 @@ public class MakanListActivity extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
 
     private MakanListContentAdapter mAdapter;
+    private Storage storage;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +83,11 @@ public class MakanListActivity extends AppCompatActivity {
             // debug break
             int i = 42;
         }
+
+        storage = Storage.getInstance(this.getApplicationContext());
+        setPublicKeyAlias();
+        generateUUID();
+
 
     }
 
@@ -168,5 +183,50 @@ public class MakanListActivity extends AppCompatActivity {
         Log.d(LOGSTART, "doRemoveAll called");
 
         Toast.makeText(this, "remove all makan called - NYI", Toast.LENGTH_SHORT).show();
+    }
+
+    private void generateUUID() {
+        if (storage.getUUID() != null && storage.getUUID().equals("")) {
+        } else {
+            storage.createUUID();
+        }
+    }
+
+    private void setPublicKeyAlias() {
+        if (storage.getAlias() != null) {
+        } else {
+            createAliasDialog();
+        }
+    }
+
+    private void createAliasDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View viewInflated = inflater.inflate(R.layout.dialog_set_alias, null);
+
+        final EditText aliasiInput = viewInflated.findViewById(R.id.inputAlias);
+
+        builder.setTitle("Set your Alias");
+        builder.setView(viewInflated);
+        builder.setCancelable(false);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!aliasiInput.getText().toString().equals("")) {
+                    dialog.dismiss();
+                    storage.storeAlias(aliasiInput.getText().toString());
+                } else {
+                    createAliasDialog();
+                }
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 }

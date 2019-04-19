@@ -34,6 +34,7 @@
     <string name="title_activity_makan_view">Makan View</string>
     <string name="makanMenuAddMessageButtonText">Add</string>
     <string name="appIdentity">Identity</string>
+    <string name="set_alias_hint">Your Alias</string>
 
 
 </resources>
