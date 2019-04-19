@@ -217,13 +217,15 @@ public class SharkNetApp {
         aaspBroadcastReceiverRegistered = true;
 
         // make service broadcast
-        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.START_BROADCASTS);
+        // Todo error Handling AASPServiceMethods.START_BROADCASTS does not work
+        this.sendMessage2Service(this.currentActivity, 5);
         this.unbindServices();
     }
 
     public void stopAASPBroadcastReceiver() {
         // make service stop broadcasting
-        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.STOP_BROADCASTS);
+        // Todo error Handling AASPServiceMethods.START_BROADCASTS does not work
+        this.sendMessage2Service(this.currentActivity, 5);
         this.unbindServices();
 
         // unregister broadcast receiver
