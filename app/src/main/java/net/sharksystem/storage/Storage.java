@@ -2,9 +2,9 @@ package net.sharksystem.storage;
 
 import android.content.Context;
 
-import java.util.UUID;
+import net.sharksystem.android.util.Constants;
 
-import de.htw_berlin.s0551733.nfcchat.util.Constants;
+import java.util.UUID;
 
 public final class Storage {
 

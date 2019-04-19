@@ -34,7 +34,11 @@ dependencies {
     // implementation files('libs/AASP_Engine_0.3.0.jar')
     implementation files('libs/MakanJava.jar')
 
-    //https://developer.android.com/studio/projects/android-library
+    // https://developer.android.com/studio/projects/android-library
     // import AASP Android Service to actually exchange AASP messages
     implementation project(":AASP_Android_Service_0.1.0")
+
+    // for better log Timber lib
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
 }
