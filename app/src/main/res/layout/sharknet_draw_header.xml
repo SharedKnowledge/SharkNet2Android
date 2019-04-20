@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="192dp"
     android:background="?attr/colorPrimaryDark"
@@ -11,24 +12,24 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
-        />
+        android:src="@mipmap/ic_launcher" />
 
 
     <TextView
         android:id="@+id/draw_header_alias"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Alias"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:paddingTop="16dp"/>
+        android:paddingTop="16dp"
+        />
 
     <TextView
         android:id="@+id/draw_header_public_key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="23453245788tfuhj2434ji4ufp923928f35238hf2384582r"
         android:paddingTop="8dp"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:text="Shark net 2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>

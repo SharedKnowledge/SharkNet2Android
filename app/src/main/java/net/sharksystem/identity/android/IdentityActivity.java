@@ -30,40 +30,40 @@ public class IdentityActivity extends AppCompatActivity {
         setContentView(R.layout.identity_drawer_layout);
 
         // set user name in layout
-        EditText userNameView = this.findViewById(R.id.identityUserName);
+//        EditText userNameView = this.findViewById(R.id.identityUserName);
 
-        userNameView.setText(IdentityStorageAndroid.getIdentityStorage(this).getOwnerName());
+//        userNameView.setText(IdentityStorageAndroid.getIdentityStorage(this).getOwnerName());
 
         SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
     }
-
-    protected void onPause() {
-        super.onPause();
-        Log.d(LOGSTART, "onPause");
-//        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(LOGSTART, "onDestroy");
-//        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
-    }
-
-    public void onChangeClick(View view) throws SharkException {
-        EditText userNameView = (EditText) findViewById(R.id.identityUserName);
-
-        String userNameString = userNameView.getText().toString();
-
-        if(userNameString == null || userNameString.isEmpty()) {
-            Toast.makeText(this, "user name is", Toast.LENGTH_SHORT).show();
-        } else {
-            Log.d(LOGSTART, "set new user name: " + userNameString);
-            SharkIdentityStorage identityStorage = IdentityStorageAndroid.getIdentityStorage(this);
-            identityStorage.setOwnerName(userNameString);
-            identityStorage.setNewOwnerUUID(userNameString);
-            super.onBackPressed();
-        }
-    }
+//
+//    protected void onPause() {
+//        super.onPause();
+//        Log.d(LOGSTART, "onPause");
+////        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
+//    }
+//
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        Log.d(LOGSTART, "onDestroy");
+////        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
+//    }
+//
+//    public void onChangeClick(View view) throws SharkException {
+//        EditText userNameView = (EditText) findViewById(R.id.identityUserName);
+//
+//        String userNameString = userNameView.getText().toString();
+//
+//        if(userNameString == null || userNameString.isEmpty()) {
+//            Toast.makeText(this, "user name is", Toast.LENGTH_SHORT).show();
+//        } else {
+//            Log.d(LOGSTART, "set new user name: " + userNameString);
+//            SharkIdentityStorage identityStorage = IdentityStorageAndroid.getIdentityStorage(this);
+//            identityStorage.setOwnerName(userNameString);
+//            identityStorage.setNewOwnerUUID(userNameString);
+//            super.onBackPressed();
+//        }
+//    }
 
     public void onAbortClick(View view) {
         // go back to previous activity

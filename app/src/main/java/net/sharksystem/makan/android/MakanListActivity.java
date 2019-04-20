@@ -49,10 +49,16 @@ public class MakanListActivity extends AppCompatActivity {
         // check permissions
         MakanApp.askForPermissions(this);
 
-        keystore = RSAKeystoreHandler.getInstance();
-        storage = Storage.getInstance(this.getApplicationContext());
+        initStorages();
 
+        initViews();
 
+        setPublicKeyAlias();
+        generateUUID();
+
+    }
+
+    private void initViews() {
         try {
 //        setContentView(R.layout.activity_main);
 //            setContentView(R.layout.bubble_with_toolbar);
@@ -88,21 +94,11 @@ public class MakanListActivity extends AppCompatActivity {
             // debug break
             int i = 42;
         }
-
-        setPublicKeyAlias();
-        generateUUID();
-
     }
 
-    private void setupHeaderDrawer() {
-        TextView drawerHeaderAliasTexView = findViewById(R.id.draw_header_alias);
-        TextView drawerHeaderPublicKeyTexView = findViewById(R.id.draw_header_public_key);
-
-        String publicKeyEncoded = Base64.encodeToString(keystore.getPublicKey().getEncoded(), Base64.DEFAULT);
-
-        drawerHeaderAliasTexView.setText(storage.getAlias());
-        drawerHeaderPublicKeyTexView.setText(publicKeyEncoded);
-
+    private void initStorages() {
+        keystore = RSAKeystoreHandler.getInstance();
+        storage = Storage.getInstance(this.getApplicationContext());
     }
 
     /**
@@ -230,7 +226,6 @@ public class MakanListActivity extends AppCompatActivity {
                 if (!aliasiInput.getText().toString().equals("")) {
                     dialog.dismiss();
                     storage.storeAlias(aliasiInput.getText().toString());
-                    setupHeaderDrawer();
                 } else {
                     createAliasDialog();
                 }

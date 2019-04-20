@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="white">#FFFFFF</color>
+    <color name="profileBackground">#F1F1F1</color>
+
+
     <!-- to make recyclerview running -->
     <color name="message">#999999</color>
     <color name="topic">#222222</color>

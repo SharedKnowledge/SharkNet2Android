@@ -41,4 +41,7 @@ dependencies {
     // for better log Timber lib
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    // CardView
+    implementation 'com.android.support:cardview-v7:27.0.0'
+
 }
