@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher"
-
         />
 
 
@@ -31,12 +30,5 @@
         android:text="23453245788tfuhj2434ji4ufp923928f35238hf2384582r"
         android:paddingTop="8dp"
         android:singleLine="true"/>
-
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Shark Net 2"-->
-        <!--android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
-        <!--android:paddingTop="8dp"/>-->
 
 </LinearLayout>

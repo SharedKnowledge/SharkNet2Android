@@ -4,6 +4,7 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Log;
 
+import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
@@ -15,15 +16,23 @@ import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 import java.security.spec.MGF1ParameterSpec;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.OAEPParameterSpec;
 import javax.crypto.spec.PSource;
+import javax.security.auth.x500.X500Principal;
+
 import timber.log.Timber;
 
 public final class RSAKeystoreHandler implements KeystoreHandler {
 
     private static RSAKeystoreHandler rsaKeystoreHandler = null;
+
+    public final static int ANY_PURPOSE = KeyProperties.PURPOSE_ENCRYPT |
+            KeyProperties.PURPOSE_DECRYPT | KeyProperties.PURPOSE_SIGN |
+            KeyProperties.PURPOSE_VERIFY;
 
     private static final String TAG = "RSAKeystoreHandler";
 
@@ -92,15 +101,24 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
             //Jahr von heute plus YEAR Jahre
             end.add(Calendar.YEAR, KEY_DURATION_YEARS);
 
+            final long now = java.lang.System.currentTimeMillis();
+            final long validityDays = 10000L;
+
+
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(
                     KeyProperties.KEY_ALGORITHM_RSA, "AndroidKeyStore");
             keyPairGenerator.initialize(
-                    new KeyGenParameterSpec.Builder(
-                            KEY_ALIAS,
-                            KeyProperties.PURPOSE_SIGN | KeyProperties.PURPOSE_DECRYPT | KeyProperties.PURPOSE_VERIFY)
+                    new KeyGenParameterSpec.Builder(KEY_ALIAS, ANY_PURPOSE)
                             .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
+
                             .setSignaturePaddings(KeyProperties.SIGNATURE_PADDING_RSA_PSS)
                             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+
+//                            .setCertificateSubject(new X500Principal("CN=Android, O=Android Authority"))
+//                            .setCertificateSerialNumber(new BigInteger(256, new Random()))
+//                            .setCertificateNotBefore(new Date(now - (now % 1000L)))
+//                            .setCertificateNotAfter(new Date(((new Date(now - (now % 1000L))).getTime()) + (validityDays * 86400000L)))
+
                             .setUserAuthenticationRequired(false)
                             .setKeyValidityStart(start.getTime())
                             .setKeyValidityEnd(end.getTime())

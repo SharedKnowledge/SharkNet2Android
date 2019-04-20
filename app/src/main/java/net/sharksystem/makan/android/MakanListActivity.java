@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
@@ -22,6 +24,7 @@ import net.sharksystem.aasp.AASPException;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetApp;
 import net.sharksystem.storage.Storage;
+import net.sharksystem.storage.keystore.RSAKeystoreHandler;
 
 import java.io.IOException;
 
@@ -35,8 +38,7 @@ public class MakanListActivity extends AppCompatActivity {
 
     private MakanListContentAdapter mAdapter;
     private Storage storage;
-
-
+    private RSAKeystoreHandler keystore;
 
 
     @Override
@@ -46,6 +48,10 @@ public class MakanListActivity extends AppCompatActivity {
 
         // check permissions
         MakanApp.askForPermissions(this);
+
+        keystore = RSAKeystoreHandler.getInstance();
+        storage = Storage.getInstance(this.getApplicationContext());
+
 
         try {
 //        setContentView(R.layout.activity_main);
@@ -76,18 +82,26 @@ public class MakanListActivity extends AppCompatActivity {
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
             mRecyclerView.setAdapter(mAdapter);
             Log.d(LOGSTART, "attached content adapter");
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             Log.d(LOGSTART, "problems while attaching content adapter: "
                     + e.getLocalizedMessage());
             // debug break
             int i = 42;
         }
 
-        storage = Storage.getInstance(this.getApplicationContext());
         setPublicKeyAlias();
         generateUUID();
 
+    }
+
+    private void setupHeaderDrawer() {
+        TextView drawerHeaderAliasTexView = findViewById(R.id.draw_header_alias);
+        TextView drawerHeaderPublicKeyTexView = findViewById(R.id.draw_header_public_key);
+
+        String publicKeyEncoded = Base64.encodeToString(keystore.getPublicKey().getEncoded(), Base64.DEFAULT);
+
+        drawerHeaderAliasTexView.setText(storage.getAlias());
+        drawerHeaderPublicKeyTexView.setText(publicKeyEncoded);
 
     }
 
@@ -125,6 +139,7 @@ public class MakanListActivity extends AppCompatActivity {
 
     /**
      * connect menu with menu items and make them visible
+     *
      * @param menu
      * @return
      */
@@ -155,8 +170,7 @@ public class MakanListActivity extends AppCompatActivity {
                     // Invoke the superclass to handle it.
                     return super.onOptionsItemSelected(item);
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             Log.d(LOGSTART, e.getLocalizedMessage());
         }
 
@@ -216,6 +230,7 @@ public class MakanListActivity extends AppCompatActivity {
                 if (!aliasiInput.getText().toString().equals("")) {
                     dialog.dismiss();
                     storage.storeAlias(aliasiInput.getText().toString());
+                    setupHeaderDrawer();
                 } else {
                     createAliasDialog();
                 }
