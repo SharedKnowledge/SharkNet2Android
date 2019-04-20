@@ -35,6 +35,9 @@
     <string name="makanMenuAddMessageButtonText">Add</string>
     <string name="appIdentity">Identity</string>
     <string name="set_alias_hint">Your Alias</string>
+    <string name="uuid_title">UUID</string>
+    <string name="private_key_title_identity_Activity">Private Key</string>
+    <string name="public_key_title_identity_Activity">Public Key</string>
 
 
 </resources>
