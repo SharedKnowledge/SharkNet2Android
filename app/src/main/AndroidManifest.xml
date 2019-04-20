@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    package="net.sharksystem">
+    package="net.sharksystem"
+    tools:ignore="ExtraText">
     <!-- AASPEngine needs to write in files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -14,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        tools:replace="android:theme">
+        tools:replace="android:theme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
