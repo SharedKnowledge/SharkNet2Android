@@ -133,14 +133,7 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
                             .setKeySize(KEY_SIZE)
                             .build());
 
-            // Todo delete loggin
-            KeyPair keyPair = keyPairGenerator.generateKeyPair();
-            String encodedPublicKey = Base64.encodeToString(keyPair.getPublic().getEncoded(), Base64.DEFAULT);
-            String encodedPrivateKey = Base64.encodeToString(keyPair.getPrivate().getEncoded(), Base64.DEFAULT);
-
-            Log.d(TAG, "generateRSAKeyPair: " + encodedPublicKey);
-            Log.d(TAG, "generateRSAKeyPair: " + encodedPrivateKey);
-
+            keyPairGenerator.generateKeyPair();
 
         } catch (NoSuchAlgorithmException e) {
             Log.d(TAG, "generateRSAKeyPair: " + e.getMessage());
@@ -204,39 +197,5 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
         }
         return publicKey;
     }
-
-    public PrivateKey getPrivateKey() {
-        PrivateKey privateKey = null;
-        try {
-            privateKey = (PrivateKey) keyStore.getKey(KEY_ALIAS, null);
-        } catch (Exception e) {
-            Log.d(TAG, "getPrivateKey: " + e.getMessage());
-        }
-        return privateKey;
-    }
-//    public PrivateKey getPrivateKey() {
-//
-//        KeyStore keyStore = null;
-//        PrivateKey privateKey = null;
-//        try {
-//            keyStore = KeyStore.getInstance(AndroidKeyStore);
-//            keyStore.load(null);
-//            privateKey = (PrivateKey) keyStore.getKey(KEY_ALIAS, null);
-//
-//        } catch (KeyStoreException e) {
-//            e.printStackTrace();
-//        } catch (CertificateException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (UnrecoverableKeyException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return privateKey;
-//    }
-
 
 }

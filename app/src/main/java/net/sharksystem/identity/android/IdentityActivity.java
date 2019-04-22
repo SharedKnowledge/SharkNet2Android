@@ -2,9 +2,6 @@ package net.sharksystem.identity.android;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +12,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -29,6 +25,8 @@ public class IdentityActivity extends AppCompatActivity {
 
     private Storage storage;
     private RSAKeystoreHandler keystore;
+    private TextView textViewAlias;
+
 
     public IdentityActivity() {
         this.thisActivity = this;
@@ -53,31 +51,18 @@ public class IdentityActivity extends AppCompatActivity {
 
     private void initViews() {
         TextView textViewPublicKey = findViewById(R.id.textView_public_key);
-        final TextView textViewPrivateKey = findViewById(R.id.textView_private_key);
         TextView textViewUuid = findViewById(R.id.textView_uuid);
-        TextView textViewAlias = findViewById(R.id.textView_alias_identity_activity);
+        textViewAlias = findViewById(R.id.textView_alias_identity_activity);
 
         String publicKeyEncodedToString = Base64.encodeToString(keystore.getPublicKey().getEncoded(), Base64.DEFAULT);
-//        String privateKeyEncodedToStringString = Base64.encodeToString(keystore.getPrivateKey().getEncoded(), Base64.DEFAULT);
 
         textViewPublicKey.setText(publicKeyEncodedToString);
-//        textViewPrivateKey.setText(privateKeyEncodedToStringString);
         textViewUuid.setText(storage.getUUID());
         textViewAlias.setText(storage.getAlias());
 
-        ImageButton copyToClipboardImageButton = findViewById(R.id.imageButton_copy_icon);
         ImageButton resetKeypairImageButton = findViewById(R.id.imageButton_reset_public_key);
+        ImageButton editKAliasImageButton = findViewById(R.id.imageButton_edit_alias);
 
-        copyToClipboardImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Copied Text", textViewPrivateKey.getText().toString());
-                assert clipboard != null;
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(IdentityActivity.this, "Copy to clickboard!", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         resetKeypairImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +70,45 @@ public class IdentityActivity extends AppCompatActivity {
                 areYouSureDialog();
             }
         });
+
+        editKAliasImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeAliasDialog();
+            }
+        });
+    }
+
+    private void changeAliasDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View viewInflated = inflater.inflate(R.layout.dialog_change_alias, null);
+
+        final EditText aliasInput = viewInflated.findViewById(R.id.inputChangeAlias);
+
+        builder.setTitle("Set your Alias");
+        builder.setView(viewInflated);
+        builder.setCancelable(false);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!aliasInput.getText().toString().equals("")) {
+                    dialog.dismiss();
+                    storage.storeAlias(aliasInput.getText().toString());
+                    textViewAlias.setText(storage.getAlias());
+                } else {
+                    changeAliasDialog();
+                }
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
     private void areYouSureDialog() {
