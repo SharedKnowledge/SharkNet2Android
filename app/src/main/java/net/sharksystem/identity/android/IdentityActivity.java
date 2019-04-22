@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.sharknet.android.SharkNetApp;
-import net.sharksystem.storage.Storage;
 import net.sharksystem.storage.keystore.RSAKeystoreHandler;
 
 public class IdentityActivity extends AppCompatActivity {
@@ -23,7 +22,7 @@ public class IdentityActivity extends AppCompatActivity {
 
     private Activity thisActivity;
 
-    private Storage storage;
+    private SharkIdentityStorage storage;
     private RSAKeystoreHandler keystore;
     private TextView textViewAlias;
 
@@ -57,8 +56,8 @@ public class IdentityActivity extends AppCompatActivity {
         String publicKeyEncodedToString = Base64.encodeToString(keystore.getPublicKey().getEncoded(), Base64.DEFAULT);
 
         textViewPublicKey.setText(publicKeyEncodedToString);
-        textViewUuid.setText(storage.getUUID());
-        textViewAlias.setText(storage.getAlias());
+        textViewUuid.setText(storage.getOwnerID());
+        textViewAlias.setText(storage.getOwnerName());
 
         ImageButton resetKeypairImageButton = findViewById(R.id.imageButton_reset_public_key);
         ImageButton editKAliasImageButton = findViewById(R.id.imageButton_edit_alias);
@@ -95,8 +94,8 @@ public class IdentityActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (!aliasInput.getText().toString().equals("")) {
                     dialog.dismiss();
-                    storage.storeAlias(aliasInput.getText().toString());
-                    textViewAlias.setText(storage.getAlias());
+                    storage.setOwnerName(aliasInput.getText().toString());
+                    textViewAlias.setText(storage.getOwnerName());
                 } else {
                     changeAliasDialog();
                 }
@@ -147,7 +146,7 @@ public class IdentityActivity extends AppCompatActivity {
 
     private void initStorages() {
         keystore = RSAKeystoreHandler.getInstance();
-        storage = Storage.getInstance(this.getApplicationContext());
+        storage = IdentityStorageAndroid.getIdentityStorage(this.getApplicationContext());
     }
 //
 //    public void onChangeClick(View view) throws SharkException {

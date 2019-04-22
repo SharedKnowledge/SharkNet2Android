@@ -19,12 +19,14 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.aasp.AASPException;
+import net.sharksystem.identity.android.IdentityStorageAndroid;
+import net.sharksystem.identity.android.SharkIdentityStorage;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetApp;
-import net.sharksystem.storage.Storage;
 import net.sharksystem.storage.keystore.RSAKeystoreHandler;
 
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * work with makan list
@@ -35,7 +37,7 @@ public class MakanListActivity extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
 
     private MakanListContentAdapter mAdapter;
-    private Storage storage;
+    private SharkIdentityStorage storage;
     private RSAKeystoreHandler keystore;
 
 
@@ -96,7 +98,7 @@ public class MakanListActivity extends AppCompatActivity {
 
     private void initStorages() {
         keystore = RSAKeystoreHandler.getInstance();
-        storage = Storage.getInstance(this.getApplicationContext());
+        storage = IdentityStorageAndroid.getIdentityStorage(this.getApplicationContext());
     }
 
     /**
@@ -194,14 +196,19 @@ public class MakanListActivity extends AppCompatActivity {
     }
 
     private void generateUUID() {
-        if (storage.getUUID() != null && storage.getUUID().equals("")) {
+        if (storage.getOwnerID() != null && storage.getOwnerID().equals("")) {
         } else {
-            storage.createUUID();
+            createUUID();
         }
     }
 
+    public void createUUID() {
+        UUID uuid = UUID.randomUUID();
+        storage.setOwnerID(uuid.toString());
+    }
+
     private void setPublicKeyAlias() {
-        if (storage.getAlias() != null) {
+        if (storage.getOwnerName() != null) {
         } else {
             createAliasDialog();
         }
@@ -223,7 +230,7 @@ public class MakanListActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (!aliasiInput.getText().toString().equals("")) {
                     dialog.dismiss();
-                    storage.storeAlias(aliasiInput.getText().toString());
+                    storage.setOwnerName(aliasiInput.getText().toString());
                 } else {
                     createAliasDialog();
                 }
