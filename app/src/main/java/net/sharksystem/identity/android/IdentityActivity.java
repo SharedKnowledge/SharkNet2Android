@@ -58,10 +58,10 @@ public class IdentityActivity extends AppCompatActivity {
         TextView textViewAlias = findViewById(R.id.textView_alias_identity_activity);
 
         String publicKeyEncodedToString = Base64.encodeToString(keystore.getPublicKey().getEncoded(), Base64.DEFAULT);
-//        String privateKeyEncodedToStringString = Base64.encodeToString(keystore.getPrivateKey().getEncoded(), Base64.DEFAULT);
+        String privateKeyEncodedToStringString = Base64.encodeToString(keystore.getPrivateKey().getEncoded(), Base64.DEFAULT);
 
         textViewPublicKey.setText(publicKeyEncodedToString);
-//        textViewPrivateKey.setText(privateKeyEncodedToStringString);
+        textViewPrivateKey.setText(privateKeyEncodedToStringString);
         textViewUuid.setText(storage.getUUID());
         textViewAlias.setText(storage.getAlias());
 

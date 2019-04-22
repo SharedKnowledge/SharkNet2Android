@@ -5,8 +5,6 @@ import android.security.keystore.KeyProperties;
 import android.util.Base64;
 import android.util.Log;
 
-import java.io.IOException;
-import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -16,18 +14,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.UnrecoverableEntryException;
 import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 import java.security.spec.MGF1ParameterSpec;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.OAEPParameterSpec;
 import javax.crypto.spec.PSource;
-import javax.security.auth.x500.X500Principal;
 
 import timber.log.Timber;
 
@@ -117,8 +110,8 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
                             .setRandomizedEncryptionRequired(false)
 //                            .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
                             .setDigests(
-                                    KeyProperties.DIGEST_NONE,   KeyProperties.DIGEST_MD5,
-                                    KeyProperties.DIGEST_SHA1,   KeyProperties.DIGEST_SHA224,
+                                    KeyProperties.DIGEST_NONE, KeyProperties.DIGEST_MD5,
+                                    KeyProperties.DIGEST_SHA1, KeyProperties.DIGEST_SHA224,
                                     KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA384,
                                     KeyProperties.DIGEST_SHA512)
 
@@ -206,14 +199,12 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
         return publicKey;
     }
 
-        public PrivateKey getPrivateKey() {
+    public PrivateKey getPrivateKey() {
         PrivateKey privateKey = null;
         try {
             privateKey = (PrivateKey) keyStore.getKey(KEY_ALIAS, null);
-            return privateKey;
         } catch (Exception e) {
             Log.d(TAG, "getPrivateKey: " + e.getMessage());
-
         }
         return privateKey;
     }
