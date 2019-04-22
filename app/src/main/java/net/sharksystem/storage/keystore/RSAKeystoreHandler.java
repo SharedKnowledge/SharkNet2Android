@@ -2,10 +2,13 @@ package net.sharksystem.storage.keystore;
 
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
+import android.util.Base64;
 import android.util.Log;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
+import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -13,7 +16,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.UnrecoverableEntryException;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.security.spec.MGF1ParameterSpec;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,7 +90,7 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
         return false;
     }
 
-    private void resetKeystore() {
+    public void resetKeystore() {
         try {
             keyStore.deleteEntry(KEY_ALIAS);
             generateRSAKeyPair();
@@ -109,10 +114,20 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
                     KeyProperties.KEY_ALGORITHM_RSA, "AndroidKeyStore");
             keyPairGenerator.initialize(
                     new KeyGenParameterSpec.Builder(KEY_ALIAS, ANY_PURPOSE)
-                            .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
+                            .setRandomizedEncryptionRequired(false)
+//                            .setDigests(KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA512)
+                            .setDigests(
+                                    KeyProperties.DIGEST_NONE,   KeyProperties.DIGEST_MD5,
+                                    KeyProperties.DIGEST_SHA1,   KeyProperties.DIGEST_SHA224,
+                                    KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA384,
+                                    KeyProperties.DIGEST_SHA512)
 
                             .setSignaturePaddings(KeyProperties.SIGNATURE_PADDING_RSA_PSS)
-                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+//                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+                            .setEncryptionPaddings(
+                                    KeyProperties.ENCRYPTION_PADDING_NONE,
+                                    KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1,
+                                    KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
 
 //                            .setCertificateSubject(new X500Principal("CN=Android, O=Android Authority"))
 //                            .setCertificateSerialNumber(new BigInteger(256, new Random()))
@@ -124,7 +139,9 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
                             .setKeyValidityEnd(end.getTime())
                             .setKeySize(KEY_SIZE)
                             .build());
-            keyPairGenerator.generateKeyPair();
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            String encodedPublicKey = Base64.encodeToString(keyPair.getPublic().getEncoded(), Base64.DEFAULT);
+            Log.d(TAG, "generateRSAKeyPair: " + encodedPublicKey);
 
         } catch (NoSuchAlgorithmException e) {
             Log.d(TAG, "generateRSAKeyPair: " + e.getMessage());
@@ -189,7 +206,7 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
         return publicKey;
     }
 
-    public PrivateKey getPrivateKey() {
+        public PrivateKey getPrivateKey() {
         PrivateKey privateKey = null;
         try {
             privateKey = (PrivateKey) keyStore.getKey(KEY_ALIAS, null);
@@ -200,5 +217,29 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
         }
         return privateKey;
     }
+//    public PrivateKey getPrivateKey() {
+//
+//        KeyStore keyStore = null;
+//        PrivateKey privateKey = null;
+//        try {
+//            keyStore = KeyStore.getInstance(AndroidKeyStore);
+//            keyStore.load(null);
+//            privateKey = (PrivateKey) keyStore.getKey(KEY_ALIAS, null);
+//
+//        } catch (KeyStoreException e) {
+//            e.printStackTrace();
+//        } catch (CertificateException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (UnrecoverableKeyException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return privateKey;
+//    }
+
 
 }

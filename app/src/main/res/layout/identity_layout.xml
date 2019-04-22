@@ -108,7 +108,7 @@
 
                     <TextView
                         android:id="@+id/textView_public_key"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="8dp"
@@ -185,12 +185,13 @@
 
                     <TextView
                         android:id="@+id/textView_private_key"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="15dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="32dp"
                         android:singleLine="true"
+                        android:text="322345j3h52h3jkhhjhjhljkhl235j23h5h23jkh523l5h"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -260,7 +261,7 @@
 
                     <TextView
                         android:id="@+id/textView_uuid"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="8dp"

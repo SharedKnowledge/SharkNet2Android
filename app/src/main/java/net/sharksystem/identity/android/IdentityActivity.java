@@ -1,14 +1,18 @@
 package net.sharksystem.identity.android;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +29,6 @@ public class IdentityActivity extends AppCompatActivity {
 
     private Storage storage;
     private RSAKeystoreHandler keystore;
-
 
     public IdentityActivity() {
         this.thisActivity = this;
@@ -62,9 +65,10 @@ public class IdentityActivity extends AppCompatActivity {
         textViewUuid.setText(storage.getUUID());
         textViewAlias.setText(storage.getAlias());
 
-        ImageButton copyToClipboard = findViewById(R.id.imageButton_copy_icon);
+        ImageButton copyToClipboardImageButton = findViewById(R.id.imageButton_copy_icon);
+        ImageButton resetKeypairImageButton = findViewById(R.id.imageButton_reset_public_key);
 
-        copyToClipboard.setOnClickListener(new View.OnClickListener() {
+        copyToClipboardImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -74,6 +78,35 @@ public class IdentityActivity extends AppCompatActivity {
                 Toast.makeText(IdentityActivity.this, "Copy to clickboard!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        resetKeypairImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                areYouSureDialog();
+            }
+        });
+    }
+
+    private void areYouSureDialog() {
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        keystore.resetKeystore();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to reset?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     protected void onPause() {
