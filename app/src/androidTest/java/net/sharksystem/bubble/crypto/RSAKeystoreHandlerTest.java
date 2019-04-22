@@ -2,15 +2,12 @@ package net.sharksystem.bubble.crypto;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.util.Log;
-
 import net.sharksystem.storage.keystore.RSAKeystoreHandler;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.security.Key;
-import java.security.cert.Certificate;
 
 import timber.log.Timber;
 

@@ -132,9 +132,15 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
                             .setKeyValidityEnd(end.getTime())
                             .setKeySize(KEY_SIZE)
                             .build());
+
+            // Todo delete loggin
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             String encodedPublicKey = Base64.encodeToString(keyPair.getPublic().getEncoded(), Base64.DEFAULT);
+            String encodedPrivateKey = Base64.encodeToString(keyPair.getPrivate().getEncoded(), Base64.DEFAULT);
+
             Log.d(TAG, "generateRSAKeyPair: " + encodedPublicKey);
+            Log.d(TAG, "generateRSAKeyPair: " + encodedPrivateKey);
+
 
         } catch (NoSuchAlgorithmException e) {
             Log.d(TAG, "generateRSAKeyPair: " + e.getMessage());
