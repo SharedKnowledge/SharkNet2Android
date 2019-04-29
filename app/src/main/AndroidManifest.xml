@@ -18,6 +18,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme">
+        <activity android:name=".keyAdministration.KeyAdministrationActivity"></activity>
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings" /> <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
@@ -42,11 +43,12 @@
         <activity android:name="nfc.receive.ReceivePublicKeyActivity">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/net.sharksystem.send.public.key" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

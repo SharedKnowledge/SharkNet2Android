@@ -43,7 +43,7 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
      */
     private static final int KEY_SIZE = 2048;
 
-    private static final int KEY_DURATION_YEARS = 10;
+    private static final int KEY_DURATION_YEARS = 1;
 
     private final static String KEY_ALIAS = "KeyPair";
 
@@ -100,9 +100,11 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
             Calendar end = Calendar.getInstance();
             //Jahr von heute plus YEAR Jahre
             end.add(Calendar.YEAR, KEY_DURATION_YEARS);
-
-            final long now = java.lang.System.currentTimeMillis();
-            final long validityDays = 10000L;
+            // Todo let user decide in days but not more than 1 year
+//            end.add(Calendar.DATE, 5);
+//
+//            final long now = java.lang.System.currentTimeMillis();
+//            final long validityDays = 10000L;
 
 
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(

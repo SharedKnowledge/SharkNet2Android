@@ -24,6 +24,10 @@
             android:title="@string/appTellPosition"
             android:icon="@drawable/ic_position_icon_black"/>
         <item
+            android:id="@+id/moduleKeyAdministration"
+            android:title="Key Administration"
+            android:icon="@drawable/ic_key_administration_icon_black_24dp"/>
+        <item
             android:id="@+id/moduleNetworkSettings"
             android:title="@string/networksettings"
             android:icon="@drawable/ic_settings_icon_black"/>
