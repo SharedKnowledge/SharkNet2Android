@@ -10,12 +10,13 @@ import java.nio.charset.Charset;
 public class NfcMessageManager implements NfcAdapter.OnNdefPushCompleteCallback, NfcAdapter.CreateNdefMessageCallback {
 
     private NfcCallbackHelper nfcCallbackHelper;
-    private String mimeType;
-    private String pushMessage;
+    private byte[] mimeType;
+    private  byte[] pushMessage;
 
-    public NfcMessageManager(NfcCallbackHelper nfcCallbackHelper, String mimeType) {
+    public NfcMessageManager(NfcCallbackHelper nfcCallbackHelper, byte[] mimeType) {
         this.nfcCallbackHelper = nfcCallbackHelper;
         this.mimeType = mimeType;
+//        this.mimeType = "application/net.sharksystem.send.public.key".getBytes(Charset.forName("US-ASCII"));
         this.pushMessage = this.nfcCallbackHelper.getPushMessage();
 
     }
@@ -23,10 +24,13 @@ public class NfcMessageManager implements NfcAdapter.OnNdefPushCompleteCallback,
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
 
-        String publicKey = pushMessage;
+//        NdefRecord mimeRecord = NdefRecord.createMime(this.mimeType,
+//                publicKey.getBytes(Charset.forName("US-ASCII")));
 
-        NdefRecord mimeRecord = NdefRecord.createMime(this.mimeType,
-                publicKey.getBytes(Charset.forName("US-ASCII")));
+        NdefRecord mimeRecord = new NdefRecord(
+                NdefRecord.TNF_MIME_MEDIA ,
+                this.mimeType,
+                new byte[0], this.pushMessage);
 
         NdefMessage nDefMessage = new NdefMessage(mimeRecord);
 

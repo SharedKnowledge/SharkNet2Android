@@ -2,7 +2,7 @@ package nfc;
 
 public interface NfcCallbackHelper {
 
-    String getPushMessage();
+    byte[] getPushMessage();
 
     void signalResult();
 }
