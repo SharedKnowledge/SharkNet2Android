@@ -24,7 +24,10 @@ public class IdentityActivity extends AppCompatActivity {
 
     private SharkIdentityStorage storage;
     private RSAKeystoreHandler keystore;
+
     private TextView textViewAlias;
+    private TextView textViewPublicKey;
+    private TextView textViewUuid;
 
 
     public IdentityActivity() {
@@ -49,13 +52,13 @@ public class IdentityActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        TextView textViewPublicKey = findViewById(R.id.textView_public_key);
-        TextView textViewUuid = findViewById(R.id.textView_uuid);
+        textViewPublicKey = findViewById(R.id.textView_public_key);
+        textViewUuid = findViewById(R.id.textView_uuid);
         textViewAlias = findViewById(R.id.textView_alias_identity_activity);
 
         String publicKeyEncodedToString = Base64.encodeToString(keystore.getPublicKey().getEncoded(), Base64.DEFAULT);
 
-        textViewPublicKey.setText(publicKeyEncodedToString);
+        textViewPublicKey.setText(publicKeyEncodedToString.substring(24));
         textViewUuid.setText(storage.getOwnerID());
         textViewAlias.setText(storage.getOwnerName());
 
@@ -69,7 +72,6 @@ public class IdentityActivity extends AppCompatActivity {
                 areYouSureDialog();
             }
         });
-
         editKAliasImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +120,10 @@ public class IdentityActivity extends AppCompatActivity {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         keystore.resetKeystore();
+
+                        String publicKeyEncodedToString = Base64.encodeToString(keystore.getPublicKey().getEncoded(), Base64.DEFAULT);
+                        textViewPublicKey.setText(publicKeyEncodedToString.substring(24));
+                        textViewUuid.setText(storage.getOwnerID());
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:

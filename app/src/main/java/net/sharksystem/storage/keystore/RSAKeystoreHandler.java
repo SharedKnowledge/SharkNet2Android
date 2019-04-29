@@ -2,11 +2,10 @@ package net.sharksystem.storage.keystore;
 
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
-import android.util.Base64;
 import android.util.Log;
 
 import java.security.InvalidAlgorithmParameterException;
-import java.security.KeyPair;
+import java.security.InvalidKeyException;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -14,7 +13,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Signature;
+import java.security.SignatureException;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.Certificate;
 import java.security.spec.MGF1ParameterSpec;
 import java.util.Calendar;
 
@@ -196,6 +198,56 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
             e.printStackTrace();
         }
         return publicKey;
+    }
+
+    public Certificate getCertificate() {
+        Certificate cert = null;
+        try {
+            cert = keyStore.getCertificate(KEY_ALIAS);
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        }
+        return cert;
+    }
+
+    public byte[] signData(byte[] data) {
+
+        try {
+
+            PrivateKey privateKey = (PrivateKey) keyStore.getKey(KEY_ALIAS, null);
+            Signature signature = Signature.getInstance("SHA256withRSA/PSS");
+            signature.initSign(privateKey);
+            signature.update(data);
+            return signature.sign();
+
+        } catch (Exception e) {
+            Log.d(TAG, "signData: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean verifySignature(byte[] data, byte[] signedData, Certificate certificate) {
+        Signature signature = null;
+        boolean valid = false;
+
+        try {
+
+            signature = Signature.getInstance("SHA256withRSA/PSS");
+//            signature.initVerify(keyStore.getCertificate(KEY_ALIAS).getPublicKey());
+            signature.initVerify(certificate);
+            signature.update(data);
+            valid = signature.verify(signedData);
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (SignatureException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+
+        return valid;
+
     }
 
 }
