@@ -6,6 +6,7 @@
     tools:ignore="ExtraText">
     <!-- AASPEngine needs to write in files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.NFC" />
 
     <application
         android:allowBackup="true"
@@ -15,15 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        tools:replace="android:theme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:theme">
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
-
-        <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
+            android:label="@string/title_activity_settings" /> <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
-
         <activity
             android:name=".makan.android.MakanListActivity"
             android:launchMode="singleTask">
@@ -39,5 +37,16 @@
         <activity android:name=".makan.android.MakanAddMessageActivity" />
         <activity android:name=".identity.android.IdentityActivity" />
 
+        <!-- Activities for nfc -->
+        <activity android:name="nfc.send.SendPublicKeyActivity" />
+        <activity android:name="nfc.receive.ReceivePublicKeyActivity">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/public-key-json" />
+            </intent-filter>
+        </activity>
+
     </application>
+
 </manifest>

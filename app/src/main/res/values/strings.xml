@@ -23,7 +23,7 @@
 
     <!-- Settings explaination texts -->
     <string name="aaspServiceToggleExplainationText">Switch AASP service on / off</string>
-    
+
     <string name="settingsWifiDirectToggleButtonExplaination">Switch Wifi Direct on / off</string>
 
     <string name="appMakan">Makan</string>
