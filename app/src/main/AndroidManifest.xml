@@ -18,7 +18,6 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme">
-        <activity android:name=".keyAdministration.KeyAdministrationActivity"></activity>
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings" /> <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
@@ -37,10 +36,11 @@
         <activity android:name=".makan.android.MakanViewActivity" />
         <activity android:name=".makan.android.MakanAddMessageActivity" />
         <activity android:name=".identity.android.IdentityActivity" />
+        <activity android:name=".key_administration.KeyAdministrationActivity"/>
 
-        <!-- Activities for nfc -->
-        <activity android:name="nfc.send.SendPublicKeyActivity" />
-        <activity android:name="nfc.receive.ReceivePublicKeyActivity">
+        <!-- Activities for net.sharksystem.nfc -->
+        <activity android:name="net.sharksystem.nfc.send.SendPublicKeyActivity" />
+        <activity android:name="net.sharksystem.nfc.receive.ReceivePublicKeyActivity">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 

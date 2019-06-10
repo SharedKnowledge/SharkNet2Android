@@ -1,9 +1,9 @@
-package nfc.send;
+package net.sharksystem.nfc.send;
 
 import android.content.Context;
 import android.widget.Toast;
 
-import nfc.NfcCallbackHelper;
+import net.sharksystem.nfc.NfcCallbackHelper;
 
 public class NfcCallbackHelperImpl implements NfcCallbackHelper {
 

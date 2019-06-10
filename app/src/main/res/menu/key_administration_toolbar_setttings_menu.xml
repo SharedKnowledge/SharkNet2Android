@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <item
+            android:id="@+id/toolbar_manu_button_send_publicKey"
+            android:title="Send my public key"
+            android:icon="@drawable/ic_makan_icon_black"/>
+        <item
+            android:id="@+id/toolbar_manu_button_send_certifiction"
+            android:title="Certs"
+            android:icon="@drawable/ic_identity_icon_black"/>
+        <!--<item-->
+            <!--android:id="@+id/net.sharksystem.nfc"-->
+            <!--android:title="NFC"-->
+            <!--android:icon="@drawable/ic_bubble_icon_black"/>-->
+</menu>

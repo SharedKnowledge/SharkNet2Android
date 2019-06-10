@@ -39,5 +39,13 @@
     <string name="private_key_title_identity_Activity">Private Key</string>
     <string name="public_key_title_identity_Activity">Public Key</string>
 
+    <!-- fragment title -->
+    <string name="fragment_public_key_title">Public Keys</string>
+    <string name="fragment_certification_title">Certifications</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

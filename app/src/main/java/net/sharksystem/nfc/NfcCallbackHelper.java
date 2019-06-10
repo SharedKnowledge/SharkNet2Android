@@ -1,4 +1,4 @@
-package nfc;
+package net.sharksystem.nfc;
 
 public interface NfcCallbackHelper {
 

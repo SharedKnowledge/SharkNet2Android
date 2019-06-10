@@ -3,19 +3,30 @@ package net.sharksystem.identity.android;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import net.sharksystem.R;
+import net.sharksystem.android.util.NfcChecks;
+import net.sharksystem.nfc.NfcMessageManager;
+import net.sharksystem.nfc.receive.ReceivePublicKeyActivity;
+import net.sharksystem.nfc.send.NfcCallbackHelperImpl;
+import net.sharksystem.nfc.send.SendPublicKeyActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 import net.sharksystem.storage.keystore.RSAKeystoreHandler;
+
+import java.nio.charset.Charset;
+import java.security.cert.CertificateEncodingException;
 
 public class IdentityActivity extends AppCompatActivity {
     private static final String LOGSTART = "IdentityActivity";
@@ -29,6 +40,8 @@ public class IdentityActivity extends AppCompatActivity {
     private TextView textViewPublicKey;
     private TextView textViewUuid;
 
+    private NfcAdapter nfcAdapter = null;
+
 
     public IdentityActivity() {
         this.thisActivity = this;
@@ -37,7 +50,6 @@ public class IdentityActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.identity_drawer_layout);
 
         // set user name in layout
@@ -47,8 +59,12 @@ public class IdentityActivity extends AppCompatActivity {
 
         SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
 
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        NfcChecks.preliminaryNfcChecks(nfcAdapter, this);
+
         initStorages();
         initViews();
+
     }
 
     private void initViews() {
@@ -76,6 +92,26 @@ public class IdentityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeAliasDialog();
+            }
+        });
+
+        //set onClick for send public key button
+        ImageButton sendPublicKeyButton = findViewById(R.id.imageButton_send_public_key);
+        sendPublicKeyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SendPublicKeyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button receiveButtton = findViewById(R.id.button3);
+        receiveButtton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ReceivePublicKeyActivity.class);
+                startActivity(intent);
+
             }
         });
     }
