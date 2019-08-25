@@ -15,6 +15,7 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
@@ -22,8 +23,7 @@ import java.io.IOException;
 /**
  * work with makan list
  */
-public class MakanListActivity extends AppCompatActivity {
-    private static final String LOGSTART = "MakanList";
+public class MakanListActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
@@ -32,7 +32,7 @@ public class MakanListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(LOGSTART, "onCreate");
+        Log.d(this.getLogStart(), "onCreate");
 
         // check permissions
         MakanApp.askForPermissions(this);
@@ -43,7 +43,7 @@ public class MakanListActivity extends AppCompatActivity {
 
             setContentView(R.layout.makan_list_drawer_layout);
 
-            SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
+            this.getSharkNetApp().setupDrawerLayout(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
@@ -65,43 +65,15 @@ public class MakanListActivity extends AppCompatActivity {
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
             mRecyclerView.setAdapter(mAdapter);
-            Log.d(LOGSTART, "attached content adapter");
+            Log.d(this.getLogStart(), "attached content adapter");
         }
         catch(Exception e) {
-            Log.d(LOGSTART, "problems while attaching content adapter: "
+            Log.d(this.getLogStart(), "problems while attaching content adapter: "
                     + e.getLocalizedMessage());
             // debug break
             int i = 42;
         }
 
-    }
-
-    /**
-     * Activity is resumed. Assume changes in data set.
-     */
-    protected void onResume() {
-        super.onResume();
-        Log.d(LOGSTART, "onResume");
-/*
-        //mAdapter.notifyItemInserted(1);
-        if(mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        }
-
-        SharkNetApp.getSharkNetApp(this).startAASPBroadcastReceiver();
-        */
-    }
-
-    protected void onPause() {
-        super.onPause();
-        Log.d(LOGSTART, "onPause");
-//        SharkNetApp.getSharkNetApp(this).stopAASPBroadcastReceiver();
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(LOGSTART, "onDestroy");
-//        SharkNetApp.getSharkNetApp(this).stopAASPBroadcastReceiver();
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -142,7 +114,7 @@ public class MakanListActivity extends AppCompatActivity {
             }
         }
         catch(Exception e) {
-            Log.d(LOGSTART, e.getLocalizedMessage());
+            Log.d(this.getLogStart(), e.getLocalizedMessage());
         }
 
         return false;
@@ -150,7 +122,7 @@ public class MakanListActivity extends AppCompatActivity {
 
     private void doAddMakan() {
         String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(LOGSTART, "doAddMakanCalled");
+        Log.d(this.getLogStart(), "doAddMakanCalled");
 
         Toast.makeText(this, "add makan called - NYI", Toast.LENGTH_SHORT).show();
 /*
@@ -165,7 +137,7 @@ public class MakanListActivity extends AppCompatActivity {
 
     private void doRemoveAll() throws IOException, ASAPException {
         String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(LOGSTART, "doRemoveAll called");
+        Log.d(this.getLogStart(), "doRemoveAll called");
 
         Toast.makeText(this, "remove all makan called - NYI", Toast.LENGTH_SHORT).show();
     }

@@ -17,13 +17,13 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 /**
  * View a single makan
  */
-public class MakanViewActivity extends AppCompatActivity {
-    private static final String LOGSTART = "MakanView";
+public class MakanViewActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
@@ -35,7 +35,7 @@ public class MakanViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(LOGSTART, "onCreate");
+        Log.d(this.getLogStart(), "onCreate");
 
         // get parameters
         try {
@@ -44,18 +44,11 @@ public class MakanViewActivity extends AppCompatActivity {
             this.name = intent.getUserFriendlyName();
 
         } catch (SharkException e) {
-            Log.d(LOGSTART, "cannot create makan view intent from intent (fatal): "
+            Log.d(this.getLogStart(), "cannot create makan view intent from intent (fatal): "
                     + e.getLocalizedMessage());
 
             return;
         }
-
-        // check permissions
-        MakanApp.askForPermissions(this);
-
-        // activate broadcast receiver for imcomming messages
-//        SharkNetApp.getSharkNetApp(this).startAASPBroadcastReceiver();
-
 
         try {
             setContentView(R.layout.makan_view_drawer_layout);
@@ -105,7 +98,7 @@ public class MakanViewActivity extends AppCompatActivity {
      */
     protected void onResume() {
         super.onResume();
-        Log.d(LOGSTART, "onResume");
+        Log.d(this.getLogStart(), "onResume");
         if(mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
@@ -113,24 +106,12 @@ public class MakanViewActivity extends AppCompatActivity {
 //        MakanApp.getMakanApp().startAASPBroadcastReceiver(this, this.topicUri);
     }
 
-    protected void onPause() {
-        super.onPause();
-        Log.d(LOGSTART, "onPause");
-//        MakanApp.getMakanApp().stopAASPBroadcastReceiver(this, this.topicUri);
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(LOGSTART, "onDestroy");
-//        MakanApp.getMakanApp().stopAASPBroadcastReceiver(this, this.topicUri);
-    }
-
     private void sync() {
         this.mAdapter.sync();
     }
 
     /////////////////////////////////////////////////////////////////////////////////
-    //                              bubble toolbar methods                         //
+    //                               makan toolbar methods                         //
     /////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -161,7 +142,7 @@ public class MakanViewActivity extends AppCompatActivity {
             }
         }
         catch(Exception e) {
-            Log.d(LOGSTART, e.getLocalizedMessage());
+            Log.d(this.getLogStart(), e.getLocalizedMessage());
         }
 
         return false;
@@ -169,7 +150,7 @@ public class MakanViewActivity extends AppCompatActivity {
 
     private void doAddMessage() {
         String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d("debugLog", "doAddMessageCalled");
+        Log.d(this.getLogStart(), "doAddMessageCalled");
 
         MakanIntent intent = new MakanIntent(this,
                 this.name, this.topicUri,

@@ -157,6 +157,7 @@ public class MakanViewContentAdapter extends
 
         return this.makan;
     }
+
     public void sync() {
         this.makan = null;
     }
