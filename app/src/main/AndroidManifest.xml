@@ -31,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".bubble.android.BubbleCreateActivity" />
         <activity android:name=".radar.android.RadarActivity" />
         <activity android:name=".makan.android.MakanViewActivity" />
         <activity android:name=".makan.android.MakanAddMessageActivity" />

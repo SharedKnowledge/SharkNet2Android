@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.bubble.model.BubbleMessageStorage;
 import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.android.MakanApp;
 import net.sharksystem.makan.android.MakanIntent;
@@ -22,7 +21,6 @@ public class MakanListContentAdapter extends
 
     private static final String LOGSTART = "MakanListContentAdapter";
     private final Context ctx;
-    private BubbleMessageStorage bubbleStorage;
     private CharSequence topic = null;
     private View.OnClickListener clickListener;
 

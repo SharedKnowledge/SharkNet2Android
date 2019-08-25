@@ -30,40 +30,83 @@ public class SettingsActivity extends AppCompatActivity {
         // add listener for each setting
 
         ////////////////////////////////////////////////////////////////////////////
-        //                          AASP service switch on/off                    //
+        //                          protocol switch on/off                        //
         ////////////////////////////////////////////////////////////////////////////
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.settingsAASPToggleButton);
+
+        ///////////////// BLUETOOTH
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.settingsBluetoothToggleButton);
         // set initial status
-        toggle.setChecked(SharkNetApp.getSharkNetApp(this).isAASPOn());
+        toggle.setChecked(SharkNetApp.getSharkNetApp(this).isBluetoothEnvironmentOn());
 
         // add behaviour
         toggle.setOnCheckedChangeListener(
-            new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(thisActivity);
-                    if (isChecked) {
-                        Log.d(LOGSTART, "ui said: switch on aasp");
-                        sharkNetApp.startAASP();
-                    } else {
-                        Log.d(LOGSTART, "ui said: switch off aasp");
-                        sharkNetApp.stopAASP();
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(thisActivity);
+                        if (isChecked) {
+                            Log.d(LOGSTART, "ui said: switch on BT");
+                            sharkNetApp.startBluetooth();
+                        } else {
+                            Log.d(LOGSTART, "ui said: switch off BT");
+                            sharkNetApp.stopBluetooth();
+                        }
                     }
-                }
-            });
+                });
 
+        ///////////////// BLUETOOTH DISCOVERABLE
+        toggle = (ToggleButton) findViewById(R.id.settingsBluetoothDiscoverableToggleButton);
+        // set initial status
+        toggle.setChecked(SharkNetApp.getSharkNetApp(this).isBluetoothDiscoverable());
+
+        // add behaviour
+        toggle.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(thisActivity);
+                        if (isChecked) {
+                            Log.d(LOGSTART, "ui said: switch on BT Discoverable");
+                            sharkNetApp.startBluetoothDiscoverable();
+                        } else {
+                            Log.d(LOGSTART, "ui said: switch off BT - there is no switch off - yet TODO");
+//                            sharkNetApp.stopBluetooth();
+                        }
+                    }
+                });
+
+        ///////////////// BLUETOOTH DISCOVERY
+        toggle = (ToggleButton) findViewById(R.id.settingsBluetoothDiscoveryToggleButton);
+        // set initial status
+        toggle.setChecked(SharkNetApp.getSharkNetApp(this).isBluetoothDiscovery());
+
+        // add behaviour
+        toggle.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(thisActivity);
+                        if (isChecked) {
+                            Log.d(LOGSTART, "ui said: switch on BT Discovery");
+                            sharkNetApp.startBluetoothDiscovery();
+                        } else {
+                            Log.d(LOGSTART, "ui said: switch off BT - TODO nyi");
+                            //sharkNetApp.stopBluetooth();
+                        }
+                    }
+                });
     }
 
     protected void onPause() {
         super.onPause();
         Log.d(LOGSTART, "onPause");
-        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
+        SharkNetApp.getSharkNetApp(thisActivity).onPause();
     }
 
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOGSTART, "onDestroy");
-        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
+        SharkNetApp.getSharkNetApp(thisActivity).onDestroy();
     }
 /*
     private class AASPToggleListener implements CompoundButton.OnCheckedChangeListener {

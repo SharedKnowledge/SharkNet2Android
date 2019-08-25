@@ -64,18 +64,4 @@ public class MakanApp {
             makanChangeListener.doExternalChange(era, user, folder);
         }
     }
-
-    public void startAASPBroadcastReceiver(MakanViewActivity makanViewActivity,
-                                           CharSequence topicUri) {
-        // add listener list
-        this.makanLister.put(topicUri.toString(), makanViewActivity);
-        SharkNetApp.getSharkNetApp(makanViewActivity).startAASPBroadcastReceiver();
-    }
-
-    public void stopAASPBroadcastReceiver(MakanViewActivity makanViewActivity,
-                                          CharSequence topicUri) {
-        SharkNetApp.getSharkNetApp(makanViewActivity).stopAASPBroadcastReceiver();
-        // remove from listener list
-        this.makanLister.remove(topicUri);
-    }
 }

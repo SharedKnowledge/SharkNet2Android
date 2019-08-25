@@ -65,7 +65,7 @@ public class MakanAddMessageActivity extends AppCompatActivity {
             Log.d(LOGSTART, "send serialized makan message");
             Log.d(LOGSTART, serializedMessage.toString());
 
-            SharkNetApp.getSharkNetApp(this).sendAASPMessage(this, this.uri, serializedMessage);
+            SharkNetApp.getSharkNetApp(this).sendASAPMessage(this, this.uri, serializedMessage);
         }
 
         MakanIntent intent = new MakanIntent(this, this.name, this.uri, MakanViewActivity.class);
@@ -79,12 +79,12 @@ public class MakanAddMessageActivity extends AppCompatActivity {
 
     protected void onPause() {
         super.onPause();
-        SharkNetApp.getSharkNetApp(this).unbindServices();
+        SharkNetApp.getSharkNetApp(this).onPause();
     }
 
     protected void onDestroy() {
         super.onDestroy();
-        SharkNetApp.getSharkNetApp(this).unbindServices();
+        SharkNetApp.getSharkNetApp(this).onDestroy();
     }
 }
 

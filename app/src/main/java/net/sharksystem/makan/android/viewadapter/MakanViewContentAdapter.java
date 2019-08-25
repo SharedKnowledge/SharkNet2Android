@@ -139,7 +139,7 @@ public class MakanViewContentAdapter extends
     private Makan getMakan() throws IOException, ASAPException {
         if(this.makan == null) {
             File asapRootDirectory =
-                    SharkNetApp.getSharkNetApp(this.activity).getAASPRootDirectory();
+                    SharkNetApp.getSharkNetApp(this.activity).getASAPRootDirectory();
 
             this.aaspStorage =
                     ASAPEngineFS.getExistingASAPEngineFS(asapRootDirectory.getAbsolutePath());

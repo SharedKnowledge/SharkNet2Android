@@ -22,7 +22,7 @@
 
 
     <!-- Settings explaination texts -->
-    <string name="aaspServiceToggleExplainationText">Switch AASP service on / off</string>
+    <string name="bluetoothToggleExplanationText">Switch Bluetooth on / off</string>
     
     <string name="settingsWifiDirectToggleButtonExplaination">Switch Wifi Direct on / off</string>
 
@@ -34,6 +34,9 @@
     <string name="title_activity_makan_view">Makan View</string>
     <string name="makanMenuAddMessageButtonText">Add</string>
     <string name="appIdentity">Identity</string>
+    <string name="settingsBluetoothDiscoverableButtonExplanation">Activate BT Discoverable</string>
+
+    <string name="settingsBluetoothDiscoveryButtonExplanation">Activate BT Discovery</string>
 
 
 </resources>
