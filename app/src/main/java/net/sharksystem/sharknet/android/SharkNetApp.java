@@ -2,13 +2,10 @@ package net.sharksystem.sharknet.android;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.ServiceConnection;
 import android.os.Environment;
 import android.os.Message;
-import android.os.Messenger;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPEngineFS;
