@@ -10,12 +10,10 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.aasp.AASPEngineFS;
-import net.sharksystem.aasp.AASPException;
-import net.sharksystem.aasp.AASPStorage;
+import net.sharksystem.asap.ASAPEngineFS;
+import net.sharksystem.asap.ASAPException;
+import net.sharksystem.asap.ASAPStorage;
 import net.sharksystem.makan.Makan;
-import net.sharksystem.makan.MakanAndroid;
-import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.MakanMessage;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -37,9 +35,9 @@ public class MakanViewContentAdapter extends
     private final CharSequence ownerID;
     private final IdentityStorage identityStorage;
 
-    private AASPStorage aaspStorage;
+    private ASAPStorage aaspStorage;
 
-    private MakanAndroid makan;
+    private Makan makan;
 
     public void setOutdated(int era, String user, String folder) {
         // TODO
@@ -132,20 +130,21 @@ public class MakanViewContentAdapter extends
         try {
             return this.getMakan().size() + 1; // +1 ?? see comments in onBindViewHolder
 
-        } catch (AASPException | IOException e) {
+        } catch (ASAPException | IOException e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
             return 0;
         }
     }
 
-    private Makan getMakan() throws IOException, AASPException {
+    private Makan getMakan() throws IOException, ASAPException {
         if(this.makan == null) {
-            File aaspRootDirectory =
+            File asapRootDirectory =
                     SharkNetApp.getSharkNetApp(this.activity).getAASPRootDirectory();
 
             this.aaspStorage =
-                    AASPEngineFS.getAASPChunkStorage(aaspRootDirectory.getAbsolutePath());
+                    ASAPEngineFS.getExistingASAPEngineFS(asapRootDirectory.getAbsolutePath());
 
+            /* TODO
             this.makan = new MakanAndroid(
                     this.userFriendlyName,
                     this.topic,
@@ -153,11 +152,11 @@ public class MakanViewContentAdapter extends
                     this.identityStorage.getPersonByID(this.ownerID),
                     this.identityStorage
             );
+            */
         }
 
         return this.makan;
     }
-
     public void sync() {
         this.makan = null;
     }

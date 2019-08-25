@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.aasp.AASPException;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 
@@ -33,7 +33,7 @@ public class BubbleCreateActivity extends AppCompatActivity {
         topicTextView.setText(topic);
     }
 
-    public void onAddClick(View view) throws IOException, AASPException {
+    public void onAddClick(View view) throws IOException, ASAPException {
         CharSequence effectiveTopic = this.topic != null ? this.topic : BubbleMessage.ANY_TOPIC;
 
         // get new message

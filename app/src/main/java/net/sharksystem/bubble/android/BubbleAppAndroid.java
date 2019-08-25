@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 
-import net.sharksystem.aasp.AASPEngineFS;
-import net.sharksystem.aasp.AASPException;
 import net.sharksystem.android.util.PermissionCheck;
+import net.sharksystem.asap.ASAPEngineFS;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.bubble.BubbleApp;
 import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
@@ -46,7 +46,7 @@ public class BubbleAppAndroid extends BubbleApp {
      */
     public static File getAASPRootDirectory(Context ctx) {
         return (Environment.getExternalStoragePublicDirectory(
-                AASPEngineFS.DEFAULT_ROOT_FOLDER_NAME));
+                ASAPEngineFS.DEFAULT_ROOT_FOLDER_NAME));
 
 //        return ctx.getFilesDir();
     }
@@ -66,10 +66,10 @@ public class BubbleAppAndroid extends BubbleApp {
      * @param ctx
      * @return
      * @throws IOException
-     * @throws AASPException
+     * @throws ASAPException
      */
     public static BubbleMessageStorage getBubbleMessageStorage(Context ctx)
-            throws IOException, AASPException {
+            throws IOException, ASAPException {
 
         if(storageAnyTopic == null) {
             storageAnyTopic = BubbleMessageStorageFactory.getStorage(ctx);
@@ -79,7 +79,7 @@ public class BubbleAppAndroid extends BubbleApp {
     }
 
     public static BubbleMessageStorage getBubbleMessageStorage(Context ctx, CharSequence topic)
-            throws IOException, AASPException {
+            throws IOException, ASAPException {
 
         if(BubbleApp.isAnyTopic(topic)) {
             return BubbleAppAndroid.getBubbleMessageStorage(ctx);

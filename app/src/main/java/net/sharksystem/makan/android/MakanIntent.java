@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import net.sharksystem.SharkException;
-import net.sharksystem.aasp.AASPStorage;
-import net.sharksystem.makan.MakanException;
 
 public class MakanIntent extends Intent {
     private static final String USER_FRIENDLY_NAME = "userfriendlyname";

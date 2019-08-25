@@ -13,7 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import net.sharksystem.R;
-import net.sharksystem.aasp.AASPException;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.bubble.model.BubbleMessageStorage;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -155,7 +155,7 @@ public class BubbleViewActivity extends AppCompatActivity {
         // this.chat.addLine(sampleLine);
     }
 
-    private void doRemoveAll() throws IOException, AASPException {
+    private void doRemoveAll() throws IOException, ASAPException {
         String sampleLine = Long.toString(System.currentTimeMillis());
         Log.d(LOGSTART, "doRemoveAll called");
 

@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.aasp.AASPException;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -163,7 +163,7 @@ public class MakanListActivity extends AppCompatActivity {
         // this.chat.addLine(sampleLine);
     }
 
-    private void doRemoveAll() throws IOException, AASPException {
+    private void doRemoveAll() throws IOException, ASAPException {
         String sampleLine = Long.toString(System.currentTimeMillis());
         Log.d(LOGSTART, "doRemoveAll called");
 

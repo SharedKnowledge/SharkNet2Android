@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.io.IOException;
 
 import net.sharksystem.SharkException;
-import net.sharksystem.aasp.AASPException;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.bubble.BubbleApp;
 import net.sharksystem.bubble.BubbleMessage;
 import net.sharksystem.R;
@@ -101,7 +101,7 @@ public class BubbleMessageContentAdapter extends
         } catch (IOException e) {
             // TODO
             Log.e("error: ", "couldn't get message in position: " + position);
-        } catch (SharkException | AASPException e) {
+        } catch (SharkException | ASAPException e) {
             Log.e("MessageContentAdapter", "cannot access message storage (yet?)");
         }
 

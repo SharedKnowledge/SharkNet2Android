@@ -1,12 +1,12 @@
 package net.sharksystem.bubble.model;
 
-import net.sharksystem.aasp.AASPException;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.bubble.BubbleMessage;
 
 import java.io.IOException;
 
 public interface BubbleMessageStorage {
-    BubbleMessage getMessage(int position) throws IOException, AASPException;
+    BubbleMessage getMessage(int position) throws IOException, ASAPException;
 
     /**
      * Add a message to a defined dateTextView
@@ -14,18 +14,18 @@ public interface BubbleMessageStorage {
      * @param userID
      * @param message
      * @throws IOException
-     * @throws AASPException
+     * @throws ASAPException
      */
     void addMessage(CharSequence topic,
                     CharSequence userID,
-                    CharSequence message) throws IOException, AASPException;
+                    CharSequence message) throws IOException, ASAPException;
 
     /**
      * Remove all messages of a dateTextView
      * @throws IOException
-     * @throws AASPException
+     * @throws ASAPException
      */
-    void removeAllMessages() throws IOException, AASPException;
+    void removeAllMessages() throws IOException, ASAPException;
 
     int size() throws IOException;
 }

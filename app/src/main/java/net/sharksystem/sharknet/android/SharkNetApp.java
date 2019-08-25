@@ -18,11 +18,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 
 import net.sharksystem.R;
-import net.sharksystem.aasp.AASPEngineFS;
-import net.sharksystem.aasp.android.AASP;
-import net.sharksystem.aasp.android.AASPService;
-import net.sharksystem.aasp.android.AASPServiceMethods;
 import net.sharksystem.android.util.PermissionCheck;
+import net.sharksystem.asap.ASAPEngineFS;
+import net.sharksystem.asap.android.ASAP;
+import net.sharksystem.asap.android.ASAPService;
+import net.sharksystem.asap.android.ASAPServiceMethods;
 import net.sharksystem.bubble.BubbleApp;
 import net.sharksystem.bubble.android.BubbleAppAndroid;
 import net.sharksystem.identity.android.IdentityStorageAndroid;
@@ -30,17 +30,15 @@ import net.sharksystem.identity.android.IdentityStorageAndroid;
 import java.io.File;
 
 import identity.IdentityStorage;
-import identity.Person;
 
 public class SharkNetApp {
 
     private static SharkNetApp singleton;
     private AASPBroadcastReceiver aaspBroadcastReceiver;
 
-    private static final String LOGSTART = "SNApp";
+    private static final String LOGSTART = "SN2App";
 
     private Activity currentActivity;
-
 
     /////////////// service management
     private ServiceConnection mConnection;
@@ -114,17 +112,17 @@ public class SharkNetApp {
 
     public File getAASPRootDirectory() {
         return (Environment.getExternalStoragePublicDirectory(
-                AASPEngineFS.DEFAULT_ROOT_FOLDER_NAME));
+                ASAPEngineFS.DEFAULT_ROOT_FOLDER_NAME));
     }
 
-    boolean aaspStarted = false;
+    boolean asapStarted = false;
 
     ////////////////////////////////////////////////////////////////////////////////////////
     //                                   AASP management                                  //
     ////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean isAASPOn() {
-        return this.aaspStarted;
+        return this.asapStarted;
     }
 
     /**
@@ -133,22 +131,22 @@ public class SharkNetApp {
     public void startAASP() {
         Log.d(LOGSTART, "start aasp");
 
-        if(this.aaspStarted) {
+        if(this.asapStarted) {
             Log.d(LOGSTART, "aasp already started");
             return;
         }
 
         // start service - which allows service to outlive unbind
-        Intent aaspServiceCreationIntent = new Intent(this.currentActivity, AASPService.class);
+        Intent aaspServiceCreationIntent = new Intent(this.currentActivity, ASAPService.class);
         Log.d(LOGSTART, "TODO: use user alice for aasp service creation");
-        aaspServiceCreationIntent.putExtra(AASP.USER, "alice");
+        aaspServiceCreationIntent.putExtra(ASAP.USER, "alice");
 
         Log.d(LOGSTART, "start aasp android service");
         this.currentActivity.startService(aaspServiceCreationIntent);
 
         this.startWifiDirect();
 
-        this.aaspStarted = true;
+        this.asapStarted = true;
     }
 
     /**
@@ -157,7 +155,7 @@ public class SharkNetApp {
     public void stopAASP() {
         Log.d(LOGSTART, "going to stop aasp service");
 
-        if(!this.aaspStarted) {
+        if(!this.asapStarted) {
             Log.d(LOGSTART, "aasp not running");
             return;
         }
@@ -172,31 +170,31 @@ public class SharkNetApp {
         // stop service
         this.unbindServices();
 
-        Intent aaspServiceIntent = new Intent(this.currentActivity, AASPService.class);
+        Intent aaspServiceIntent = new Intent(this.currentActivity, ASAPService.class);
         Log.d(LOGSTART, "stop aasp service");
         this.currentActivity.stopService(aaspServiceIntent);
 
-        this.aaspStarted = false;
+        this.asapStarted = false;
     }
 
     public void startWifiDirect() {
         // are we already bound to the service
         Log.d(LOGSTART, "startWifi called");
-        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.START_WIFI_DIRECT);
+        this.sendMessage2Service(this.currentActivity, ASAPServiceMethods.START_WIFI_DIRECT);
     }
 
     public void stopWifiDirect() {
         // are we already bound to the service
         Log.d(LOGSTART, "stopWifi called");
-        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.STOP_WIFI_DIRECT);
+        this.sendMessage2Service(this.currentActivity, ASAPServiceMethods.STOP_WIFI_DIRECT);
     }
 
     public void sendAASPMessage(Context ctx, CharSequence uri, CharSequence aaspMessage) {
-        Message msg = Message.obtain(null, AASPServiceMethods.ADD_MESSAGE, 0, 0);
+        Message msg = Message.obtain(null, ASAPServiceMethods.ADD_MESSAGE, 0, 0);
         Bundle msgData = new Bundle();
         Log.d(LOGSTART, "add uri/aaspMessage to message: " + uri + " / " + aaspMessage);
-        msgData.putCharSequence(AASP.URI, uri);
-        msgData.putCharSequence(AASP.MESSAGE_CONTENT, aaspMessage);
+        msgData.putCharSequence(ASAP.URI, uri);
+        msgData.putCharSequence(ASAP.MESSAGE_CONTENT, aaspMessage);
         msg.setData(msgData);
 
         this.sendMessage2Service(ctx, msg);
@@ -211,19 +209,19 @@ public class SharkNetApp {
 
         Log.d(LOGSTART, "register broadcast receiver");
         IntentFilter filter = new IntentFilter();
-        filter.addAction(AASP.BROADCAST_ACTION);
+        filter.addAction(ASAP.BROADCAST_ACTION);
         this.currentActivity.registerReceiver(this.aaspBroadcastReceiver, filter);
 
         aaspBroadcastReceiverRegistered = true;
 
         // make service broadcast
-        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.START_BROADCASTS);
+        this.sendMessage2Service(this.currentActivity, ASAPServiceMethods.START_BROADCASTS);
         this.unbindServices();
     }
 
     public void stopAASPBroadcastReceiver() {
         // make service stop broadcasting
-        this.sendMessage2Service(this.currentActivity, AASPServiceMethods.STOP_BROADCASTS);
+        this.sendMessage2Service(this.currentActivity, ASAPServiceMethods.STOP_BROADCASTS);
         this.unbindServices();
 
         // unregister broadcast receiver
@@ -255,7 +253,7 @@ public class SharkNetApp {
         } else {
             Log.d(LOGSTART, "not bound to aasp service, bind and call after binding");
             this.mConnection = new SNServiceConnection(msg);
-            ctx.bindService(new Intent(ctx, AASPService.class),
+            ctx.bindService(new Intent(ctx, ASAPService.class),
                     mConnection, Context.BIND_AUTO_CREATE);
             Log.d(LOGSTART, "NOTE: race condition. Unbind might be performed before " +
                     "successfull service binding and message delivery - TODO - give it a thought");
@@ -299,8 +297,8 @@ public class SharkNetApp {
         private void debugLogMessage(Message msg) {
             Bundle msgData = msg.getData();
             if (msgData != null) {
-                String uri = msgData.getString(AASP.URI);
-                String content = msgData.getString(AASP.MESSAGE_CONTENT);
+                String uri = msgData.getString(ASAP.URI);
+                String content = msgData.getString(ASAP.MESSAGE_CONTENT);
                 Log.d("SNServiceConnection", "message has data");
                 Log.d("SNServiceConnection", "uri" + uri);
                 Log.d("SNServiceConnection", "message: " + message);
