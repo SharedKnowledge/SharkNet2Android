@@ -3,7 +3,7 @@ package net.sharksystem.identity.android;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import identity.Person;
+import net.sharksystem.identity.Person;
 
 public class IdentityStorageAndroid implements SharkIdentityStorage {
     private static IdentityStorageAndroid instance;
@@ -44,7 +44,6 @@ public class IdentityStorageAndroid implements SharkIdentityStorage {
         this.currentContext = ctx;
     }
 
-    @Override
     public CharSequence getNameByID(CharSequence userID) {
         if(this.ownerID.toString().equalsIgnoreCase(userID.toString())) {
             return this.ownerName;
@@ -54,7 +53,6 @@ public class IdentityStorageAndroid implements SharkIdentityStorage {
         return userID;
     }
 
-    @Override
     public Person getPersonByID(CharSequence userID) {
         if(this.ownerID.toString().equalsIgnoreCase(userID.toString())) {
             return new PersonIdentity(this.ownerName, this.ownerID);

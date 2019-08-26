@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -70,7 +69,7 @@ public class MakanViewActivity extends SharkNetActivity {
 
             mAdapter = new MakanViewContentAdapter(this,
                     this.topicUri, this.name,
-                    SharkNetApp.getOwner(), SharkNetApp.getSharkNetApp(this).getIdentityStorage());
+                    SharkNetApp.getOwner());
 
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());

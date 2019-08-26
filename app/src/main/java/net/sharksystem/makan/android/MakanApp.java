@@ -8,7 +8,8 @@ import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPStorage;
-import net.sharksystem.makan.android.model.MakanStorage;
+import net.sharksystem.makan.MakanStorage;
+import net.sharksystem.makan.MakanStorage_Impl;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
@@ -46,9 +47,10 @@ public class MakanApp {
     }
 
 
-    public MakanStorage getMakanStorage() {
+    public MakanStorage getMakanStorage() throws IOException, ASAPException {
         if(this.makanStorage == null) {
-            this.makanStorage = new MakanStorage();
+
+            this.makanStorage = new MakanStorage_Impl(this.getASAPMakanStorage());
         }
 
         return this.makanStorage;

@@ -21,8 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 
-import identity.IdentityStorage;
-
 public class MakanViewContentAdapter extends
     RecyclerView.Adapter<MakanViewContentAdapter.MyViewHolder>  {
 
@@ -33,7 +31,6 @@ public class MakanViewContentAdapter extends
     private final CharSequence topic;
     private final CharSequence userFriendlyName;
     private final CharSequence ownerID;
-    private final IdentityStorage identityStorage;
 
     private ASAPStorage aaspStorage;
 
@@ -56,14 +53,13 @@ public class MakanViewContentAdapter extends
     }
 
     public MakanViewContentAdapter(Activity activity, CharSequence uri,
-               CharSequence userFriendlyName, CharSequence ownerID,
-               IdentityStorage identityStorage) throws SharkException {
+               CharSequence userFriendlyName, CharSequence ownerID)
+            throws SharkException {
 
         this.activity = activity;
         this.topic = uri;
         this.userFriendlyName = userFriendlyName;
         this.ownerID = ownerID;
-        this.identityStorage = identityStorage;
         Log.d(LOGSTART, "constructor");
     }
 
@@ -112,8 +108,7 @@ public class MakanViewContentAdapter extends
 
             holder.messageTextView.setText(message.getContentAsString());
 
-            holder.senderTextView.setText(
-                    this.identityStorage.getNameByID(message.getSenderID()));
+            holder.senderTextView.setText("ID: " + (message.getSenderID()));
 
         } catch (Exception e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");

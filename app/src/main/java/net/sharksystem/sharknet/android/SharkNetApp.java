@@ -12,10 +12,7 @@ import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.android.ASAPApplicationHelper;
 import net.sharksystem.asap.android.ASAPServiceMethods;
 import net.sharksystem.identity.android.IdentityStorageAndroid;
-
 import java.io.File;
-
-import identity.IdentityStorage;
 
 public class SharkNetApp extends ASAPApplicationHelper {
 
@@ -33,10 +30,6 @@ public class SharkNetApp extends ASAPApplicationHelper {
 
     public CharSequence getOwnerName() {
         return SharkNetApp.getOwner();
-    }
-
-    public IdentityStorage getIdentityStorage() {
-        return IdentityStorageAndroid.getIdentityStorage(this.getActivity());
     }
 
     public static SharkNetApp getSharkNetApp(Activity activity) {

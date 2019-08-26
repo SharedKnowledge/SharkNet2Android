@@ -1,10 +1,6 @@
 package net.sharksystem.identity.android;
 
-import android.content.Context;
-
-import identity.IdentityStorage;
-
-public interface SharkIdentityStorage extends IdentityStorage {
+public interface SharkIdentityStorage {
     CharSequence getOwnerID();
     CharSequence getOwnerName();
     void setOwnerName(CharSequence name);

@@ -12,9 +12,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.ASAPStorage;
+import net.sharksystem.makan.MakanStorage;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 
@@ -129,7 +128,12 @@ public class MakanListActivity extends SharkNetActivity {
         Log.d(this.getLogStart(), "doAddMakanCalled");
 
         try {
-            ASAPStorage asapMakanStorage = MakanApp.getMakanApp(this).getASAPMakanStorage();
+            MakanStorage makanStorage = MakanApp.getMakanApp(this).getMakanStorage();
+            makanStorage.createMakan(
+                    "sn://dummy_uri", // chat uri
+                    "dummy chat", // readable name
+                    "dummy_adminID"); // admin id
+
             Log.d(this.getLogStart(), "got asap makan storage");
         } catch (IOException | ASAPException e) {
             Log.d(this.getLogStart(), "when getting asap makan storage: "

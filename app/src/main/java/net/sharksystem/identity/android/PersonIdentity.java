@@ -1,6 +1,6 @@
 package net.sharksystem.identity.android;
 
-import identity.Person;
+import net.sharksystem.identity.Person;
 
 public class PersonIdentity implements Person {
 

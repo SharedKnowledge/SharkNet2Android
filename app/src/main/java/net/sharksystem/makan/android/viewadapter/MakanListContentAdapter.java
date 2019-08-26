@@ -10,11 +10,14 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.makan.MakanException;
+import net.sharksystem.asap.ASAPException;
+import net.sharksystem.makan.Makan;
+import net.sharksystem.makan.MakanStorage;
 import net.sharksystem.makan.android.MakanApp;
 import net.sharksystem.makan.android.MakanIntent;
 import net.sharksystem.makan.android.MakanViewActivity;
-import net.sharksystem.makan.android.model.MakanStorage;
+
+import java.io.IOException;
 
 public class MakanListContentAdapter extends
         RecyclerView.Adapter<MakanListContentAdapter.MyViewHolder> implements View.OnClickListener {
@@ -83,20 +86,21 @@ public class MakanListContentAdapter extends
         try {
             MakanStorage makanStorage = MakanApp.getMakanApp(null).getMakanStorage();
             if(makanStorage == null) {
-                Log.d(LOGSTART, "fatal: no makan list storage");
+                Log.d(LOGSTART, "fatal: no makan storage");
                 return;
             }
 
-            MakanInformation makanInfo = makanStorage.getMakanInfo(position);
-            if(makanInfo == null) {
-                Log.d(LOGSTART, "fatal: no makan information");
+            Makan makan = makanStorage.getMakan(position);
+            if(makan == null) {
+                Log.d(LOGSTART, "fatal: no makan");
                 return;
             }
 
-            holder.uriTextView.setText(makanInfo.getURI());
-            holder.nameTextView.setText(makanInfo.getName());
-        } catch (MakanException e) {
-            Log.e(LOGSTART, "cannot access message storage (yet?)");
+            holder.uriTextView.setText(makan.getURI());
+            holder.nameTextView.setText(makan.getName());
+        } catch (IOException | ASAPException e) {
+            Log.e(LOGSTART, "problems while showing mana entries: " + e.getLocalizedMessage());
+            e.printStackTrace();
         }
     }
 
@@ -107,7 +111,7 @@ public class MakanListContentAdapter extends
         int realSize = 0;
         try {
             realSize = MakanApp.getMakanApp(null).getMakanStorage().size();
-        } catch (MakanException e) {
+        } catch (Exception e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
             return 0;
         }

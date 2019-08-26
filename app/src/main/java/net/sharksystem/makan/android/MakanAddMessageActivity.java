@@ -11,7 +11,6 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.makan.InMemoMakanMessage;
-import net.sharksystem.makan.MakanException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.util.Date;
@@ -46,7 +45,7 @@ public class MakanAddMessageActivity extends AppCompatActivity {
         topicTextView.setText(this.name);
     }
 
-    public void onAddClick(View view) throws MakanException {
+    public void onAddClick(View view) {
         // get new message
         EditText messageTextView = (EditText) findViewById(R.id.makanMessage);
 
