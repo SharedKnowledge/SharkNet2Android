@@ -84,7 +84,7 @@ public class MakanListContentAdapter extends
 
         // go ahead
         try {
-            MakanStorage makanStorage = MakanApp.getMakanApp(null).getMakanStorage();
+            MakanStorage makanStorage = MakanApp.getMakanStorage();
             if(makanStorage == null) {
                 Log.d(LOGSTART, "fatal: no makan storage");
                 return;
@@ -106,11 +106,12 @@ public class MakanListContentAdapter extends
 
     @Override
     public int getItemCount() {
-        Log.d(LOGSTART, "getItemCount");
+        Log.d(LOGSTART, "called getItemCount");
 
         int realSize = 0;
         try {
-            realSize = MakanApp.getMakanApp(null).getMakanStorage().size();
+            realSize = MakanApp.getMakanStorage().size();
+            Log.d(LOGSTART, "count is: " + realSize);
         } catch (Exception e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
             return 0;

@@ -36,6 +36,9 @@ public class MakanViewActivity extends SharkNetActivity {
         super.onCreate(savedInstanceState);
         Log.d(this.getLogStart(), "onCreate");
 
+        // initialize MakanApp
+        MakanApp.getMakanApp(this);
+
         // get parameters
         try {
             MakanIntent intent = new MakanIntent(this.getIntent());

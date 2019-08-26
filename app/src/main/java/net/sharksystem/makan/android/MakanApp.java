@@ -8,6 +8,7 @@ import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPStorage;
+import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.MakanStorage;
 import net.sharksystem.makan.MakanStorage_Impl;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -17,11 +18,10 @@ import java.util.HashMap;
 
 public class MakanApp {
     public static final String MAKAN_FOLDER_NAME = "makan";
-    public static final String FORMAT = "application/x-sn2-makan";
 
     private static final String LOGSTART = "MakanApp";
     private static MakanApp singleton = null;
-    private MakanStorage makanStorage;
+    private static MakanStorage makanStorage;
 
     public static final String URI_START = "sn://makan/";
     private Activity currentActivity;
@@ -47,32 +47,36 @@ public class MakanApp {
     }
 
 
-    public MakanStorage getMakanStorage() throws IOException, ASAPException {
-        if(this.makanStorage == null) {
+    public static MakanStorage getMakanStorage() throws IOException, ASAPException {
+        if(MakanApp.makanStorage == null) {
+            Log.d(LOGSTART, "makanStorage is null - create on");
 
-            this.makanStorage = new MakanStorage_Impl(this.getASAPMakanStorage());
+            MakanApp.makanStorage = new MakanStorage_Impl(MakanApp.getASAPMakanStorage());
         }
 
-        return this.makanStorage;
+        Log.d(LOGSTART, "return makan storage");
+        return MakanApp.makanStorage;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////
     //                            ASAP Wrapper / Utils / Decorators                        //
     /////////////////////////////////////////////////////////////////////////////////////////
 
-    private ASAPStorage asapMakanStorage = null;
-
-    public ASAPStorage getASAPMakanStorage() throws IOException, ASAPException {
-        SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(currentActivity);
-        if(asapMakanStorage == null) {
-            this.asapMakanStorage = ASAPEngineFS.getASAPStorage(
-                    sharkNetApp.getOwnerName().toString(),
-                    sharkNetApp.getASAPAppRootFolderName(MakanApp.MAKAN_FOLDER_NAME),
-                    MakanApp.FORMAT
-            );
+    private static ASAPStorage getASAPMakanStorage() throws IOException, ASAPException {
+        Log.d(LOGSTART, "try get ASAP storage");
+        if(MakanApp.singleton == null || MakanApp.singleton.currentActivity == null) {
+            Log.d(LOGSTART, "MakanApp was initialized - either singled or currentActivity null");
+            throw new ASAPException("MakanApp was initialized - either singled or currentActivity null");
         }
 
-        return asapMakanStorage;
+        SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(MakanApp.singleton.currentActivity);
+        // always create a new one - to keep track of changes in file system
+        Log.d(LOGSTART, "create ASAP storage");
+        return ASAPEngineFS.getASAPStorage(
+                sharkNetApp.getOwnerName().toString(),
+                sharkNetApp.getASAPAppRootFolderName(MakanApp.MAKAN_FOLDER_NAME),
+                Makan.MAKAN_FORMAT
+        );
     }
 
     public CharSequence getExampleMakanURI() {

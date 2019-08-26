@@ -33,16 +33,13 @@ public class MakanListActivity extends SharkNetActivity {
         super.onCreate(savedInstanceState);
         Log.d(this.getLogStart(), "onCreate");
 
-        // check permissions
-        MakanApp.askForPermissions(this);
-
         try {
-//        setContentView(R.layout.activity_main);
-//            setContentView(R.layout.bubble_with_toolbar);
-
             setContentView(R.layout.makan_list_drawer_layout);
 
             this.getSharkNetApp().setupDrawerLayout(this);
+
+            // initialize MakanApp
+            MakanApp.getMakanApp(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
