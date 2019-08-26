@@ -26,7 +26,7 @@ class BroadcastHandlerThread extends Thread {
         try {
             if(this.uri.startsWith(MakanApp.URI_START)) {
                 Log.d(LOGSTART, "makan uri");
-                MakanApp.getMakanApp().handleAASPBroadcast(
+                MakanApp.getMakanApp(null).handleAASPBroadcast(
                         this.uri, this.era, this.user, this.folder);
             }
 

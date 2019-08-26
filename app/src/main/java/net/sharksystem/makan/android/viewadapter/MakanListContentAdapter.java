@@ -14,7 +14,7 @@ import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.android.MakanApp;
 import net.sharksystem.makan.android.MakanIntent;
 import net.sharksystem.makan.android.MakanViewActivity;
-import net.sharksystem.makan.android.model.MakanListStorage;
+import net.sharksystem.makan.android.model.MakanStorage;
 
 public class MakanListContentAdapter extends
         RecyclerView.Adapter<MakanListContentAdapter.MyViewHolder> implements View.OnClickListener {
@@ -57,8 +57,8 @@ public class MakanListContentAdapter extends
         Log.d(LOGSTART, "onBindViewHolder with position: " + position);
 
         /*
-        I assume a bug or more probably - I'm too dull to understand recycler view at all.
-        Here it comes: this method is called with position 0
+        I assume a bug or more probably - I'm to dull to understand recycler view at all.
+        Here it comes: this method is called even with position 0
         But that position is never displayed.
 
         So: I'm going to fake it until I understand the problem
@@ -68,7 +68,7 @@ public class MakanListContentAdapter extends
          */
 
         if(position == 0) {
-            // dummy message
+            // dummy message - never displayed
             holder.uriTextView.setText("dummy-dateTextView");
             holder.nameTextView.setText("dummy-senderTextView");
             return;
@@ -81,13 +81,13 @@ public class MakanListContentAdapter extends
 
         // go ahead
         try {
-            MakanListStorage makanListStorage = MakanApp.getMakanApp().getMakanListStorage();
-            if(makanListStorage == null) {
+            MakanStorage makanStorage = MakanApp.getMakanApp(null).getMakanStorage();
+            if(makanStorage == null) {
                 Log.d(LOGSTART, "fatal: no makan list storage");
                 return;
             }
 
-            MakanInformation makanInfo = makanListStorage.getMakanInfo(position);
+            MakanInformation makanInfo = makanStorage.getMakanInfo(position);
             if(makanInfo == null) {
                 Log.d(LOGSTART, "fatal: no makan information");
                 return;
@@ -106,7 +106,7 @@ public class MakanListContentAdapter extends
 
         int realSize = 0;
         try {
-            realSize = MakanApp.getMakanApp().getMakanListStorage().size();
+            realSize = MakanApp.getMakanApp(null).getMakanStorage().size();
         } catch (MakanException e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
             return 0;

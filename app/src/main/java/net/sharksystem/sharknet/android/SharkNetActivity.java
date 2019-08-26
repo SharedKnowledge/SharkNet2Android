@@ -47,4 +47,8 @@ public abstract class SharkNetActivity extends AppCompatActivity {
         return this.getClass().getSimpleName();
     }
 
+    public CharSequence getOwnerName() {
+        return this.sharkNetApp.getOwnerName();
+    }
+
 }

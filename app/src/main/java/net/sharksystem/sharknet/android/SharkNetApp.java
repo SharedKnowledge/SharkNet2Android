@@ -22,7 +22,6 @@ public class SharkNetApp extends ASAPApplicationHelper {
     private static SharkNetApp singleton;
     private static final String LOGSTART = "SN2App";
 
-
     private SharkNetApp(Activity activity) {
         super(activity, null, SharkNetApp.getOwner());
     }
@@ -30,6 +29,10 @@ public class SharkNetApp extends ASAPApplicationHelper {
     public static CharSequence getOwner() {
         // TODO - find user name somewhere in shared preferences
         return "DummyOwner";
+    }
+
+    public CharSequence getOwnerName() {
+        return SharkNetApp.getOwner();
     }
 
     public IdentityStorage getIdentityStorage() {
@@ -59,6 +62,10 @@ public class SharkNetApp extends ASAPApplicationHelper {
     public File getASAPRootDirectory() {
         return (Environment.getExternalStoragePublicDirectory(
                 ASAPEngineFS.DEFAULT_ROOT_FOLDER_NAME));
+    }
+
+    public String getASAPAppRootFolderName(String appFolderName) {
+        return this.getASAPRootDirectory().getAbsolutePath() + "/" + appFolderName;
     }
 
     public void sendASAPMessage(Context ctx, CharSequence uri, CharSequence aaspMessage) {

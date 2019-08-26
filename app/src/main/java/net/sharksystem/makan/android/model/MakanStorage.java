@@ -3,7 +3,7 @@ package net.sharksystem.makan.android.model;
 import net.sharksystem.makan.MakanException;
 import net.sharksystem.makan.android.viewadapter.MakanInformation;
 
-public class MakanListStorage {
+public class MakanStorage {
 
     public int size() throws MakanException {
         // dummy

@@ -4,10 +4,10 @@ import net.sharksystem.makan.android.MakanApp;
 
 public class MakanInformation {
     public CharSequence getURI() {
-        return MakanApp.getMakanApp().getExampleMakanURI();
+        return MakanApp.getMakanApp(null).getExampleMakanURI();
     }
 
     public CharSequence getName() {
-        return MakanApp.getMakanApp().getExampleMakanName();
+        return MakanApp.getMakanApp(null).getExampleMakanName();
     }
 }

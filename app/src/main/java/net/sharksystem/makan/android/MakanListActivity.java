@@ -1,7 +1,6 @@
 package net.sharksystem.makan.android;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +12,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
+import net.sharksystem.asap.ASAPStorage;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetActivity;
-import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
@@ -120,9 +120,21 @@ public class MakanListActivity extends SharkNetActivity {
         return false;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //                                ASAP / Makan Storage Management                          //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
     private void doAddMakan() {
         String sampleLine = Long.toString(System.currentTimeMillis());
         Log.d(this.getLogStart(), "doAddMakanCalled");
+
+        try {
+            ASAPStorage asapMakanStorage = MakanApp.getMakanApp(this).getASAPMakanStorage();
+            Log.d(this.getLogStart(), "got asap makan storage");
+        } catch (IOException | ASAPException e) {
+            Log.d(this.getLogStart(), "when getting asap makan storage: "
+                    + e.getLocalizedMessage());
+        }
 
         Toast.makeText(this, "add makan called - NYI", Toast.LENGTH_SHORT).show();
 /*
