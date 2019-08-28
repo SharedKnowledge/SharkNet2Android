@@ -10,14 +10,12 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPStorage;
 import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.MakanMessage;
-import net.sharksystem.sharknet.android.SharkNetApp;
+import net.sharksystem.makan.android.MakanApp;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 
@@ -28,12 +26,11 @@ public class MakanViewContentAdapter extends
     private final Activity activity;
 
     // parameter to create makan wrapper
-    private final CharSequence topic;
+    private final CharSequence channelURI;
     private final CharSequence userFriendlyName;
     private final CharSequence ownerID;
 
     private ASAPStorage aaspStorage;
-
     private Makan makan;
 
     public void setOutdated(int era, String user, String folder) {
@@ -57,7 +54,7 @@ public class MakanViewContentAdapter extends
             throws SharkException {
 
         this.activity = activity;
-        this.topic = uri;
+        this.channelURI = uri;
         this.userFriendlyName = userFriendlyName;
         this.ownerID = ownerID;
         Log.d(LOGSTART, "constructor");
@@ -133,23 +130,8 @@ public class MakanViewContentAdapter extends
 
     private Makan getMakan() throws IOException, ASAPException {
         if(this.makan == null) {
-            File asapRootDirectory =
-                    SharkNetApp.getSharkNetApp(this.activity).getASAPRootDirectory();
-
-            this.aaspStorage =
-                    ASAPEngineFS.getExistingASAPEngineFS(asapRootDirectory.getAbsolutePath());
-
-            /* TODO
-            this.makan = new MakanAndroid(
-                    this.userFriendlyName,
-                    this.topic,
-                    this.aaspStorage,
-                    this.identityStorage.getPersonByID(this.ownerID),
-                    this.identityStorage
-            );
-            */
+            this.makan = MakanApp.getMakanStorage().getMakan(this.channelURI);
         }
-
         return this.makan;
     }
 

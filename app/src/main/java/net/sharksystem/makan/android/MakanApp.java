@@ -48,6 +48,7 @@ public class MakanApp {
 
 
     public static MakanStorage getMakanStorage() throws IOException, ASAPException {
+        MakanApp.makanStorage = null; // TODO: DEBUGGING
         if(MakanApp.makanStorage == null) {
             Log.d(LOGSTART, "makanStorage is null - create on");
 
@@ -71,7 +72,7 @@ public class MakanApp {
 
         SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(MakanApp.singleton.currentActivity);
         // always create a new one - to keep track of changes in file system
-        Log.d(LOGSTART, "create ASAP storage");
+        Log.d(LOGSTART, "always create new ASAP storage - maybe we make it more permanent later");
         return ASAPEngineFS.getASAPStorage(
                 sharkNetApp.getOwnerName().toString(),
                 sharkNetApp.getASAPAppRootFolderName(MakanApp.MAKAN_FOLDER_NAME),

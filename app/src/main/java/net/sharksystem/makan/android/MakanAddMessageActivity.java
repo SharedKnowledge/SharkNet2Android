@@ -10,12 +10,16 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.InMemoMakanMessage;
+import net.sharksystem.makan.Makan;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+import java.io.IOException;
 import java.util.Date;
 
-public class MakanAddMessageActivity extends AppCompatActivity {
+public class MakanAddMessageActivity extends SharkNetActivity {
     private static final String LOGSTART = "MakanAddMessage";
     private CharSequence name = null;
     private CharSequence uri;
@@ -54,36 +58,34 @@ public class MakanAddMessageActivity extends AppCompatActivity {
         if(messageText == null || messageText.isEmpty()) {
             Toast.makeText(this, "message is empty", Toast.LENGTH_SHORT).show();
         } else {
-            SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(this);
+            try {
+                Makan makan = MakanApp.getMakanStorage().getMakan(this.uri);
 
-            InMemoMakanMessage makanMessage =
-                    new InMemoMakanMessage(sharkNetApp.getOwnerID(), messageText, new Date());
+                InMemoMakanMessage makanMessage =
+                        new InMemoMakanMessage(
+                                SharkNetApp.getSharkNetApp(this).getOwnerID(),
+                                messageText,
+                                new Date());
 
-            CharSequence serializedMessage = makanMessage.getSerializedMessage();
+                CharSequence serializedMessage = makanMessage.getSerializedMessage();
 
-            Log.d(LOGSTART, "send serialized makan message");
-            Log.d(LOGSTART, serializedMessage.toString());
+                Log.d(LOGSTART, "store makan message");
+                makan.addMessage(serializedMessage);
 
-            SharkNetApp.getSharkNetApp(this).sendASAPMessage(this, this.uri, serializedMessage);
+            } catch (IOException | ASAPException e) {
+                Log.d(LOGSTART, "problems when writing makan message: "
+                        + e.getLocalizedMessage());
+            }
         }
 
+        // go back
         MakanIntent intent = new MakanIntent(this, this.name, this.uri, MakanViewActivity.class);
-        startActivity(intent);
+        this.startActivity(intent);
     }
 
     public void onAbortClick(View view) {
         MakanIntent intent = new MakanIntent(this, this.name, this.uri, MakanViewActivity.class);
         startActivity(intent);
-    }
-
-    protected void onPause() {
-        super.onPause();
-        SharkNetApp.getSharkNetApp(this).onPause();
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-        SharkNetApp.getSharkNetApp(this).onDestroy();
     }
 }
 

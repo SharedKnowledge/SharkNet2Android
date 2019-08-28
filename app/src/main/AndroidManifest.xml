@@ -27,10 +27,11 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".makan.android.AddMakanActivity" />
         <activity android:name=".radar.android.RadarActivity" />
         <activity android:name=".makan.android.MakanViewActivity" />
         <activity android:name=".makan.android.MakanAddMessageActivity" />

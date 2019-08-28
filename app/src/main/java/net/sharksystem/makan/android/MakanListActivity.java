@@ -1,5 +1,6 @@
 package net.sharksystem.makan.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -117,12 +118,31 @@ public class MakanListActivity extends SharkNetActivity {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
+    //                                     life cycle                                          //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    protected void onResume() {
+        super.onResume();
+        Log.d(this.getLogStart(), "onResume");
+
+        // could come back from add makan or something
+        if(mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
     //                                ASAP / Makan Storage Management                          //
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     private void doAddMakan() {
         String sampleLine = Long.toString(System.currentTimeMillis());
         Log.d(this.getLogStart(), "doAddMakanCalled");
+
+        Intent intent = new Intent(this, AddMakanActivity.class);
+        this.startActivity(intent);
+
+/*
 
         try {
             MakanStorage makanStorage = MakanApp.getMakanApp(this).getMakanStorage();
@@ -138,7 +158,6 @@ public class MakanListActivity extends SharkNetActivity {
         }
 
         Toast.makeText(this, "add makan called - NYI", Toast.LENGTH_SHORT).show();
-/*
         Intent intent = new Intent(this, BubbleCreateActivity.class);
 
         intent.putExtra(BubbleAppAndroid.EXTRA_TOPIC_KEY, this.dateTextView);
@@ -152,6 +171,8 @@ public class MakanListActivity extends SharkNetActivity {
         String sampleLine = Long.toString(System.currentTimeMillis());
         Log.d(this.getLogStart(), "doRemoveAll called");
 
-        Toast.makeText(this, "remove all makan called - NYI", Toast.LENGTH_SHORT).show();
+        MakanApp.getMakanStorage().removeAllMakan();
+
+        Toast.makeText(this, "done - removed all makan", Toast.LENGTH_SHORT).show();
     }
 }
