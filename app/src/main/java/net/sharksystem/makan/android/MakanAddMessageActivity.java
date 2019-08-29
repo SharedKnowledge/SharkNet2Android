@@ -24,6 +24,10 @@ public class MakanAddMessageActivity extends SharkNetActivity {
     private CharSequence name = null;
     private CharSequence uri;
 
+    public MakanAddMessageActivity() {
+        super(SharkNetApp.getSharkNetApp());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,7 @@ public class MakanAddMessageActivity extends SharkNetActivity {
 
                 InMemoMakanMessage makanMessage =
                         new InMemoMakanMessage(
-                                SharkNetApp.getSharkNetApp(this).getOwnerID(),
+                                this.getSharkNetApp().getOwnerID(),
                                 messageText,
                                 new Date());
 

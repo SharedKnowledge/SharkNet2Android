@@ -17,6 +17,7 @@ import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.MakanStorage;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
@@ -28,6 +29,10 @@ public class MakanListActivity extends SharkNetActivity {
     private LinearLayoutManager mLayoutManager;
 
     private MakanListContentAdapter mAdapter;
+
+    public MakanListActivity() {
+        super(SharkNetApp.getSharkNetApp());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

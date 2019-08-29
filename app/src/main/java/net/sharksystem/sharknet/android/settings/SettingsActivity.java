@@ -13,6 +13,11 @@ import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class SettingsActivity extends SharkNetActivity {
+
+    public SettingsActivity() {
+        super(SharkNetApp.getSharkNetApp());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +35,7 @@ public class SettingsActivity extends SharkNetActivity {
         ///////////////// BLUETOOTH
         ToggleButton toggle = (ToggleButton) findViewById(R.id.settingsBluetoothToggleButton);
         // set initial status
-        toggle.setChecked(this.getSharkNetApp().isBluetoothEnvironmentOn());
+        toggle.setChecked(this.isBluetoothEnvironmentOn());
 
         // add behaviour
         toggle.setOnCheckedChangeListener(
@@ -39,10 +44,10 @@ public class SettingsActivity extends SharkNetActivity {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
                             Log.d(getLogStart(), "ui said: switch on BT");
-                            getSharkNetApp().startBluetooth();
+                            startBluetooth();
                         } else {
                             Log.d(getLogStart(), "ui said: switch off BT");
-                            getSharkNetApp().stopBluetooth();
+                            stopBluetooth();
                         }
                     }
                 });
@@ -50,7 +55,7 @@ public class SettingsActivity extends SharkNetActivity {
         ///////////////// BLUETOOTH DISCOVERABLE
         toggle = (ToggleButton) findViewById(R.id.settingsBluetoothDiscoverableToggleButton);
         // set initial status
-        toggle.setChecked(SharkNetApp.getSharkNetApp(this).isBluetoothDiscoverable());
+        toggle.setChecked(isBluetoothDiscoverable());
 
         // add behaviour
         toggle.setOnCheckedChangeListener(
@@ -59,10 +64,10 @@ public class SettingsActivity extends SharkNetActivity {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
                             Log.d(getLogStart(), "ui said: switch on BT Discoverable");
-                            getSharkNetApp().startBluetoothDiscoverable();
+                            startBluetoothDiscoverable();
                         } else {
                             Log.d(getLogStart(), "ui said: switch off BT - there is no switch off - yet TODO");
-//                            sharkNetApp.stopBluetooth();
+                            stopBluetooth();
                         }
                     }
                 });
@@ -70,7 +75,7 @@ public class SettingsActivity extends SharkNetActivity {
         ///////////////// BLUETOOTH DISCOVERY
         toggle = (ToggleButton) findViewById(R.id.settingsBluetoothDiscoveryToggleButton);
         // set initial status
-        toggle.setChecked(SharkNetApp.getSharkNetApp(this).isBluetoothDiscovery());
+        toggle.setChecked(isBluetoothDiscovery());
 
         // add behaviour
         toggle.setOnCheckedChangeListener(
@@ -79,7 +84,7 @@ public class SettingsActivity extends SharkNetActivity {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
                             Log.d(getLogStart(), "ui said: switch on BT Discovery");
-                            getSharkNetApp().startBluetoothDiscovery();
+                            startBluetoothDiscovery();
                         } else {
                             Log.d(getLogStart(), "ui said: switch off BT - TODO nyi");
                             //sharkNetApp.stopBluetooth();

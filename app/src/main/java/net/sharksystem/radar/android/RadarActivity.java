@@ -9,10 +9,14 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class RadarActivity extends SharkNetActivity {
 
+    public RadarActivity() {
+        super(SharkNetApp.getSharkNetApp());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.radar_drawer_layout);
-        SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
+        SharkNetApp.getSharkNetApp().setupDrawerLayout(this);
     }
 }

@@ -31,6 +31,10 @@ public class MakanViewActivity extends SharkNetActivity {
     private CharSequence topicUri = null;
     private CharSequence name;
 
+    public MakanViewActivity() {
+        super(SharkNetApp.getSharkNetApp());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +59,7 @@ public class MakanViewActivity extends SharkNetActivity {
         try {
             setContentView(R.layout.makan_view_drawer_layout);
 
-            SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
+            this.getSharkNetApp().setupDrawerLayout(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //

@@ -15,6 +15,11 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 import java.io.IOException;
 
 public class AddMakanActivity extends SharkNetActivity {
+
+    public AddMakanActivity() {
+        super(SharkNetApp.getSharkNetApp());
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this.getLogStart(), "onCreate");
@@ -36,7 +41,7 @@ public class AddMakanActivity extends SharkNetActivity {
                 MakanApp.getMakanStorage().createMakan(
                         uriText.getText(),
                         nameText.getText(),
-                        SharkNetApp.getSharkNetApp(this).getOwnerID()
+                        SharkNetApp.getSharkNetApp().getOwnerID()
                 );
 
             } catch (IOException | ASAPException e) {

@@ -70,7 +70,7 @@ public class MakanApp {
             throw new ASAPException("MakanApp was initialized - either singled or currentActivity null");
         }
 
-        SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp(MakanApp.singleton.currentActivity);
+        SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp();
         // always create a new one - to keep track of changes in file system
         Log.d(LOGSTART, "always create new ASAP storage - maybe we make it more permanent later");
         return ASAPEngineFS.getASAPStorage(

@@ -10,17 +10,16 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.util.Date;
 
-public class IdentityActivity extends AppCompatActivity {
+public class IdentityActivity extends SharkNetActivity {
     private static final String LOGSTART = "IdentityActivity";
 
-    private Activity thisActivity;
-
     public IdentityActivity() {
-        this.thisActivity = this;
+        super(SharkNetApp.getSharkNetApp());
     }
 
     @Override
@@ -34,19 +33,7 @@ public class IdentityActivity extends AppCompatActivity {
 
         userNameView.setText(IdentityStorageAndroid.getIdentityStorage(this).getOwnerName());
 
-        SharkNetApp.getSharkNetApp(this).setupDrawerLayout(this);
-    }
-
-    protected void onPause() {
-        super.onPause();
-        Log.d(LOGSTART, "onPause");
-//        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(LOGSTART, "onDestroy");
-//        SharkNetApp.getSharkNetApp(thisActivity).unbindServices();
+        this.getSharkNetApp().setupDrawerLayout(this);
     }
 
     public void onChangeClick(View view) throws SharkException {

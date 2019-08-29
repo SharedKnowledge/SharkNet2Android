@@ -9,18 +9,18 @@ import android.support.v4.widget.DrawerLayout;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPEngineFS;
-import net.sharksystem.asap.android.ASAPApplicationHelper;
+import net.sharksystem.asap.android.ASAPApplication;
 import net.sharksystem.asap.android.ASAPServiceMethods;
 import net.sharksystem.identity.android.IdentityStorageAndroid;
 import java.io.File;
 
-public class SharkNetApp extends ASAPApplicationHelper {
+public class SharkNetApp extends ASAPApplication {
 
     private static SharkNetApp singleton;
     private static final String LOGSTART = "SN2App";
 
-    private SharkNetApp(Activity activity) {
-        super(activity, null, SharkNetApp.getOwner());
+    private SharkNetApp() {
+        super(SharkNetApp.getOwner());
     }
 
     public static CharSequence getOwner() {
@@ -32,12 +32,10 @@ public class SharkNetApp extends ASAPApplicationHelper {
         return SharkNetApp.getOwner();
     }
 
-    public static SharkNetApp getSharkNetApp(Activity activity) {
+    public static SharkNetApp getSharkNetApp() {
         if(SharkNetApp.singleton == null) {
-            SharkNetApp.singleton = new SharkNetApp(activity);
+            SharkNetApp.singleton = new SharkNetApp();
         }
-
-        SharkNetApp.singleton.setActivity(activity);
 
         return SharkNetApp.singleton;
     }
@@ -61,10 +59,12 @@ public class SharkNetApp extends ASAPApplicationHelper {
         return this.getASAPRootDirectory().getAbsolutePath() + "/" + appFolderName;
     }
 
+    /*
     public void sendASAPMessage(Context ctx, CharSequence uri, CharSequence aaspMessage) {
         Message msg = Message.obtain(null, ASAPServiceMethods.ADD_MESSAGE, 0, 0);
         super.sendMessage2Service(msg);
     }
+     */
 
     public CharSequence getOwnerID() {
         return IdentityStorageAndroid.getIdentityStorage(this.getActivity()).getOwnerID();
