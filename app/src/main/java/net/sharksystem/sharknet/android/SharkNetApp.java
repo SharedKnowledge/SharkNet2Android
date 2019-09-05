@@ -9,8 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPEngineFS;
-import net.sharksystem.asap.android.ASAPApplication;
-import net.sharksystem.asap.android.ASAPServiceMethods;
+import net.sharksystem.asap.android.apps.ASAPApplication;
 import net.sharksystem.identity.android.IdentityStorageAndroid;
 import java.io.File;
 
@@ -24,8 +23,8 @@ public class SharkNetApp extends ASAPApplication {
     }
 
     public static CharSequence getOwner() {
-        // TODO - find user name somewhere in shared preferences
-        return "DummyOwner";
+        // it is not meant to be a multi user app
+        return "LocalUser";
     }
 
     public CharSequence getOwnerName() {

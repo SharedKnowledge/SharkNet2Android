@@ -26,11 +26,10 @@
         <activity android:name=".makan.android.MakanAddMessageActivity" />
         <activity android:name=".identity.android.IdentityActivity" android:launchMode="singleTask"/>
 
-        <!--
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
-        -->
+        <!--
         <activity
             android:name=".sharknet.android.settings.SettingsActivity" android:launchMode="singleTask">
             <intent-filter>
@@ -38,9 +37,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
 
-        <activity android:name=".makan.android.MakanListActivity" android:launchMode="singleTask"/>
         <!--
+        <activity android:name=".makan.android.MakanListActivity" android:launchMode="singleTask"/>
+        -->
         <activity
             android:name=".makan.android.MakanListActivity"
             android:launchMode="singleTask">
@@ -49,6 +50,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
--->
     </application>
 </manifest>
