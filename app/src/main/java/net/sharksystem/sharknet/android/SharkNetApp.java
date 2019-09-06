@@ -1,34 +1,23 @@
 package net.sharksystem.sharknet.android;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.Environment;
-import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.android.apps.ASAPApplication;
 import net.sharksystem.identity.android.IdentityStorageAndroid;
-import java.io.File;
 
 public class SharkNetApp extends ASAPApplication {
 
     private static SharkNetApp singleton;
-    private static final String LOGSTART = "SN2App";
 
     private SharkNetApp() {
-        super(SharkNetApp.getOwner());
+        super(); // not needed - but to make clear - we use default constructor
     }
 
-    public static CharSequence getOwner() {
-        // it is not meant to be a multi user app
-        return "LocalUser";
-    }
-
-    public CharSequence getOwnerName() {
-        return SharkNetApp.getOwner();
+    public CharSequence getASAPOwner(Activity activity) {
+        return IdentityStorageAndroid.getIdentityStorage(activity).getOwnerName();
     }
 
     public static SharkNetApp getSharkNetApp() {
@@ -39,6 +28,11 @@ public class SharkNetApp extends ASAPApplication {
         return SharkNetApp.singleton;
     }
 
+    public String getApplicationRootFolder(String appName) {
+        // could also include user name to support multiple identities
+        return this.getASAPRootFolder() + "/" + appName;
+    }
+
     public void setupDrawerLayout(Activity activity) {
         DrawerLayout mDrawerLayout = activity.findViewById(R.id.sharknet_drawer_layout);
 
@@ -47,15 +41,6 @@ public class SharkNetApp extends ASAPApplication {
 
         navigationView.setNavigationItemSelectedListener(
                 new DrawerOnNavigationItemListener(activity, mDrawerLayout));
-    }
-
-    public File getASAPRootDirectory() {
-        return (Environment.getExternalStoragePublicDirectory(
-                ASAPEngineFS.DEFAULT_ROOT_FOLDER_NAME));
-    }
-
-    public String getASAPAppRootFolderName(String appFolderName) {
-        return this.getASAPRootDirectory().getAbsolutePath() + "/" + appFolderName;
     }
 
     /*

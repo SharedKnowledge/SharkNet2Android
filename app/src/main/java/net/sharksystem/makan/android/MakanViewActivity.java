@@ -75,8 +75,7 @@ public class MakanViewActivity extends SharkNetActivity {
             mRecyclerView = (RecyclerView) findViewById(R.id.makan_view_recycler_view);
 
             mAdapter = new MakanViewContentAdapter(this,
-                    this.topicUri, this.name,
-                    SharkNetApp.getOwner());
+                    this.topicUri, this.name, this.getSharkNetApp().getASAPOwner());
 
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());

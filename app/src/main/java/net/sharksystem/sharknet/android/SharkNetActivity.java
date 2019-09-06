@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.android;
 
+import android.util.Log;
+
 import net.sharksystem.asap.android.apps.ASAPActivity;
 
 public abstract class SharkNetActivity extends ASAPActivity {

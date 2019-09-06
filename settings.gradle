@@ -1,1 +1,1 @@
-include ':app', ':AASP_Android_Service_0.1.0'
+include ':app', ':ASAPAndroidService'

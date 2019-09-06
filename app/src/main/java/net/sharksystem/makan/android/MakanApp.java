@@ -73,26 +73,17 @@ public class MakanApp {
         SharkNetApp sharkNetApp = SharkNetApp.getSharkNetApp();
         // always create a new one - to keep track of changes in file system
 
-        String ownerName = sharkNetApp.getOwnerName().toString();
-        String asapAppRootFolderName =
-                sharkNetApp.getASAPAppRootFolderName(MakanApp.MAKAN_FOLDER_NAME);
+        String ownerName = sharkNetApp.getASAPOwner().toString();
+        String asapMakanRootFolderName =
+                sharkNetApp.getApplicationRootFolder(MakanApp.MAKAN_FOLDER_NAME);
 
-        Log.d(LOGSTART, "create makan with owner: " + ownerName + " | folder: " + asapAppRootFolderName);
+        Log.d(LOGSTART, "create makan with owner: " + ownerName + " | folder: " + asapMakanRootFolderName);
         Log.d(LOGSTART, "always create new ASAP storage - maybe we make it more permanent later");
 
-
         ASAPStorage asapStorage =
-                ASAPEngineFS.getASAPStorage(ownerName, asapAppRootFolderName, Makan.MAKAN_FORMAT);
+                ASAPEngineFS.getASAPStorage(ownerName, asapMakanRootFolderName, Makan.MAKAN_FORMAT);
 
         return asapStorage;
-    }
-
-    public CharSequence getExampleMakanURI() {
-        return "sn://makan/Example";
-    }
-
-    public CharSequence getExampleMakanName() {
-        return "User Friendly Makan Name";
     }
 
     private HashMap<String, MakanViewActivity> makanLister = new HashMap<>();

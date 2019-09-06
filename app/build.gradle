@@ -36,5 +36,5 @@ dependencies {
 
     //https://developer.android.com/studio/projects/android-library
     // import AASP Android Service to actually exchange AASP messages
-    implementation project(":ASAPAndroidService_0.1.0")
+    implementation project(":ASAPAndroidService")
 }
