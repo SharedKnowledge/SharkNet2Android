@@ -29,7 +29,6 @@ public class SharkNetApp extends ASAPApplication {
     }
 
     public String getApplicationRootFolder(String appName) {
-        // could also include user name to support multiple identities
         return this.getASAPRootFolder() + "/" + appName;
     }
 

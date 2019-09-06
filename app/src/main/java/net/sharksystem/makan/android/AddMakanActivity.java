@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPException;
+import net.sharksystem.makan.Makan;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -44,15 +45,16 @@ public class AddMakanActivity extends SharkNetActivity {
                         SharkNetApp.getSharkNetApp().getOwnerID()
                 );
 
-            } catch (IOException | ASAPException e) {
+            } catch (IOException e) {
                 String text = "failure: " + e.getLocalizedMessage();
                 Log.e(this.getLogStart(), text);
-                Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "IO error - that's serious", Toast.LENGTH_SHORT).show();
+            } catch (ASAPException e) {
+                String text = "failure: " + e.getLocalizedMessage();
+                Log.w(this.getLogStart(), text);
+                Toast.makeText(this, "already exists(?)", Toast.LENGTH_SHORT).show();
             }
         }
-
-        Toast.makeText(this, "bug: no exeception when creating existing channel",
-                Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, MakanListActivity.class);
         this.startActivity(intent);
