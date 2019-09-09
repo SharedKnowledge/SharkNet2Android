@@ -65,16 +65,8 @@ public class MakanAddMessageActivity extends SharkNetActivity {
             try {
                 Makan makan = MakanApp.getMakanStorage().getMakan(this.uri);
 
-                InMemoMakanMessage makanMessage =
-                        new InMemoMakanMessage(
-                                this.getSharkNetApp().getOwnerID(),
-                                messageText,
-                                new Date());
-
-                CharSequence serializedMessage = makanMessage.getSerializedMessage();
-
-                Log.d(LOGSTART, "store makan message");
-                makan.addMessage(serializedMessage);
+                Log.d(LOGSTART, "store makan message: " + this.uri + " | " + messageText);
+                makan.addMessage(messageText);
 
             } catch (IOException | ASAPException e) {
                 Log.d(LOGSTART, "problems when writing makan message: "
