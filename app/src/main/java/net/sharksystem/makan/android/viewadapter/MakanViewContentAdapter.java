@@ -107,7 +107,7 @@ public class MakanViewContentAdapter extends
 
             holder.senderTextView.setText("ID: " + (message.getSenderID()));
 
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
             Log.e(LOGSTART, "position == " + position);
             Log.e(LOGSTART, e.getClass().getName());
@@ -120,10 +120,15 @@ public class MakanViewContentAdapter extends
         Log.d(LOGSTART, "getItemCount");
 
         try {
+            int size = this.getMakan().size();
+            Log.d(LOGSTART, "got makan size of " + size
+                    + " | return size+1 for recycler view adapter");
             return this.getMakan().size() + 1; // +1 ?? see comments in onBindViewHolder
 
         } catch (ASAPException | IOException e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
+            Log.e(LOGSTART, "got exception class: " + e.getClass().getSimpleName()
+            + "message: " + e.getLocalizedMessage());
             return 0;
         }
     }
