@@ -133,34 +133,40 @@ public class SettingsActivity extends SharkNetActivity {
         this.refreshProtocolStatus();
     }
 
-    public void aspNotifyBTDiscoverableStarted() {
-        super.aspNotifyBTDiscoverableStarted();
+    @Override
+    public void asapNotifyBTDiscoverableStarted() {
+        super.asapNotifyBTDiscoverableStarted();
         this.refreshToggleButtons();
     }
 
+    @Override
     public void asapNotifyBTDiscoverableStopped() {
         super.asapNotifyBTDiscoverableStopped();
         this.refreshToggleButtons();
     }
 
-    public void aspNotifyBTEnvironmentStarted() {
-        super.aspNotifyBTEnvironmentStarted();
+    @Override
+    public void asapNotifyBTEnvironmentStarted() {
+        super.asapNotifyBTEnvironmentStarted();
         this.refreshToggleButtons();
     }
 
-    public void aspNotifyBTEnvironmentStopped() {
-        super.aspNotifyBTEnvironmentStopped();
+    @Override
+    public void asapNotifyBTEnvironmentStopped() {
+        super.asapNotifyBTEnvironmentStopped();
         this.refreshToggleButtons();
     }
 
-    public void aspNotifyBTDiscoveryStarted() {
-        super.aspNotifyBTDiscoveryStarted();
+    @Override
+    public void asapNotifyBTDiscoveryStarted() {
+        super.asapNotifyBTDiscoveryStarted();
         Log.d(this.getLogStart(), "aspNotifyBTDiscoveryStarted() called");
         this.refreshToggleButtons();
     }
 
-    public void aspNotifyBTDiscoveryStopped() {
-        super.aspNotifyBTDiscoveryStopped();
+    @Override
+    public void asapNotifyBTDiscoveryStopped() {
+        super.asapNotifyBTDiscoveryStopped();
         this.refreshToggleButtons();
     }
 }

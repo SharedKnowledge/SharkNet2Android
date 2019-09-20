@@ -24,27 +24,18 @@
         <activity android:name=".radar.android.RadarActivity" android:launchMode="singleTask"/>
         <activity android:name=".makan.android.MakanViewActivity" />
         <activity android:name=".makan.android.MakanAddMessageActivity" />
-
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
-        <!--
-        <activity
-            android:name=".sharknet.android.settings.SettingsActivity" android:launchMode="singleTask">
+            android:label="@string/title_activity_settings"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        -->
-
         <activity android:name=".identity.android.IdentityActivity" android:launchMode="singleTask"/>
         <activity
             android:name=".makan.android.MakanListActivity" android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 </manifest>

@@ -12,10 +12,12 @@ public class IdentityStorageAndroid implements SharkIdentityStorage {
     private final static String OWNER_NAME = "SharkNet2Identity_OwnerName";
     private final static String OWNER_ID = "SharkNet2Identity_OwnerID";
 
-    private final static String DEFAULT_OWNER_NAME = "dummy name";
+    private final static String DEFAULT_OWNER_NAME = "SNUser";
     private final static String DEFAULT_OWNER_ID = "42";
     private CharSequence ownerName;
+    private boolean ownerNameSet;
     private CharSequence ownerID;
+    private boolean ownerIDSet;
 
     private Context currentContext;
 
@@ -35,31 +37,34 @@ public class IdentityStorageAndroid implements SharkIdentityStorage {
         SharedPreferences sharedPref = ctx.getSharedPreferences(
                 PREFERENCES_FILE, Context.MODE_PRIVATE);
 
-        this.ownerName = sharedPref.getString(OWNER_NAME, DEFAULT_OWNER_NAME);
-        this.ownerID = sharedPref.getString(OWNER_ID, DEFAULT_OWNER_ID);
+        if(sharedPref.contains(OWNER_NAME)) {
+            this.ownerName = sharedPref.getString(OWNER_NAME, DEFAULT_OWNER_NAME);
+            this.ownerNameSet = true;
+        } else {
+            this.ownerName = DEFAULT_OWNER_NAME;
+            this.ownerNameSet = false;
+        }
+
+        if(sharedPref.contains(OWNER_ID)) {
+            this.ownerID = sharedPref.getString(OWNER_ID, DEFAULT_OWNER_ID);
+            this.ownerIDSet = true;
+        } else {
+            this.ownerID = DEFAULT_OWNER_ID;
+            this.ownerIDSet = false;
+        }
     }
 
+    @Override
+    public boolean isOwnerSet() {
+        return this.ownerNameSet;
+    }
+
+    public boolean isOwnerIDSet() {
+        return this.ownerIDSet;
+    }
 
     private void setCurrentContext(Context ctx) {
         this.currentContext = ctx;
-    }
-
-    public CharSequence getNameByID(CharSequence userID) {
-        if(this.ownerID.toString().equalsIgnoreCase(userID.toString())) {
-            return this.ownerName;
-        }
-        // else:
-        // dummy
-        return userID;
-    }
-
-    public Person getPersonByID(CharSequence userID) {
-        if(this.ownerID.toString().equalsIgnoreCase(userID.toString())) {
-            return new PersonIdentity(this.ownerName, this.ownerID);
-        }
-
-        // dummy
-        return new PersonIdentity("dummy name", "43");
     }
 
     @Override
@@ -73,29 +78,14 @@ public class IdentityStorageAndroid implements SharkIdentityStorage {
 
         editor.putString(OWNER_NAME, userName.toString());
 
-        editor.commit();
-    }
+        // create owner id
 
-    @Override
-    public void setOwnerID(CharSequence ownerID) {
-        this.ownerID = ownerID;
-
-        SharedPreferences sharedPref = this.currentContext.getSharedPreferences(
-                PREFERENCES_FILE, Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        editor.putString(OWNER_ID, ownerID.toString());
+        // TODO: dummy version of an id
+        String ownerID = "ID_of_" + userName;
+        editor.putString(OWNER_ID, ownerID);
 
         editor.commit();
-    }
 
-    @Override
-    public void setNewOwnerUUID(String userNameString) {
-        CharSequence uuid = userNameString + "_"
-                + String.valueOf(System.currentTimeMillis());
-
-        this.setOwnerID(uuid);
     }
 
     @Override

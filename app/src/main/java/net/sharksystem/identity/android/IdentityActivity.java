@@ -47,7 +47,6 @@ public class IdentityActivity extends SharkNetActivity {
             Log.d(LOGSTART, "set new user name: " + userNameString);
             SharkIdentityStorage identityStorage = IdentityStorageAndroid.getIdentityStorage(this);
             identityStorage.setOwnerName(userNameString);
-            identityStorage.setNewOwnerUUID(userNameString);
             super.onBackPressed();
         }
     }

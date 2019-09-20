@@ -28,10 +28,6 @@ public class SharkNetApp extends ASAPApplication {
         return SharkNetApp.singleton;
     }
 
-    public String getApplicationRootFolder(String appName) {
-        return this.getASAPRootFolder() + "/" + appName;
-    }
-
     public void setupDrawerLayout(Activity activity) {
         DrawerLayout mDrawerLayout = activity.findViewById(R.id.sharknet_drawer_layout);
 
@@ -51,5 +47,9 @@ public class SharkNetApp extends ASAPApplication {
 
     public CharSequence getOwnerID() {
         return IdentityStorageAndroid.getIdentityStorage(this.getActivity()).getOwnerID();
+    }
+
+    public boolean isOwnerSet() {
+        return IdentityStorageAndroid.getIdentityStorage(this.getActivity()).isOwnerSet();
     }
 }
