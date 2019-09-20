@@ -2,10 +2,10 @@ package net.sharksystem.sharknet.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import net.sharksystem.asap.android.apps.ASAPActivity;
 import net.sharksystem.identity.android.IdentityActivity;
-import net.sharksystem.makan.android.AddMakanActivity;
 
 public abstract class SharkNetActivity extends ASAPActivity {
     private SharkNetApp sharkNetApp;
@@ -28,6 +28,7 @@ public abstract class SharkNetActivity extends ASAPActivity {
 
         // check if owner is set - if not - force to set
         if(!this.sharkNetApp.isOwnerSet() && this.getClass() != IdentityActivity.class) {
+            Log.d(this.getLogStart(), "ower not set - force setting");
             Intent intent = new Intent(this, IdentityActivity.class);
             this.startActivity(intent);
         }
