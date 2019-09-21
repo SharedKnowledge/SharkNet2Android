@@ -8,6 +8,7 @@ import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPStorage;
+import net.sharksystem.asap.android.apps.ASAPOnlineMessageSenderUserSide;
 import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.MakanStorage;
 import net.sharksystem.makan.MakanStorage_Impl;
@@ -83,12 +84,18 @@ public class MakanApp {
         ASAPStorage asapStorage =
                 ASAPEngineFS.getASAPStorage(ownerName, asapMakanRootFolderName, Makan.MAKAN_FORMAT);
 
+        // attach online sender
+        ASAPOnlineMessageSenderUserSide asapOnlineMessageSenderUserSide =
+                new ASAPOnlineMessageSenderUserSide(sharkNetApp);
+
+        asapOnlineMessageSenderUserSide.attachToSource(asapStorage);
+
         return asapStorage;
     }
 
     private HashMap<String, MakanViewActivity> makanLister = new HashMap<>();
 
-    public void handleAASPBroadcast(String uri, int era, String user, String folder) {
+    public void handleASAPBroadcast(String uri, int era, String user, String folder) {
         MakanViewActivity makanChangeListener = this.makanLister.get(uri);
         if(makanChangeListener != null) {
             Log.d(LOGSTART, "notify makan about external changes");
