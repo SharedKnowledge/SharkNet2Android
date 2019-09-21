@@ -1,8 +1,6 @@
 package net.sharksystem.makan.android;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
@@ -88,8 +85,6 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
             // debug break
             int i = 42;
         }
-
-  //      MakanApp.getMakanApp().startAASPBroadcastReceiver(this, this.topicUri);
     }
 
 
@@ -97,11 +92,6 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
         // external changes happen
         this.mAdapter.setOutdated(era, user, folder);
         // TODO: refresh view
-    }
-
-
-    private void sync() {
-        this.mAdapter.sync();
     }
 
     /////////////////////////////////////////////////////////////////////////////////
