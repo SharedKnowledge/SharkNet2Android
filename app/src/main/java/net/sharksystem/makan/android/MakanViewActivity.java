@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPChunkReceivedListener;
 import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -22,7 +23,7 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 /**
  * View a single makan
  */
-public class MakanViewActivity extends SharkNetActivity {
+public class MakanViewActivity extends SharkNetActivity implements ASAPChunkReceivedListener {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
@@ -98,18 +99,6 @@ public class MakanViewActivity extends SharkNetActivity {
         // TODO: refresh view
     }
 
-    /**
-     * Activity is resumed. Assume changes in data set.
-     */
-    protected void onResume() {
-        super.onResume();
-        Log.d(this.getLogStart(), "onResume");
-        if(mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        }
-
-//        MakanApp.getMakanApp().startAASPBroadcastReceiver(this, this.topicUri);
-    }
 
     private void sync() {
         this.mAdapter.sync();
@@ -163,5 +152,53 @@ public class MakanViewActivity extends SharkNetActivity {
 
 
         startActivity(intent);
+    }
+
+    protected void onStart() {
+        super.onStart();
+
+        // listen to chunk receiver
+        this.getSharkNetApp().addChunkReceivedListener(this.topicUri, this);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Log.d(this.getLogStart(), "onResume");
+        this.refreshMessageView();
+
+        // listen to chunk receiver
+        this.getSharkNetApp().addChunkReceivedListener(this.topicUri, this);
+    }
+
+    protected void onPause() {
+        super.onPause();
+
+        // stop listening to chunk receiver
+        this.getSharkNetApp().removeChunkReceivedListener(this.topicUri);
+    }
+
+    protected void onStop() {
+        // Unbind from the service
+        super.onStop();
+
+        // stop listening to chunk receiver
+        this.getSharkNetApp().removeChunkReceivedListener(this.topicUri);
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // stop listening to chunk receiver
+        this.getSharkNetApp().removeChunkReceivedListener(this.topicUri);
+    }
+
+    private void refreshMessageView() {
+        if(mAdapter != null) { mAdapter.notifyDataSetChanged(); }
+    }
+
+    @Override
+    public void chunkReceived(String sender, String uri, int era) {
+        Log.d(this.getLogStart(), "chunkReceived");
+        this.refreshMessageView();
     }
 }
