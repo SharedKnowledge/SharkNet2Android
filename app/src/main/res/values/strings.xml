@@ -22,7 +22,7 @@
 
 
     <!-- Settings explaination texts -->
-    <string name="bluetoothToggleExplanationText">Switch Bluetooth on / off</string>
+    <string name="bluetoothToggleExplanationText">BT on / off</string>
     
     <string name="settingsWifiDirectToggleButtonExplaination">Switch Wifi Direct on / off</string>
 
@@ -39,6 +39,7 @@
     <string name="settingsBluetoothDiscoveryButtonExplanation">Activate BT Discovery</string>
     <string name="makanAddMakanURIExplanationText">enter channel uri</string>
     <string name="makanAddMakanNameExplanationText">enter channel name</string>
+    <string name="settingsBluetoothD_And_D_Explanation">Scan BT</string>
 
 
 </resources>

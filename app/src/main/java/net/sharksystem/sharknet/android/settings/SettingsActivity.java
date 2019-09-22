@@ -55,6 +55,7 @@ public class SettingsActivity extends SharkNetActivity {
                 });
 
         ///////////////// BLUETOOTH DISCOVERABLE
+/*
         toggle = (ToggleButton) findViewById(R.id.settingsBluetoothDiscoverableToggleButton);
         // set initial status
         toggle.setChecked(isBluetoothDiscoverable());
@@ -70,7 +71,6 @@ public class SettingsActivity extends SharkNetActivity {
                                 startBluetoothDiscoverable();
                             } else {
                                 Log.d(getLogStart(), "ui said: switch off BT - there is no switch off - yet TODO");
-                                stopBluetooth();
                             }
                         }
                     }
@@ -97,16 +97,41 @@ public class SettingsActivity extends SharkNetActivity {
                         }
                     }
                 });
+ */
+        ///////////////// BLUETOOTH DISCOVERY AND DISCOVERABLE = SCAN BT
+        toggle = (ToggleButton) findViewById(R.id.settingsBluetoothD_And_D_ExplanationButton);
+        // set initial status
+        toggle.setChecked(isBluetoothDiscovery());
+
+        // add behaviour
+        toggle.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (!dontDoAnything) {
+                            if (isChecked) {
+                                Log.d(getLogStart(), "ui said: switch on BT D and D");
+                                startBluetoothDiscovery();
+                                startBluetoothDiscoverable();
+                            } else {
+                                Log.d(getLogStart(), "ui said: switch off BT - TODO nyi");
+                                //sharkNetApp.stopBluetooth();
+                            }
+                        }
+                    }
+                });
     }
 
     private boolean dontDoAnything = false;
 
     private void refreshToggleButtons() {
         this.dontDoAnything = true;
+
         ToggleButton toggle = (ToggleButton) findViewById(R.id.settingsBluetoothToggleButton);
         toggle.setChecked(this.isBluetoothEnvironmentOn());
         toggle.refreshDrawableState();
 
+        /*
         toggle = (ToggleButton) findViewById(R.id.settingsBluetoothDiscoverableToggleButton);
         toggle.setChecked(this.isBluetoothDiscoverable());
         toggle.refreshDrawableState();
@@ -114,6 +139,12 @@ public class SettingsActivity extends SharkNetActivity {
         toggle = (ToggleButton) findViewById(R.id.settingsBluetoothDiscoveryToggleButton);
         toggle.setChecked(this.isBluetoothDiscovery());
         toggle.refreshDrawableState();
+         */
+
+        toggle = (ToggleButton) findViewById(R.id.settingsBluetoothD_And_D_ExplanationButton);
+        toggle.setChecked(this.isBluetoothDiscovery());
+        toggle.refreshDrawableState();
+
         this.dontDoAnything = false;
     }
 

@@ -154,7 +154,7 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
     protected void onResume() {
         super.onResume();
         Log.d(this.getLogStart(), "onResume");
-        this.refreshMessageView();
+        mAdapter.notifyDataSetChanged(); // simple refresh
 
         // listen to chunk receiver
         this.getSharkNetApp().addChunkReceivedListener(this.topicUri, this);
@@ -182,13 +182,20 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
         this.getSharkNetApp().removeChunkReceivedListener(this.topicUri);
     }
 
-    private void refreshMessageView() {
-        if(mAdapter != null) { mAdapter.notifyDataSetChanged(); }
-    }
-
     @Override
     public void chunkReceived(String sender, String uri, int era) {
         Log.d(this.getLogStart(), "chunkReceived");
-        this.refreshMessageView();
+
+        // reset adapter to get access to new data
+        try {
+            mAdapter = new MakanViewContentAdapter(this,
+                    this.topicUri, this.name, this.getSharkNetApp().getASAPOwner());
+            Log.d(this.getLogStart(), "recreate adapter");
+            this.mRecyclerView.setAdapter(this.mAdapter);
+            Log.d(this.getLogStart(), "notify data set changed");
+            mAdapter.notifyDataSetChanged();
+        } catch (SharkException e) {
+            e.printStackTrace();
+        }
     }
 }

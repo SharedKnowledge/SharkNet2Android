@@ -18,6 +18,7 @@
         android:text="Bluetooth"
         android:layout_gravity="left|top" />
 
+<!--
     <TextView
         android:id="@+id/settingsBluetoothDiscoverableButtonExplanation"
         android:text="@string/settingsBluetoothDiscoverableButtonExplanation"
@@ -36,6 +37,17 @@
     <ToggleButton
         android:id="@+id/settingsBluetoothDiscoveryToggleButton"
         android:text="Discovery"
+        android:layout_gravity="left|top" />
+-->
+
+    <TextView
+        android:id="@+id/settingsBluetoothD_And_D_Explanation"
+        android:text="@string/settingsBluetoothD_And_D_Explanation"
+        android:layout_gravity="left|top" />
+
+    <ToggleButton
+        android:id="@+id/settingsBluetoothD_And_D_ExplanationButton"
+        android:text="Scan Neighbourhood"
         android:layout_gravity="left|top" />
 </GridLayout>
 

@@ -8,7 +8,7 @@ import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPStorage;
-import net.sharksystem.asap.android.apps.ASAPOnlineMessageSenderUserSide;
+import net.sharksystem.asap.android.apps.ASAPOnlineMessageSenderAndroidUserSide;
 import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.MakanStorage;
 import net.sharksystem.makan.MakanStorage_Impl;
@@ -85,8 +85,8 @@ public class MakanApp {
                 ASAPEngineFS.getASAPStorage(ownerName, asapMakanRootFolderName, Makan.MAKAN_FORMAT);
 
         // attach online sender
-        ASAPOnlineMessageSenderUserSide asapOnlineMessageSenderUserSide =
-                new ASAPOnlineMessageSenderUserSide(sharkNetApp);
+        ASAPOnlineMessageSenderAndroidUserSide asapOnlineMessageSenderUserSide =
+                new ASAPOnlineMessageSenderAndroidUserSide(sharkNetApp);
 
         asapOnlineMessageSenderUserSide.attachToSource(asapStorage);
 
