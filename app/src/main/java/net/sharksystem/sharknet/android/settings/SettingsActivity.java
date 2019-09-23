@@ -191,7 +191,7 @@ public class SettingsActivity extends SharkNetActivity {
     @Override
     public void asapNotifyBTDiscoveryStarted() {
         super.asapNotifyBTDiscoveryStarted();
-        Log.d(this.getLogStart(), "aspNotifyBTDiscoveryStarted() called");
+        Log.d(this.getLogStart(), "asapNotifyBTDiscoveryStarted() called");
         this.refreshToggleButtons();
     }
 
