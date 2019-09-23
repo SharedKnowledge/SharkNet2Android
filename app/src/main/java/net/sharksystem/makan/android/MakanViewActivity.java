@@ -154,7 +154,9 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
     protected void onResume() {
         super.onResume();
         Log.d(this.getLogStart(), "onResume");
-        mAdapter.notifyDataSetChanged(); // simple refresh
+
+        this.resetAdapter(); // that pretty resource intensive but works
+        //mAdapter.notifyDataSetChanged(); // simple refresh
 
         // listen to chunk receiver
         this.getSharkNetApp().addChunkReceivedListener(this.topicUri, this);
@@ -182,10 +184,7 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
         this.getSharkNetApp().removeChunkReceivedListener(this.topicUri);
     }
 
-    @Override
-    public void chunkReceived(String sender, String uri, int era) {
-        Log.d(this.getLogStart(), "chunkReceived");
-
+    private void resetAdapter() {
         // reset adapter to get access to new data
         try {
             mAdapter = new MakanViewContentAdapter(this,
@@ -197,5 +196,12 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
         } catch (SharkException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void chunkReceived(String sender, String uri, int era) {
+        Log.d(this.getLogStart(), "chunkReceived");
+
+        this.resetAdapter();
     }
 }
