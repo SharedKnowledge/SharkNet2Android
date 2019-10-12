@@ -6,22 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.android.util.NfcChecks;
-import net.sharksystem.nfc.NfcCallbackHelper;
-import net.sharksystem.nfc.NfcMessageManager;
 import net.sharksystem.storage.keystore.RSAKeystoreHandler;
+import static net.sharksystem.android.util.SerializationHelper.objToByte;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.nio.charset.Charset;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
 
-public class SendPublicKeyActivity extends AppCompatActivity implements NfcCallbackHelper {
+public class SendPublicKeyActivity extends AppCompatActivity {
 
     private final String TAG = this.getClass().getName();
     private NfcAdapter nfcAdapter = null;
@@ -62,14 +58,13 @@ public class SendPublicKeyActivity extends AppCompatActivity implements NfcCallb
         }
         Log.d(TAG, "cert" + encodedPublicKeyCert);
         Certificate certificate = RSAKeystoreHandler.getInstance().getCertificate();
-        System.out.println("@@@@@@@@@@@@@" + certificate.toString());
 
 //        NfcCallbackHelperImpl nfcCallbackHelper = new NfcCallbackHelperImpl(this.getApplicationContext(), encodedCertificate);
 //
 //        NfcMessageManager manager = new NfcMessageManager(nfcCallbackHelper,
 //                "application/net.sharksystem.send.public.key".getBytes(Charset.forName("US-ASCII")));
 
-        initOutcomingNfcManager();
+        initNfcMessageManager();
 
 //        // Todo manager.NdefOnPushCompleteCallback
 //        this.nfcAdapter.setOnNdefPushCompleteCallback(manager, this);
@@ -78,33 +73,9 @@ public class SendPublicKeyActivity extends AppCompatActivity implements NfcCallb
 
     }
 
-    private void initOutcomingNfcManager() {
-        NfcMessageManager outcomingNfcCallback = new NfcMessageManager(this, "application/net.sharksystem.send.public.key".getBytes(Charset.forName("US-ASCII")));
+    private void initNfcMessageManager() {
+        NfcMessageManager outcomingNfcCallback = new NfcMessageManager("application/net.sharksystem.send.public.key".getBytes(Charset.forName("US-ASCII")), encodedPublicKeyCert);
         this.nfcAdapter.setOnNdefPushCompleteCallback(outcomingNfcCallback, this);
         this.nfcAdapter.setNdefPushMessageCallback(outcomingNfcCallback, this);
-    }
-
-    @Override
-    public byte[] getPushMessage() {
-        return this.encodedPublicKeyCert;
-    }
-
-    @Override
-    public void signalResult() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), "Sending Complete", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    // Serialization
-    public byte[] objToByte(Certificate certificate) throws IOException {
-        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-        ObjectOutputStream objStream = new ObjectOutputStream(byteStream);
-        objStream.writeObject(certificate);
-
-        return byteStream.toByteArray();
     }
 }

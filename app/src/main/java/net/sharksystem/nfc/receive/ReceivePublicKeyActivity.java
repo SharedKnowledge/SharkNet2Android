@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.android.util.NfcChecks;
+import static net.sharksystem.android.util.SerializationHelper.byteToObj;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -187,13 +189,4 @@ public class ReceivePublicKeyActivity extends AppCompatActivity {
             finish();
         }
     }
-
-    // De-serialization
-    public Object byteToObj(byte[] bytes) throws IOException, ClassNotFoundException {
-        ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
-        ObjectInputStream objStream = new ObjectInputStream(byteStream);
-        return objStream.readObject();
-    }
-
-
 }

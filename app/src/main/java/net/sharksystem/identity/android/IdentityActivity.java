@@ -18,15 +18,10 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.android.util.NfcChecks;
-import net.sharksystem.nfc.NfcMessageManager;
 import net.sharksystem.nfc.receive.ReceivePublicKeyActivity;
-import net.sharksystem.nfc.send.NfcCallbackHelperImpl;
 import net.sharksystem.nfc.send.SendPublicKeyActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 import net.sharksystem.storage.keystore.RSAKeystoreHandler;
-
-import java.nio.charset.Charset;
-import java.security.cert.CertificateEncodingException;
 
 public class IdentityActivity extends AppCompatActivity {
     private static final String LOGSTART = "IdentityActivity";
