@@ -1,7 +1,6 @@
 package net.sharksystem.key_administration;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -33,16 +32,15 @@ public class KeyAdministrationPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                 return context.getResources().getString(R.string.fragment_public_key_title);
+                return context.getResources().getString(R.string.fragment_public_key_title);
             case 1:
                 return context.getResources().getString(R.string.fragment_certification_title);
             default:
-                return null;
+                return "";
         }    }
 
     @Override

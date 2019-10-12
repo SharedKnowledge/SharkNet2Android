@@ -68,6 +68,7 @@ public class IdentityActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        // Todo trenne die onClick function
         textViewPublicKey = findViewById(R.id.textView_public_key);
         textViewUuid = findViewById(R.id.textView_uuid);
         textViewAlias = findViewById(R.id.textView_alias_identity_activity);
@@ -170,7 +171,8 @@ public class IdentityActivity extends AppCompatActivity {
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to reset?").setPositiveButton("Yes", dialogClickListener)
+        builder.setMessage("Are you sure you want to reset?")
+                .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
     }
 

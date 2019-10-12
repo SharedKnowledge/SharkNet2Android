@@ -22,15 +22,13 @@ public class NfcMessageManager implements NfcAdapter.OnNdefPushCompleteCallback,
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
 
-//        NdefRecord mimeRecord = NdefRecord.createMime(this.mimeType,
-//                publicKey.getBytes(Charset.forName("US-ASCII")));
-
         NdefRecord mimeRecord = NdefRecord.createMime(new String(mimeType), pushMessage);
 
 //                new NdefRecord(NdefRecord.TNF_MIME_MEDIA ,
 //                this.mimeType,
 //                new byte[0], this.pushMessage);
 
+        // mehrere Records mögleich
         NdefMessage nDefMessage = new NdefMessage(mimeRecord);
 
         return  nDefMessage;

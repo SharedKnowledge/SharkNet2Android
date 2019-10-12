@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class NfcChecks {
 
     public static void preliminaryNfcChecks(NfcAdapter nfcAdapter, Activity activity) {
-        // Todo doppelte Parameter Uebergabe versuch es besser zu machen
+        // Todo doppelte Parameter Uebergabe versuch es besser zu machen globale variable?
         isNfcEnabled(nfcAdapter,activity);
         isNfcSupported(nfcAdapter,activity);
     }

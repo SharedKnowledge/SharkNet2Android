@@ -99,7 +99,7 @@ public class BubbleMessageContentAdapter extends
             holder.userID.setText(bubbleMessage.getUserID());
             holder.message.setText(bubbleMessage.getMessage());
         } catch (IOException e) {
-            // TODO
+            // TODO timber usen
             Log.e("error: ", "couldn't get message in position: " + position);
         } catch (SharkException | AASPException e) {
             Log.e("MessageContentAdapter", "cannot access message storage (yet?)");

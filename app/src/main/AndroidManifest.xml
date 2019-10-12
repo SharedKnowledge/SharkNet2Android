@@ -43,9 +43,7 @@
         <activity android:name="net.sharksystem.nfc.receive.ReceivePublicKeyActivity">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="application/net.sharksystem.send.public.key" />
             </intent-filter>
         </activity>

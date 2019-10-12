@@ -61,8 +61,18 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$rootProject.roomVersion"
     androidTestImplementation "android.arch.persistence.room:testing:$rootProject.roomVersion"
+
     // Lifecycle components
     implementation "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
+
+    // Gson convert Java Objects into their JSON representation
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Todo put that in readMe maybe?
+    // connect via wifi
+    // https://stackoverflow.com/questions/33726622/how-to-debug-in-android-studio-using-adb-over-wifi#targetText=You%20can%20use%20Android%20Wifi,%2Fsdk%2Fplatform%2Dtools.&targetText=Step%204%3A%20Execute%20command%20adb,e%20shell%20(for%20emulator).
+    // connect multiple devices
+    // https://android.stackexchange.com/questions/137613/android-wireless-debugging-on-multiple-devices adb debugging im geraet zulassen!!
 
 }
