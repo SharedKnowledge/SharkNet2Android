@@ -4,11 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import net.sharksystem.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +33,10 @@ public class PublicKeyTabFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerViewAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     public PublicKeyTabFragment() {
         // Required empty public constructor
@@ -59,13 +67,40 @@ public class PublicKeyTabFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+//        initRecyclerViewAdapter();
+
+
+    }
+
+    private void initRecyclerViewAdapter() {
+//        ArrayList<ReceiveKeyPojo> keyList = getKeyList();
+//        recyclerViewAdapter = new RecyclerAdapter(keyList);
+//        recyclerView.setAdapter(recyclerViewAdapter);
+    }
+
+    private ArrayList<ReceiveKeyPojo> getKeyList() {
+
+        return null;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_public_key_tab, container, false);
+        View view = inflater.inflate(R.layout.fragment_public_key_tab, container, false);
+        recyclerView = view.findViewById(R.id.fragment_public_key_tab_recycler_view);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

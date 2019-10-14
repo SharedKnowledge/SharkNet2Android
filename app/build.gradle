@@ -32,6 +32,8 @@ android {
 }
 
 dependencies {
+    // AndroidX
+//    https://developer.android.com/jetpack/androidx
     //    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:support-v4:27.1.1'
@@ -40,8 +42,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
+
+    // testing with espresso
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    //    implementation files('libs/AASP_Engine_0.2.0.jar')
+
+    // implementation files('libs/AASP_Engine_0.2.0.jar')
 
     // add AASP Engine for storing of data - included in makan-lib
     // implementation files('libs/AASP_Engine_0.3.0.jar')
@@ -55,7 +60,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // CardView
-    implementation 'com.android.support:cardview-v7:27.0.0'
+    implementation 'com.android.support:cardview-v7:27.1.1'
 
     // Room components
     implementation "android.arch.persistence.room:runtime:$rootProject.roomVersion"
@@ -68,6 +73,15 @@ dependencies {
 
     // Gson convert Java Objects into their JSON representation
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // recyclerview
+    implementation 'com.android.support:recyclerview-v7:27.0.0'
+//    implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
+
+
+    // ButterKnife for view binding
+//    implementation 'com.jakewharton:butterknife:10.0.0'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 
     // Todo put that in readMe maybe?
     // connect via wifi

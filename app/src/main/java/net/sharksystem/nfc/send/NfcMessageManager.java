@@ -8,26 +8,19 @@ import android.nfc.NfcEvent;
 public class NfcMessageManager implements NfcAdapter.OnNdefPushCompleteCallback, NfcAdapter.CreateNdefMessageCallback {
 
     private byte[] mimeType;
-    private byte[] pushMessages;
+    private byte[] dataToSend;
 
-    public NfcMessageManager(byte[] mimeType, byte[] pushMessages) {
+    public NfcMessageManager(byte[] mimeType, byte[] dataToSend) {
 
         this.mimeType = mimeType;
-        this.pushMessages = pushMessages;
-
+        this.dataToSend = dataToSend;
     }
 
     @Override
     public NdefMessage createNdefMessage(NfcEvent event) {
 
-        NdefRecord mimeRecord = NdefRecord.createMime(new String(mimeType), pushMessages);
-
-//                new NdefRecord(NdefRecord.TNF_MIME_MEDIA ,
-//                this.mimeType,
-//                new byte[0], this.pushMessages);
-
-        // mehrere Records mögleich, einfach mehrere Records wie oben erstellen und an message ranhaengen
-        NdefMessage nDefMessage = new NdefMessage(mimeRecord);
+        NdefRecord certificationMimeRecord = NdefRecord.createMime(new String(mimeType), dataToSend);
+        NdefMessage nDefMessage = new NdefMessage(certificationMimeRecord);
 
         return nDefMessage;
     }

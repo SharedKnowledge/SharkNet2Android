@@ -1,6 +1,8 @@
 package net.sharksystem.android.util;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.provider.Settings;
@@ -12,9 +14,8 @@ import android.widget.Toast;
 public class NfcChecks {
 
     public static void preliminaryNfcChecks(NfcAdapter nfcAdapter, Activity activity) {
-        // Todo doppelte Parameter Uebergabe versuch es besser zu machen globale variable?
-        isNfcEnabled(nfcAdapter,activity);
-        isNfcSupported(nfcAdapter,activity);
+        isNfcEnabled(nfcAdapter, activity);
+        isNfcSupported(nfcAdapter, activity);
     }
 
 
@@ -27,12 +28,20 @@ public class NfcChecks {
 
     private static void isNfcEnabled(NfcAdapter nfcAdapter, Activity activity) {
         if (!nfcAdapter.isEnabled()) {
-            Toast.makeText(
-                    activity,
-                    "NFC disabled on this device. Turn on to proceed",
-                    Toast.LENGTH_SHORT
-            ).show();
-            activity.startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+
+            new AlertDialog.Builder(activity)
+                    .setTitle("Do u want to enable NFC on this device?")
+                    .setMessage("NFC disabled on this device. Turn on to proceed.")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        activity.startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            activity.finish();
+                        }
+                    }).create().show();
         }
     }
 }

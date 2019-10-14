@@ -10,11 +10,10 @@ import java.security.cert.Certificate;
 public class SerializationHelper {
 
     // Serialization
-    public static byte[] objToByte(Certificate certificate) throws IOException {
+    public static byte[] objToByte(Object object) throws IOException {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         ObjectOutputStream objStream = new ObjectOutputStream(byteStream);
-        objStream.writeObject(certificate);
-
+        objStream.writeObject(object);
         return byteStream.toByteArray();
     }
 

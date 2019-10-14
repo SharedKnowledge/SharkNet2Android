@@ -5,32 +5,35 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import net.sharksystem.R;
+import net.sharksystem.android.util.Constants;
 import net.sharksystem.android.util.NfcChecks;
+import net.sharksystem.key_administration.fragments.ReceiveKeyPojo;
+import net.sharksystem.storage.SharedPreferencesHandler;
+
 import static net.sharksystem.android.util.SerializationHelper.byteToObj;
 
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.security.cert.Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReceivePublicKeyActivity extends AppCompatActivity {
 
     private NfcAdapter nfcAdapter = null;
     private final String TAG = this.getClass().getName();
-
+    private ProgressBar progressBar;
+    private SharedPreferencesHandler sharedPreferencesHandler;
 
     // Todo https://developer.android.com/guide/navigation/navigation-getting-started navigation editor einrichten und in der Arbeit beschreiben
     // Todo design pattern und best practise https://developer.android.com/jetpack/docs/guide & https://medium.com/@pszklarska/android-design-patterns-in-practice-builder-6b044f83e6e9
@@ -46,9 +49,13 @@ public class ReceivePublicKeyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receive_public_key);
 
-
         this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         NfcChecks.preliminaryNfcChecks(nfcAdapter, this);
+
+        progressBar = findViewById(R.id.receivePublicKeyProgressBar);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+
+        sharedPreferencesHandler = new SharedPreferencesHandler(this.getApplicationContext());
     }
 
     @Override
@@ -89,19 +96,9 @@ public class ReceivePublicKeyActivity extends AppCompatActivity {
 
     private void processIntent(Intent intent) {
 
-//        if (intent.getAction() != null) {
-//            boolean equals = intent.getAction().equals(NfcAdapter.ACTION_NDEF_DISCOVERED);
-//            if (equals) {
-//                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(
-//                        NfcAdapter.EXTRA_NDEF_MESSAGES);
-//                NdefMessage msg = (NdefMessage) rawMsgs[0];
-//                processNdefMessages(msg);
-//            }
-//        }
-
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            Certificate certificate = null;
+            ReceiveKeyPojo receiveData = null;
 
             if (rawMessages != null) {
                 NdefMessage[] messages = new NdefMessage[rawMessages.length];
@@ -109,73 +106,50 @@ public class ReceivePublicKeyActivity extends AppCompatActivity {
                     messages[i] = (NdefMessage) rawMessages[i];
                 }
 
-                Log.d(TAG, "messages: " + messages[0] + messages.length);
-                Log.d(TAG, "getRecord: " + messages[0].getRecords());
-                byte[] payload = messages[0].getRecords()[0].getPayload();
+                Log.d(TAG, "messages: " + messages.length);
+                Log.d(TAG, "getRecord: " + messages[0].getRecords().length);
+
+                byte[] receiveDataPayload = messages[0].getRecords()[0].getPayload();
+
                 try {
-                    certificate = (Certificate) byteToObj(payload);
+                    receiveData = (ReceiveKeyPojo) byteToObj(receiveDataPayload);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
 
-                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-
-                String certificateToString = (certificate != null) ? certificate.toString() : "cert is null";
-
-                Log.d(TAG, "Tag: " + tag.toString());
-                Log.d(TAG, "Tag: " + certificateToString);
-
-                Toast.makeText(this, "beam successfull", Toast.LENGTH_LONG).show();
-                showAlert();
-
+                Toast.makeText(this, "beam successful", Toast.LENGTH_LONG).show();
+                showAlert(receiveData);
 
             }
         }
     }
 
-    //    private void processNdefMessages(NdefMessage msg) {
-//
-//        String message = getKeyFromNdefMessage(msg);
-//        showAlert(message);
-//
-//    }
-//
-//    private String getKeyFromNdefMessage(NdefMessage msg) {
-//        String result = "";
-//        if (msg != null) {
-//            if (msg.getRecords() != null) {
-//                for (NdefRecord records : msg.getRecords()) {
-//                    result += new String(records.getPayload());
-//                }
-//            }
-//        }
-//        return result;
-//    }
-//
-    private void showAlert() {
-//        PublicKeyPackage publicKeyPackage = gson.fromJson(msg, PublicKeyPackage.class);
-//        PublicKeyRepository publicKeyRepository = new PublicKeyRepository(this.getApplication());
-//        ArrayList<PublicKeyPackage> allPublicKeys = publicKeyRepository.getAllPublicKeys();
-//        boolean duplicate = false;
+    private void persistData(ReceiveKeyPojo receiveData) {
 
-//        for (PublicKeyPackage key : allPublicKeys) {
-//            if (key.getPublicKeyInBase64().equals(publicKeyPackage.getPublicKeyInBase64())) {
-//                duplicate = true;
-//                break;
-//            }
-//        }
+        String keyListJson = sharedPreferencesHandler.getValue(Constants.KEY_LIST);
+
+        Gson gson = new Gson();
+        ArrayList<ReceiveKeyPojo> keyList = gson.fromJson(keyListJson, new TypeToken<List<ReceiveKeyPojo>>(){}.getType());
+
+        keyList.add(receiveData);
+
+        String newKeyListJson = gson.toJson(keyList);
+        sharedPreferencesHandler.writeValue(Constants.KEY_LIST, newKeyListJson);
+    }
+
+    private void showAlert(ReceiveKeyPojo receiveData) {
 
 
-        if (true) {
+        if (receiveData != null) {
 
             new AlertDialog.Builder(this)
                     .setTitle("Are you sure you want to save this Key?")
-                    .setMessage("Owner: " + "Me :D" + "\n" + " UUID: 1234567")
+                    .setMessage(receiveData.getAlias())
                     .setCancelable(false)
-                    .setPositiveButton("Yes", (DialogInterface.OnClickListener) (arg0, arg1) -> {
-//                        publicKeyRepository.insertPublicKey(publicKeyPackage);
+                    .setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        persistData(receiveData);
                         finish();
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
