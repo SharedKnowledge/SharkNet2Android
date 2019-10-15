@@ -1,10 +1,12 @@
-package net.sharksystem.key_administration.fragments;
+package net.sharksystem.key_administration.fragments.publicKey;
+
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class ReceiveKeyPojo implements Serializable {
+public class ReceiveKeyPojo implements Serializable, Comparable<ReceiveKeyPojo> {
 
     @SerializedName("alias")
     private String alias;
@@ -25,10 +27,6 @@ public class ReceiveKeyPojo implements Serializable {
         return alias;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
     public String getUuid() {
         return uuid;
     }
@@ -37,7 +35,20 @@ public class ReceiveKeyPojo implements Serializable {
         return certInBase64;
     }
 
-    public void setCertInBase64(String certInBase64) {
-        this.certInBase64 = certInBase64;
+    @Override
+    public int compareTo(@NonNull ReceiveKeyPojo o) {
+        return this.uuid.compareTo(o.uuid);
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean result = false;
+
+        if (obj instanceof ReceiveKeyPojo) {
+            ReceiveKeyPojo pojo = (ReceiveKeyPojo) obj;
+            result = pojo.uuid.equals(this.uuid);
+        }
+        return result;
     }
 }

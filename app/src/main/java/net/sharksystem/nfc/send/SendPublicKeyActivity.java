@@ -12,7 +12,7 @@ import net.sharksystem.R;
 import net.sharksystem.android.util.NfcChecks;
 import net.sharksystem.identity.android.IdentityStorageAndroid;
 import net.sharksystem.identity.android.SharkIdentityStorage;
-import net.sharksystem.key_administration.fragments.ReceiveKeyPojo;
+import net.sharksystem.key_administration.fragments.publicKey.ReceiveKeyPojo;
 import net.sharksystem.storage.keystore.RSAKeystoreHandler;
 
 import static net.sharksystem.android.util.SerializationHelper.objToByte;

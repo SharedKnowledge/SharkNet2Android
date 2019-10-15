@@ -1,18 +1,28 @@
-package net.sharksystem.key_administration.fragments;
+package net.sharksystem.key_administration.fragments.publicKey;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.sharksystem.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import net.sharksystem.R;
+import net.sharksystem.android.util.Constants;
+import net.sharksystem.storage.SharedPreferencesHandler;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,7 +32,7 @@ import java.util.ArrayList;
  * Use the {@link PublicKeyTabFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PublicKeyTabFragment extends Fragment {
+public class PublicKeyTabFragment extends Fragment implements RecyclerAdapter.OnKeyListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,7 +46,11 @@ public class PublicKeyTabFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerViewAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
+
+    SharedPreferencesHandler sharedPreferencesHandler;
+
+    ArrayList<ReceiveKeyPojo> keyList;
 
     public PublicKeyTabFragment() {
         // Required empty public constructor
@@ -68,7 +82,21 @@ public class PublicKeyTabFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+
+        sharedPreferencesHandler = new SharedPreferencesHandler(getActivity().getApplicationContext());
+        this.keyList = getKeyList();
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_public_key_tab, container, false);
+
+        // recycler view
+        recyclerView = view.findViewById(R.id.fragment_public_key_tab_recycler_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
@@ -76,31 +104,38 @@ public class PublicKeyTabFragment extends Fragment {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         // specify an adapter (see also next example)
-//        initRecyclerViewAdapter();
+        initRecyclerViewAdapter();
 
-
+        return view;
     }
 
     private void initRecyclerViewAdapter() {
-//        ArrayList<ReceiveKeyPojo> keyList = getKeyList();
-//        recyclerViewAdapter = new RecyclerAdapter(keyList);
-//        recyclerView.setAdapter(recyclerViewAdapter);
+        if (this.keyList != null) {
+            recyclerViewAdapter = new RecyclerAdapter(this.keyList, this);
+            recyclerView.setAdapter(recyclerViewAdapter);
+        }else {
+
+        }
     }
 
     private ArrayList<ReceiveKeyPojo> getKeyList() {
+        Gson gson = new Gson();
+        Type typeOfKeylist = new TypeToken<ArrayList<ReceiveKeyPojo>>() {
+        }.getType();
 
-        return null;
-    }
+        String keylistInJson = sharedPreferencesHandler.getValue(Constants.KEY_LIST);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_public_key_tab, container, false);
-        recyclerView = view.findViewById(R.id.fragment_public_key_tab_recycler_view);
-        return view;
+        if (keylistInJson != null) {
+            ArrayList<ReceiveKeyPojo> keylist = gson.fromJson(keylistInJson, typeOfKeylist);
+            return keylist;
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -125,6 +160,28 @@ public class PublicKeyTabFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ArrayList<ReceiveKeyPojo> keyList = getKeyList();
+
+        Collections.sort(keyList);
+        Collections.sort(this.keyList);
+
+        if(this.keyList.equals(keyList)) {
+            recyclerViewAdapter.notifyDataSetChanged();
+        }
+        this.keyList = getKeyList();
+    }
+
+    @Override
+    public void onKeyClick(int position) {
+        Intent intent = new Intent(getActivity(), DetailViewActivity.class);
+        int itemPos = position;
+        intent.putExtra("ITEM_POS", itemPos);
+        startActivity(intent);
     }
 
     /**

@@ -19,14 +19,14 @@ import com.google.gson.reflect.TypeToken;
 import net.sharksystem.R;
 import net.sharksystem.android.util.Constants;
 import net.sharksystem.android.util.NfcChecks;
-import net.sharksystem.key_administration.fragments.ReceiveKeyPojo;
+import net.sharksystem.key_administration.fragments.publicKey.ReceiveKeyPojo;
 import net.sharksystem.storage.SharedPreferencesHandler;
 
 import static net.sharksystem.android.util.SerializationHelper.byteToObj;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ReceivePublicKeyActivity extends AppCompatActivity {
 
@@ -127,16 +127,25 @@ public class ReceivePublicKeyActivity extends AppCompatActivity {
     }
 
     private void persistData(ReceiveKeyPojo receiveData) {
+        Gson gson = new Gson();
+        Type keyListType = new TypeToken<ArrayList<ReceiveKeyPojo>>() {}.getType();
 
         String keyListJson = sharedPreferencesHandler.getValue(Constants.KEY_LIST);
+        ArrayList<ReceiveKeyPojo> keyList = gson.fromJson(keyListJson, keyListType);
 
-        Gson gson = new Gson();
-        ArrayList<ReceiveKeyPojo> keyList = gson.fromJson(keyListJson, new TypeToken<List<ReceiveKeyPojo>>(){}.getType());
+        if (keyList == null) {
+            ArrayList<ReceiveKeyPojo> initialKeyList = new ArrayList<>();
+            initialKeyList.add(receiveData);
+            String newKeyListJson = gson.toJson(initialKeyList);
+            sharedPreferencesHandler.writeValue(Constants.KEY_LIST, newKeyListJson);
+        } else {
+            if(!keyList.contains(receiveData)) {
+                keyList.add(receiveData);
+                String newKeyListJson = gson.toJson(keyList);
+                sharedPreferencesHandler.writeValue(Constants.KEY_LIST, newKeyListJson);
+            }
+        }
 
-        keyList.add(receiveData);
-
-        String newKeyListJson = gson.toJson(keyList);
-        sharedPreferencesHandler.writeValue(Constants.KEY_LIST, newKeyListJson);
     }
 
     private void showAlert(ReceiveKeyPojo receiveData) {

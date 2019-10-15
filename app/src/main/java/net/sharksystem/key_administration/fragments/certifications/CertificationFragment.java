@@ -1,4 +1,4 @@
-package net.sharksystem.key_administration.fragments;
+package net.sharksystem.key_administration.fragments.certifications;
 
 import android.content.Context;
 import android.net.Uri;

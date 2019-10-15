@@ -10,8 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import net.sharksystem.R;
-import net.sharksystem.key_administration.fragments.CertificationFragment;
-import net.sharksystem.key_administration.fragments.PublicKeyTabFragment;
+import net.sharksystem.key_administration.fragments.certifications.CertificationFragment;
+import net.sharksystem.key_administration.fragments.publicKey.PublicKeyTabFragment;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class KeyAdministrationActivity extends AppCompatActivity implements PublicKeyTabFragment.OnFragmentInteractionListener, CertificationFragment.OnFragmentInteractionListener {

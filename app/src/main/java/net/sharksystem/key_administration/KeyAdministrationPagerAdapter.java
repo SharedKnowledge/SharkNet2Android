@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import net.sharksystem.R;
-import net.sharksystem.key_administration.fragments.CertificationFragment;
-import net.sharksystem.key_administration.fragments.PublicKeyTabFragment;
+import net.sharksystem.key_administration.fragments.certifications.CertificationFragment;
+import net.sharksystem.key_administration.fragments.publicKey.PublicKeyTabFragment;
 
 
 public class KeyAdministrationPagerAdapter extends FragmentPagerAdapter {

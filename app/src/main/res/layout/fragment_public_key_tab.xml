@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".key_administration.fragments.PublicKeyTabFragment">
+    tools:context=".key_administration.fragments.publicKey.PublicKeyTabFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_public_key_tab_recycler_view"

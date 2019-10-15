@@ -76,8 +76,6 @@ dependencies {
 
     // recyclerview
     implementation 'com.android.support:recyclerview-v7:27.0.0'
-//    implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
-
 
     // ButterKnife for view binding
 //    implementation 'com.jakewharton:butterknife:10.0.0'

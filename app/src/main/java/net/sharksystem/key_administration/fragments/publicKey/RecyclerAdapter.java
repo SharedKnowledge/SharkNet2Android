@@ -1,5 +1,6 @@
-package net.sharksystem.key_administration.fragments;
+package net.sharksystem.key_administration.fragments.publicKey;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,29 +18,39 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Custom
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public static class CustomViewHolder extends RecyclerView.ViewHolder {
+    public static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
         TextView alias;
+        OnKeyListener onKeyListener;
 
-        public CustomViewHolder(View itemView) {
+        public CustomViewHolder(View itemView, OnKeyListener onKeyListener) {
             super(itemView);
+            this.alias = itemView.findViewById(R.id.tvKeyAlias);
+            this.onKeyListener = onKeyListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onKeyListener.onKeyClick(getAdapterPosition());
         }
     }
 
     private ArrayList<ReceiveKeyPojo> data;
+    private OnKeyListener onKeyListener;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerAdapter(ArrayList<ReceiveKeyPojo> data) {
+    public RecyclerAdapter(ArrayList<ReceiveKeyPojo> data, OnKeyListener onKeyListener) {
         this.data = data;
+        this.onKeyListener = onKeyListener;
     }
 
     // Create new views (invoked by the layout manager)
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return null;
-//        return new CustomViewHolder(
-//                LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_layout_public_key_fragment, parent, false));
+        return new CustomViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_layout_public_key_fragment, parent, false), this.onKeyListener);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -54,4 +65,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Custom
     public int getItemCount() {
         return data.size();
     }
+
+    public interface OnKeyListener {
+        void onKeyClick(int position);
+    }
+
+
 }
