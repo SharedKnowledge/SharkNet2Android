@@ -1,4 +1,4 @@
-package net.sharksystem.nfc.send;
+package net.sharksystem.nfc;
 
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;

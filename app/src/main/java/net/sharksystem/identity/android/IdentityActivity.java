@@ -3,7 +3,6 @@ package net.sharksystem.identity.android;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,17 +10,22 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.android.util.NfcChecks;
-import net.sharksystem.nfc.receive.ReceivePublicKeyActivity;
-import net.sharksystem.nfc.send.SendPublicKeyActivity;
+import net.sharksystem.key_administration.fragments.publicKey.ReceiveKeyPojo;
+import net.sharksystem.nfc.NfcMessageManager;
 import net.sharksystem.sharknet.android.SharkNetApp;
 import net.sharksystem.storage.keystore.RSAKeystoreHandler;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+
+import static net.sharksystem.android.util.SerializationHelper.objToByte;
 
 public class IdentityActivity extends AppCompatActivity {
     private static final String LOGSTART = "IdentityActivity";
@@ -36,7 +40,6 @@ public class IdentityActivity extends AppCompatActivity {
     private TextView textViewUuid;
 
     private NfcAdapter nfcAdapter = null;
-
 
     public IdentityActivity() {
         this.thisActivity = this;
@@ -96,10 +99,37 @@ public class IdentityActivity extends AppCompatActivity {
         sendPublicKeyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SendPublicKeyActivity.class);
-                startActivity(intent);
+                try {
+                    setPushMessage();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
+    }
+
+    private void setPushMessage() throws IOException {
+        byte[] encodedPublicKeyCert = null;
+        try {
+            encodedPublicKeyCert = objToByte(RSAKeystoreHandler.getInstance().getCertificate());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String certInBase64 = Base64.encodeToString(encodedPublicKeyCert, Base64.DEFAULT);
+        ReceiveKeyPojo dataToSend = new ReceiveKeyPojo(storage.getOwnerName().toString(),storage.getOwnerID().toString(), certInBase64);
+        initNfcMessageManager(objToByte(dataToSend));
+    }
+
+
+    private void initNfcMessageManager(byte[] encodedPublicKeyCert) {
+        if (encodedPublicKeyCert != null) {
+            NfcMessageManager outcomingNfcCallback = new NfcMessageManager("application/net.sharksystem.send.public.key".getBytes(Charset.forName("US-ASCII")), encodedPublicKeyCert);
+            this.nfcAdapter.setOnNdefPushCompleteCallback(outcomingNfcCallback, this);
+            this.nfcAdapter.setNdefPushMessageCallback(outcomingNfcCallback, this);
+            this.nfcAdapter.invokeBeam(this);
+        } else {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

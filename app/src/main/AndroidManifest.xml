@@ -38,17 +38,17 @@
         <activity android:name=".makan.android.MakanAddMessageActivity" />
         <activity android:name=".identity.android.IdentityActivity" />
         <activity android:name=".key_administration.KeyAdministrationActivity" /> <!-- Activities for net.sharksystem.nfc -->
-        <activity android:name=".nfc.send.SendPublicKeyActivity" />
-        <activity android:name=".nfc.receive.ReceivePublicKeyActivity">
+        <activity android:name=".nfc.receive.ReceiveNFCDataActivity">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="application/net.sharksystem.send.public.key" />
+                <data android:mimeType="application/net.sharksystem.send.certificates" />
+
             </intent-filter>
         </activity>
-        <activity android:name=".nfc.receiveCert.ReceiveCertificationActivity" />
         <activity android:name=".nfc.sendCert.SendCertificationsActivity" />
     </application>
 

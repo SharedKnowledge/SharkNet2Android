@@ -13,6 +13,7 @@ import net.sharksystem.android.util.NfcChecks;
 import net.sharksystem.identity.android.IdentityStorageAndroid;
 import net.sharksystem.identity.android.SharkIdentityStorage;
 import net.sharksystem.key_administration.fragments.publicKey.ReceiveKeyPojo;
+import net.sharksystem.nfc.NfcMessageManager;
 import net.sharksystem.storage.keystore.RSAKeystoreHandler;
 
 import java.io.IOException;
@@ -31,22 +32,22 @@ public class SendCertificationsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_send_public_key);
+//        setContentView(R.layout.activity_send_public_key);
 
         this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         NfcChecks.preliminaryNfcChecks(nfcAdapter, this);
 
-        sendPublicKeyButton = findViewById(R.id.send_public_key);
-        sendPublicKeyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    setPushMessage();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        sendPublicKeyButton = findViewById(R.id.send_public_key);
+//        sendPublicKeyButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                try {
+//                    setPushMessage();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         storage = IdentityStorageAndroid.getIdentityStorage(this.getApplicationContext());
 
@@ -66,7 +67,7 @@ public class SendCertificationsActivity extends AppCompatActivity {
 
     private void initNfcMessageManager(byte[] encodedPublicKeyCert) {
         if (encodedPublicKeyCert != null) {
-            NfcMessageManagerForCertifications outcomingNfcCallback = new NfcMessageManagerForCertifications("application/net.sharksystem.send.public.key".getBytes(Charset.forName("US-ASCII")), encodedPublicKeyCert);
+            NfcMessageManager outcomingNfcCallback = new NfcMessageManager("application/net.sharksystem.send.certificates".getBytes(Charset.forName("US-ASCII")), encodedPublicKeyCert);
             this.nfcAdapter.setOnNdefPushCompleteCallback(outcomingNfcCallback, this);
             this.nfcAdapter.setNdefPushMessageCallback(outcomingNfcCallback, this);
             this.nfcAdapter.invokeBeam(this);
