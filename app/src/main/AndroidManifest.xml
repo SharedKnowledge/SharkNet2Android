@@ -48,6 +48,8 @@
                 <data android:mimeType="application/net.sharksystem.send.public.key" />
             </intent-filter>
         </activity>
+        <activity android:name=".nfc.receiveCert.ReceiveCertificationActivity" />
+        <activity android:name=".nfc.sendCert.SendCertificationsActivity" />
     </application>
 
 </manifest>

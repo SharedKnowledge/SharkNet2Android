@@ -131,6 +131,7 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
 
 //                            .setCertificateSubject(new X500Principal("CN=Android, O=Android Authority"))
 //                            .setCertificateSerialNumber(new BigInteger(256, new Random()))
+
 //                            .setCertificateNotBefore(new Date(now - (now % 1000L)))
 //                            .setCertificateNotAfter(new Date(((new Date(now - (now % 1000L))).getTime()) + (validityDays * 86400000L)))
 
@@ -250,6 +251,7 @@ public final class RSAKeystoreHandler implements KeystoreHandler {
         } catch (SignatureException e) {
             e.printStackTrace();
         } catch (InvalidKeyException e) {
+            // Todo return valid false
             e.printStackTrace();
         }
 

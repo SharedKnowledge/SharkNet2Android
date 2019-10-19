@@ -13,8 +13,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SignatureException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 
 import timber.log.Timber;
 
@@ -152,6 +157,29 @@ public class RSAKeystoreHandlerTest {
         Log.d(TAG, "signData: " + Base64.encodeToString(signedBytes, Base64.DEFAULT));
 
         assertTrue(validSignature);
+    }
+
+    @Test
+    public void verifyCertificate() {
+        Certificate certificate = keystoreHandler.getCertificate();
+        boolean result = true;
+
+        try {
+            certificate.verify(certificate.getPublicKey());
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            result = false;
+            e.printStackTrace();
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+        } catch (SignatureException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(result);
     }
 
 }

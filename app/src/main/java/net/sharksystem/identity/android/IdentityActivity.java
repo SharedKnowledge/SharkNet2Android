@@ -100,18 +100,10 @@ public class IdentityActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        Button receiveButtton = findViewById(R.id.button3);
-        receiveButtton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ReceivePublicKeyActivity.class);
-                startActivity(intent);
-
-            }
-        });
     }
 
+
+    // Todo Dialog class impl
     private void changeAliasDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -170,6 +162,8 @@ public class IdentityActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
     }
+
+
 
     protected void onPause() {
         super.onPause();
