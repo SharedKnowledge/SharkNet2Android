@@ -19,14 +19,15 @@ import com.google.gson.reflect.TypeToken;
 import net.sharksystem.R;
 import net.sharksystem.android.util.Constants;
 import net.sharksystem.android.util.NfcChecks;
+import net.sharksystem.key_administration.fragments.certifications.ReceiveCertificationPojo;
 import net.sharksystem.key_administration.fragments.publicKey.ReceiveKeyPojo;
 import net.sharksystem.storage.SharedPreferencesHandler;
-
-import static net.sharksystem.android.util.SerializationHelper.byteToObj;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import static net.sharksystem.android.util.SerializationHelper.byteToObj;
 
 public class ReceiveNFCDataActivity extends AppCompatActivity {
 
@@ -106,7 +107,7 @@ public class ReceiveNFCDataActivity extends AppCompatActivity {
                     processSendCertificates(intent);
                     break;
                 default:
-                    Log.d(TAG, "processIntent: Something went wrong in Receive NFC Data");
+                    Log.d(TAG, "processIntent: Something went wrong");
             }
         }
     }
@@ -136,11 +137,7 @@ public class ReceiveNFCDataActivity extends AppCompatActivity {
         }
     }
 
-    private void processSendCertificates(Intent intent) {
-
-    }
-
-    private void persistData(ReceiveKeyPojo receiveData) {
+    private void persistData(ReceiveKeyPojo receivedData) {
         Gson gson = new Gson();
         Type keyListType = new TypeToken<ArrayList<ReceiveKeyPojo>>() {
         }.getType();
@@ -150,12 +147,12 @@ public class ReceiveNFCDataActivity extends AppCompatActivity {
 
         if (keyList == null) {
             ArrayList<ReceiveKeyPojo> initialKeyList = new ArrayList<>();
-            initialKeyList.add(receiveData);
+            initialKeyList.add(receivedData);
             String newKeyListJson = gson.toJson(initialKeyList);
             sharedPreferencesHandler.writeValue(Constants.KEY_LIST, newKeyListJson);
         } else {
-            if (!keyList.contains(receiveData)) {
-                keyList.add(receiveData);
+            if (!keyList.contains(receivedData)) {
+                keyList.add(receivedData);
                 String newKeyListJson = gson.toJson(keyList);
                 sharedPreferencesHandler.writeValue(Constants.KEY_LIST, newKeyListJson);
             }
@@ -163,17 +160,17 @@ public class ReceiveNFCDataActivity extends AppCompatActivity {
 
     }
 
-    private void showAlert(ReceiveKeyPojo receiveData) {
+    private void showAlert(ReceiveKeyPojo receivedData) {
 
 
-        if (receiveData != null) {
+        if (receivedData != null) {
 
             new AlertDialog.Builder(this)
                     .setTitle("Are you sure you want to save this Key?")
-                    .setMessage(receiveData.getAlias())
+                    .setMessage(receivedData.getAlias())
                     .setCancelable(false)
                     .setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
-                        persistData(receiveData);
+                        persistData(receivedData);
                         finish();
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -187,4 +184,82 @@ public class ReceiveNFCDataActivity extends AppCompatActivity {
             finish();
         }
     }
+
+
+    private void processSendCertificates(Intent intent) {
+        // Todo check in Keylist if public already exist in direct trust, if so, check signer, if signer is not the same at to signers listc
+
+
+        Parcelable[] rawMessages = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        ReceiveCertificationPojo receiveData = null;
+
+        if (rawMessages != null) {
+            NdefMessage[] messages = new NdefMessage[rawMessages.length];
+            for (int i = 0; i < rawMessages.length; i++) {
+                messages[i] = (NdefMessage) rawMessages[i];
+            }
+
+            byte[] receiveDataPayload = messages[0].getRecords()[0].getPayload();
+
+            try {
+                receiveData = (ReceiveCertificationPojo) byteToObj(receiveDataPayload);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            Toast.makeText(this, "beam successful", Toast.LENGTH_LONG).show();
+            showAlertCert(receiveData);
+        }
+
+    }
+
+    public void persistCertificate(ReceiveCertificationPojo receivedData) {
+        Gson gson = new Gson();
+        Type certificateListType = new TypeToken<ArrayList<ReceiveCertificationPojo>>() {
+        }.getType();
+
+        String certificateListJson = sharedPreferencesHandler.getValue(Constants.CERTIFICATE_LIST);
+        ArrayList<ReceiveCertificationPojo> certificateList = gson.fromJson(certificateListJson, certificateListType);
+
+        if (certificateList == null) {
+            ArrayList<ReceiveCertificationPojo> initialCertificateList = new ArrayList<>();
+            initialCertificateList.add(receivedData);
+            String newKeyListJson = gson.toJson(initialCertificateList);
+            sharedPreferencesHandler.writeValue(Constants.CERTIFICATE_LIST, newKeyListJson);
+        } else {
+            if (!certificateList.contains(receivedData)) {
+                certificateList.add(receivedData);
+                String newKeyListJson = gson.toJson(certificateList);
+                sharedPreferencesHandler.writeValue(Constants.CERTIFICATE_LIST, newKeyListJson);
+            }
+        }
+    }
+
+    private void showAlertCert(ReceiveCertificationPojo receiveCertificationPojo) {
+
+
+        if (receiveCertificationPojo != null) {
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Are you sure you want to save this Key?")
+                    .setMessage(receiveCertificationPojo.getAlias())
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                        persistCertificate(receiveCertificationPojo);
+                        finish();
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).create().show();
+        } else {
+            Toast.makeText(this, "Cert already in Database", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
 }

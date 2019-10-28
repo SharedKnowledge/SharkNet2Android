@@ -19,16 +19,20 @@ public class ReceiveCertificationPojo implements Serializable, Comparable<Receiv
     @SerializedName("certInBase64")
     private String certInBase64;
 
-    @SerializedName("signers")
-    private ArrayList<Signer> signers;
+    @SerializedName("signer")
+    private Signer signer;
+
+//
+//    @SerializedName("signers")
+//    private ArrayList<Signer> signers;
 
 
 
-    public ReceiveCertificationPojo(String alias, String uuid, String certInBase64) {
+    public ReceiveCertificationPojo(String alias, String uuid, String certInBase64, Signer signer) {
         this.alias = alias;
         this.uuid = uuid;
         this.certInBase64 = certInBase64;
-        this.signers = new ArrayList<>();
+        this.signer = signer;
     }
 
     public String getAlias() {
@@ -43,9 +47,14 @@ public class ReceiveCertificationPojo implements Serializable, Comparable<Receiv
         return certInBase64;
     }
 
-    public void addMeToSignersList(Signer signer) {
-        this.signers.add(signer);
+    public Signer getSigner() {
+        return signer;
     }
+
+    //    public void addMeToSignersList(Signer signer) {
+//        this.signers.add(signer);
+//    }
+
 
     @Override
     public int compareTo(@NonNull ReceiveCertificationPojo o) {

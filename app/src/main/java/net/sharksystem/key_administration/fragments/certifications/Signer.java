@@ -1,12 +1,16 @@
 package net.sharksystem.key_administration.fragments.certifications;
 
-public class Signer {
+import android.support.annotation.NonNull;
+
+import java.io.Serializable;
+
+public class Signer implements Serializable, Comparable<Signer>{
 
     private String signaturInBase64;
     private String alias;
     private String uuid;
 
-    public Signer(String signaturInBase64, String alias, String uuid) {
+    public Signer(String alias, String uuid, String signaturInBase64) {
         this.signaturInBase64 = signaturInBase64;
         this.alias = alias;
         this.uuid = uuid;
@@ -45,5 +49,10 @@ public class Signer {
             result = signer.uuid.equals(this.uuid);
         }
         return result;
+    }
+
+    @Override
+    public int compareTo(@NonNull Signer o) {
+       return this.uuid.compareTo(o.uuid);
     }
 }

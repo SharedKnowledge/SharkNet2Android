@@ -1,14 +1,23 @@
 package net.sharksystem.key_administration.fragments.certifications;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import net.sharksystem.R;
+import net.sharksystem.key_administration.fragments.publicKey.DetailViewActivity;
+import net.sharksystem.key_administration.fragments.publicKey.RecyclerAdapter;
+import net.sharksystem.storage.SharedPreferencesHandler;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,7 +28,7 @@ import net.sharksystem.R;
  * Use the {@link CertificationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CertificationFragment extends Fragment {
+public class CertificationFragment extends Fragment implements CertificationRecyclerAdapter.OnCertificationClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,6 +39,14 @@ public class CertificationFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerViewAdapter;
+    private LinearLayoutManager layoutManager;
+
+    SharedPreferencesHandler sharedPreferencesHandler;
+
+    ArrayList<ReceiveCertificationPojo> certList;
 
     public CertificationFragment() {
         // Required empty public constructor
@@ -65,8 +82,46 @@ public class CertificationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_certification, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_public_key_tab, container, false);
+
+        // recycler view
+        recyclerView = view.findViewById(R.id.fragment_public_key_tab_recycler_view);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        // specify an adapter (see also next example)
+        initRecyclerViewAdapter();
+
+        return view;
+    }
+
+    private void initRecyclerViewAdapter() {
+        if (this.certList != null) {
+            recyclerViewAdapter = new CertificationRecyclerAdapter(this.certList, this);
+            recyclerView.setAdapter(recyclerViewAdapter);
+        }else {
+            // todo empty recycler view layout
+            ArrayList<ReceiveCertificationPojo> pojos = new ArrayList<>();
+
+            pojos.add(new ReceiveCertificationPojo("DummyAlias1", "Dummy UUID", "",
+                    new Signer("Dummy Signer Alias1", "Dummy uuid", "")));
+
+            pojos.add(new ReceiveCertificationPojo("DummyAlias2", "Dummy UUID", "",
+                    new Signer("Dummy Signer Alias2", "Dummy uuid", "")));
+
+            recyclerViewAdapter = new CertificationRecyclerAdapter(pojos, this);
+            recyclerView.setAdapter(recyclerViewAdapter);
+        }
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +146,14 @@ public class CertificationFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onKeyClick(int position) {
+        Intent intent = new Intent(getActivity(), DetailViewCertificationActivity.class);
+        int itemPos = position;
+        intent.putExtra("ITEM_POS", itemPos);
+        startActivity(intent);
     }
 
     /**

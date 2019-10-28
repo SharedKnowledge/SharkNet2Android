@@ -20,29 +20,31 @@ public class CertificationRecyclerAdapter extends RecyclerView.Adapter<Certifica
     public static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
         TextView alias;
+        TextView signer;
 
-        OnKeyListener onKeyListener;
+        OnCertificationClickListener onCertificationClickListener;
 
-        public CustomViewHolder(View itemView, OnKeyListener onKeyListener) {
+        public CustomViewHolder(View itemView, OnCertificationClickListener onCertificationClickListener) {
             super(itemView);
-            this.alias = itemView.findViewById(R.id.tvKeyAlias);
-            this.onKeyListener = onKeyListener;
+            this.alias = itemView.findViewById(R.id.cert_public_key);
+            this.signer = itemView.findViewById(R.id.cert_signer);
+            this.onCertificationClickListener = onCertificationClickListener;
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            onKeyListener.onKeyClick(getAdapterPosition());
+            onCertificationClickListener.onKeyClick(getAdapterPosition());
         }
     }
 
     private ArrayList<ReceiveCertificationPojo> data;
-    private OnKeyListener onKeyListener;
+    private OnCertificationClickListener onCertificationClickListener;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public CertificationRecyclerAdapter(ArrayList<ReceiveCertificationPojo> data, OnKeyListener onKeyListener) {
+    public CertificationRecyclerAdapter(ArrayList<ReceiveCertificationPojo> data, OnCertificationClickListener onCertificationClickListener) {
         this.data = data;
-        this.onKeyListener = onKeyListener;
+        this.onCertificationClickListener = onCertificationClickListener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -50,7 +52,7 @@ public class CertificationRecyclerAdapter extends RecyclerView.Adapter<Certifica
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new CustomViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_layout_public_key_fragment, parent, false), onKeyListener);
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_layout_certification_fragment, parent, false), onCertificationClickListener);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -59,6 +61,7 @@ public class CertificationRecyclerAdapter extends RecyclerView.Adapter<Certifica
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.alias.setText(data.get(position).getAlias());
+        holder.signer.setText(data.get(position).getSigner().getAlias());
     }
 
     @Override
@@ -66,7 +69,7 @@ public class CertificationRecyclerAdapter extends RecyclerView.Adapter<Certifica
         return data.size();
     }
 
-    public interface OnKeyListener {
+    public interface OnCertificationClickListener {
         void onKeyClick(int position);
     }
 }

@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,11 @@ import com.google.gson.reflect.TypeToken;
 
 import net.sharksystem.R;
 import net.sharksystem.android.util.Constants;
+import net.sharksystem.key_administration.fragments.certifications.DetailViewCertificationActivity;
 import net.sharksystem.storage.SharedPreferencesHandler;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -165,15 +164,16 @@ public class PublicKeyTabFragment extends Fragment implements RecyclerAdapter.On
     @Override
     public void onResume() {
         super.onResume();
-        ArrayList<ReceiveKeyPojo> keyList = getKeyList();
-
-        Collections.sort(keyList);
-        Collections.sort(this.keyList);
-
-        if(this.keyList.equals(keyList)) {
-            recyclerViewAdapter.notifyDataSetChanged();
-        }
-        this.keyList = getKeyList();
+        // Todo autoupdate recycler view
+//        ArrayList<ReceiveKeyPojo> keyList = getKeyList();
+//
+//        Collections.sort(keyList);
+//        Collections.sort(this.keyList);
+//
+//        if(this.keyList.equals(keyList)) {
+//            recyclerViewAdapter.notifyDataSetChanged();
+//        }
+//        this.keyList = getKeyList();
     }
 
     @Override

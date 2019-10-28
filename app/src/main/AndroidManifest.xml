@@ -18,7 +18,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme">
-        <activity android:name=".key_administration.fragments.publicKey.DetailViewActivity"></activity>
+        <activity android:name=".key_administration.fragments.certifications.DetailViewCertificationActivity"></activity>
+        <activity android:name=".key_administration.fragments.publicKey.DetailViewActivity" />
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings" /> <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
@@ -46,10 +47,8 @@
 
                 <data android:mimeType="application/net.sharksystem.send.public.key" />
                 <data android:mimeType="application/net.sharksystem.send.certificates" />
-
             </intent-filter>
         </activity>
-        <activity android:name=".nfc.sendCert.SendCertificationsActivity" />
     </application>
 
 </manifest>

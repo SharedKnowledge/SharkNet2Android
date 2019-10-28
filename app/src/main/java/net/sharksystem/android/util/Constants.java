@@ -10,5 +10,6 @@ public class Constants {
     public static final String UUID_USER = "uuidUser";
     public static final String FILENAME = "SharkNet2PreferenceFilename";
     public static final String KEY_LIST = "allReceivedKeys";
+    public static final String CERTIFICATE_LIST = "allReceivedCertificates";
 
 }

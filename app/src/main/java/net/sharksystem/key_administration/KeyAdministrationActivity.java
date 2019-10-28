@@ -1,21 +1,32 @@
 package net.sharksystem.key_administration;
 
 import android.net.Uri;
+import android.nfc.NfcAdapter;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import net.sharksystem.R;
+import net.sharksystem.android.util.NfcChecks;
+import net.sharksystem.identity.android.IdentityStorageAndroid;
+import net.sharksystem.identity.android.SharkIdentityStorage;
 import net.sharksystem.key_administration.fragments.certifications.CertificationFragment;
 import net.sharksystem.key_administration.fragments.publicKey.PublicKeyTabFragment;
 import net.sharksystem.sharknet.android.SharkNetApp;
+import net.sharksystem.storage.SharedPreferencesHandler;
 
 public class KeyAdministrationActivity extends AppCompatActivity implements PublicKeyTabFragment.OnFragmentInteractionListener, CertificationFragment.OnFragmentInteractionListener {
 
+    private SharkIdentityStorage storage;
+    private NfcAdapter nfcAdapter = null;
+    private SharedPreferencesHandler sharedPreferencesHandler;
+    private final String TAG = this.getClass().getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +40,7 @@ public class KeyAdministrationActivity extends AppCompatActivity implements Publ
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Keys and Certifications");
 
-        // viewPager slide btw two fragments
+        // viewPager slide btw. two fragments
         ViewPager viewPager = findViewById(R.id.keyAdministrationViewPager);
         PagerAdapter pagerAdapter = new KeyAdministrationPagerAdapter(getSupportFragmentManager(), this.getApplicationContext());
         viewPager.setAdapter(pagerAdapter);
@@ -39,6 +50,7 @@ public class KeyAdministrationActivity extends AppCompatActivity implements Publ
         tableLayout.setupWithViewPager(viewPager);
 
     }
+
 
     // Menu icons are inflated just as they were with actionbar
     @Override
@@ -51,5 +63,20 @@ public class KeyAdministrationActivity extends AppCompatActivity implements Publ
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.toolbar_menu_button_send_certifiction:
+                Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
+                return true;
+            case R.id.toolbar_menu_button_send_publicKey:
+                Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
