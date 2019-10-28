@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.sharksystem.R;
-import net.sharksystem.key_administration.fragments.publicKey.DetailViewActivity;
-import net.sharksystem.key_administration.fragments.publicKey.RecyclerAdapter;
 import net.sharksystem.storage.SharedPreferencesHandler;
 
 import java.util.ArrayList;

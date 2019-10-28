@@ -164,16 +164,10 @@ public class PublicKeyTabFragment extends Fragment implements RecyclerAdapter.On
     @Override
     public void onResume() {
         super.onResume();
-        // Todo autoupdate recycler view
-//        ArrayList<ReceiveKeyPojo> keyList = getKeyList();
-//
-//        Collections.sort(keyList);
-//        Collections.sort(this.keyList);
-//
-//        if(this.keyList.equals(keyList)) {
-//            recyclerViewAdapter.notifyDataSetChanged();
-//        }
-//        this.keyList = getKeyList();
+        ArrayList<ReceiveKeyPojo> updatedKeyList = getKeyList();
+        this.keyList.clear();
+        this.keyList.addAll(updatedKeyList);
+        this.recyclerViewAdapter.notifyDataSetChanged();
     }
 
     @Override

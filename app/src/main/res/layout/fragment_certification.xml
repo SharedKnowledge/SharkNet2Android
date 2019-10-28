@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".key_administration.fragments.certifications.CertificationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_certification_tab_recycler_view"
         android:layout_width="match_parent"
