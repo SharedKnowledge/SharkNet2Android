@@ -29,8 +29,9 @@
     <string name="appMakan">Makan</string>
     <string name="title_activity_makan_list">Makan List</string>
 
-    <string name="makanMenuAddButtonText">Add Makan</string>
-    <string name="makanMenuRemoveAllButtonText">Remove all Makan</string>
+    <string name="makanMenuAddClosedButtonText">Add Closed</string>
+    <string name="makanMenuAddOpenButtonText">Add Open</string>
+    <string name="makanMenuRemoveAllButtonText">Remove all</string>
     <string name="title_activity_makan_view">Makan View</string>
     <string name="makanMenuAddMessageButtonText">Add</string>
     <string name="appIdentity">Identity</string>
@@ -40,6 +41,7 @@
     <string name="makanAddMakanURIExplanationText">enter channel uri</string>
     <string name="makanAddMakanNameExplanationText">enter channel name</string>
     <string name="settingsBluetoothD_And_D_Explanation">Scan BT</string>
+    <string name="identityShowPersonListExplanationText">Produce list of possible members</string>
 
-
+    <string name="personListSelectionDoneText">Done Selection</string>
 </resources>

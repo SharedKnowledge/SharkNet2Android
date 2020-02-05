@@ -1,6 +1,5 @@
-package net.sharksystem.makan.android;
+package net.sharksystem.persons.android;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,23 +12,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.ASAPException;
-import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.io.IOException;
-
-/**
- * work with makan list
- */
-public class MakanListActivity extends SharkNetActivity {
+public class PersonListActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
-    private MakanListContentAdapter mAdapter;
+    private PersonListContentAdapter mAdapter;
 
-    public MakanListActivity() {
+    public PersonListActivity() {
         super(SharkNetApp.getSharkNetApp());
     }
 
@@ -39,27 +31,27 @@ public class MakanListActivity extends SharkNetActivity {
         Log.d(this.getLogStart(), "onCreate");
 
         try {
-            setContentView(R.layout.makan_list_drawer_layout);
+            setContentView(R.layout.person_list_drawer_layout);
 
             this.getSharkNetApp().setupDrawerLayout(this);
 
             // initialize MakanApp
-            MakanApp.getMakanApp(this);
+            PersonsApp.getPersonsApp(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
             // setup toolbar
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_list_with_toolbar);
+            Toolbar myToolbar = (Toolbar) findViewById(R.id.person_selection_list_with_toolbar);
             setSupportActionBar(myToolbar);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare recycler view                      //
             ////////////////////////////////////////////////////////////////////////
 
-            mRecyclerView = (RecyclerView) findViewById(R.id.makan_list_recycler_view);
+            mRecyclerView = (RecyclerView) findViewById(R.id.person_list_recycler_view);
 
-            mAdapter = new MakanListContentAdapter(this);
+            mAdapter = new PersonListContentAdapter(this);
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
 
@@ -74,7 +66,6 @@ public class MakanListActivity extends SharkNetActivity {
             // debug break
             int i = 42;
         }
-
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +79,9 @@ public class MakanListActivity extends SharkNetActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(this.getLogStart(), "onCreateOptionsMenu called");
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.makan_list_action_buttons, menu);
+        inflater.inflate(R.menu.person_selection_list_action_buttons, menu);
         return true;
     }
 
@@ -98,18 +90,12 @@ public class MakanListActivity extends SharkNetActivity {
 
         try {
             switch (item.getItemId()) {
-                case R.id.makanMenuAddOpenButton:
-                    this.doAddOpenMakan();
+                case R.id.personListSelectionDoneButton:
+                    this.doDone();
                     return true;
 
-                case R.id.makanMenuAddClosedButton:
-                    this.doAddClosedMakan();
-                    return true;
-
-                case R.id.makanMenuRemoveAllButton:
-                    this.doRemoveAll();
-                    // force adapter to refresh ui
-                    this.mAdapter.notifyDataSetChanged();
+                case R.id.abortButton:
+                    this.finish();
                     return true;
 
                 default:
@@ -126,6 +112,16 @@ public class MakanListActivity extends SharkNetActivity {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
+    //                                action implementations                                   //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void doDone() {
+        // TODO
+        Log.d(this.getLogStart(), "doDone: TODO");
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
     //                                     life cycle                                          //
     /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -139,34 +135,5 @@ public class MakanListActivity extends SharkNetActivity {
         if(mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    //                                ASAP / Makan Storage Management                          //
-    /////////////////////////////////////////////////////////////////////////////////////////////
-
-    private void doAddOpenMakan() {
-        String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(this.getLogStart(), "doAddOpenMakanCalled");
-
-        Intent intent = new Intent(this, AddOpenMakanActivity.class);
-        this.startActivity(intent);
-    }
-
-    private void doAddClosedMakan() {
-        String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(this.getLogStart(), "doAddClosedMakanCalled");
-
-        Intent intent = new Intent(this, AddClosedMakanActivity.class);
-        this.startActivity(intent);
-    }
-
-    private void doRemoveAll() throws IOException, ASAPException {
-        String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(this.getLogStart(), "doRemoveAll called");
-
-        MakanApp.getMakanStorage().removeAllMakan();
-
-        Toast.makeText(this, "done - removed all makan", Toast.LENGTH_SHORT).show();
     }
 }

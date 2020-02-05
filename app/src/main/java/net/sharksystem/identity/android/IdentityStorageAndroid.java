@@ -3,8 +3,6 @@ package net.sharksystem.identity.android;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import net.sharksystem.identity.Person;
-
 public class IdentityStorageAndroid implements SharkIdentityStorage {
     private static IdentityStorageAndroid instance;
 

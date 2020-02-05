@@ -4,9 +4,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/makanMenuAddButton"
+        android:id="@+id/makanMenuAddOpenButton"
         android:checkable="true"
-        android:title="@string/makanMenuAddButtonText"
+        android:title="@string/makanMenuAddOpenButtonText"
+        app:showAsAction="always|withText"
+        />
+    <item
+        android:id="@+id/makanMenuAddClosedButton"
+        android:checkable="true"
+        android:title="@string/makanMenuAddClosedButtonText"
         app:showAsAction="always|withText"
         />
     <item

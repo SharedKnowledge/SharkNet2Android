@@ -9,15 +9,14 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.makan.Makan;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
-public class AddMakanActivity extends SharkNetActivity {
+public class AddOpenMakanActivity extends SharkNetActivity {
 
-    public AddMakanActivity() {
+    public AddOpenMakanActivity() {
         super(SharkNetApp.getSharkNetApp());
     }
 
@@ -25,7 +24,7 @@ public class AddMakanActivity extends SharkNetActivity {
         super.onCreate(savedInstanceState);
         Log.d(this.getLogStart(), "onCreate");
 
-        setContentView(R.layout.makan_add_makan_drawer_layout);
+        setContentView(R.layout.makan_add_open_makan_drawer_layout);
 
         this.getSharkNetApp().setupDrawerLayout(this);
 

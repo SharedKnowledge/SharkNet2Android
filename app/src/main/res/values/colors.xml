@@ -10,4 +10,7 @@
     <color name="makanMessage">#999999</color>
     <color name="makanSentDate">#999999</color>
     <color name="makanSender">#999999</color>
+
+    <color name="personName">#999999</color>
+    <color name="personTrustLevel">#999999</color>
 </resources>
