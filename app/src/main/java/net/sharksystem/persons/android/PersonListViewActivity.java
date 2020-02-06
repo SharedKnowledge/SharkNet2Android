@@ -33,9 +33,9 @@ public class PersonListViewActivity extends PersonListActivity {
 
         try {
             switch (item.getItemId()) {
-                case R.id.personListViewAddButton:
+                case R.id.personListViewRemoveButton:
                     Log.d(this.getLogStart(), "personListViewAddButton");
-                    this.doAddPerson();
+                    this.doRemovePersons();
                     return true;
 
                 case R.id.abortButton:
@@ -59,10 +59,10 @@ public class PersonListViewActivity extends PersonListActivity {
     //                                action implementations                                   //
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void doAddPerson() {
+    private void doRemovePersons() {
         // TODO
-        Log.d(this.getLogStart(), "doAddPerson: TODO");
+        Log.d(this.getLogStart(), "doRemovePersons: TODO");
 
-        Toast.makeText(this, "NYI: add person", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "NYI: remove persons", Toast.LENGTH_SHORT).show();
     }
 }

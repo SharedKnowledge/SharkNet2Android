@@ -15,9 +15,11 @@
         <item
             android:id="@+id/moduleRadar"
             android:title="@string/appRadar" />
+        <!--
         <item
             android:id="@+id/moduleTellPosition"
             android:title="@string/appTellPosition" />
+            -->
         <item
             android:id="@+id/moduleNetworkSettings"
             android:title="@string/networksettings" />
