@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/person_selection_list_with_toolbar" />
+    <include layout="@layout/person_list_with_toolbar" />
 
     <include layout="@layout/sharknet_drawer_navigation_view" />
 

@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.persons.android.PersonListActivity;
+import net.sharksystem.persons.android.PersonListSelectionActivity;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -36,7 +36,7 @@ public class AddClosedMakanActivity extends SharkNetActivity {
     public void onShowPersonListClick(View view) {
         Log.d(this.getLogStart(), "onShowPersonListClick");
 
-        Intent intent = new Intent(this, PersonListActivity.class);
+        Intent intent = new Intent(this, PersonListSelectionActivity.class);
         this.startActivity(intent);
     }
 

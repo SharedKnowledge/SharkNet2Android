@@ -19,9 +19,8 @@
         <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
 
-
-
-        <activity android:name=".persons.android.PersonListActivity" />
+        <activity android:name=".persons.android.PersonListViewActivity" />
+        <activity android:name=".persons.android.PersonListSelectionActivity" />
         <activity android:name=".makan.android.AddOpenMakanActivity" />
         <activity android:name=".makan.android.AddClosedMakanActivity" />
         <activity android:name=".radar.android.RadarActivity" android:launchMode="singleTask"/>

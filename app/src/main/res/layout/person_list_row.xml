@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/person_list_row_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textColor="@color/personName"
@@ -25,15 +25,22 @@
         android:id="@+id/person_list_row_trustlevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/person_list_row_name"
+        android:layout_toRightOf="@id/person_list_row_name"
+        android:layout_alignBottom="@id/person_list_row_name"
+        android:paddingLeft="2pt"
         android:textColor="@color/personTrustLevel"
         />
+    <!--
+        android:layout_below="@id/person_list_row_name"
+        android:layout_alignParentBottom="true"
+    -->
 
     <TextView
         android:id="@+id/person_list_row_selected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/person_list_row_trustlevel"
+        android:layout_below="@id/person_list_row_name"
         android:textColor="@color/personTrustLevel"
         />
+
 </RelativeLayout>

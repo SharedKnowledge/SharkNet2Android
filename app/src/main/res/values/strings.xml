@@ -9,6 +9,7 @@
     <string name="appBubble">Bubble</string>
     <string name="appRadar">Radar</string>
     <string name="appTellPosition">Position</string>
+    <string name="appPersons">Persons</string>
 
     <string name="bubbleAuthority">net.sharksystem.bubble</string>
     <string name="syncAuthority">net.sharksystem.sync</string>
@@ -44,4 +45,6 @@
     <string name="identityShowPersonListExplanationText">Produce list of possible members</string>
 
     <string name="personListSelectionDoneText">Done Selection</string>
+    <string name="personListViewAddText">Add Person</string>
+
 </resources>

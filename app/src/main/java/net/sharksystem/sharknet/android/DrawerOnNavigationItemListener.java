@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import net.sharksystem.R;
 import net.sharksystem.identity.android.IdentityActivity;
 import net.sharksystem.makan.android.MakanListActivity;
+import net.sharksystem.persons.android.PersonListSelectionActivity;
+import net.sharksystem.persons.android.PersonListViewActivity;
 import net.sharksystem.radar.android.RadarActivity;
 import net.sharksystem.sharknet.android.settings.SettingsActivity;
 
@@ -42,6 +44,11 @@ public class DrawerOnNavigationItemListener implements
 
                 case R.id.moduleIdentity:
                     intent = new Intent(this.activity, IdentityActivity.class);
+                    this.activity.startActivity(intent);
+                    break;
+
+                case R.id.modulePersons:
+                    intent = new Intent(this.activity, PersonListViewActivity.class);
                     this.activity.startActivity(intent);
                     break;
 

@@ -14,12 +14,10 @@ import net.sharksystem.SharkException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PersonListContentAdapter extends
-        RecyclerView.Adapter<PersonListContentAdapter.MyViewHolder> implements View.OnClickListener {
+public class PersonListSelectionContentAdapter extends
+        RecyclerView.Adapter<PersonListSelectionContentAdapter.MyViewHolder> implements View.OnClickListener {
 
-    private static final String LOGSTART = "PersonListContentAdapter";
     private final Context ctx;
-    private CharSequence topic = null;
     private View.OnClickListener clickListener;
 
     private Set<CharSequence> selectedName = new HashSet<>();
@@ -36,25 +34,25 @@ public class PersonListContentAdapter extends
         }
     }
 
-    public PersonListContentAdapter(Context ctx) throws SharkException {
+    public PersonListSelectionContentAdapter(Context ctx) throws SharkException {
         Log.d(this.getLogStart(), "constructor");
         this.ctx = ctx;
         this.clickListener = this;
     }
 
     @Override
-    public net.sharksystem.persons.android.PersonListContentAdapter.MyViewHolder onCreateViewHolder(
+    public PersonListSelectionContentAdapter.MyViewHolder onCreateViewHolder(
             ViewGroup parent, int viewType) {
         Log.d(this.getLogStart(), "onCreateViewHolder");
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.person_list_row, parent, false);
 
-        return new net.sharksystem.persons.android.PersonListContentAdapter.MyViewHolder(itemView);
+        return new PersonListSelectionContentAdapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(PersonListContentAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(PersonListSelectionContentAdapter.MyViewHolder holder, int position) {
         Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
         /*

@@ -10,6 +10,9 @@
             android:id="@+id/moduleIdentity"
             android:title="@string/appIdentity" />
         <item
+            android:id="@+id/modulePersons"
+            android:title="@string/appPersons" />
+        <item
             android:id="@+id/moduleRadar"
             android:title="@string/appRadar" />
         <item
