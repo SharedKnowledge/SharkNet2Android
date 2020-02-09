@@ -6,7 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPApplication;
-import net.sharksystem.identity.android.IdentityStorageAndroid;
+import net.sharksystem.persons.android.OwnerStorageAndroid;
 
 public class SharkNetApp extends ASAPApplication {
 
@@ -17,7 +17,7 @@ public class SharkNetApp extends ASAPApplication {
     }
 
     public CharSequence getASAPOwner(Activity activity) {
-        return IdentityStorageAndroid.getIdentityStorage(activity).getOwnerName();
+        return OwnerStorageAndroid.getIdentityStorage(activity).getDisplayName();
     }
 
     public static SharkNetApp getSharkNetApp() {
@@ -46,10 +46,10 @@ public class SharkNetApp extends ASAPApplication {
      */
 
     public CharSequence getOwnerID() {
-        return IdentityStorageAndroid.getIdentityStorage(this.getActivity()).getOwnerID();
+        return OwnerStorageAndroid.getIdentityStorage(this.getActivity()).getUUID();
     }
 
     public boolean isOwnerSet() {
-        return IdentityStorageAndroid.getIdentityStorage(this.getActivity()).isOwnerSet();
+        return OwnerStorageAndroid.getIdentityStorage(this.getActivity()).isOwnerSet();
     }
 }

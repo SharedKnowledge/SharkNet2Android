@@ -133,7 +133,7 @@ public class MakanListActivity extends SharkNetActivity {
         super.onResume();
         Log.d(this.getLogStart(), "onResume");
 
-        Toast.makeText(this, "onResume", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "onResume", Toast.LENGTH_LONG).show();
 
         // could come back from add makan or something
         if(mAdapter != null) {

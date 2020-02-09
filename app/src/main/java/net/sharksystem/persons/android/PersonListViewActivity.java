@@ -1,9 +1,11 @@
 package net.sharksystem.persons.android;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import net.sharksystem.R;
@@ -16,6 +18,7 @@ public class PersonListViewActivity extends PersonListActivity {
 
     /**
      * connect menu with menu items and make them visible
+     *
      * @param menu
      * @return
      */
@@ -34,8 +37,13 @@ public class PersonListViewActivity extends PersonListActivity {
         try {
             switch (item.getItemId()) {
                 case R.id.personListViewRemoveButton:
-                    Log.d(this.getLogStart(), "personListViewAddButton");
+                    Log.d(this.getLogStart(), "personListViewRemoveButton");
                     this.doRemovePersons();
+                    return true;
+
+                case R.id.personListViewAddButton:
+                    Log.d(this.getLogStart(), "personListViewAddButton");
+                    this.doAddPerson();
                     return true;
 
                 case R.id.abortButton:
@@ -47,8 +55,7 @@ public class PersonListViewActivity extends PersonListActivity {
                     // Invoke the superclass to handle it.
                     return super.onOptionsItemSelected(item);
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             Log.d(this.getLogStart(), e.getLocalizedMessage());
         }
 
@@ -64,5 +71,10 @@ public class PersonListViewActivity extends PersonListActivity {
         Log.d(this.getLogStart(), "doRemovePersons: TODO");
 
         Toast.makeText(this, "NYI: remove persons", Toast.LENGTH_SHORT).show();
+    }
+
+    private void doAddPerson() {
+        Log.d(this.getLogStart(), "doAddPerson");
+        this.startActivity(new Intent(this, PersonReceiveCredentialsActivity.class));
     }
 }

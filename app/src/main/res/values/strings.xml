@@ -32,7 +32,7 @@
 
     <string name="makanMenuAddClosedButtonText">Add Closed</string>
     <string name="makanMenuAddOpenButtonText">Add Open</string>
-    <string name="makanMenuRemoveAllButtonText">Remove all</string>
+    <string name="makanMenuRemoveAllButtonText">Remove</string>
     <string name="title_activity_makan_view">Makan View</string>
     <string name="makanMenuAddMessageButtonText">Add</string>
     <string name="appIdentity">Identity</string>
@@ -45,6 +45,12 @@
     <string name="identityShowPersonListExplanationText">Produce list of possible members</string>
 
     <string name="personListSelectionDoneText">Done Selection</string>
-    <string name="personListViewRemoveText">Remove Selected</string>
+    <string name="personListViewButtonRemoveText">Remove</string>
+    <string name="personListViewButtonAddText">Add</string>
+
+    <string name="sendCredentialsButtonText">Send Credentials</string>
+    <string name="doneButtonText">Done</string>
+
+    <string name="iAmAbsolutelySureButtonText">I understand and I confirm</string>
 
 </resources>

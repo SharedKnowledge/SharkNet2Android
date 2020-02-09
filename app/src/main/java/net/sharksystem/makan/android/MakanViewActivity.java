@@ -199,7 +199,7 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
     }
 
     @Override
-    public void chunkReceived(String sender, String uri, int era) {
+    public void chunkReceived(String sender, String s1, String uri, int era) {
         Log.d(this.getLogStart(), "chunkReceived");
 
         this.resetAdapter();

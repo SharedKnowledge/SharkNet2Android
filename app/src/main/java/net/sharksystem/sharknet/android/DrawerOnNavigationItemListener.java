@@ -9,9 +9,8 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import net.sharksystem.R;
-import net.sharksystem.identity.android.IdentityActivity;
+import net.sharksystem.persons.android.OwnerActivity;
 import net.sharksystem.makan.android.MakanListActivity;
-import net.sharksystem.persons.android.PersonListSelectionActivity;
 import net.sharksystem.persons.android.PersonListViewActivity;
 import net.sharksystem.radar.android.RadarActivity;
 import net.sharksystem.sharknet.android.settings.SettingsActivity;
@@ -43,7 +42,7 @@ public class DrawerOnNavigationItemListener implements
                     break;
 
                 case R.id.moduleIdentity:
-                    intent = new Intent(this.activity, IdentityActivity.class);
+                    intent = new Intent(this.activity, OwnerActivity.class);
                     this.activity.startActivity(intent);
                     break;
 

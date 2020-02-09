@@ -1,10 +1,12 @@
-package net.sharksystem.identity.android;
+package net.sharksystem.persons.android;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class IdentityStorageAndroid implements SharkIdentityStorage {
-    private static IdentityStorageAndroid instance;
+import net.sharksystem.persons.Owner;
+
+public class OwnerStorageAndroid implements Owner {
+    private static OwnerStorageAndroid instance;
 
     private final static String PREFERENCES_FILE = "SharkNet2Identity";
     private final static String OWNER_NAME = "SharkNet2Identity_OwnerName";
@@ -19,17 +21,17 @@ public class IdentityStorageAndroid implements SharkIdentityStorage {
 
     private Context currentContext;
 
-    public static SharkIdentityStorage getIdentityStorage(Context ctx) {
-        if(IdentityStorageAndroid.instance == null) {
-            IdentityStorageAndroid.instance = new IdentityStorageAndroid(ctx);
+    public static Owner getIdentityStorage(Context ctx) {
+        if(OwnerStorageAndroid.instance == null) {
+            OwnerStorageAndroid.instance = new OwnerStorageAndroid(ctx);
         }
 
-        IdentityStorageAndroid.instance.setCurrentContext(ctx);
+        OwnerStorageAndroid.instance.setCurrentContext(ctx);
 
-        return IdentityStorageAndroid.instance;
+        return OwnerStorageAndroid.instance;
     }
 
-    private IdentityStorageAndroid(Context ctx) {
+    private OwnerStorageAndroid(Context ctx) {
         this.currentContext = ctx;
 
         SharedPreferences sharedPref = ctx.getSharedPreferences(
@@ -66,7 +68,7 @@ public class IdentityStorageAndroid implements SharkIdentityStorage {
     }
 
     @Override
-    public void setOwnerName(CharSequence userName) {
+    public void setDisplayName(CharSequence userName) {
         this.ownerName = userName;
 
         SharedPreferences sharedPref = this.currentContext.getSharedPreferences(
@@ -87,12 +89,12 @@ public class IdentityStorageAndroid implements SharkIdentityStorage {
     }
 
     @Override
-    public CharSequence getOwnerID() {
+    public CharSequence getUUID() {
         return this.ownerID;
     }
 
     @Override
-    public CharSequence getOwnerName() {
+    public CharSequence getDisplayName() {
         return this.ownerName;
     }
 }

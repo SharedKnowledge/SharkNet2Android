@@ -4,9 +4,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/personListViewAddButton"
+        android:checkable="true"
+        android:title="@string/personListViewButtonAddText"
+        app:showAsAction="always|withText"
+        />
+    <item
         android:id="@+id/personListViewRemoveButton"
         android:checkable="true"
-        android:title="@string/personListViewRemoveText"
+        android:title="@string/personListViewButtonRemoveText"
         app:showAsAction="always|withText"
         />
     <item

@@ -28,7 +28,7 @@ public class PersonListSelectionContentAdapter extends
         public MyViewHolder(View view) {
             super(view);
             personName = (TextView) view.findViewById(R.id.person_list_row_name);
-            personTrustLevel = (TextView) view.findViewById(R.id.person_list_row_trustlevel);
+            personTrustLevel = (TextView) view.findViewById(R.id.person_list_row_identity_assurance_level);
             personSelected = (TextView) view.findViewById(R.id.person_list_row_selected);
             view.setOnClickListener(clickListener);
         }

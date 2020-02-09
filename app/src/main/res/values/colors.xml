@@ -12,5 +12,5 @@
     <color name="makanSender">#999999</color>
 
     <color name="personName">#999999</color>
-    <color name="personTrustLevel">#999999</color>
+    <color name="personIdentityAssuranceLevel">#999999</color>
 </resources>
