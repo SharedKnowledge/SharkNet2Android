@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 public class MakanApp {
     public static final String MAKAN_FOLDER_NAME = "makan";
+    public static final CharSequence APP_NAME = "Makan";
 
     private static final String LOGSTART = "MakanApp";
     private static MakanApp singleton = null;

@@ -6,14 +6,19 @@ import android.support.v4.widget.DrawerLayout;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPApplication;
+import net.sharksystem.makan.android.MakanApp;
+import net.sharksystem.persons.android.OwnerApp;
 import net.sharksystem.persons.android.OwnerStorageAndroid;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SharkNetApp extends ASAPApplication {
 
     private static SharkNetApp singleton;
 
-    private SharkNetApp() {
-        super(); // not needed - but to make clear - we use default constructor
+    private SharkNetApp(List<CharSequence> appFormats) {
+        super(appFormats);
     }
 
     public CharSequence getASAPOwner(Activity activity) {
@@ -22,7 +27,12 @@ public class SharkNetApp extends ASAPApplication {
 
     public static SharkNetApp getSharkNetApp() {
         if(SharkNetApp.singleton == null) {
-            SharkNetApp.singleton = new SharkNetApp();
+            // SN supports the following applications
+            List<CharSequence> appFormats = new ArrayList<>();
+            appFormats.add(OwnerApp.APP_NAME);
+            appFormats.add(MakanApp.APP_NAME);
+
+            SharkNetApp.singleton = new SharkNetApp(appFormats);
         }
 
         return SharkNetApp.singleton;
