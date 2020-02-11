@@ -7,11 +7,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 class CredentialMessage {
-    private String ownerName;
+    private CharSequence ownerName;
     private int randomInt;
     private byte[] publicKeyBytes;
 
-    CredentialMessage(int randomInt, String ownerName, byte[] publicKeyBytes) {
+    CredentialMessage(int randomInt, CharSequence ownerName, byte[] publicKeyBytes) {
         this.randomInt = randomInt;
         this.ownerName = ownerName;
         this.publicKeyBytes = publicKeyBytes;
@@ -28,7 +28,7 @@ class CredentialMessage {
         dis.read(this.publicKeyBytes);
     }
 
-    String getOwnerName() { return this.ownerName; }
+    CharSequence getOwnerName() { return this.ownerName; }
     int getRandomInt() { return this.randomInt; }
     byte[] getPublicKeyBytes() { return this.publicKeyBytes; }
 
@@ -36,7 +36,7 @@ class CredentialMessage {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         DataOutputStream dos = new DataOutputStream(baos);
-        dos.writeUTF(this.ownerName);
+        dos.writeUTF(this.ownerName.toString());
         dos.writeInt(randomInt);
         dos.writeInt(this.publicKeyBytes.length);
         dos.write(this.publicKeyBytes);
