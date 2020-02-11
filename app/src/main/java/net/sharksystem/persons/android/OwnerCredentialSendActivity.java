@@ -25,8 +25,8 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.owner_credential_send_drawer_layout);
-        this.getSharkNetApp().setupDrawerLayout(this);
+        setContentView(R.layout.owner_send_credential_layout);
+//        this.getSharkNetApp().setupDrawerLayout(this);
 
         // set user name in layout
         TextView tv = this.findViewById(R.id.ownerDisplayName);
@@ -57,28 +57,14 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
             }
 
             sixDigitsInt /= 10;
-            int randomIntTransmit = sixDigitsInt;
-
-            // give it a nice shape
-            StringBuilder sb = new StringBuilder();
-            for(int i = 5; i > -1; i--) {
-                if(i % 2 == 1 && i != 5) sb.append(' ');
-
-                int q = (int) Math.pow(10, i);
-                int digit = sixDigitsInt / q;
-//                Log.d(this.getLogStart(), "sixDigitsInt: "+sixDigitsInt+" / digit: " + digit+" / i: "+i+" / q: "+q);
-                sixDigitsInt -= digit * q;
-
-                sb.append(digit);
-            }
 
             // set control number
             TextView tv = this.findViewById(R.id.ownerSendCredentialsControlNumber);
-            tv.setText(sb.toString());
+            tv.setText(CredentialMessage.sixDigitsToString(sixDigitsInt));
 
             // send credential message
             try {
-                OwnerApp.getOwnerApp().sendCredentialMessage(this, randomIntTransmit);
+                OwnerApp.getOwnerApp().sendCredentialMessage(this, sixDigitsInt);
             } catch (Exception e) {
                 Log.d(this.getLogStart(), "Exception when sending credential: "
                         + e.getLocalizedMessage());
