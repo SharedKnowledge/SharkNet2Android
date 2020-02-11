@@ -24,7 +24,7 @@
 
     <!-- Settings explaination texts -->
     <string name="bluetoothToggleExplanationText">BT on / off</string>
-    
+
     <string name="settingsWifiDirectToggleButtonExplaination">Switch Wifi Direct on / off</string>
 
     <string name="appMakan">Makan</string>
@@ -52,5 +52,6 @@
     <string name="doneButtonText">Done</string>
 
     <string name="iAmAbsolutelySureButtonText">I understand and I confirm</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>

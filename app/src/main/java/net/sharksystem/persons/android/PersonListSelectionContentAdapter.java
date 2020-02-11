@@ -1,6 +1,7 @@
 package net.sharksystem.persons.android;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,15 +11,19 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class PersonListSelectionContentAdapter extends
-        RecyclerView.Adapter<PersonListSelectionContentAdapter.MyViewHolder> implements View.OnClickListener {
+        RecyclerView.Adapter<PersonListSelectionContentAdapter.MyViewHolder>
+        implements View.OnClickListener, View.OnLongClickListener {
 
+    private static final int USER_ID = 0;
     private final Context ctx;
     private View.OnClickListener clickListener;
+    private View.OnLongClickListener longClickListener;
 
     private Set<CharSequence> selectedName = new HashSet<>();
 
@@ -31,6 +36,7 @@ public class PersonListSelectionContentAdapter extends
             personTrustLevel = (TextView) view.findViewById(R.id.person_list_row_identity_assurance_level);
             personSelected = (TextView) view.findViewById(R.id.person_list_row_selected);
             view.setOnClickListener(clickListener);
+            view.setOnLongClickListener(longClickListener);
         }
     }
 
@@ -38,6 +44,7 @@ public class PersonListSelectionContentAdapter extends
         Log.d(this.getLogStart(), "constructor");
         this.ctx = ctx;
         this.clickListener = this;
+        this.longClickListener = this;
     }
 
     @Override
@@ -78,8 +85,8 @@ public class PersonListSelectionContentAdapter extends
         position--;
 
         switch(position) {
-            case 0: name = "Alice"; break;
-            case 1: name = "Bob"; break;
+            case 0: name = "Alice"; holder.itemView.setTag(0); break;
+            case 1: name = "Bob"; holder.itemView.setTag(1); break;
         }
 
         holder.personName.setText(name);
@@ -131,19 +138,25 @@ public class PersonListSelectionContentAdapter extends
     }
 
     @Override
-    public void onClick(View view) {
-        Log.d(this.getLogStart(), "click on view recognized");
+    public boolean onLongClick(View view) {
+        Integer id = (Integer)view.getTag();
+        Intent intent = new PersonEditIntent(this.ctx, id, PersonEditActivity.class);
 
+        this.ctx.startActivity(intent);
+
+        return true;
+    }
+
+    @Override
+    public void onClick(View view) {
         TextView personName = (TextView) view.findViewById(R.id.person_list_row_name);
 
         CharSequence name = personName.getText();
 
         if(this.selectedName.contains(name)) {
             this.selectedName.remove(name);
-            Log.d(this.getLogStart(), "added: " + name);
         } else {
             this.selectedName.add(name);
-            Log.d(this.getLogStart(), "removed: " + name);
         }
 
         this.notifyDataSetChanged();
