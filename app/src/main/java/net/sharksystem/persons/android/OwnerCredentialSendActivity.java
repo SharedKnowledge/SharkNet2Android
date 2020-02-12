@@ -62,9 +62,9 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
 
             // send credential message
             try {
-                PersonsApp personsApp = PersonsApp.getPersonsApp();
-                personsApp.sendCredentialMessage(
-                        this, sixDigitsInt, personsApp.getOwnerUserID());
+                PersonsAppAndroid personsAppAndroid = PersonsAppAndroid.getPersonsApp();
+                personsAppAndroid.sendCredentialMessage(
+                        this, sixDigitsInt, personsAppAndroid.getOwnerUserID());
 
             } catch (Exception e) {
                 Log.d(this.getLogStart(), "Exception when sending credential: "

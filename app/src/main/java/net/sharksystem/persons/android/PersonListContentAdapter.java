@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.persons.PersonValues;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -91,7 +92,9 @@ public class PersonListContentAdapter extends
 
         try {
             PersonValues personValues =
-                    PersonsApp.getPersonsApp().getPersonValuesByPosition(position);
+                    PersonsAppAndroid.getPersonsApp().getPersonValuesByPosition(position);
+
+            holder.itemView.setTag(personValues.getUserID());
 
             holder.personName.setText(personValues.getName());
 
@@ -114,7 +117,7 @@ public class PersonListContentAdapter extends
     public int getItemCount() {
         Log.d(this.getLogStart(), "called getItemCount");
 
-        return PersonsApp.getPersonsApp().getNumberOfPersons() + 1;
+        return PersonsAppAndroid.getPersonsApp().getNumberOfPersons() + 1;
     }
 
     @Override

@@ -10,10 +10,10 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.asap.apps.ASAPMessages;
+import net.sharksystem.persons.PersonValues;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.io.IOException;
 import java.util.Iterator;
 
 public class PersonReceiveCredentialsActivity extends SharkNetActivity {
@@ -30,7 +30,7 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
         setContentView(R.layout.person_receive_credential_layout);
 //        this.getSharkNetApp().setupDrawerLayout(this);
 
-        this.getSharkNetApp().addASAPMessageReceivedListener(PersonsApp.CREDENTIAL_URI,
+        this.getSharkNetApp().addASAPMessageReceivedListener(PersonsAppAndroid.CREDENTIAL_URI,
                 new CredentialMessageReceivedListener(this));
 
     }
@@ -50,14 +50,14 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
                 tv = this.findViewById(R.id.ownerSendCredentialsControlNumber);
                 tv.setText(CredentialMessage.sixDigitsToString(credentialMessage.getRandomInt()));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.d(this.getLogStart(), "problems when handling incoming credential: "
                     + e.getLocalizedMessage());
         }
     }
 
     public void onDoneClick(View v) {
-        this.getSharkNetApp().removeChunkReceivedListener(PersonsApp.CREDENTIAL_URI);
+        this.getSharkNetApp().removeChunkReceivedListener(PersonsAppAndroid.CREDENTIAL_URI);
 
         // save it
         PersonValues personValues =
@@ -65,7 +65,9 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
                         this.credentialMessage.getOwnerName());
 
         try {
-            PersonsApp.getPersonsApp().addPerson(personValues);
+            PersonsAppAndroid.getPersonsApp().addPerson(personValues,
+                    this.credentialMessage.getPublicKey());
+
         } catch (SharkException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }

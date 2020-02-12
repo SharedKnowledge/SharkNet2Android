@@ -53,5 +53,6 @@
 
     <string name="iAmAbsolutelySureButtonText">I understand and I confirm</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="createNewKeysButtonText">Create New RSA Key</string>
 
 </resources>

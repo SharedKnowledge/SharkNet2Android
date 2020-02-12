@@ -10,10 +10,25 @@
         android:ems="10"
         />
 
+    <TextView
+        android:id="@+id/ownerCreationTimeRSAKeys"
+        android:layout_width="258dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/createNewKeys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCreateNewKeys"
+            android:text="@string/createNewKeysButtonText"
+            />
 
         <Button
             android:id="@+id/sendCredentials"
@@ -24,7 +39,7 @@
             />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/changeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onChangeClick"
@@ -32,7 +47,7 @@
             />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/abortButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onAbortClick"

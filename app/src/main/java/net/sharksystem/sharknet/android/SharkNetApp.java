@@ -7,7 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPApplication;
 import net.sharksystem.makan.android.MakanApp;
-import net.sharksystem.persons.android.PersonsApp;
+import net.sharksystem.persons.android.PersonsAppAndroid;
 import net.sharksystem.persons.android.OwnerStorageAndroid;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class SharkNetApp extends ASAPApplication {
         if(SharkNetApp.singleton == null) {
             // SN supports the following applications
             List<CharSequence> appFormats = new ArrayList<>();
-            appFormats.add(PersonsApp.APP_NAME);
+            appFormats.add(PersonsAppAndroid.APP_NAME);
             appFormats.add(MakanApp.APP_NAME);
 
             SharkNetApp.singleton = new SharkNetApp(appFormats);

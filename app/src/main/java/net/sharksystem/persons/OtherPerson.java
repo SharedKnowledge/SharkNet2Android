@@ -1,6 +1,8 @@
 package net.sharksystem.persons;
 
 public interface OtherPerson extends Person {
+    int LOWEST_IDENTITY_ASSURANCE_LEVEL = 0;
+    int HIGHEST_IDENTITY_ASSURANCE_LEVEL = 10;
 
     /**
      * The assurance level is a non-negative integer value between 10 and 0.
@@ -23,8 +25,8 @@ public interface OtherPerson extends Person {
      * To make it more complex: Assume, the owner has not met Bob but got its certificate from
      * Clara which has got a certificate failure rate of 1 (lowest possible number) which means:
      * It is assumed that
-     * Clara is fooled in 10% of certificate exchange. In other words: 90% of Claras' certificates are
-     * correct. Bob has still a failure rate of 3. 70% of his certificates are correct.
+     * Clara is fooled in 10% of certificate exchange. In other words: 90% of Clara's' certificates
+     * are correct. Bob has still a failure rate of 3. 70% of his certificates are correct.
      *
      * The owner calculates: 90 % * 70% = 0,9*0,7 = 0,63 = 63%. The assurance level is 6.
      *
@@ -46,7 +48,7 @@ public interface OtherPerson extends Person {
      * should be handled with care.
      *
      * The other way around. There could be people we actually do not like but who take great
-     * care in certificate exchange. YOu don't have to spent your holidays with them but give
+     * care in certificate exchange. You don't have to spent your holidays with them but give
      * them credit.
      *
      * The best number is 1 which assumes that 10% of issued certificates are wrong. Number of 10 means:
