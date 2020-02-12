@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +45,16 @@ public class PersonEditActivity extends AppCompatActivity {
     }
 
     public void onSaveClick(View view) {
-        Toast.makeText(this, "TODO: save", Toast.LENGTH_SHORT).show();
+        SeekBar certExchangeFailureSeekBar =
+                findViewById(R.id.personEditCertificateExchangeFailureRateSeekBar);
+
+        int certExchangeFailure = certExchangeFailureSeekBar.getProgress();
+
+        EditText userNameEditText = findViewById(R.id.personEditName);
+        String userName = userNameEditText.getText().toString();
+
+        Toast.makeText(this, "save: " +
+                userName + " / " + certExchangeFailure, Toast.LENGTH_LONG).show();
         this.finish();
     }
 

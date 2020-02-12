@@ -13,7 +13,7 @@ import net.sharksystem.R;
 public class PersonListSelectionActivity extends PersonListActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private PersonListSelectionContentAdapter mAdapter;
+    private PersonListContentAdapter mAdapter;
 
     /////////////////////////////////////////////////////////////////////////////////
     //                              toolbar methods                                //

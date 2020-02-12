@@ -12,8 +12,20 @@
         android:layout_height="25dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="72dp"
-        android:text="TextView"
+        android:text="UserID"
+        android:textSize="8pt"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/personEditIdentityAssuranceLevel"
+        android:layout_width="77dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="72dp"
+        android:text="IdentityAssuranceLevel"
+        android:textSize="8pt"
+        app:layout_constraintStart_toEndOf="@+id/personEditUserID"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -29,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/personEditUserID" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/personEditCertificateExchangeFailureRateSeekBar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="282dp"
         android:layout_height="85dp"
@@ -37,6 +49,7 @@
         android:max="10"
         android:min="1"
         android:progress="5"
+        android:contentDescription="Certificate Exchange Failure Rate"
         app:layout_constraintStart_toStartOf="@+id/personEditName"
         app:layout_constraintTop_toBottomOf="@+id/personEditName" />
 
@@ -48,8 +61,8 @@
         android:layout_marginTop="76dp"
         android:text="@string/save"
         android:onClick="onSaveClick"
-        app:layout_constraintStart_toStartOf="@+id/seekBar"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        app:layout_constraintStart_toStartOf="@+id/personEditCertificateExchangeFailureRateSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/personEditCertificateExchangeFailureRateSeekBar" />
 
     <Button
         android:id="@+id/abortButton"
@@ -60,6 +73,6 @@
         android:text="@string/abort"
         android:onClick="onAbortClick"
         app:layout_constraintStart_toEndOf="@+id/saveButton"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        app:layout_constraintTop_toBottomOf="@+id/personEditCertificateExchangeFailureRateSeekBar" />
 
 </android.support.constraint.ConstraintLayout>

@@ -8,13 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import net.sharksystem.R;
+import net.sharksystem.asap.android.Util;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 public abstract class PersonListActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private PersonListSelectionContentAdapter mAdapter;
+    private PersonListContentAdapter mAdapter;
 
     public PersonListActivity() {
         super(SharkNetApp.getSharkNetApp());
@@ -30,8 +31,7 @@ public abstract class PersonListActivity extends SharkNetActivity {
 
             this.getSharkNetApp().setupDrawerLayout(this);
 
-            // initialize MakanApp
-            PersonsApp.getPersonsApp(this);
+            PersonsApp.getPersonsApp();
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
@@ -45,7 +45,7 @@ public abstract class PersonListActivity extends SharkNetActivity {
             ////////////////////////////////////////////////////////////////////////
             mRecyclerView = (RecyclerView) findViewById(R.id.person_list_recycler_view);
 
-            mAdapter = new PersonListSelectionContentAdapter(this);
+            mAdapter = new PersonListContentAdapter(this);
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
 
@@ -60,5 +60,11 @@ public abstract class PersonListActivity extends SharkNetActivity {
             // debug break
             int i = 42;
         }
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Log.d(Util.getLogStart(this), "onResume: assume data set changed.");
+        this.mAdapter.notifyDataSetChanged();
     }
 }

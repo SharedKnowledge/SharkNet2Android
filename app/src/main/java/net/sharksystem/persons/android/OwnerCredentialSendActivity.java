@@ -3,12 +3,10 @@ package net.sharksystem.persons.android;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.ASAPException;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -64,7 +62,10 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
 
             // send credential message
             try {
-                OwnerApp.getOwnerApp().sendCredentialMessage(this, sixDigitsInt);
+                PersonsApp personsApp = PersonsApp.getPersonsApp();
+                personsApp.sendCredentialMessage(
+                        this, sixDigitsInt, personsApp.getOwnerUserID());
+
             } catch (Exception e) {
                 Log.d(this.getLogStart(), "Exception when sending credential: "
                         + e.getLocalizedMessage());
