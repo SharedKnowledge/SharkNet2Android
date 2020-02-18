@@ -15,6 +15,7 @@ import net.sharksystem.persons.PersonValues;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 public class PersonReceiveCredentialsActivity extends SharkNetActivity {
@@ -61,15 +62,13 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
         this.getSharkNetApp().removeChunkReceivedListener(PersonsStorageAndroid.CREDENTIAL_URI);
 
         // save it
-        PersonValues personValues =
-                new PersonValues(this.credentialMessage.getUserID(),
-                        this.credentialMessage.getOwnerName());
-
         try {
-            PersonsStorageAndroid.getPersonsApp().addPerson(personValues,
+            PersonsStorageAndroid.getPersonsApp().addAndSignPerson(
+                    this.credentialMessage.getUserID(),
+                    this.credentialMessage.getOwnerName(),
                     this.credentialMessage.getPublicKey());
 
-        } catch (SharkException e) {
+        } catch (SharkException | IOException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
 
