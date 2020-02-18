@@ -21,7 +21,9 @@
         <activity android:name=".persons.android.PersonEditActivity" />
         <activity android:name=".persons.android.PersonReceiveCredentialsActivity" />
         <activity android:name=".persons.android.OwnerCredentialSendActivity" />
-        <activity android:name=".persons.android.PersonListViewActivity" />
+        <activity android:name=".persons.android.PersonListViewActivity"
+            android:launchMode="singleTask"
+        />
         <activity android:name=".persons.android.PersonListSelectionActivity" />
         <activity android:name=".makan.android.AddOpenMakanActivity" />
         <activity android:name=".makan.android.AddClosedMakanActivity" />
@@ -33,7 +35,8 @@
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask">
+        </activity>
         <activity
             android:name=".persons.android.OwnerActivity"
             android:launchMode="singleTask" />

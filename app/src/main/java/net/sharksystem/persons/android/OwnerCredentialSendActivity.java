@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -62,7 +63,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
 
             // send credential message
             try {
-                PersonsAppAndroid personsAppAndroid = PersonsAppAndroid.getPersonsApp();
+                PersonsStorageAndroid personsAppAndroid = PersonsStorageAndroid.getPersonsApp();
                 personsAppAndroid.sendCredentialMessage(
                         this, sixDigitsInt, personsAppAndroid.getOwnerUserID());
 

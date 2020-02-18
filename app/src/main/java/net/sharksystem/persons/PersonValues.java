@@ -1,6 +1,6 @@
 package net.sharksystem.persons;
 
-import net.sharksystem.persons.android.PersonsAppAndroid;
+import net.sharksystem.persons.android.PersonsStorageAndroid;
 
 public class PersonValues {
     private static final int DEFAULT_CERTIFICATE_EXCHANGE_FAILURE = 5;
@@ -20,7 +20,7 @@ public class PersonValues {
 
     public PersonValues(int userID, CharSequence ownerName) {
         this(userID, ownerName,
-                PersonsAppAndroid.getPersonsApp().getIdentityAssurance(userID),
+                PersonsStorageAndroid.getPersonsApp().getIdentityAssurance(userID),
                 DEFAULT_CERTIFICATE_EXCHANGE_FAILURE);
     }
 

@@ -10,7 +10,6 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.persons.Owner;
-import net.sharksystem.persons.PersonsApp;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -55,7 +54,7 @@ public class OwnerActivity extends SharkNetActivity {
 
     public void onCreateNewKeys(View view) {
         try {
-            PersonsAppAndroid.getPersonsApp().generateKeyPair();
+            PersonsStorageAndroid.getPersonsApp().generateKeyPair();
         } catch (SharkException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }

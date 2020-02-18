@@ -1,4 +1,4 @@
-package net.sharksystem.persons;
+package net.sharksystem.crypto;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;

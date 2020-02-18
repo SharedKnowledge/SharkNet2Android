@@ -3,7 +3,8 @@ package net.sharksystem.persons;
 import android.util.Log;
 
 import net.sharksystem.SharkException;
-import net.sharksystem.persons.android.OwnerStorageAndroid;
+import net.sharksystem.crypto.SharkCertificate;
+import net.sharksystem.crypto.SharkCertificateImpl;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -18,10 +19,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class PersonsApp {
+public class PersonsStorage {
     private KeyPair rsaKeyPair = null;
 
-    public PersonsApp() {
+    public PersonsStorage() {
         // TODO: remove when ready
         this.fillPersonsWithTestData();
 

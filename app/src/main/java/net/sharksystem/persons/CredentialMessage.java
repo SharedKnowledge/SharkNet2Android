@@ -1,4 +1,4 @@
-package net.sharksystem.persons.android;
+package net.sharksystem.persons;
 
 import net.sharksystem.SharkException;
 
@@ -13,7 +13,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
-class CredentialMessage {
+public class CredentialMessage {
     private int userID;
     private CharSequence ownerName;
     private int randomInt;
@@ -21,18 +21,18 @@ class CredentialMessage {
 
 
     public int getUserID() { return this.userID; }
-    CharSequence getOwnerName() { return this.ownerName; }
-    int getRandomInt() { return this.randomInt; }
-    PublicKey getPublicKey() { return this.publicKey; }
+    public CharSequence getOwnerName() { return this.ownerName; }
+    public int getRandomInt() { return this.randomInt; }
+    public PublicKey getPublicKey() { return this.publicKey; }
 
-    CredentialMessage(int randomInt, int userID, CharSequence ownerName, PublicKey publicKey) {
+    public CredentialMessage(int randomInt, int userID, CharSequence ownerName, PublicKey publicKey) {
         this.userID = userID;
         this.randomInt = randomInt;
         this.ownerName = ownerName;
         this.publicKey = publicKey;
     }
 
-    CredentialMessage(byte[] serializedMessage) throws IOException, SharkException {
+    public CredentialMessage(byte[] serializedMessage) throws IOException, SharkException {
         ByteArrayInputStream bais = new ByteArrayInputStream(serializedMessage);
         DataInputStream dis = new DataInputStream(bais);
 
@@ -78,7 +78,7 @@ class CredentialMessage {
         return baos.toByteArray();
     }
 
-    static String sixDigitsToString(int sixDigitsInt) {
+    public static String sixDigitsToString(int sixDigitsInt) {
         // give it a nice shape
         StringBuilder sb = new StringBuilder();
         for(int i = 5; i > -1; i--) {

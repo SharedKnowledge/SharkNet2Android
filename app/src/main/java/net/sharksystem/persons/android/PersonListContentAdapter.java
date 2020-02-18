@@ -26,7 +26,7 @@ public class PersonListContentAdapter extends
     private View.OnClickListener clickListener;
     private View.OnLongClickListener longClickListener;
 
-    private Set<CharSequence> selectedName = new HashSet<>();
+    private Set<Integer> selectedUserIDs = new HashSet<>();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView personName, personIdentityAssurance,
@@ -92,19 +92,21 @@ public class PersonListContentAdapter extends
 
         try {
             PersonValues personValues =
-                    PersonsAppAndroid.getPersonsApp().getPersonValuesByPosition(position);
+                    PersonsStorageAndroid.getPersonsApp().getPersonValuesByPosition(position);
 
-            holder.itemView.setTag(personValues.getUserID());
+            int userID = personValues.getUserID();
+
+            holder.itemView.setTag(userID);
 
             holder.personName.setText(personValues.getName());
 
-            holder.personIdentityAssurance.setText("identityAssured: "
+            holder.personIdentityAssurance.setText("iAssured: "
                     + personValues.getIdentityAssurance());
 
-            holder.personCertificateExchangeFailure.setText("certExchangeFailure: "
+            holder.personCertificateExchangeFailure.setText("certFailure: "
                     + personValues.getCertificateExchangeFailure());
 
-            String selectedString = this.selectedName.contains(name) ? "SELECTED" : "";
+            String selectedString = this.selectedUserIDs.contains(userID) ? "SELECTED" : "";
             holder.personSelected.setText(selectedString);
 
         } catch (SharkException e) {
@@ -117,7 +119,7 @@ public class PersonListContentAdapter extends
     public int getItemCount() {
         Log.d(this.getLogStart(), "called getItemCount");
 
-        return PersonsAppAndroid.getPersonsApp().getNumberOfPersons() + 1;
+        return PersonsStorageAndroid.getPersonsApp().getNumberOfPersons() + 1;
     }
 
     @Override
@@ -132,14 +134,12 @@ public class PersonListContentAdapter extends
 
     @Override
     public void onClick(View view) {
-        TextView personName = (TextView) view.findViewById(R.id.person_list_row_name);
+        Integer userID = (Integer)view.getTag();
 
-        CharSequence name = personName.getText();
-
-        if(this.selectedName.contains(name)) {
-            this.selectedName.remove(name);
+        if(this.selectedUserIDs.contains(userID)) {
+            this.selectedUserIDs.remove(userID);
         } else {
-            this.selectedName.add(name);
+            this.selectedUserIDs.add(userID);
         }
 
         this.notifyDataSetChanged();

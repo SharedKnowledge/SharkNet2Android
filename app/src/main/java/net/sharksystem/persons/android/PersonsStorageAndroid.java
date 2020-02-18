@@ -1,25 +1,26 @@
 package net.sharksystem.persons.android;
 
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.persons.PersonsApp;
+import net.sharksystem.persons.CredentialMessage;
+import net.sharksystem.persons.PersonsStorage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
-public class PersonsAppAndroid extends PersonsApp {
+public class PersonsStorageAndroid extends PersonsStorage {
     public static final CharSequence APP_NAME = "SN2Persons";
     public static final CharSequence CREDENTIAL_URI = "sn2://credential";
     public static final CharSequence CERTIFICATE_URI = "sn2://certificate";
 
-    private static PersonsAppAndroid instance = null;
+    private static PersonsStorageAndroid instance = null;
 
-    public static PersonsAppAndroid getPersonsApp() {
-        if(PersonsAppAndroid.instance == null) {
-            PersonsAppAndroid.instance = new PersonsAppAndroid();
+    public static PersonsStorageAndroid getPersonsApp() {
+        if(PersonsStorageAndroid.instance == null) {
+            PersonsStorageAndroid.instance = new PersonsStorageAndroid();
         }
 
-        return PersonsAppAndroid.instance;
+        return PersonsStorageAndroid.instance;
     }
 
     private CharSequence getOwnerName() {

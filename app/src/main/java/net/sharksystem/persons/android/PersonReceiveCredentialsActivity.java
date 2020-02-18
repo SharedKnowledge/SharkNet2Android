@@ -10,6 +10,7 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.asap.apps.ASAPMessages;
+import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.persons.PersonValues;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -30,7 +31,7 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
         setContentView(R.layout.person_receive_credential_layout);
 //        this.getSharkNetApp().setupDrawerLayout(this);
 
-        this.getSharkNetApp().addASAPMessageReceivedListener(PersonsAppAndroid.CREDENTIAL_URI,
+        this.getSharkNetApp().addASAPMessageReceivedListener(PersonsStorageAndroid.CREDENTIAL_URI,
                 new CredentialMessageReceivedListener(this));
 
     }
@@ -57,7 +58,7 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
     }
 
     public void onDoneClick(View v) {
-        this.getSharkNetApp().removeChunkReceivedListener(PersonsAppAndroid.CREDENTIAL_URI);
+        this.getSharkNetApp().removeChunkReceivedListener(PersonsStorageAndroid.CREDENTIAL_URI);
 
         // save it
         PersonValues personValues =
@@ -65,7 +66,7 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
                         this.credentialMessage.getOwnerName());
 
         try {
-            PersonsAppAndroid.getPersonsApp().addPerson(personValues,
+            PersonsStorageAndroid.getPersonsApp().addPerson(personValues,
                     this.credentialMessage.getPublicKey());
 
         } catch (SharkException e) {

@@ -31,7 +31,7 @@ public abstract class PersonListActivity extends SharkNetActivity {
 
             this.getSharkNetApp().setupDrawerLayout(this);
 
-            PersonsAppAndroid.getPersonsApp();
+            PersonsStorageAndroid.getPersonsApp();
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
