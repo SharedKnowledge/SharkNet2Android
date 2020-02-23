@@ -55,7 +55,7 @@ public abstract class PersonListActivity extends SharkNetActivity {
             Log.d(this.getLogStart(), "attached content adapter");
         }
         catch(Exception e) {
-            Log.d(this.getLogStart(), "problems while attaching content adapter: "
+            Log.d(this.getLogStart(), "problems while setting up activity and content adapter: "
                     + e.getLocalizedMessage());
             // debug break
             int i = 42;

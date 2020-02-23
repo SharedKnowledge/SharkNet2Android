@@ -7,10 +7,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.SharkException;
+import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
+import net.sharksystem.asap.apps.ASAPMessages;
+import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.crypto.ASAPCertificateImpl;
 import net.sharksystem.persons.CredentialMessage;
+import net.sharksystem.persons.PersonsStorage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Iterator;
 import java.util.Random;
 
 public class OwnerCredentialSendActivity extends SharkNetActivity {
@@ -34,6 +44,9 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
         // set control number
         tv = this.findViewById(R.id.ownerSendCredentialsControlNumber);
         tv.setText(String.valueOf(-1));
+
+        this.getSharkNetApp().addASAPMessageReceivedListener(ASAPCertificate.ASAP_CERTIFICATE,
+                new OwnerCredentialSendActivity.CertificateMessageReceivedListener(this));
     }
 
     public void onSendClick(View v) {
@@ -82,7 +95,42 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
         }
     }
 
+    private void doHandleCertificateMessage(ASAPMessages asapMessages) {
+        try {
+            for (Iterator<byte[]> it = asapMessages.getMessages(); it.hasNext(); ) {
+                byte[] serializedCertificate = it.next();
+
+                ASAPCertificateImpl receivedCertificate =
+                        ASAPCertificateImpl.produceCertificateFromBytes(serializedCertificate);
+
+                // do it locally - bypass online exchange which would return this certificate
+                PersonsStorageAndroid.getPersonsApp().addCertificate(receivedCertificate);
+
+                Toast.makeText(this, "certificate added", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException | SharkException e) {
+            Log.e(this.getLogStart(), "problems when handling received certificate");
+        }
+    }
+
     public void onDoneClick(View v) {
         this.finish();
     }
+
+    private class CertificateMessageReceivedListener implements ASAPMessageReceivedListener {
+        private final OwnerCredentialSendActivity ownerCredentialSendActivity;
+
+        public CertificateMessageReceivedListener(
+                OwnerCredentialSendActivity ownerCredentialSendActivity) {
+
+            this.ownerCredentialSendActivity = ownerCredentialSendActivity;
+        }
+
+        @Override
+        public void asapMessagesReceived(ASAPMessages asapMessages) {
+            Log.d(getLogStart(), "asapMessageReceived");
+            this.ownerCredentialSendActivity.doHandleCertificateMessage(asapMessages);
+        }
+    }
+
 }

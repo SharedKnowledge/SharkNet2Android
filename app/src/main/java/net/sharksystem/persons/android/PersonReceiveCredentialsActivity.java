@@ -8,10 +8,12 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.asap.apps.ASAPMessages;
+import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.persons.CredentialMessage;
-import net.sharksystem.persons.PersonValues;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -61,14 +63,20 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
     public void onDoneClick(View v) {
         this.getSharkNetApp().removeChunkReceivedListener(PersonsStorageAndroid.CREDENTIAL_URI);
 
-        // save it
         try {
-            PersonsStorageAndroid.getPersonsApp().addAndSignPerson(
-                    this.credentialMessage.getUserID(),
+            // sign and create certificate
+            ASAPCertificate newCert = PersonsStorageAndroid.getPersonsApp().addAndSignPerson(
+                    this.credentialMessage.getOwnerID(),
                     this.credentialMessage.getOwnerName(),
                     this.credentialMessage.getPublicKey());
 
-        } catch (SharkException | IOException e) {
+            // return newly created certificate
+            this.sendASAPMessage(ASAPCertificateStorage.ASAP_CERIFICATE_APP,
+                    ASAPCertificate.ASAP_CERTIFICATE,
+                    null, // anybody - non restricted recipient list
+                    newCert.asBytes());
+
+        } catch (ASAPException | SharkException | IOException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
 

@@ -8,25 +8,24 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 
 public class CredentialMessage {
-    private int userID;
+    private CharSequence ownerID;
     private CharSequence ownerName;
     private int randomInt;
     private PublicKey publicKey;
 
 
-    public int getUserID() { return this.userID; }
+    public CharSequence getOwnerID() { return this.ownerID; }
     public CharSequence getOwnerName() { return this.ownerName; }
     public int getRandomInt() { return this.randomInt; }
     public PublicKey getPublicKey() { return this.publicKey; }
 
-    public CredentialMessage(int randomInt, int userID, CharSequence ownerName, PublicKey publicKey) {
-        this.userID = userID;
+    public CredentialMessage(int randomInt, CharSequence ownerID, CharSequence ownerName,
+                             PublicKey publicKey) {
+        this.ownerID = ownerID;
         this.randomInt = randomInt;
         this.ownerName = ownerName;
         this.publicKey = publicKey;
@@ -37,7 +36,7 @@ public class CredentialMessage {
         DataInputStream dis = new DataInputStream(bais);
 
         this.ownerName = dis.readUTF();
-        this.userID = dis.readInt();
+        this.ownerID = dis.readUTF();
         this.randomInt = dis.readInt();
 
         // public key
@@ -65,7 +64,7 @@ public class CredentialMessage {
 
         DataOutputStream dos = new DataOutputStream(baos);
         dos.writeUTF(this.ownerName.toString());
-        dos.writeInt(this.userID);
+        dos.writeUTF(this.ownerID.toString());
         dos.writeInt(randomInt);
 
         // public key

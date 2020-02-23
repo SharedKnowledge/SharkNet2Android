@@ -1,7 +1,11 @@
 package net.sharksystem.persons.android;
 
+import android.util.Log;
+
+import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPStorage;
+import net.sharksystem.crypto.ASAPCertificateImpl;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.crypto.ASAPCertificateStorageImpl;
 import net.sharksystem.persons.CredentialMessage;
@@ -20,14 +24,23 @@ public class PersonsStorageAndroid extends PersonsStorageImpl {
     private static PersonsStorageAndroid instance = null;
 
     public PersonsStorageAndroid(ASAPStorage asapStorage) {
-        super(new ASAPCertificateStorageImpl(asapStorage, 42, "DummyName"));
+        super(new ASAPCertificateStorageImpl(asapStorage,
+                SharkNetApp.getSharkNetApp().getOwnerID(),
+                SharkNetApp.getSharkNetApp().getASAPOwner()));
     }
 
     public static PersonsStorageAndroid getPersonsApp() {
         if(PersonsStorageAndroid.instance == null) {
-
-            // TODO
-            PersonsStorageAndroid.instance = new PersonsStorageAndroid(null);
+            try {
+                PersonsStorageAndroid.instance = new PersonsStorageAndroid(
+                        ASAPEngineFS.getASAPStorage(
+                            SharkNetApp.getSharkNetApp().getASAPOwner().toString(),
+                            SharkNetApp.getSharkNetApp().getASAPRootFolder().toString(),
+                            ASAPCertificateStorage.ASAP_CERIFICATE_APP));
+            } catch (IOException | ASAPException e) {
+                Log.e(net.sharksystem.asap.util.Log.startLog(PersonsStorageImpl.class).toString(),
+                        "problems when creating ASAP Storage:" + e.getLocalizedMessage());
+            }
         }
 
         return PersonsStorageAndroid.instance;
@@ -37,7 +50,7 @@ public class PersonsStorageAndroid extends PersonsStorageImpl {
         return SharkNetApp.getSharkNetApp().getASAPOwner();
     }
 
-    public void sendCredentialMessage(SharkNetActivity snActivity, int randomInt, int userID)
+    public void sendCredentialMessage(SharkNetActivity snActivity, int randomInt, CharSequence userID)
             throws IOException, ASAPException {
 
         CredentialMessage credentialMessage =

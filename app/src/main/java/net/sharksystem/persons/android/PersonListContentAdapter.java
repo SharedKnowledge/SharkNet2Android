@@ -94,7 +94,7 @@ public class PersonListContentAdapter extends
             PersonValues personValues =
                     PersonsStorageAndroid.getPersonsApp().getPersonValuesByPosition(position);
 
-            int userID = personValues.getUserID();
+            CharSequence userID = personValues.getUserID();
 
             holder.itemView.setTag(userID);
 
