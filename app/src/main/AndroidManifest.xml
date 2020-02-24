@@ -18,13 +18,25 @@
         <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
 
+        <activity android:name=".persons.android.IdentityAssuranceExplainActivity" />
+        <activity android:name=".persons.android.CertificateViewActivity" />
+
+        <activity android:name=".persons.android.CertificateListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".persons.android.PersonEditActivity" />
         <activity android:name=".persons.android.PersonReceiveCredentialsActivity" />
         <activity android:name=".persons.android.OwnerCredentialSendActivity" />
         <activity android:name=".persons.android.PersonListViewActivity"
             android:launchMode="singleTask"
         />
-        <activity android:name=".persons.android.PersonListSelectionActivity" />
+        <activity android:name=".persons.android.PersonListSelectionActivity">
+        </activity>
+
         <activity android:name=".makan.android.AddOpenMakanActivity" />
         <activity android:name=".makan.android.AddClosedMakanActivity" />
         <activity
@@ -43,11 +55,13 @@
         <activity
             android:name=".makan.android.MakanListActivity"
             android:launchMode="singleTask">
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
     </application>
 

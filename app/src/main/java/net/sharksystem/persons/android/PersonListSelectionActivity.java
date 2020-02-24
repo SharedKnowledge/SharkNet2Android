@@ -11,10 +11,6 @@ import android.widget.Toast;
 import net.sharksystem.R;
 
 public class PersonListSelectionActivity extends PersonListActivity {
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private PersonListContentAdapter mAdapter;
-
     /////////////////////////////////////////////////////////////////////////////////
     //                              toolbar methods                                //
     /////////////////////////////////////////////////////////////////////////////////

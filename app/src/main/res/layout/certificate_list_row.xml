@@ -12,45 +12,44 @@
     android:paddingTop="@dimen/row_padding_vertical">
 
     <TextView
-        android:id="@+id/person_list_row_name"
+        android:id="@+id/certificate_list_row_owner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textColor="@color/personName"
         android:textSize="16dp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold">
+        <tag android:id="@+id/certificate_list_owner_tag" />
+    </TextView>
 
     <TextView
-        android:id="@+id/person_list_row_identity_assurance_level"
+        android:id="@+id/certificate_list_row_signer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/person_list_row_name"
-        android:layout_alignBottom="@id/person_list_row_name"
+        android:layout_toRightOf="@id/certificate_list_row_owner"
+        android:layout_alignBottom="@id/certificate_list_row_owner"
         android:paddingLeft="2pt"
-        android:textColor="@color/personIdentityAssuranceLevel"
-        />
+        android:textColor="@color/personIdentityAssuranceLevel">
+        <tag android:id="@+id/certificate_list_signer_tag" />
+    </TextView>
 
     <TextView
         android:id="@+id/person_list_row_identityAssurance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/person_list_row_identity_assurance_level"
-        android:layout_alignBottom="@id/person_list_row_identity_assurance_level"
+        android:layout_toRightOf="@id/certificate_list_row_signer"
+        android:layout_alignBottom="@id/certificate_list_row_signer"
         android:paddingLeft="2pt"
         android:textColor="@color/personIdentityAssuranceLevel"
         />
 
-    <!--
-        android:layout_below="@id/person_list_row_name"
-        android:layout_alignParentBottom="true"
-    -->
-
     <TextView
-        android:id="@+id/person_list_row_selected"
-        android:layout_width="match_parent"
+        android:id="@+id/certificate_list_row_validUntil"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/person_list_row_name"
+        android:layout_toRightOf="@id/person_list_row_identityAssurance"
+        android:layout_alignBottom="@id/person_list_row_identityAssurance"
+        android:paddingLeft="2pt"
         android:textColor="@color/personIdentityAssuranceLevel"
         />
 

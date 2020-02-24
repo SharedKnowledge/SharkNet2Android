@@ -59,8 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="76dp"
-        android:text="@string/save"
         android:onClick="onSaveClick"
+        android:text="@string/save"
         app:layout_constraintStart_toStartOf="@+id/personEditCertificateExchangeFailureRateSeekBar"
         app:layout_constraintTop_toBottomOf="@+id/personEditCertificateExchangeFailureRateSeekBar" />
 
@@ -74,5 +74,38 @@
         android:onClick="onAbortClick"
         app:layout_constraintStart_toEndOf="@+id/saveButton"
         app:layout_constraintTop_toBottomOf="@+id/personEditCertificateExchangeFailureRateSeekBar" />
+
+    <Button
+        android:id="@+id/showOwnerCertificates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/showOwnCertificatesButtonText"
+        android:onClick="onShowOwnCertificatesClick"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+
+    <Button
+        android:id="@+id/showSignedCertificates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/showSignedCertificatesButtonText"
+        android:onClick="onShowSignedCertificatesClick"
+        app:layout_constraintStart_toEndOf="@+id/showOwnerCertificates"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+
+    <Button
+        android:id="@+id/explainIdentityAssurance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/showExplainIdentityAssuranceButtonText"
+        android:onClick="onShowExplainIdentityAssuranceClick"
+        app:layout_constraintStart_toEndOf="@+id/showSignedCertificates"
+        app:layout_constraintTop_toBottomOf="@+id/abortButton" />
 
 </android.support.constraint.ConstraintLayout>

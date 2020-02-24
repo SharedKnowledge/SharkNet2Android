@@ -55,4 +55,10 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="createNewKeysButtonText">Create New RSA Key</string>
 
+    <string name="showSignedCertificatesButtonText">SignedCerts</string>
+    <string name="showOwnCertificatesButtonText">OwnedCerts</string>
+    <string name="showExplainIdentityAssuranceButtonText">Explain IA</string>
+    <string name="delete">delete</string>
+
+
 </resources>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/certificate_view_owner_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="8pt"
+            />
+
+        <TextView
+            android:id="@+id/certificate_view_owner_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="8pt"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/certificate_view_signer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="8pt"
+            />
+
+        <TextView
+            android:id="@+id/certificate_view_signer_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="8pt"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/certificate_view_valid_since"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="8pt"
+            />
+
+        <TextView
+            android:id="@+id/certificate_view_valid_until"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="8pt"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onDeleteClick"
+            android:text="@string/delete"
+            />
+
+        <Button
+            android:id="@+id/abortButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onAbortClick"
+            android:text="@string/abort"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

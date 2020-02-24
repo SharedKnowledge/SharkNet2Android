@@ -21,12 +21,11 @@ public class PersonListContentAdapter extends
         RecyclerView.Adapter<PersonListContentAdapter.MyViewHolder>
         implements View.OnClickListener, View.OnLongClickListener {
 
-    private static final int USER_ID = 0;
     private final Context ctx;
     private View.OnClickListener clickListener;
     private View.OnLongClickListener longClickListener;
 
-    private Set<Integer> selectedUserIDs = new HashSet<>();
+    private Set<CharSequence> selectedUserIDs = new HashSet<>();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView personName, personIdentityAssurance,
@@ -38,7 +37,7 @@ public class PersonListContentAdapter extends
             personIdentityAssurance = view.findViewById(R.id.person_list_row_identity_assurance_level);
             personSelected = view.findViewById(R.id.person_list_row_selected);
             personCertificateExchangeFailure =
-                    view.findViewById(R.id.person_list_row_certificate_exchange_failure);
+                    view.findViewById(R.id.person_list_row_identityAssurance);
 
             view.setOnClickListener(clickListener);
             view.setOnLongClickListener(longClickListener);
@@ -124,8 +123,8 @@ public class PersonListContentAdapter extends
 
     @Override
     public boolean onLongClick(View view) {
-        Integer id = (Integer)view.getTag();
-        Intent intent = new PersonEditIntent(this.ctx, id, PersonEditActivity.class);
+        CharSequence userID = (CharSequence)view.getTag();
+        Intent intent = new PersonIntent(this.ctx, userID, PersonEditActivity.class);
 
         this.ctx.startActivity(intent);
 
@@ -134,7 +133,7 @@ public class PersonListContentAdapter extends
 
     @Override
     public void onClick(View view) {
-        Integer userID = (Integer)view.getTag();
+        CharSequence userID = (CharSequence)view.getTag();
 
         if(this.selectedUserIDs.contains(userID)) {
             this.selectedUserIDs.remove(userID);
