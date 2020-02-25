@@ -33,7 +33,7 @@ public class CertificateViewActivity extends AppCompatActivity {
 
             tv = findViewById(R.id.certificate_view_owner_name);
             tv.setText("ownerName");
-
+/*
             tv = findViewById(R.id.certificate_view_signer_id);
             tv.setText(this.signerID);
 
@@ -45,7 +45,7 @@ public class CertificateViewActivity extends AppCompatActivity {
 
             tv = findViewById(R.id.certificate_view_valid_until);
             tv.setText("until");
-
+*/
         } catch (SharkException e) {
             Log.d(this.getLogStart(),
                     "problems when setting up certificate view: " + e.getLocalizedMessage());

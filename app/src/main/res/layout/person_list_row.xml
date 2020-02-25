@@ -11,47 +11,68 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/row_padding_vertical">
 
+    <!-- line 1 -->
     <TextView
-        android:id="@+id/person_list_row_name"
+        android:id="@+id/person_list_row_person_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:textColor="@color/personName"
-        android:textSize="16dp"
+        android:textSize="@dimen/recyclerRowEntryTextSize"
         android:textStyle="bold"
         />
+
+    <TextView
+        android:id="@+id/identity_assurance_words"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/recyclerRowEntryTextSize"
+        android:paddingLeft="@dimen/rowPaddingHorizontal"
+        android:layout_toRightOf="@id/person_list_row_person_name"
+        android:layout_alignBottom="@id/person_list_row_person_name"
+        android:text="@string/identityAssuranceCalculatedWords"/>
 
     <TextView
         android:id="@+id/person_list_row_identity_assurance_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/person_list_row_name"
-        android:layout_alignBottom="@id/person_list_row_name"
-        android:paddingLeft="2pt"
+        android:layout_toRightOf="@id/identity_assurance_words"
+        android:layout_alignBottom="@id/identity_assurance_words"
+        android:paddingLeft="@dimen/rowPaddingHorizontal"
+        android:textSize="@dimen/recyclerRowEntryTextSize"
         android:textColor="@color/personIdentityAssuranceLevel"
         />
 
+    <!-- line 2 -->
     <TextView
-        android:id="@+id/person_list_row_identityAssurance"
+        android:id="@+id/signing_failure_words"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/person_list_row_identity_assurance_level"
-        android:layout_alignBottom="@id/person_list_row_identity_assurance_level"
-        android:paddingLeft="2pt"
+        android:textSize="@dimen/recyclerRowEntryTextSize"
+        android:text="@string/signingFailureWords"
+        android:layout_below="@id/person_list_row_person_name"
+        android:textColor="@color/personIdentityAssuranceLevel"/>
+
+
+    <TextView
+        android:id="@+id/cert_exchange_failure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/signing_failure_words"
+        android:layout_alignBottom="@id/signing_failure_words"
+        android:paddingLeft="@dimen/rowPaddingHorizontal"
+        android:textSize="@dimen/recyclerRowEntryTextSize"
         android:textColor="@color/personIdentityAssuranceLevel"
         />
 
-    <!--
-        android:layout_below="@id/person_list_row_name"
-        android:layout_alignParentBottom="true"
-    -->
-
+    <!-- line 3 -->
     <TextView
         android:id="@+id/person_list_row_selected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/person_list_row_name"
+        android:layout_below="@id/signing_failure_words"
         android:textColor="@color/personIdentityAssuranceLevel"
+        android:textSize="@dimen/recyclerRowEntryTextSize"
         />
 
 </RelativeLayout>

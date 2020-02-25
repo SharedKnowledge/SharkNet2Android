@@ -11,9 +11,6 @@ import android.widget.TextView;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 
-import java.util.HashSet;
-import java.util.Set;
-
 class CertificateListContentAdapter extends
         RecyclerView.Adapter<CertificateListContentAdapter.MyViewHolder>
         implements View.OnClickListener /*, View.OnLongClickListener */ {
@@ -25,15 +22,20 @@ class CertificateListContentAdapter extends
 //    private Set<CharSequence> selectedUserIDs = new HashSet<>();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView ownerName, signerName, identityAssurance, validUntil;
+        public TextView ownerName, ownerNameCopy, signerName,
+                signerNameCopy, identityAssurance, validUntil, validSince,
+                caSigner;
 
         public MyViewHolder(View view) {
             super(view);
+            validSince = view.findViewById(R.id.certificate_list_row_valid_since);
             ownerName = view.findViewById(R.id.certificate_list_row_owner);
+            ownerNameCopy = view.findViewById(R.id.certificate_list_row_owner_copy);
             signerName = view.findViewById(R.id.certificate_list_row_signer);
-            identityAssurance = view.findViewById(R.id.person_list_row_identityAssurance);
-            validUntil = view.findViewById(R.id.certificate_list_row_validUntil);
-
+            signerNameCopy = view.findViewById(R.id.certificate_list_row_signer_copy);
+            caSigner = view.findViewById(R.id.certificate_list_row_cf_signer);
+            identityAssurance = view.findViewById(R.id.cert_exchange_failure);
+            validUntil = view.findViewById(R.id.certificate_list_row_valid_until);
             view.setOnClickListener(clickListener);
 //            view.setOnLongClickListener(longClickListener);
         }
@@ -75,11 +77,14 @@ class CertificateListContentAdapter extends
          */
 
         // Dummy values
-        holder.ownerName.setText("ownerName");
-        holder.signerName.setText("signerName");
-        holder.identityAssurance.setText("iA");
-        holder.validUntil.setText("validUntil");
-
+        holder.validSince.setText("Jan, 1. 1970");
+        holder.ownerName.setText("Alice");
+        holder.ownerNameCopy.setText("Alice");
+        holder.signerName.setText("Bob");
+        holder.signerNameCopy.setText("Bob");
+        holder.caSigner.setText("5");
+        holder.identityAssurance.setText("7.2");
+        holder.validUntil.setText("Jan, 1. 1971");
         holder.itemView.setTag(R.id.certificate_list_owner_tag, "ownerID");
         holder.itemView.setTag(R.id.certificate_list_signer_tag, "signerID");
 
@@ -121,7 +126,6 @@ class CertificateListContentAdapter extends
     public void onClick(View view) {
         CharSequence owner = (CharSequence)view.getTag(R.id.certificate_list_owner_tag);
         CharSequence signer = (CharSequence)view.getTag(R.id.certificate_list_signer_tag);
-
         PersonIntent personIntent =
                 new PersonIntent(this.ctx, owner, signer, CertificateViewActivity.class);
 

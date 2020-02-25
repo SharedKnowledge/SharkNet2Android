@@ -12,14 +12,16 @@ import net.sharksystem.asap.android.Util;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-public abstract class PersonListActivity extends SharkNetActivity {
+public abstract class PersonListActivity extends SelectableListSharkNetActivity /*SharkNetActivity*/ {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private PersonListContentAdapter mAdapter;
 
+    /*
     public PersonListActivity() {
         super(SharkNetApp.getSharkNetApp());
     }
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public abstract class PersonListActivity extends SharkNetActivity {
             ////////////////////////////////////////////////////////////////////////
             mRecyclerView = (RecyclerView) findViewById(R.id.person_list_recycler_view);
 
-            mAdapter = new PersonListContentAdapter(this);
+            mAdapter = new PersonListContentAdapter(this, this.selectableContentSource);
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
 

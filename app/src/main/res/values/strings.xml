@@ -59,6 +59,8 @@
     <string name="showOwnCertificatesButtonText">OwnedCerts</string>
     <string name="showExplainIdentityAssuranceButtonText">Explain IA</string>
     <string name="delete">delete</string>
+    <string name="identityAssuranceCalculatedWords">identity assurance (calculated):</string>
+    <string name="signingFailureWords">signing failure (your setting):</string>
 
 
 </resources>

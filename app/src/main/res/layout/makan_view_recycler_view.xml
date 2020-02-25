@@ -13,6 +13,7 @@
         android:id="@+id/makan_view_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginUnderToolbar"
         android:scrollbars="vertical" />
 
 </RelativeLayout>

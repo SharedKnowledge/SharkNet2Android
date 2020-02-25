@@ -70,7 +70,8 @@ public class PersonListViewActivity extends PersonListActivity {
         // TODO
         Log.d(this.getLogStart(), "doRemovePersons: TODO");
 
-        Toast.makeText(this, "NYI: remove persons", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "NYI: remove persons: " + this.getSelectedItemIDs(),
+                Toast.LENGTH_SHORT).show();
     }
 
     private void doAddPerson() {
