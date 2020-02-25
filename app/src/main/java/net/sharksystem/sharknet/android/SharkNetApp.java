@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPApplication;
+import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.makan.android.MakanApp;
 import net.sharksystem.persons.android.PersonsStorageAndroid;
 import net.sharksystem.persons.android.OwnerStorageAndroid;
@@ -31,6 +32,7 @@ public class SharkNetApp extends ASAPApplication {
             List<CharSequence> appFormats = new ArrayList<>();
             appFormats.add(PersonsStorageAndroid.APP_NAME);
             appFormats.add(MakanApp.APP_NAME);
+            appFormats.add(ASAPCertificateStorage.APP_NAME);
 
             SharkNetApp.singleton = new SharkNetApp(appFormats);
         }

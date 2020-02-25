@@ -11,6 +11,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/row_padding_vertical">
 
+    <tag android:id="@+id/user_id_tag" />
+
     <!-- line 1 -->
     <TextView
         android:id="@+id/person_list_row_person_name"

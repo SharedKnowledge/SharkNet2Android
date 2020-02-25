@@ -18,7 +18,6 @@
         <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
 
-        <activity android:name=".persons.android.IdentityAssuranceExplainActivity" />
         <activity android:name=".persons.android.CertificateViewActivity" />
 
         <activity android:name=".persons.android.CertificateListActivity">

@@ -71,7 +71,7 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
                     this.credentialMessage.getPublicKey());
 
             // return newly created certificate
-            this.sendASAPMessage(ASAPCertificateStorage.ASAP_CERIFICATE_APP,
+            this.sendASAPMessage(ASAPCertificateStorage.APP_NAME,
                     ASAPCertificate.ASAP_CERTIFICATE,
                     null, // anybody - non restricted recipient list
                     newCert.asBytes());

@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.persons.PersonValues;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -65,53 +67,37 @@ public class PersonListContentAdapter extends
     public void onBindViewHolder(PersonListContentAdapter.MyViewHolder holder, int position) {
         Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
-        holder.personName.setText("Username");
-        holder.personIdentityAssurance.setText("4");
-        holder.personCertificateExchangeFailure.setText("9");
-
         this.scs.setSelectedText(Integer.toString(position), holder.itemView, holder.personSelected);
 
-//        if(position == 0) return;
-
-        /*
         try {
             PersonValues personValues =
                     PersonsStorageAndroid.getPersonsApp().getPersonValuesByPosition(position);
 
             CharSequence userID = personValues.getUserID();
-
-
+            holder.itemView.setTag(R.id.user_id_tag, userID);
             holder.personName.setText(personValues.getName());
+            Log.d(this.getLogStart(), "identity Assurance: " + personValues.getIdentityAssurance());
+            holder.personIdentityAssurance.setText(String.valueOf(personValues.getIdentityAssurance()));
+            Log.d(this.getLogStart(), "cert ef: " + personValues.getCertificateExchangeFailure());
+            holder.personCertificateExchangeFailure.setText(String.valueOf(
+                    personValues.getCertificateExchangeFailure()));
 
-            holder.personIdentityAssurance.setText("iAssured: "
-                    + personValues.getIdentityAssurance());
 
-            holder.personCertificateExchangeFailure.setText("certFailure: "
-                    + personValues.getCertificateExchangeFailure());
-            String selectedString = this.selectedItemIDs.contains(userID) ? "SELECTED" : "";
-            holder.personSelected.setText(selectedString);
-*/
-
-/*
         } catch (SharkException e) {
             Toast.makeText(this.ctx, "error finding person information: ", Toast.LENGTH_SHORT).show();
             return;
         }
-
- */
     }
 
     @Override
     public int getItemCount() {
         Log.d(this.getLogStart(), "called getItemCount");
-        return 4;
-
-//        return PersonsStorageAndroid.getPersonsApp().getNumberOfPersons() + 1;
+        return PersonsStorageAndroid.getPersonsApp().getNumberOfPersons();
     }
 
     @Override
     public boolean onLongClick(View view) {
-        CharSequence userID = (CharSequence)view.getTag();
+        CharSequence userID = (CharSequence)view.getTag(R.id.user_id_tag);
         Intent intent = new PersonIntent(this.ctx, userID, PersonEditActivity.class);
 
         this.ctx.startActivity(intent);
@@ -119,8 +105,13 @@ public class PersonListContentAdapter extends
         return true;
     }
 
+    boolean firstClick = true;
     @Override
     public void onClick(View view) {
+        if(this.firstClick) {
+            this.firstClick = false;
+            Toast.makeText(this.ctx, "long click to edit", Toast.LENGTH_SHORT).show();
+        }
         this.scs.onAction(this, view);
     }
 

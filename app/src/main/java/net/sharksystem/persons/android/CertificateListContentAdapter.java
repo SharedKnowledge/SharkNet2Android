@@ -10,12 +10,18 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.crypto.ASAPCertificate;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 class CertificateListContentAdapter extends
         RecyclerView.Adapter<CertificateListContentAdapter.MyViewHolder>
         implements View.OnClickListener /*, View.OnLongClickListener */ {
 
     private final Context ctx;
+    private final List<ASAPCertificate> certList;
     private View.OnClickListener clickListener;
 //    private View.OnLongClickListener longClickListener;
 
@@ -41,10 +47,11 @@ class CertificateListContentAdapter extends
         }
     }
 
-    public CertificateListContentAdapter(Context ctx) throws SharkException {
+    public CertificateListContentAdapter(Context ctx, List<ASAPCertificate> certList) throws SharkException {
         Log.d(this.getLogStart(), "constructor");
         this.ctx = ctx;
         this.clickListener = this;
+        this.certList = certList;
         //this.longClickListener = this;
     }
 
@@ -63,51 +70,61 @@ class CertificateListContentAdapter extends
     public void onBindViewHolder(CertificateListContentAdapter.MyViewHolder holder, int position) {
         Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
-        /*
-        I assume a bug or more probably - I'm to dull to understand recycler view at all.
-        Here it comes: this method is called even with position 0
-        But that position is never displayed.
 
-        Only happens if we have a toolbar on top of a recycler view, though.
-
-        So: I'm going to fake it until I understand the problem
-        Fix: When position 0 called - I return a dummy message
-
-        the other calls are handled as they should but with a decreased position
-         */
-
-        // Dummy values
-        holder.validSince.setText("Jan, 1. 1970");
-        holder.ownerName.setText("Alice");
-        holder.ownerNameCopy.setText("Alice");
-        holder.signerName.setText("Bob");
-        holder.signerNameCopy.setText("Bob");
-        holder.caSigner.setText("5");
-        holder.identityAssurance.setText("7.2");
-        holder.validUntil.setText("Jan, 1. 1971");
-        holder.itemView.setTag(R.id.certificate_list_owner_tag, "ownerID");
-        holder.itemView.setTag(R.id.certificate_list_signer_tag, "signerID");
-
-        /*
-        if(position == 0) return;
-
-        // fake position - see comments above
-        position--;
 
         try {
-            holder.itemView.setTag("ownerName | signerName");
+            ASAPCertificate asapCertificate = this.certList.get(position);
 
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd., yyyy");
+            holder.validSince.setText(simpleDateFormat.format(
+                    new Date(asapCertificate.getValidSince().getTimeInMillis())));
+
+            holder.validUntil.setText(simpleDateFormat.format(
+                    new Date(asapCertificate.getValidUntil().getTimeInMillis())));
+
+            CharSequence ownerName;
+            if(asapCertificate.getOwnerID().toString().
+                    equalsIgnoreCase(PersonsStorageAndroid.getPersonsApp().getOwnerID().toString())) {
+                ownerName = "you";
+            } else {
+                ownerName = asapCertificate.getOwnerName();
+            }
+
+            holder.ownerName.setText(ownerName);
+            holder.ownerNameCopy.setText(ownerName);
+
+            CharSequence signerName;
+            if(asapCertificate.getSignerID().toString().
+                    equalsIgnoreCase(PersonsStorageAndroid.getPersonsApp().getOwnerID().toString())) {
+                signerName = "you";
+            } else {
+                signerName = asapCertificate.getSignerName();
+            }
+
+            holder.signerName.setText(signerName);
+            holder.signerNameCopy.setText(signerName);
+
+            int cef = PersonsStorageAndroid.getPersonsApp().
+                    getCertificateExchangeFailure(asapCertificate.getSignerID());
+            holder.caSigner.setText(String.valueOf(cef));
+
+            int ia = PersonsStorageAndroid.getPersonsApp().
+                    getIdentityAssurance(asapCertificate.getSignerID());
+            holder.identityAssurance.setText(String.valueOf(ia));
+
+            holder.itemView.setTag(R.id.certificate_list_owner_tag, asapCertificate.getOwnerID());
+            holder.itemView.setTag(R.id.certificate_list_signer_tag, asapCertificate.getSignerID());
         } catch (SharkException e) {
-            Toast.makeText(this.ctx, "error finding person information: ", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
+            Log.e(this.getLogStart(), "failure: " + e.getLocalizedMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getItemCount() {
         Log.d(this.getLogStart(), "called getItemCount");
 
-        return 4;
+        return this.certList.size();
     }
 
     /*

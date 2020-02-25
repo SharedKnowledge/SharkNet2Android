@@ -1,5 +1,6 @@
 package net.sharksystem.persons.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,9 +13,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.SharkException;
 import net.sharksystem.asap.android.Util;
+import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class CertificateListActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;
@@ -32,7 +40,29 @@ public class CertificateListActivity extends SharkNetActivity {
 
         setContentView(R.layout.certificate_list_drawer_layout);
 
+        List<ASAPCertificate> certList = null;
+
+        // find out what to do
         try {
+            PersonIntent intent = new PersonIntent(this.getIntent());
+            if(intent.isOwnerIDSet()) {
+                if(intent.explainIdentityAssurance()) {
+                    certList = this.produceListToExplain(intent.getOwnerID());
+                } else {
+                    certList = this.produceListByOwner(intent.getOwnerID());
+                }
+            } else {
+                if(intent.isSignerIDSet()) {
+                    certList = this.produceListBySigner(intent.getSignerID());
+                } else {
+                    Toast.makeText(this,
+                            "internal failure: neither owner nor signer id set",
+                            Toast.LENGTH_SHORT).show();
+                    this.finish();
+                    return;
+                }
+            }
+
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
@@ -45,7 +75,7 @@ public class CertificateListActivity extends SharkNetActivity {
             ////////////////////////////////////////////////////////////////////////
             mRecyclerView = (RecyclerView) findViewById(R.id.certificate_list_recycler_view);
 
-            mAdapter = new CertificateListContentAdapter(this);
+            mAdapter = new CertificateListContentAdapter(this, certList);
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
 
@@ -60,6 +90,46 @@ public class CertificateListActivity extends SharkNetActivity {
             // debug break
             int i = 42;
         }
+    }
+
+    private List<ASAPCertificate> produceCertList(Collection<ASAPCertificate> certColl) {
+        List<ASAPCertificate> certList = new ArrayList<>();
+
+        for(ASAPCertificate cert : certColl) {
+            certList.add(cert);
+        }
+
+        return certList;
+    }
+
+    private List<ASAPCertificate> produceListByOwner(CharSequence ownerID) throws SharkException {
+        Collection<ASAPCertificate> certColl =
+                PersonsStorageAndroid.getPersonsApp().getCertificateByOwner(ownerID);
+
+        return this.produceCertList(certColl);
+    }
+
+    private List<ASAPCertificate> produceListBySigner(CharSequence signerID) throws SharkException {
+        Collection<ASAPCertificate> certColl =
+                PersonsStorageAndroid.getPersonsApp().getCertificateBySigner(signerID);
+
+        return this.produceCertList(certColl);
+    }
+
+    private List<ASAPCertificate> produceListToExplain(CharSequence userID)
+            throws SharkException {
+
+        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+
+        List<ASAPCertificate> certList = new ArrayList<>();
+        List<CharSequence> idPath = personsApp.getIdentityAssurancesCertificationPath(userID);
+
+        for(CharSequence id : idPath) {
+            Log.e(this.getLogStart(), "TODO: explain chain");
+            certList.add(personsApp.getCertificateByOwner(id).iterator().next());
+        }
+
+        return certList;
     }
 
     /////////////////////////////////////////////////////////////////////////////////

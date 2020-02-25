@@ -20,22 +20,20 @@
         android:id="@+id/personEditIdentityAssuranceLevel"
         android:layout_width="77dp"
         android:layout_height="22dp"
-        android:layout_marginStart="44dp"
         android:layout_marginTop="44dp"
         android:text="IdentityAssuranceLevel"
         android:textSize="8pt"
         app:layout_constraintStart_toEndOf="@+id/personEditUserID"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/personEditName"
+    <TextView
+        android:id="@+id/personName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="44dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
         app:layout_constraintStart_toStartOf="@+id/personEditUserID"
         app:layout_constraintTop_toBottomOf="@+id/personEditUserID" />
 
@@ -49,8 +47,8 @@
         android:max="10"
         android:min="1"
         android:progress="5"
-        app:layout_constraintStart_toStartOf="@+id/personEditName"
-        app:layout_constraintTop_toBottomOf="@+id/personEditName" />
+        app:layout_constraintStart_toStartOf="@+id/personName"
+        app:layout_constraintTop_toBottomOf="@+id/personName" />
 
     <Button
         android:id="@+id/saveButton"
@@ -67,8 +65,8 @@
         android:id="@+id/abortButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="84dp"
         android:onClick="onAbortClick"
         android:text="@string/abort"
         app:layout_constraintStart_toEndOf="@+id/saveButton"
@@ -89,7 +87,7 @@
         android:id="@+id/showSignedCertificates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         android:onClick="onShowSignedCertificatesClick"
         android:text="@string/showSignedCertificatesButtonText"
@@ -100,7 +98,6 @@
         android:id="@+id/explainIdentityAssurance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
         android:onClick="onShowExplainIdentityAssuranceClick"
         android:text="@string/showExplainIdentityAssuranceButtonText"
         app:layout_constraintStart_toEndOf="@+id/personEditIdentityAssuranceLevel"

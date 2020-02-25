@@ -13,6 +13,7 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.android.Util;
+import net.sharksystem.persons.PersonValuesImpl;
 
 public class PersonEditActivity extends AppCompatActivity {
     private CharSequence userID;
@@ -28,16 +29,22 @@ public class PersonEditActivity extends AppCompatActivity {
 
             this.userID = personIntent.getOwnerID();
 
+            PersonValuesImpl personValues =
+                    PersonsStorageAndroid.getPersonsApp().getPersonValues(this.userID);
+
             TextView userIDView = findViewById(R.id.personEditUserID);
             userIDView.setText(String.valueOf(userID));
 
-            EditText userNameView = findViewById(R.id.personEditName);
+            TextView tv = findViewById(R.id.personName);
+            tv.setText(personValues.getName());
 
-            switch(userID.toString()) {
-                case "0": userNameView.setText("Alice"); break;
-                case "1": userNameView.setText("Bob"); break;
-                default: userNameView.setText("Unknown");
-            }
+            SeekBar certExchangeFailureBar =
+                    findViewById(R.id.personEditCertificateExchangeFailureRateSeekBar);
+
+            certExchangeFailureBar.setProgress(personValues.getCertificateExchangeFailure());
+
+            tv = findViewById(R.id.personEditIdentityAssuranceLevel);
+            tv.setText(String.valueOf(personValues.getIdentityAssurance()));
 
         } catch (SharkException e) {
             Log.e(Util.getLogStart(this), "fatal: " + e.getLocalizedMessage());
@@ -55,11 +62,13 @@ public class PersonEditActivity extends AppCompatActivity {
 
         int certExchangeFailure = certExchangeFailureSeekBar.getProgress();
 
-        EditText userNameEditText = findViewById(R.id.personEditName);
-        String userName = userNameEditText.getText().toString();
+        try {
+            PersonsStorageAndroid.getPersonsApp().setCertificateExchangeFailure(this.userID, certExchangeFailure);
+        } catch (SharkException e) {
+            Log.e(this.getLogStart(), "couldn't save data: " + e.getLocalizedMessage());
+            Toast.makeText(this, "couldn't save data", Toast.LENGTH_SHORT).show();
+        }
 
-        Toast.makeText(this, "save: " +
-                userName + " / " + certExchangeFailure, Toast.LENGTH_LONG).show();
         this.finish();
     }
 
@@ -84,8 +93,13 @@ public class PersonEditActivity extends AppCompatActivity {
     public void onShowExplainIdentityAssuranceClick(View view) {
         Log.d(Util.getLogStart(this), "onShowExplainIdentityAssuranceClick");
         Intent intent =
-                new PersonIntent(this, this.userID, IdentityAssuranceExplainActivity.class);
+                new PersonIntent(this, this.userID, true,
+                        CertificateListActivity.class);
         this.startActivity(intent);
         this.finish();
+    }
+
+    protected String getLogStart() {
+        return this.getClass().getSimpleName();
     }
 }

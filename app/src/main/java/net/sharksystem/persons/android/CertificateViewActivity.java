@@ -11,6 +11,11 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.crypto.ASAPCertificate;
+
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
 
 public class CertificateViewActivity extends AppCompatActivity {
     private CharSequence ownerID;
@@ -28,42 +33,50 @@ public class CertificateViewActivity extends AppCompatActivity {
             this.ownerID = personIntent.getOwnerID();
             this.signerID = personIntent.getSignerID();
 
+            Collection<ASAPCertificate> certificateByOwner =
+                    PersonsStorageAndroid.getPersonsApp().getCertificateByOwner(this.ownerID);
+            ASAPCertificate cert = null;
+            for(ASAPCertificate c : certificateByOwner) {
+                if(c.getSignerID().toString().equalsIgnoreCase(this.signerID.toString())) {
+                    // got it
+                    cert = c;
+                }
+            }
+
+            if(cert == null) {
+                Log.e(this.getLogStart(), "internal failure: no cert found");
+                Toast.makeText(this,
+                        "internal failure: no cert found", Toast.LENGTH_SHORT).show();
+                this.finish();
+                return;
+            }
+
             TextView tv = findViewById(R.id.certificate_view_owner_id);
-            tv.setText(this.ownerID);
+            tv.setText(cert.getOwnerID());
 
             tv = findViewById(R.id.certificate_view_owner_name);
-            tv.setText("ownerName");
-/*
+            tv.setText(cert.getOwnerName());
+
             tv = findViewById(R.id.certificate_view_signer_id);
-            tv.setText(this.signerID);
+            tv.setText(cert.getSignerID());
 
             tv = findViewById(R.id.certificate_view_signer_name);
-            tv.setText("signerName");
+            tv.setText(cert.getSignerName());
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd., yyyy");
 
             tv = findViewById(R.id.certificate_view_valid_since);
-            tv.setText("since");
+            tv.setText(simpleDateFormat.format(
+                    new Date(cert.getValidSince().getTimeInMillis())));
 
             tv = findViewById(R.id.certificate_view_valid_until);
-            tv.setText("until");
-*/
+            tv.setText(simpleDateFormat.format(
+                    new Date(cert.getValidUntil().getTimeInMillis())));
+
         } catch (SharkException e) {
             Log.d(this.getLogStart(),
                     "problems when setting up certificate view: " + e.getLocalizedMessage());
         }
-    }
-
-    public void onSaveClick(View view) {
-        SeekBar certExchangeFailureSeekBar =
-                findViewById(R.id.personEditCertificateExchangeFailureRateSeekBar);
-
-        int certExchangeFailure = certExchangeFailureSeekBar.getProgress();
-
-        EditText userNameEditText = findViewById(R.id.personEditName);
-        String userName = userNameEditText.getText().toString();
-
-        Toast.makeText(this, "save: " +
-                userName + " / " + certExchangeFailure, Toast.LENGTH_LONG).show();
-        this.finish();
     }
 
     public void onAbortClick(View view) {
