@@ -78,22 +78,12 @@
 
         <!-- line 3 -->
         <TextView
-            android:id="@+id/certificate_list_row_signer_copy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/recyclerRowEntryTextSize"
-            android:layout_below="@id/certificate_list_row_valid_until_words"
-            />
-
-        <TextView
             android:id="@+id/signing_failure_words"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/recyclerRowEntryTextSize"
-            android:paddingLeft="@dimen/rowPaddingHorizontal"
             android:text="@string/signingFailureWords"
-            android:layout_toRightOf="@id/certificate_list_row_signer_copy"
-            android:layout_alignBottom="@id/certificate_list_row_signer_copy"
+            android:layout_below="@id/certificate_list_row_valid_until_words"
             android:textColor="@color/personIdentityAssuranceLevel"/>
 
         <TextView
@@ -112,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/recyclerRowEntryTextSize"
-            android:layout_below="@id/certificate_list_row_signer_copy"
+            android:layout_below="@id/signing_failure_words"
             />
 
         <TextView

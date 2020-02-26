@@ -124,8 +124,21 @@ public class CertificateListActivity extends SharkNetActivity {
         List<ASAPCertificate> certList = new ArrayList<>();
         List<CharSequence> idPath = personsApp.getIdentityAssurancesCertificationPath(userID);
 
+        if(idPath.isEmpty()) {
+            Toast.makeText(this, "Person can not be verified", Toast.LENGTH_LONG).show();
+            this.finish();
+            return null;
+        }
+
+        if(idPath.get(0).toString().equalsIgnoreCase(personsApp.getOwnerID().toString())) {
+            // direct certificate
+            Toast.makeText(this, "You met this person and signed a certificate",
+                    Toast.LENGTH_LONG).show();
+            this.finish();
+            return null;
+        }
+
         for(CharSequence id : idPath) {
-            Log.e(this.getLogStart(), "TODO: explain chain");
             certList.add(personsApp.getCertificateByOwner(id).iterator().next());
         }
 

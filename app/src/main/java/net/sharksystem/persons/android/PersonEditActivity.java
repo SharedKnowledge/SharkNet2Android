@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,9 +38,9 @@ public class PersonEditActivity extends AppCompatActivity {
             tv.setText(personValues.getName());
 
             SeekBar certExchangeFailureBar =
-                    findViewById(R.id.personEditCertificateExchangeFailureRateSeekBar);
+                    findViewById(R.id.personEditSigningFailureRateSeekBar);
 
-            certExchangeFailureBar.setProgress(personValues.getCertificateExchangeFailure());
+            certExchangeFailureBar.setProgress(personValues.getSigningFailureRate());
 
             tv = findViewById(R.id.personEditIdentityAssuranceLevel);
             tv.setText(String.valueOf(personValues.getIdentityAssurance()));
@@ -58,12 +57,12 @@ public class PersonEditActivity extends AppCompatActivity {
 
     public void onSaveClick(View view) {
         SeekBar certExchangeFailureSeekBar =
-                findViewById(R.id.personEditCertificateExchangeFailureRateSeekBar);
+                findViewById(R.id.personEditSigningFailureRateSeekBar);
 
         int certExchangeFailure = certExchangeFailureSeekBar.getProgress();
 
         try {
-            PersonsStorageAndroid.getPersonsApp().setCertificateExchangeFailure(this.userID, certExchangeFailure);
+            PersonsStorageAndroid.getPersonsApp().setSigningFailureRate(this.userID, certExchangeFailure);
         } catch (SharkException e) {
             Log.e(this.getLogStart(), "couldn't save data: " + e.getLocalizedMessage());
             Toast.makeText(this, "couldn't save data", Toast.LENGTH_SHORT).show();

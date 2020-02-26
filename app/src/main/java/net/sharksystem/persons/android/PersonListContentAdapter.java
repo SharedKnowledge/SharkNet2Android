@@ -78,9 +78,9 @@ public class PersonListContentAdapter extends
             holder.personName.setText(personValues.getName());
             Log.d(this.getLogStart(), "identity Assurance: " + personValues.getIdentityAssurance());
             holder.personIdentityAssurance.setText(String.valueOf(personValues.getIdentityAssurance()));
-            Log.d(this.getLogStart(), "cert ef: " + personValues.getCertificateExchangeFailure());
+            Log.d(this.getLogStart(), "signing failure: " + personValues.getSigningFailureRate());
             holder.personCertificateExchangeFailure.setText(String.valueOf(
-                    personValues.getCertificateExchangeFailure()));
+                    personValues.getSigningFailureRate()));
 
 
         } catch (SharkException e) {

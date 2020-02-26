@@ -22,7 +22,7 @@
     <string name="title_activity_settings">Settings</string>
 
 
-    <!-- Settings explaination texts -->
+    <!-- Settings explanation texts -->
     <string name="bluetoothToggleExplanationText">BT on / off</string>
 
     <string name="settingsWifiDirectToggleButtonExplaination">Switch Wifi Direct on / off</string>
@@ -59,8 +59,8 @@
     <string name="showOwnCertificatesButtonText">OwnedCerts</string>
     <string name="showExplainIdentityAssuranceButtonText">Explain IA</string>
     <string name="delete">delete</string>
-    <string name="identityAssuranceCalculatedWords">identity assurance (calculated):</string>
-    <string name="signingFailureWords">signing failure (your setting):</string>
+    <string name="identityAssuranceCalculatedWords">identity assurance:</string>
+    <string name="signingFailureWords">signing failure set to: </string>
 
 
 </resources>

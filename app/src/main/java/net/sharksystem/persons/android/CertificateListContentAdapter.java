@@ -29,7 +29,7 @@ class CertificateListContentAdapter extends
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView ownerName, ownerNameCopy, signerName,
-                signerNameCopy, identityAssurance, validUntil, validSince,
+                identityAssurance, validUntil, validSince,
                 caSigner;
 
         public MyViewHolder(View view) {
@@ -38,7 +38,6 @@ class CertificateListContentAdapter extends
             ownerName = view.findViewById(R.id.certificate_list_row_owner);
             ownerNameCopy = view.findViewById(R.id.certificate_list_row_owner_copy);
             signerName = view.findViewById(R.id.certificate_list_row_signer);
-            signerNameCopy = view.findViewById(R.id.certificate_list_row_signer_copy);
             caSigner = view.findViewById(R.id.certificate_list_row_cf_signer);
             identityAssurance = view.findViewById(R.id.cert_exchange_failure);
             validUntil = view.findViewById(R.id.certificate_list_row_valid_until);
@@ -96,20 +95,19 @@ class CertificateListContentAdapter extends
             CharSequence signerName;
             if(asapCertificate.getSignerID().toString().
                     equalsIgnoreCase(PersonsStorageAndroid.getPersonsApp().getOwnerID().toString())) {
-                signerName = "you";
+                signerName = "You";
             } else {
                 signerName = asapCertificate.getSignerName();
             }
 
             holder.signerName.setText(signerName);
-            holder.signerNameCopy.setText(signerName);
 
             int cef = PersonsStorageAndroid.getPersonsApp().
-                    getCertificateExchangeFailure(asapCertificate.getSignerID());
+                    getSigningFailureRate(asapCertificate.getSignerID());
             holder.caSigner.setText(String.valueOf(cef));
 
             int ia = PersonsStorageAndroid.getPersonsApp().
-                    getIdentityAssurance(asapCertificate.getSignerID());
+                    getIdentityAssurance(asapCertificate.getOwnerID());
             holder.identityAssurance.setText(String.valueOf(ia));
 
             holder.itemView.setTag(R.id.certificate_list_owner_tag, asapCertificate.getOwnerID());
