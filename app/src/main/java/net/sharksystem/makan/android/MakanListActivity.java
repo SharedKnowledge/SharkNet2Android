@@ -43,9 +43,6 @@ public class MakanListActivity extends SharkNetActivity {
 
             this.getSharkNetApp().setupDrawerLayout(this);
 
-            // initialize MakanApp
-            MakanApp.getMakanApp(this);
-
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
@@ -165,7 +162,7 @@ public class MakanListActivity extends SharkNetActivity {
         String sampleLine = Long.toString(System.currentTimeMillis());
         Log.d(this.getLogStart(), "doRemoveAll called");
 
-        MakanApp.getMakanStorage().removeAllMakan();
+        MakanApp.getMakanApp().getMakanStorage().removeAllMakan();
 
         Toast.makeText(this, "done - removed all makan", Toast.LENGTH_SHORT).show();
     }

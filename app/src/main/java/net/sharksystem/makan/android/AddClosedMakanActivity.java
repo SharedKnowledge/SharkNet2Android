@@ -28,9 +28,6 @@ public class AddClosedMakanActivity extends SharkNetActivity {
         setContentView(R.layout.makan_add_closed_makan_drawer_layout);
 
         this.getSharkNetApp().setupDrawerLayout(this);
-
-        // initialize MakanApp
-        MakanApp.getMakanApp(this);
     }
 
     public void onShowPersonListClick(View view) {
@@ -46,7 +43,7 @@ public class AddClosedMakanActivity extends SharkNetActivity {
             EditText nameText = this.findViewById(R.id.makanAddMakanName);
 
             try {
-                MakanApp.getMakanStorage().createMakan(
+                MakanApp.getMakanApp().getMakanStorage().createMakan(
                         "sn2://closedMakanTemplateURI",
                         nameText.getText(),
                         SharkNetApp.getSharkNetApp().getOwnerID()

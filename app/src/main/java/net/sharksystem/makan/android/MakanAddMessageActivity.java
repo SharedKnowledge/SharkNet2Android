@@ -1,7 +1,6 @@
 package net.sharksystem.makan.android;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -12,7 +11,6 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.InMemoMakanMessage;
-import net.sharksystem.makan.Makan;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -20,7 +18,6 @@ import java.io.IOException;
 import java.util.Date;
 
 public class MakanAddMessageActivity extends SharkNetActivity {
-    private static final String LOGSTART = "MakanAddMessage";
     private CharSequence name = null;
     private CharSequence uri;
 
@@ -43,11 +40,11 @@ public class MakanAddMessageActivity extends SharkNetActivity {
             this.name = intent.getUserFriendlyName();
             this.uri = intent.getUri();
         } catch (SharkException e) {
-            Log.d(LOGSTART, "cannot create makan intent - fatal");
+            Log.d(this.getLogStart(), "cannot create makan intent - fatal");
             return;
         }
 
-        Log.d(LOGSTART, "created with name: " + this.name + " / " + this.uri);
+        Log.d(this.getLogStart(), "created with name: " + this.name + " / " + this.uri);
 
         TextView topicTextView = (TextView) findViewById(R.id.makanName);
         topicTextView.setText(this.name);
@@ -59,24 +56,32 @@ public class MakanAddMessageActivity extends SharkNetActivity {
 
         String messageText = messageTextView.getText().toString();
 
-        if(messageText == null || messageText.isEmpty()) {
+        if (messageText == null || messageText.isEmpty()) {
             Toast.makeText(this, "message is empty", Toast.LENGTH_SHORT).show();
         } else {
             try {
-                Makan makan = MakanApp.getMakanStorage().getMakan(this.uri);
+                // send message via ASAP Service to leverage online exchange etc. pp.
+                InMemoMakanMessage makanMessage = new InMemoMakanMessage(
+                        SharkNetApp.getSharkNetApp().getOwnerID(),
+                        messageText,
+                        new Date()
+                );
 
-                Log.d(LOGSTART, "store makan message: " + this.uri + " | " + messageText);
+                this.sendASAPMessage(MakanApp.APP_NAME, this.uri,
+                        makanMessage.getSerializedASAPMessageAsBytes());
+/*
+                Makan makan = MakanApp.getMakanApp().getMakanStorage().getMakan(this.uri);
+                Log.d(this.getLogStart(), "store makan message: " + this.uri + " | " + messageText);
                 makan.addMessage(messageText);
-
-            } catch (IOException | ASAPException e) {
-                Log.d(LOGSTART, "problems when writing makan message: "
+ */
+            } catch (ASAPException e) {
+                Log.d(this.getLogStart(), "problems when sending makan message: "
                         + e.getLocalizedMessage());
             }
         }
 
-        // go back
-        MakanIntent intent = new MakanIntent(this, this.name, this.uri, MakanViewActivity.class);
-        this.startActivity(intent);
+        // done here
+        this.finish();
     }
 
     public void onAbortClick(View view) {
@@ -84,4 +89,3 @@ public class MakanAddMessageActivity extends SharkNetActivity {
         startActivity(intent);
     }
 }
-

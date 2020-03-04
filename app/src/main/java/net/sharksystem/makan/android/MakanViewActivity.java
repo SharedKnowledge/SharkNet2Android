@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPChunkReceivedListener;
+import net.sharksystem.asap.android.apps.ASAPUriContentChangedListener;
 import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -20,7 +21,7 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 /**
  * View a single makan
  */
-public class MakanViewActivity extends SharkNetActivity implements ASAPChunkReceivedListener {
+public class MakanViewActivity extends SharkNetActivity implements ASAPUriContentChangedListener {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
@@ -37,9 +38,6 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this.getLogStart(), "onCreate");
-
-        // initialize MakanApp
-        MakanApp.getMakanApp(this);
 
         // get parameters
         try {
@@ -85,13 +83,6 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
             // debug break
             int i = 42;
         }
-    }
-
-
-    public void doExternalChange(int era, String user, String folder) {
-        // external changes happen
-        this.mAdapter.setOutdated(era, user, folder);
-        // TODO: refresh view
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -144,11 +135,15 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
         startActivity(intent);
     }
 
+    private boolean listenerSet = false;
     protected void onStart() {
         super.onStart();
 
         // listen to chunk receiver
-        this.getSharkNetApp().addChunkReceivedListener(this.topicUri, this);
+        if(!this.listenerSet) {
+            this.getSharkNetApp().addASAPUriContentChangedListener(MakanApp.APP_NAME, this);
+            this.listenerSet = true;
+        }
     }
 
     protected void onResume() {
@@ -159,14 +154,18 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
         //mAdapter.notifyDataSetChanged(); // simple refresh
 
         // listen to chunk receiver
-        this.getSharkNetApp().addChunkReceivedListener(this.topicUri, this);
+        if(!this.listenerSet) {
+            this.getSharkNetApp().addASAPUriContentChangedListener(MakanApp.APP_NAME, this);
+            this.listenerSet = true;
+        }
     }
 
     protected void onPause() {
         super.onPause();
 
         // stop listening to chunk receiver
-        this.getSharkNetApp().removeChunkReceivedListener(this.topicUri);
+        this.getSharkNetApp().removeASAPUriContentChangedListener(MakanApp.APP_NAME, this);
+        this.listenerSet = false;
     }
 
     protected void onStop() {
@@ -174,14 +173,16 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
         super.onStop();
 
         // stop listening to chunk receiver
-        this.getSharkNetApp().removeChunkReceivedListener(this.topicUri);
+        this.getSharkNetApp().removeASAPUriContentChangedListener(MakanApp.APP_NAME, this);
+        this.listenerSet = false;
     }
 
     protected void onDestroy() {
         super.onDestroy();
 
         // stop listening to chunk receiver
-        this.getSharkNetApp().removeChunkReceivedListener(this.topicUri);
+        this.getSharkNetApp().removeASAPUriContentChangedListener(MakanApp.APP_NAME, this);
+        this.listenerSet = false;
     }
 
     private void resetAdapter() {
@@ -199,9 +200,13 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPChunkRece
     }
 
     @Override
-    public void chunkReceived(String sender, String s1, String uri, int era) {
-        Log.d(this.getLogStart(), "chunkReceived");
+    public void asapUriContentChanged(CharSequence changedUri) {
+        Log.d(this.getLogStart(), "uriContentChanged: " + changedUri);
 
-        this.resetAdapter();
+        if(this.topicUri.toString().equalsIgnoreCase(changedUri.toString())) {
+            this.resetAdapter();
+        } else {
+            Log.d(this.getLogStart(), "not my uri: " + this.topicUri);
+        }
     }
 }

@@ -22,9 +22,7 @@ import java.io.IOException;
 public class MakanListContentAdapter extends
         RecyclerView.Adapter<MakanListContentAdapter.MyViewHolder> implements View.OnClickListener {
 
-    private static final String LOGSTART = "MakanListContentAdapter";
     private final Context ctx;
-    private CharSequence topic = null;
     private View.OnClickListener clickListener;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -39,7 +37,7 @@ public class MakanListContentAdapter extends
     }
 
     public MakanListContentAdapter(Context ctx) throws SharkException {
-        Log.d(LOGSTART, "constructor");
+        Log.d(this.getLogStart(), "constructor");
         this.ctx = ctx;
         this.clickListener = this;
     }
@@ -47,7 +45,7 @@ public class MakanListContentAdapter extends
     @Override
     public MakanListContentAdapter.MyViewHolder onCreateViewHolder(
             ViewGroup parent, int viewType) {
-        Log.d(LOGSTART, "onCreateViewHolder");
+        Log.d(this.getLogStart(), "onCreateViewHolder");
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.makan_list_row, parent, false);
@@ -57,78 +55,54 @@ public class MakanListContentAdapter extends
 
     @Override
     public void onBindViewHolder(MakanListContentAdapter.MyViewHolder holder, int position) {
-        Log.d(LOGSTART, "onBindViewHolder with position: " + position);
-
-        /*
-        I assume a bug or more probably - I'm to dull to understand recycler view at all.
-        Here it comes: this method is called even with position 0
-        But that position is never displayed.
-
-        So: I'm going to fake it until I understand the problem
-        Fix: When position 0 called - I return a dummy message
-
-        the other calls are handled as they should but with a decreased position
-         */
-
-        if(position == 0) {
-            // dummy message - never displayed
-            holder.uriTextView.setText("dummy-dateTextView");
-            holder.nameTextView.setText("dummy-senderTextView");
-            return;
-        }
-
-        // else: position > 0
-
-        // fake position
-        position--;
+        Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
         // go ahead
         try {
-            MakanStorage makanStorage = MakanApp.getMakanStorage();
+            MakanStorage makanStorage = MakanApp.getMakanApp().getMakanStorage();
             if(makanStorage == null) {
-                Log.d(LOGSTART, "fatal: no makan storage");
+                Log.d(this.getLogStart(), "fatal: no makan storage");
                 return;
             }
 
             Makan makan = makanStorage.getMakan(position);
             if(makan == null) {
-                Log.d(LOGSTART, "fatal: no makan");
+                Log.d(this.getLogStart(), "fatal: no makan");
                 return;
             }
 
             holder.uriTextView.setText(makan.getURI());
             holder.nameTextView.setText(makan.getName());
         } catch (IOException | ASAPException e) {
-            Log.e(LOGSTART, "problems while showing mana entries: " + e.getLocalizedMessage());
+            Log.e(this.getLogStart(), "problems while showing mana entries: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
     }
 
     @Override
     public int getItemCount() {
-        Log.d(LOGSTART, "called getItemCount");
+        Log.d(this.getLogStart(), "called getItemCount");
 
         int realSize = 0;
         try {
-            realSize = MakanApp.getMakanStorage().size();
-            Log.d(LOGSTART, "count is: " + realSize);
+            realSize = MakanApp.getMakanApp().getMakanStorage().size();
+            Log.d(this.getLogStart(), "count is: " + realSize);
         } catch (Exception e) {
-            Log.e(LOGSTART, "cannot access message storage (yet?)");
+            Log.e(this.getLogStart(), "cannot access message storage (yet?)");
             return 0;
         }
-        int fakeSize = realSize+1;
-        return fakeSize;
+        return realSize;
     }
 
     @Override
     public void onClick(View view) {
-        Log.d(LOGSTART, "click on view recognized");
+        Log.d(this.getLogStart(), "click on view recognized");
 
         TextView uriTextView = (TextView) view.findViewById(R.id.makan_list_row_uid);
-        Log.d(LOGSTART, "uri: " + uriTextView.getText());
+        Log.d(this.getLogStart(), "uri: " + uriTextView.getText());
 
         TextView nameTextView = (TextView) view.findViewById(R.id.makan_list_row_name);
-        Log.d(LOGSTART, "name: " + nameTextView.getText());
+        Log.d(this.getLogStart(), "name: " + nameTextView.getText());
 
         MakanIntent intent =
                 new MakanIntent(
@@ -138,5 +112,9 @@ public class MakanListContentAdapter extends
                         MakanViewActivity.class);
 
         ctx.startActivity(intent);
+    }
+
+    private String getLogStart() {
+        return net.sharksystem.asap.util.Log.startLog(this).toString();
     }
 }

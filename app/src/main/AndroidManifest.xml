@@ -28,10 +28,6 @@
         <activity android:name=".persons.android.OwnerCredentialSendActivity" />
         <activity android:name=".persons.android.PersonListViewActivity"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".persons.android.PersonListSelectionActivity">
@@ -55,6 +51,10 @@
         <activity
             android:name=".makan.android.MakanListActivity"
             android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

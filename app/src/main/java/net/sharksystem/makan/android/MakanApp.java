@@ -18,22 +18,16 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class MakanApp {
-    public static final String MAKAN_FOLDER_NAME = "makan";
     public static final CharSequence APP_NAME = "Makan";
 
     private static final String LOGSTART = "MakanApp";
     private static MakanApp singleton = null;
-    private static MakanStorage makanStorage;
+    private MakanStorage makanStorage;
 
-    public static final String URI_START = "sn://makan/";
-    private Activity currentActivity;
-
-    public static MakanApp getMakanApp(Activity currentActivity) {
+    public static MakanApp getMakanApp() {
         if(MakanApp.singleton == null) {
             MakanApp.singleton = new MakanApp();
         }
-
-        MakanApp.singleton.currentActivity = currentActivity;
 
         return MakanApp.singleton;
     }
@@ -49,22 +43,28 @@ public class MakanApp {
     }
 
 
-    public static MakanStorage getMakanStorage() throws IOException, ASAPException {
-        MakanApp.makanStorage = null; // TODO: DEBUGGING
-        if(MakanApp.makanStorage == null) {
+    public MakanStorage getMakanStorage() throws IOException, ASAPException {
+        Log.d(LOGSTART, "ALWAYS SET MAKAN STORAGE TO NULL FOR DEBUGGING");
+        this.makanStorage = null; // TODO: DEBUGGING
+        if(this.makanStorage == null) {
             Log.d(LOGSTART, "makanStorage is null - create on");
 
-            MakanApp.makanStorage = new MakanStorage_Impl(MakanApp.getASAPMakanStorage());
+            this.makanStorage = new MakanStorage_Impl(
+                    SharkNetApp.getSharkNetApp().getASAPStorage(MakanApp.APP_NAME));
+
+            //MakanApp.makanStorage = new MakanStorage_Impl(MakanApp.getASAPMakanStorage());
+        } else {
+            Log.d(LOGSTART, "makan storage already created");
         }
 
         Log.d(LOGSTART, "return makan storage");
-        return MakanApp.makanStorage;
+        return this.makanStorage;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////
     //                            ASAP Wrapper / Utils / Decorators                        //
     /////////////////////////////////////////////////////////////////////////////////////////
-
+/*
     private static ASAPStorage getASAPMakanStorage() throws IOException, ASAPException {
         Log.d(LOGSTART, "try get ASAP storage");
         if(MakanApp.singleton == null || MakanApp.singleton.currentActivity == null) {
@@ -93,15 +93,5 @@ public class MakanApp {
 
         return asapStorage;
     }
-
-    private HashMap<String, MakanViewActivity> makanLister = new HashMap<>();
-
-    public void handleASAPBroadcast(String uri, int era, String user, String folder) {
-        MakanViewActivity makanChangeListener = this.makanLister.get(uri);
-        if(makanChangeListener != null) {
-            Log.d(LOGSTART, "notify makan about external changes");
-            Log.d(LOGSTART, "uri: " + uri);
-            makanChangeListener.doExternalChange(era, user, folder);
-        }
-    }
+*/
 }

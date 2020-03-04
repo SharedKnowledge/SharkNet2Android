@@ -27,9 +27,6 @@ public class AddOpenMakanActivity extends SharkNetActivity {
         setContentView(R.layout.makan_add_open_makan_drawer_layout);
 
         this.getSharkNetApp().setupDrawerLayout(this);
-
-        // initialize MakanApp
-        MakanApp.getMakanApp(this);
     }
 
     public void onClick(View view) {
@@ -38,7 +35,7 @@ public class AddOpenMakanActivity extends SharkNetActivity {
             EditText nameText = this.findViewById(R.id.makanAddMakanName);
 
             try {
-                MakanApp.getMakanStorage().createMakan(
+                MakanApp.getMakanApp().getMakanStorage().createMakan(
                         uriText.getText(),
                         nameText.getText(),
                         SharkNetApp.getSharkNetApp().getOwnerID()

@@ -75,29 +75,6 @@ public class MakanViewContentAdapter extends
     public void onBindViewHolder(MakanViewContentAdapter.MyViewHolder holder, int position) {
         Log.d(LOGSTART, "onBindViewHolder with position: " + position);
 
-        /*
-        I assume a bug or more probably - I'm too dull to understand recycler view at all.
-        Here it comes: this method is called with position 0
-        But that position is never displayed.
-
-        So: I'm going to fake it until I understand the problem
-        Fix: When position 0 called - I return a dummy message
-
-        the other calls are handled as they should but with a decreased position
-         */
-        if(position == 0) {
-            // dummy message
-            holder.dateTextView.setText("dummy-date");
-            holder.messageTextView.setText("dummy-message");
-            holder.senderTextView.setText("dummy-sender");
-            return;
-        }
-
-        // else: position > 0
-
-        // fake position
-        position--;
-
         try {
             MakanMessage message = this.getMakan().getMessage(position, false);
             holder.dateTextView.setText(
@@ -121,9 +98,8 @@ public class MakanViewContentAdapter extends
 
         try {
             int size = this.getMakan().size();
-            Log.d(LOGSTART, "got makan size of " + size
-                    + " | return size+1 for recycler view adapter");
-            return this.getMakan().size() + 1; // +1 ?? see comments in onBindViewHolder
+            Log.d(LOGSTART, "got makan size of " + size);
+            return this.getMakan().size(); // +1 ?? see comments in onBindViewHolder
 
         } catch (ASAPException | IOException e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
@@ -135,7 +111,7 @@ public class MakanViewContentAdapter extends
 
     private Makan getMakan() throws IOException, ASAPException {
         if(this.makan == null) {
-            this.makan = MakanApp.getMakanStorage().getMakan(this.channelURI);
+            this.makan = MakanApp.getMakanApp().getMakanStorage().getMakan(this.channelURI);
         }
         return this.makan;
     }

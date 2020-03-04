@@ -61,8 +61,6 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
     }
 
     public void onDoneClick(View v) {
-        this.getSharkNetApp().removeChunkReceivedListener(PersonsStorageAndroid.CREDENTIAL_URI);
-
         try {
             // sign and create certificate
             ASAPCertificate newCert = PersonsStorageAndroid.getPersonsApp().addAndSignPerson(
@@ -73,7 +71,6 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
             // return newly created certificate
             this.sendASAPMessage(ASAPCertificateStorage.APP_NAME,
                     ASAPCertificate.ASAP_CERTIFICATE,
-                    null, // anybody - non restricted recipient list
                     newCert.asBytes());
 
         } catch (ASAPException | SharkException | IOException e) {

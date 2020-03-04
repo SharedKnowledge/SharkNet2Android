@@ -69,7 +69,6 @@ public class PersonsStorageAndroid extends InMemoPersonsStorageImpl /*PersonsSto
 
         snActivity.sendASAPMessage(APP_NAME,
                 CREDENTIAL_URI,
-                null,
                 credentialMessage.getMessageAsBytes());
     }
 }
