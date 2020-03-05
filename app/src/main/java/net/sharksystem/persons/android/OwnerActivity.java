@@ -13,6 +13,10 @@ import net.sharksystem.persons.Owner;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+
 public class OwnerActivity extends SharkNetActivity {
     public OwnerActivity() {
         super(SharkNetApp.getSharkNetApp());
@@ -27,7 +31,11 @@ public class OwnerActivity extends SharkNetActivity {
         // set user name in layout
         EditText userNameView = this.findViewById(R.id.ownerDisplayName);
 
-        userNameView.setText(OwnerStorageAndroid.getIdentityStorage(this).getDisplayName());
+        try {
+            userNameView.setText(OwnerStorageAndroid.getIdentityStorage(this).getDisplayName());
+        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+            Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
+        }
 
         this.getSharkNetApp().setupDrawerLayout(this);
     }
@@ -46,8 +54,13 @@ public class OwnerActivity extends SharkNetActivity {
             Toast.makeText(this, "user name is", Toast.LENGTH_SHORT).show();
         } else {
             Log.d(this.getLogStart(), "set new user name: " + userNameString);
-            Owner identityStorage = OwnerStorageAndroid.getIdentityStorage(this);
-            identityStorage.setDisplayName(userNameString);
+            Owner identityStorage = null;
+            try {
+                identityStorage = OwnerStorageAndroid.getIdentityStorage(this);
+                identityStorage.setDisplayName(userNameString);
+            } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+                Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
+            }
             super.onBackPressed();
         }
     }

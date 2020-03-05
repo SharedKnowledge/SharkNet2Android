@@ -3,6 +3,7 @@ package net.sharksystem.sharknet.android;
 import android.app.Activity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPApplication;
@@ -11,6 +12,9 @@ import net.sharksystem.makan.android.MakanApp;
 import net.sharksystem.persons.android.PersonsStorageAndroid;
 import net.sharksystem.persons.android.OwnerStorageAndroid;
 
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +27,13 @@ public class SharkNetApp extends ASAPApplication {
     }
 
     public CharSequence getASAPOwner(Activity activity) {
-        return OwnerStorageAndroid.getIdentityStorage(activity).getDisplayName();
+        try {
+            return OwnerStorageAndroid.getIdentityStorage(activity).getDisplayName();
+        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+            Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
+        }
+
+        return null;
     }
 
     public static SharkNetApp getSharkNetApp() {
@@ -58,10 +68,26 @@ public class SharkNetApp extends ASAPApplication {
      */
 
     public CharSequence getOwnerID() {
-        return OwnerStorageAndroid.getIdentityStorage(this.getActivity()).getUUID();
+        try {
+            return OwnerStorageAndroid.getIdentityStorage(this.getActivity()).getUUID();
+        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+            Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
+        }
+
+        return null;
     }
 
     public boolean isOwnerSet() {
-        return OwnerStorageAndroid.getIdentityStorage(this.getActivity()).isOwnerSet();
+        try {
+            return OwnerStorageAndroid.getIdentityStorage(this.getActivity()).isOwnerSet();
+        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+            Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
+        }
+
+        return false;
+    }
+
+    private String getLogStart() {
+        return net.sharksystem.asap.util.Log.startLog(this).toString();
     }
 }

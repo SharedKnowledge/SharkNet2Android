@@ -18,7 +18,9 @@ import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Iterator;
 import java.util.Random;
@@ -39,7 +41,11 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
 
         // set user name in layout
         TextView tv = this.findViewById(R.id.ownerDisplayName);
-        tv.setText(OwnerStorageAndroid.getIdentityStorage(this).getDisplayName());
+        try {
+            tv.setText(OwnerStorageAndroid.getIdentityStorage(this).getDisplayName());
+        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+            Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
+        }
 
         // set control number
         tv = this.findViewById(R.id.ownerSendCredentialsControlNumber);

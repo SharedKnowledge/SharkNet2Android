@@ -28,7 +28,7 @@ public abstract class PersonListActivity extends SelectableListSharkNetActivity 
             this.getSharkNetApp().setupDrawerLayout(this);
 
             PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
-            Set<CharSequence> preselectionSet = personsApp.getPreselationSet();
+            Set<CharSequence> preselectionSet = personsApp.getPreselectionSet();
             //Log.d(this.getLogStart(), "got preselectedset: " + preselectionSet);
             if(preselectionSet != null && !preselectionSet.isEmpty()) {
                 this.selectableContentSource.setPreselection(preselectionSet);
