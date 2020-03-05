@@ -42,7 +42,7 @@
     <string name="makanAddMakanURIExplanationText">enter channel uri</string>
     <string name="makanAddMakanNameExplanationText">enter channel name</string>
     <string name="settingsBluetoothD_And_D_Explanation">Scan BT</string>
-    <string name="identityShowPersonListExplanationText">Produce list of possible members</string>
+    <string name="identityShowPersonListExplanationText">No one selected yet</string>
 
     <string name="personListSelectionDoneText">Done Selection</string>
     <string name="personListViewButtonRemoveText">Remove</string>

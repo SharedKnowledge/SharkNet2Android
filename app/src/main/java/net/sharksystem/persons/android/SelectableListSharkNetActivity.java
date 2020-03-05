@@ -3,7 +3,7 @@ package net.sharksystem.persons.android;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.util.Collection;
+import java.util.Set;
 
 abstract class SelectableListSharkNetActivity extends SharkNetActivity {
     protected SelectableListContentAdapterHelper selectableContentSource
@@ -13,8 +13,8 @@ abstract class SelectableListSharkNetActivity extends SharkNetActivity {
         super(SharkNetApp.getSharkNetApp());
     }
 
-    Collection<CharSequence> getSelectedItemIDs() {
-        return this.selectableContentSource.getSelected();
+    Set<CharSequence> getSelectedItemIDs() {
+        return this.selectableContentSource.getSelectedUIDs();
     }
 
 }

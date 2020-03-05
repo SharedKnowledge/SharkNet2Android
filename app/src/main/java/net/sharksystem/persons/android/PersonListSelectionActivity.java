@@ -1,5 +1,6 @@
 package net.sharksystem.persons.android;
 
+import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -59,9 +60,9 @@ public class PersonListSelectionActivity extends PersonListActivity {
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     private void doDone() {
-        // TODO
-        Log.d(this.getLogStart(), "doDone: TODO");
-
-        Toast.makeText(this, "NYI: return selected persons", Toast.LENGTH_SHORT).show();
+        Log.d(this.getLogStart(), "doDone");
+        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+        personsApp.setLastPersonsSelection(this.getSelectedItemIDs());
+        this.finish();
     }
 }

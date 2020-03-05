@@ -26,8 +26,6 @@ public class PersonListContentAdapter extends
     private View.OnClickListener clickListener;
     private View.OnLongClickListener longClickListener;
 
-    private Set<CharSequence> selectedItemIDs = new HashSet<>();
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView personName, personIdentityAssurance,
                 personSelected, personCertificateExchangeFailure;
@@ -67,13 +65,14 @@ public class PersonListContentAdapter extends
     public void onBindViewHolder(PersonListContentAdapter.MyViewHolder holder, int position) {
         Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
-        this.scs.setSelectedText(Integer.toString(position), holder.itemView, holder.personSelected);
-
         try {
             PersonValues personValues =
                     PersonsStorageAndroid.getPersonsApp().getPersonValuesByPosition(position);
 
             CharSequence userID = personValues.getUserID();
+            this.scs.setSelectedText(Integer.toString(position), userID,
+                    holder.itemView, holder.personSelected);
+
             holder.itemView.setTag(R.id.user_id_tag, userID);
             holder.personName.setText(personValues.getName());
             Log.d(this.getLogStart(), "identity Assurance: " + personValues.getIdentityAssurance());
@@ -112,7 +111,9 @@ public class PersonListContentAdapter extends
             this.firstClick = false;
             Toast.makeText(this.ctx, "long click to edit", Toast.LENGTH_SHORT).show();
         }
-        this.scs.onAction(this, view);
+
+        CharSequence userID = (CharSequence)view.getTag(R.id.user_id_tag);
+        this.scs.onAction(this, view, userID);
     }
 
     protected String getLogStart() {

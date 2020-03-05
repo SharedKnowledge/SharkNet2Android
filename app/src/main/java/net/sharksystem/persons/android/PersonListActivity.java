@@ -9,19 +9,13 @@ import android.util.Log;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.android.Util;
-import net.sharksystem.sharknet.android.SharkNetActivity;
-import net.sharksystem.sharknet.android.SharkNetApp;
+
+import java.util.Set;
 
 public abstract class PersonListActivity extends SelectableListSharkNetActivity /*SharkNetActivity*/ {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private PersonListContentAdapter mAdapter;
-
-    /*
-    public PersonListActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
-     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +27,13 @@ public abstract class PersonListActivity extends SelectableListSharkNetActivity 
 
             this.getSharkNetApp().setupDrawerLayout(this);
 
-            //PersonsStorageAndroid.getPersonsApp();
+            PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+            Set<CharSequence> preselectionSet = personsApp.getPreselationSet();
+            //Log.d(this.getLogStart(), "got preselectedset: " + preselectionSet);
+            if(preselectionSet != null && !preselectionSet.isEmpty()) {
+                this.selectableContentSource.setPreselection(preselectionSet);
+                personsApp.setPreselectionSet(null);
+            }
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
