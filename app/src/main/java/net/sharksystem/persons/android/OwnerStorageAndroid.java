@@ -8,21 +8,16 @@ import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.Owner;
 
-import java.security.Key;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 
-public class OwnerStorageAndroid implements Owner, ASAPKeyStorage {
-    private static final String PRIVATE_KEY_ALIAS = "PRIVATE_KEY_ALIAS";
-    private static final String PUBLIC_KEY_ALIAS = "PUBLIC_KEY_ALIAS";
-    private static final String KEYS_CREATION_TIME = "KEYS_CREATION_TIME";
+public class OwnerStorageAndroid implements Owner {
     private static OwnerStorageAndroid instance;
 
-    private final static String PREFERENCES_FILE = "SharkNet2Identity";
+    public final static String PREFERENCES_FILE = "SharkNet2Identity";
     private final static String OWNER_NAME = "SharkNet2Identity_OwnerName";
     private final static String OWNER_ID = "SharkNet2Identity_OwnerID";
 
@@ -68,8 +63,6 @@ public class OwnerStorageAndroid implements Owner, ASAPKeyStorage {
             this.ownerID = DEFAULT_OWNER_ID;
             this.ownerIDSet = false;
         }
-
-        this.initKeyStorage(ctx);
     }
 
     @Override
@@ -114,68 +107,5 @@ public class OwnerStorageAndroid implements Owner, ASAPKeyStorage {
     @Override
     public CharSequence getDisplayName() {
         return this.ownerName;
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    //                                    asap key storage                                     //
-    /////////////////////////////////////////////////////////////////////////////////////////////
-
-    private InMemoASAPKeyStorage inMemoASAPKeyStorage = null;
-    private KeyStore keyStore;
-    private static final char[] password = "geheim".toCharArray(); // TODO :)
-
-    private void initKeyStorage(Context ctx)
-            throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException {
-
-        this.inMemoASAPKeyStorage = new InMemoASAPKeyStorage();
-
-        // TODO
-        /*
-        SharedPreferences sharedPref = this.currentContext.getSharedPreferences(
-                PREFERENCES_FILE, Context.MODE_PRIVATE);
-
-        long creationTime = sharedPref.getLong(KEYS_CREATION_TIME, 0);
-        this.inMemoASAPKeyStorage.setCreationTime(creationTime);
-
-        this.keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-
-        // TODO
-        this.inMemoASAPKeyStorage.storePrivateKey(
-                (PrivateKey)
-
-        this.inMemoASAPKeyStorage.storePublicKey(
-                (PublicKey) this.keyStore.getKey(PUBLIC_KEY_ALIAS, password));
-
-         */
-    }
-
-    @Override
-    public void storePrivateKey(PrivateKey privateKey) {
-        this.inMemoASAPKeyStorage.storePrivateKey(privateKey);
-    }
-
-    @Override
-    public void storePublicKey(PublicKey publicKey) {
-        this.inMemoASAPKeyStorage.storePublicKey(publicKey);
-    }
-
-    @Override
-    public void setCreationTime(long l) {
-        this.inMemoASAPKeyStorage.setCreationTime(l);
-    }
-
-    @Override
-    public PrivateKey retrievePrivateKey() throws SharkCryptoException {
-        return this.inMemoASAPKeyStorage.retrievePrivateKey();
-    }
-
-    @Override
-    public PublicKey retrievePublicKey() throws SharkCryptoException {
-        return this.inMemoASAPKeyStorage.retrievePublicKey();
-    }
-
-    @Override
-    public long getCreationTime() throws SharkCryptoException {
-        return this.inMemoASAPKeyStorage.getCreationTime();
     }
 }

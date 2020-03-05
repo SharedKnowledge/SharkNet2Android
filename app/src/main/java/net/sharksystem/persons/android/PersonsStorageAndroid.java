@@ -10,7 +10,6 @@ import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.crypto.ASAPCertificateStorageImpl;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.CredentialMessage;
-import net.sharksystem.persons.InMemoPersonsStorageImpl;
 import net.sharksystem.persons.PersonsStorageImpl;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -19,7 +18,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PersonsStorageAndroid extends  PersonsStorageImpl /*InMemoPersonsStorageImpl*/ {
+public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsStorageImpl*/ {
     public static final CharSequence APP_NAME = "SN2Credentials";
     public static final CharSequence CREDENTIAL_URI = "sn2://credential";
 
@@ -29,7 +28,9 @@ public class PersonsStorageAndroid extends  PersonsStorageImpl /*InMemoPersonsSt
     private PersonsStorageAndroid(ASAPStorage asapStorage) throws SharkException {
         super(new ASAPCertificateStorageImpl(asapStorage,
                 SharkNetApp.getSharkNetApp().getOwnerID(),
-                SharkNetApp.getSharkNetApp().getASAPOwner()));
+                SharkNetApp.getSharkNetApp().getASAPOwner()
+                ), new AndroidASAPKeyStorage(SharkNetApp.getSharkNetApp().getActivity())
+            );
 
         /*
         super(SharkNetApp.getSharkNetApp().getOwnerID(),

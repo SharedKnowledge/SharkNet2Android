@@ -1,5 +1,6 @@
 package net.sharksystem.persons.android;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,15 +67,38 @@ public class OwnerActivity extends SharkNetActivity {
     }
 
     public void onCreateNewKeys(View view) {
+        (new CreateKeyPairThread(this)).start();
+        /*
         try {
             PersonsStorageAndroid.getPersonsApp().generateKeyPair();
         } catch (SharkException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
+        */
     }
 
     public void onAbortClick(View view) {
         // go back to previous activity
         super.onBackPressed();
+    }
+
+    private class CreateKeyPairThread extends Thread {
+        private final Context ctx;
+
+        CreateKeyPairThread(Context ctx) {
+            this.ctx = ctx;
+        }
+
+        public void run() {
+            String text = null;
+            try {
+                PersonsStorageAndroid.getPersonsApp().generateKeyPair();
+                text = "new keypair created";
+            } catch (SharkException e) {
+                text = e.getLocalizedMessage();
+            }
+
+//            Toast.makeText(this.ctx, text, Toast.LENGTH_SHORT).show();
+        }
     }
 }
