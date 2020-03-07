@@ -8,6 +8,7 @@ import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPStorage;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.crypto.ASAPCertificateStorageImpl;
+import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.persons.PersonsStorageImpl;
@@ -25,11 +26,12 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
     private static PersonsStorageAndroid instance = null;
     private Set<CharSequence> selectedItemIDs = null;
 
-    private PersonsStorageAndroid(ASAPStorage asapStorage) throws SharkException {
+    private PersonsStorageAndroid(ASAPStorage asapStorage, ASAPKeyStorage keyStorage)
+            throws SharkException {
         super(new ASAPCertificateStorageImpl(asapStorage,
                 SharkNetApp.getSharkNetApp().getOwnerID(),
                 SharkNetApp.getSharkNetApp().getASAPOwner()
-                ), new AndroidASAPKeyStorage()
+                ), keyStorage
             );
 
         /*
@@ -45,7 +47,9 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
                         ASAPEngineFS.getASAPStorage(
                             SharkNetApp.getSharkNetApp().getASAPOwner().toString(),
                             SharkNetApp.getSharkNetApp().getASAPRootFolder().toString(),
-                            ASAPCertificateStorage.APP_NAME));
+                            ASAPCertificateStorage.APP_NAME),
+                        OwnerStorageAndroid.getOwnerStorageAndroid().getASAPKeyStorage()
+                );
 
                 //instance.fillWithExampleData();
             } catch (Exception e) {

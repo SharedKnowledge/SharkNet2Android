@@ -31,7 +31,7 @@ import javax.security.auth.x500.X500Principal;
 
 public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPKeyStorage {
     private Context ctx;
-    private static final String KEYSTORE_NAME = "SN2_KeyStore";
+    private static final String KEYSTORE_NAME = "AndroidKeyStore";
     private static final String KEYSTORE_OWNER_ALIAS = "SN2_Owner_Keys";
     private static final int KEY_SIZE = 2048;
     private final static int ANY_PURPOSE = KeyProperties.PURPOSE_ENCRYPT |

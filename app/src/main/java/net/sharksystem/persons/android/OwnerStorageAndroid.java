@@ -8,6 +8,7 @@ import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.Owner;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -31,6 +32,12 @@ public class OwnerStorageAndroid implements Owner {
     private boolean ownerIDSet;
 
     private Context currentContext;
+
+    public static OwnerStorageAndroid getOwnerStorageAndroid()
+            throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
+
+        return OwnerStorageAndroid.getOwnerStorageAndroid(SharkNetApp.getSharkNetApp().getActivity());
+    }
 
     public static Owner getIdentityStorage(Context ctx)
             throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
@@ -126,5 +133,9 @@ public class OwnerStorageAndroid implements Owner {
 
     public void generateKeyPair() throws SharkException {
         this.androidASAPKeyStorage.generateKeyPair();
+    }
+
+    public ASAPKeyStorage getASAPKeyStorage() {
+        return this.androidASAPKeyStorage;
     }
 }

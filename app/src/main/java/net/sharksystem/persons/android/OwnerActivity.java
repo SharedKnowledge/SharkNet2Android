@@ -10,12 +10,15 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.persons.Owner;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 
 public class OwnerActivity extends SharkNetActivity {
@@ -92,14 +95,26 @@ public class OwnerActivity extends SharkNetActivity {
         public void run() {
             String text = null;
             try {
-                OwnerStorageAndroid.getOwnerStorageAndroid(OwnerActivity.this).generateKeyPair();
+                OwnerStorageAndroid o = OwnerStorageAndroid.getOwnerStorageAndroid(OwnerActivity.this);
+                o.generateKeyPair();
+
+                // debugging
+                /*
+                ASAPKeyStorage asapKeyStorage = o.getASAPKeyStorage();
+                PrivateKey privateKey = asapKeyStorage.getPrivateKey();
+                PublicKey publicKey = asapKeyStorage.getPublicKey();
+                 */
+
                 text = "new keypair created";
+                Log.d(OwnerActivity.this.getLogStart(), text);
             } catch (SharkException e) {
                 text = e.getLocalizedMessage();
                 Log.e(OwnerActivity.this.getLogStart(), text);
             } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
                 Log.e(OwnerActivity.this.getLogStart(), e.getLocalizedMessage());
             }
+
+
 
 //            Toast.makeText(this.ctx, text, Toast.LENGTH_SHORT).show();
         }
