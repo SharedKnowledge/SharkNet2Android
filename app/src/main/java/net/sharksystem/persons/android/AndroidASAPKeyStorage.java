@@ -1,171 +1,129 @@
 package net.sharksystem.persons.android;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.icu.text.SymbolTable;
+import android.security.KeyPairGeneratorSpec;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyProperties;
 import android.util.Log;
 
+import net.sharksystem.SharkException;
+import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.crypto.ASAPCertificateImpl;
 import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.InMemoASAPKeyStorage;
-import net.sharksystem.crypto.KeyHelper;
 import net.sharksystem.crypto.SharkCryptoException;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.nio.charset.Charset;
+import java.math.BigInteger;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
+import java.security.UnrecoverableEntryException;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.util.Calendar;
 
-import static net.sharksystem.persons.android.OwnerStorageAndroid.PREFERENCES_FILE;
+import javax.security.auth.x500.X500Principal;
 
-/**
- * This class must be reviewed and re-implemented and use a secure key store.
- */
-class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPKeyStorage {
-    private static final String PRIVATE_KEY = "PRIVATE_KEY_ALIAS";
-    private static final String PUBLIC_KEY = "PUBLIC_KEY_ALIAS";
-    private static final String KEYS_CREATION_TIME = "KEYS_CREATION_TIME";
-
-    private final Context ctx;
-
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    //                                    asap key storage                                     //
-    /////////////////////////////////////////////////////////////////////////////////////////////
-
-    AndroidASAPKeyStorage(Context ctx) {
-        this.ctx = ctx;
-    }
-
-    private SharedPreferences getSharedPreferences() {
-        return this.ctx.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
-    }
-
-    private byte[] string2byteArray(String s) {
-        return s.getBytes(Charset.defaultCharset());
-    }
-
-    private String byteArray2String(byte[] bArray) {
-        return new String(bArray, Charset.defaultCharset());
-    }
-
-    private DataInputStream getDIS(byte[] bytes) {
-        return new DataInputStream(new ByteArrayInputStream(bytes));
-    }
+public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPKeyStorage {
+    private Context ctx;
+    private static final String KEYSTORE_NAME = "SN2_KeyStore";
+    private static final String KEYSTORE_OWNER_ALIAS = "SN2_Owner_Keys";
+    private static final int KEY_SIZE = 2048;
+    private final static int ANY_PURPOSE = KeyProperties.PURPOSE_ENCRYPT |
+            KeyProperties.PURPOSE_DECRYPT | KeyProperties.PURPOSE_SIGN |
+            KeyProperties.PURPOSE_VERIFY;
 
     @Override
-    public void storePrivateKey(PrivateKey privateKey) {
-        // make peristent
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(baos);
+    public void generateKeyPair() throws SharkException {
         try {
-            KeyHelper.writePrivateKeyToStream(privateKey, dos);
-            String keyString = this.byteArray2String(baos.toByteArray());
-            SharedPreferences.Editor edit = this.getSharedPreferences().edit();
-            edit.putString(PRIVATE_KEY, keyString);
-            edit.commit();
-        } catch (IOException e) {
-            Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
+            Calendar start = Calendar.getInstance();
+            Calendar end = Calendar.getInstance();
+            //Jahr von heute plus YEAR Jahre
+            end.add(Calendar.YEAR, ASAPCertificateImpl.DEFAULT_CERTIFICATE_VALIDITY_IN_YEARS);
+
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(
+                    KeyProperties.KEY_ALGORITHM_RSA, KEYSTORE_NAME);
+
+            keyPairGenerator.initialize(
+                    new KeyGenParameterSpec.Builder(KEYSTORE_OWNER_ALIAS, ANY_PURPOSE)
+                            .setRandomizedEncryptionRequired(false)
+                            .setDigests(
+                                    KeyProperties.DIGEST_NONE, KeyProperties.DIGEST_MD5,
+                                    KeyProperties.DIGEST_SHA1, KeyProperties.DIGEST_SHA224,
+                                    KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA384,
+                                    KeyProperties.DIGEST_SHA512)
+
+                            .setSignaturePaddings(KeyProperties.SIGNATURE_PADDING_RSA_PSS)
+                            .setEncryptionPaddings(
+                                    KeyProperties.ENCRYPTION_PADDING_NONE,
+                                    KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1,
+                                    KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
+                            .setUserAuthenticationRequired(false)
+                            .setKeyValidityStart(start.getTime())
+                            .setKeyValidityEnd(end.getTime())
+                            .setKeySize(KEY_SIZE)
+                            .build());
+
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            this.setPrivateKey(keyPair.getPrivate());
+            this.setPublicKey(keyPair.getPublic());
+
+        } catch (Exception e) {
+            String text = "problems when generating key pair: " + e.getMessage();
+            Log.d(this.getLogStart(), text);
+            throw new SharkException(text);
         }
-        super.storePrivateKey(privateKey);
     }
 
-    @Override
-    public void storePublicKey(PublicKey publicKey) {
-        // make peristent
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(baos);
+    protected void reloadKeys() throws SharkCryptoException {
         try {
-            KeyHelper.writePublicKeyToStream(publicKey, dos);
-            String keyString = this.byteArray2String(baos.toByteArray());
-            SharedPreferences.Editor edit = this.getSharedPreferences().edit();
-            edit.putString(PUBLIC_KEY, keyString);
-            edit.commit();
-        } catch (IOException e) {
-            Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
-        }
+            KeyStore keyStore = KeyStore.getInstance(KEYSTORE_NAME);
+            KeyStore.PrivateKeyEntry privateKeyEntry =
+                    (KeyStore.PrivateKeyEntry)keyStore.getEntry(KEYSTORE_OWNER_ALIAS, null);
 
-        super.storePublicKey(publicKey);
+            super.setPrivateKey(privateKeyEntry.getPrivateKey());
+            super.setPublicKey(privateKeyEntry.getCertificate().getPublicKey());
+        } catch (KeyStoreException | UnrecoverableEntryException | NoSuchAlgorithmException e) {
+            throw new SharkCryptoException(e.getLocalizedMessage());
+        }
     }
 
     @Override
-    public void setCreationTime(long creationTime) {
-        // make persistent
-        SharedPreferences.Editor editor = this.getSharedPreferences().edit();
-        editor.putLong(KEYS_CREATION_TIME, creationTime);
-        editor.commit();
+    public PrivateKey getPrivateKey() throws SharkCryptoException {
+        try {
+            super.getPrivateKey();
+        }
+        catch(SharkCryptoException e) {
+            // maybe not yet loaded
+            this.reloadKeys();
+        }
+        return super.getPrivateKey();
+    }
 
-        super.setCreationTime(creationTime);
+    @Override
+    public PublicKey getPublicKey() throws SharkCryptoException {
+        try {
+            super.getPublicKey();
+        }
+        catch(SharkCryptoException e) {
+            // maybe not yet loaded
+            this.reloadKeys();
+        }
+        return super.getPublicKey();
     }
 
     @Override
     public long getCreationTime() throws SharkCryptoException {
-        try {
-            return super.getCreationTime();
-        }
-        catch(SharkCryptoException e) {
-            // restore from external memory
-            long storedLong = this.getSharedPreferences().getLong(KEYS_CREATION_TIME, 0);
-            if(storedLong != 0) {
-                super.setCreationTime(storedLong);
-                return storedLong;
-            }
-            throw e; // cannot recover
-        }
+        Log.e(this.getLogStart(), "TODO: use real key creation timestamp");
+        return System.currentTimeMillis();
     }
 
-    @Override
-    public PrivateKey retrievePrivateKey() throws SharkCryptoException {
-        try {
-            return super.retrievePrivateKey();
-        }
-        catch(SharkCryptoException e) {
-            // restore from external memory
-            String keyString = this.getSharedPreferences().getString(PRIVATE_KEY, null);
-            if(keyString != null) {
-                byte[] keyBytes = this.string2byteArray(keyString);
-                try {
-                    PrivateKey privateKey = KeyHelper.readPrivateKeyFromStream(
-                            new DataInputStream(new ByteArrayInputStream(keyBytes)));
-
-                    super.storePrivateKey(privateKey);
-                    return privateKey;
-                } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException ex) {
-                    throw new SharkCryptoException(ex.getLocalizedMessage());
-                }
-            }
-            throw e; // cannot recover
-        }
-    }
-
-    @Override
-    public PublicKey retrievePublicKey() throws SharkCryptoException {
-        try {
-            return super.retrievePublicKey();
-        }
-        catch(SharkCryptoException e) {
-            // restore from external memory
-            String keyString = this.getSharedPreferences().getString(PUBLIC_KEY, null);
-            if(keyString != null) {
-                byte[] keyBytes = this.string2byteArray(keyString);
-                try {
-                    PublicKey publicKey = KeyHelper.readPublicKeyFromStream(
-                            new DataInputStream(new ByteArrayInputStream(keyBytes)));
-
-                    super.storePublicKey(publicKey);
-                    return publicKey;
-                } catch (NoSuchAlgorithmException | IOException | InvalidKeySpecException ex) {
-                    throw new SharkCryptoException(ex.getLocalizedMessage());
-                }
-            }
-            throw e; // cannot recover
-        }
-    }
-
-    private String getLogStart() {
-        return net.sharksystem.asap.util.Log.startLog(this).toString();
+    protected String getLogStart() {
+        return this.getClass().getSimpleName();
     }
 }

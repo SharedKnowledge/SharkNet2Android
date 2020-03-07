@@ -92,13 +92,21 @@ public class OwnerActivity extends SharkNetActivity {
         public void run() {
             String text = null;
             try {
-                PersonsStorageAndroid.getPersonsApp().generateKeyPair();
+                OwnerStorageAndroid.getOwnerStorageAndroid(OwnerActivity.this).generateKeyPair();
                 text = "new keypair created";
             } catch (SharkException e) {
                 text = e.getLocalizedMessage();
+                Log.e(OwnerActivity.this.getLogStart(), text);
+            } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+                Log.e(OwnerActivity.this.getLogStart(), e.getLocalizedMessage());
             }
 
 //            Toast.makeText(this.ctx, text, Toast.LENGTH_SHORT).show();
         }
     }
+
+    protected String getLogStart() {
+        return this.getClass().getSimpleName();
+    }
+
 }

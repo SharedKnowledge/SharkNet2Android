@@ -29,7 +29,7 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
         super(new ASAPCertificateStorageImpl(asapStorage,
                 SharkNetApp.getSharkNetApp().getOwnerID(),
                 SharkNetApp.getSharkNetApp().getASAPOwner()
-                ), new AndroidASAPKeyStorage(SharkNetApp.getSharkNetApp().getActivity())
+                ), new AndroidASAPKeyStorage()
             );
 
         /*
@@ -97,5 +97,4 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
         if(this.preselectedIDs == null) return new HashSet();
         else return this.preselectedIDs;
     }
-
 }

@@ -3,6 +3,7 @@ package net.sharksystem.persons.android;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import net.sharksystem.SharkException;
 import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
@@ -23,6 +24,7 @@ public class OwnerStorageAndroid implements Owner {
 
     private final static String DEFAULT_OWNER_NAME = "SNUser";
     private final static String DEFAULT_OWNER_ID = "42";
+    private final AndroidASAPKeyStorage androidASAPKeyStorage;
     private CharSequence ownerName;
     private boolean ownerNameSet;
     private CharSequence ownerID;
@@ -37,6 +39,16 @@ public class OwnerStorageAndroid implements Owner {
         }
 
         OwnerStorageAndroid.instance.setCurrentContext(ctx);
+
+        return OwnerStorageAndroid.instance;
+    }
+
+    public static OwnerStorageAndroid getOwnerStorageAndroid(Context ctx)
+            throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
+
+        if(OwnerStorageAndroid.instance == null) {
+            OwnerStorageAndroid.getIdentityStorage(ctx);
+        }
 
         return OwnerStorageAndroid.instance;
     }
@@ -63,6 +75,9 @@ public class OwnerStorageAndroid implements Owner {
             this.ownerID = DEFAULT_OWNER_ID;
             this.ownerIDSet = false;
         }
+
+        // setup key store
+        this.androidASAPKeyStorage = new AndroidASAPKeyStorage();
     }
 
     @Override
@@ -107,5 +122,9 @@ public class OwnerStorageAndroid implements Owner {
     @Override
     public CharSequence getDisplayName() {
         return this.ownerName;
+    }
+
+    public void generateKeyPair() throws SharkException {
+        this.androidASAPKeyStorage.generateKeyPair();
     }
 }
