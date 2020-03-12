@@ -1,20 +1,19 @@
 package net.sharksystem.persons.android;
 
 import android.content.Context;
-import android.icu.text.SymbolTable;
-import android.security.KeyPairGeneratorSpec;
+import android.content.SharedPreferences;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Log;
 
 import net.sharksystem.SharkException;
-import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.android.util.DateTimeHelper;
 import net.sharksystem.crypto.ASAPCertificateImpl;
 import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
@@ -23,20 +22,20 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.UnrecoverableEntryException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.util.Calendar;
 
-import javax.security.auth.x500.X500Principal;
+import static net.sharksystem.persons.android.OwnerStorageAndroid.PREFERENCES_FILE;
 
 public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPKeyStorage {
-    private Context ctx;
+    private static final String KEYPAIR_CREATION_TIME = "SharkNet2Identity_KeyPairCreationTime";
     private static final String KEYSTORE_NAME = "AndroidKeyStore";
     private static final String KEYSTORE_OWNER_ALIAS = "SN2_Owner_Keys";
     private static final int KEY_SIZE = 2048;
     private final static int ANY_PURPOSE = KeyProperties.PURPOSE_ENCRYPT |
             KeyProperties.PURPOSE_DECRYPT | KeyProperties.PURPOSE_SIGN |
             KeyProperties.PURPOSE_VERIFY;
+
+    private long creationTime = DateTimeHelper.TIME_NOT_SET;
 
     @Override
     public void generateKeyPair() throws SharkException {
@@ -73,11 +72,17 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
             this.setPrivateKey(keyPair.getPrivate());
             this.setPublicKey(keyPair.getPublic());
 
+            this.setCreationTime(System.currentTimeMillis());
+
         } catch (Exception e) {
             String text = "problems when generating key pair: " + e.getMessage();
             Log.d(this.getLogStart(), text);
             throw new SharkException(text);
         }
+    }
+
+    private Context getContext() {
+        return SharkNetApp.getSharkNetApp().getActivity();
     }
 
     protected void reloadKeys() throws SharkCryptoException {
@@ -117,10 +122,27 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
         return super.getPublicKey();
     }
 
-    @Override
+    public void setCreationTime(long time) {
+        Log.d(this.getLogStart(), "set new creation time: " + DateTimeHelper.long2DateString(time));
+        this.creationTime = time;
+        SharedPreferences sharedPref = this.getContext().getSharedPreferences(
+                PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong(KEYPAIR_CREATION_TIME, time);
+
+        // create owner id
+        editor.commit();
+    }
+        @Override
     public long getCreationTime() throws SharkCryptoException {
-        Log.e(this.getLogStart(), "TODO: use real key creation timestamp");
-        return System.currentTimeMillis();
+        SharedPreferences sharedPref = this.getContext().getSharedPreferences(
+                PREFERENCES_FILE, Context.MODE_PRIVATE);
+        if(this.creationTime == DateTimeHelper.TIME_NOT_SET) {
+            this.creationTime = sharedPref.getLong(KEYPAIR_CREATION_TIME, DateTimeHelper.TIME_NOT_SET);
+        }
+
+        return this.creationTime;
     }
 
     protected String getLogStart() {

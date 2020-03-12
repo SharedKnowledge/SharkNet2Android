@@ -11,10 +11,11 @@
         />
 
     <TextView
-        android:id="@+id/ownerCreationTimeRSAKeys"
+        android:id="@+id/ownerCreationTimeKeys"
         android:layout_width="258dp"
         android:layout_height="43dp"
         android:ems="10"
+        android:text="no set"
         />
 
     <LinearLayout

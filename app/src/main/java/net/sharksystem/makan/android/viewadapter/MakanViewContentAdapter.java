@@ -30,7 +30,6 @@ public class MakanViewContentAdapter extends
     private final CharSequence userFriendlyName;
     private final CharSequence ownerID;
 
-    private ASAPStorage aaspStorage;
     private Makan makan;
 
     public void setOutdated(int era, String user, String folder) {

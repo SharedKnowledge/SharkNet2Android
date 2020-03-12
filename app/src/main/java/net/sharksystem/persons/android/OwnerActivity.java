@@ -1,24 +1,23 @@
 package net.sharksystem.persons.android;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.crypto.ASAPKeyStorage;
+import net.sharksystem.android.util.DateTimeHelper;
+import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.Owner;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 
 public class OwnerActivity extends SharkNetActivity {
@@ -37,11 +36,36 @@ public class OwnerActivity extends SharkNetActivity {
 
         try {
             userNameView.setText(OwnerStorageAndroid.getIdentityStorage(this).getDisplayName());
-        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+            this.setKeyCreationDate();
+        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException | SharkCryptoException e) {
             Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
+            this.finish();
         }
 
         this.getSharkNetApp().setupDrawerLayout(this);
+    }
+
+    private void setKeyCreationDate() throws SharkCryptoException {
+        TextView creationTime = this.findViewById(R.id.ownerCreationTimeKeys);
+        try {
+            // that's funny because long time means something like a long ok, not funny at all... :/
+            long longTime =
+                    OwnerStorageAndroid.getOwnerStorageAndroid().getASAPKeyStorage().getCreationTime();
+
+            if(longTime == DateTimeHelper.TIME_NOT_SET) {
+                creationTime.setText("please create a key pair");
+            } else {
+                creationTime.setText("keys created at: " + DateTimeHelper.long2DateString(longTime));
+            }
+        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+            throw new SharkCryptoException(e.getLocalizedMessage());
+        }
+    }
+
+    private void notifyKeyPairCreated() throws SharkCryptoException {
+        // re-launch
+        this.finish();
+        this.startActivity(new Intent(this, OwnerActivity.class));
     }
 
     public void onSendCredentials(View view) {
@@ -86,10 +110,10 @@ public class OwnerActivity extends SharkNetActivity {
     }
 
     private class CreateKeyPairThread extends Thread {
-        private final Context ctx;
+        private final OwnerActivity ownerActivity;
 
-        CreateKeyPairThread(Context ctx) {
-            this.ctx = ctx;
+        CreateKeyPairThread(OwnerActivity ownerActivity) {
+            this.ownerActivity = ownerActivity;
         }
 
         public void run() {
@@ -107,16 +131,13 @@ public class OwnerActivity extends SharkNetActivity {
 
                 text = "new keypair created";
                 Log.d(OwnerActivity.this.getLogStart(), text);
+                this.ownerActivity.notifyKeyPairCreated();
             } catch (SharkException e) {
                 text = e.getLocalizedMessage();
                 Log.e(OwnerActivity.this.getLogStart(), text);
             } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
                 Log.e(OwnerActivity.this.getLogStart(), e.getLocalizedMessage());
             }
-
-
-
-//            Toast.makeText(this.ctx, text, Toast.LENGTH_SHORT).show();
         }
     }
 
