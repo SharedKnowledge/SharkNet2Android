@@ -6,12 +6,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 
 import net.sharksystem.R;
+import net.sharksystem.SharkException;
+import net.sharksystem.asap.android.Util;
 import net.sharksystem.asap.android.apps.ASAPApplication;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.makan.android.MakanApp;
 import net.sharksystem.persons.android.PersonsStorageAndroid;
 import net.sharksystem.persons.android.OwnerStorageAndroid;
 
+import java.io.File;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SharkNetApp extends ASAPApplication {
-
+    private static final String KEYSTORE_FILE_NAME = "sn2_keystoreFile";
     private static SharkNetApp singleton;
 
     private SharkNetApp(List<CharSequence> appFormats) {
@@ -58,6 +61,18 @@ public class SharkNetApp extends ASAPApplication {
 
         navigationView.setNavigationItemSelectedListener(
                 new DrawerOnNavigationItemListener(activity, mDrawerLayout));
+    }
+
+    public File getKeyStoreFile(boolean mustExist) throws SharkException {
+        CharSequence asapRootFolder = this.getASAPRootFolder();
+
+        String keyStoreFileName = asapRootFolder + "/" + KEYSTORE_FILE_NAME;
+        File keyStoreFile = new File(keyStoreFileName);
+        if(mustExist && !keyStoreFile.exists()) {
+            throw new SharkException("keystore file does not exist");
+        }
+
+        return keyStoreFile;
     }
 
     /*

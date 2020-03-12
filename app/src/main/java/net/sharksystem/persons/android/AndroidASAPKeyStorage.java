@@ -14,6 +14,12 @@ import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
@@ -22,6 +28,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
 import java.util.Calendar;
 
 import static net.sharksystem.persons.android.OwnerStorageAndroid.PREFERENCES_FILE;
@@ -34,8 +41,10 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
     private final static int ANY_PURPOSE = KeyProperties.PURPOSE_ENCRYPT |
             KeyProperties.PURPOSE_DECRYPT | KeyProperties.PURPOSE_SIGN |
             KeyProperties.PURPOSE_VERIFY;
+    private static final String KEYSTORE_PWD = "SharkNet2Identity_KeyStorePWD";
 
     private long creationTime = DateTimeHelper.TIME_NOT_SET;
+    private KeyStore keyStore = null;
 
     @Override
     public void generateKeyPair() throws SharkException {
@@ -73,7 +82,7 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
             this.setPublicKey(keyPair.getPublic());
 
             this.setCreationTime(System.currentTimeMillis());
-
+            this.save();
         } catch (Exception e) {
             String text = "problems when generating key pair: " + e.getMessage();
             Log.d(this.getLogStart(), text);
@@ -85,11 +94,74 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
         return SharkNetApp.getSharkNetApp().getActivity();
     }
 
+    private KeyStore getKeyStore() throws KeyStoreException {
+        if(this.keyStore == null) {
+            this.keyStore = KeyStore.getInstance(KEYSTORE_NAME);
+            try {
+                this.keyStore.load(null);
+            } catch (IOException | NoSuchAlgorithmException | CertificateException e) {
+                throw new KeyStoreException(e.getLocalizedMessage());
+            }
+        }
+
+        return this.keyStore;
+    }
+
+
+    public void load(InputStream inputStream) throws SharkCryptoException, IOException {
+        /* nothing to do when using android key storage
+        KeyStore keyStore = null;
+        try {
+            // setup new one
+            this.setPrivateKey(null);
+            this.setPublicKey(null);
+            this.keyStore = KeyStore.getInstance(KEYSTORE_NAME);
+            keyStore.load(inputStream, this.getKeyStorePWD().toCharArray());
+        } catch (NoSuchAlgorithmException | KeyStoreException | CertificateException e) {
+            throw new SharkCryptoException(e.getLocalizedMessage());
+        }
+         */
+    }
+
+    private void save() {
+        /* nothing to do when using android key storage
+        try {
+            File keyStoreFile = SharkNetApp.getSharkNetApp().getKeyStoreFile(false);
+            KeyStore keyStore = this.getKeyStore();
+            keyStore.store(new FileOutputStream(keyStoreFile), this.getKeyStorePWD().toCharArray());
+        } catch (SharkException | KeyStoreException | CertificateException
+                | NoSuchAlgorithmException | IOException e) {
+            Log.e(this.getLogStart(), "cannot write key store file: " + e.getLocalizedMessage());
+        }
+         */
+    }
+
+    public void setKeyStorePWD(String pwd) {
+        Log.d(this.getLogStart(), "set key  store pwd: ");
+        SharedPreferences sharedPref = this.getContext().getSharedPreferences(
+                PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(KEYSTORE_PWD, pwd);
+
+        // create owner id
+        editor.commit();
+
+        this.save();
+    }
+
+    public String getKeyStorePWD() throws SharkCryptoException {
+        SharedPreferences sharedPref = this.getContext().getSharedPreferences(
+                PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+        return sharedPref.getString(KEYSTORE_PWD, "geheim");
+    }
+
     protected void reloadKeys() throws SharkCryptoException {
         try {
-            KeyStore keyStore = KeyStore.getInstance(KEYSTORE_NAME);
+            KeyStore keyStore = this.getKeyStore();
             KeyStore.PrivateKeyEntry privateKeyEntry =
-                    (KeyStore.PrivateKeyEntry)keyStore.getEntry(KEYSTORE_OWNER_ALIAS, null);
+                    (KeyStore.PrivateKeyEntry) keyStore.getEntry(KEYSTORE_OWNER_ALIAS, null);
 
             super.setPrivateKey(privateKeyEntry.getPrivateKey());
             super.setPublicKey(privateKeyEntry.getCertificate().getPublicKey());
@@ -134,7 +206,8 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
         // create owner id
         editor.commit();
     }
-        @Override
+
+    @Override
     public long getCreationTime() throws SharkCryptoException {
         SharedPreferences sharedPref = this.getContext().getSharedPreferences(
                 PREFERENCES_FILE, Context.MODE_PRIVATE);

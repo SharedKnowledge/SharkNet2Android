@@ -2,14 +2,20 @@ package net.sharksystem.persons.android;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.Owner;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -85,6 +91,15 @@ public class OwnerStorageAndroid implements Owner {
 
         // setup key store
         this.androidASAPKeyStorage = new AndroidASAPKeyStorage();
+
+        // re-read from file system
+        try {
+            File keyStoreFile = SharkNetApp.getSharkNetApp().getKeyStoreFile(true);
+            this.androidASAPKeyStorage.load(new FileInputStream(keyStoreFile));
+        } catch (Exception e) {
+            Log.d(this.getLogStart(), "probably key store file not found: "
+                    + e.getLocalizedMessage());
+        }
     }
 
     @Override
@@ -137,5 +152,9 @@ public class OwnerStorageAndroid implements Owner {
 
     public ASAPKeyStorage getASAPKeyStorage() {
         return this.androidASAPKeyStorage;
+    }
+
+    private String getLogStart() {
+        return Util.getLogStart(this).toString();
     }
 }
