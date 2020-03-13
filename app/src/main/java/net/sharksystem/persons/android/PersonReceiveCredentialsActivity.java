@@ -66,7 +66,8 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
             ASAPCertificate newCert = PersonsStorageAndroid.getPersonsApp().addAndSignPerson(
                     this.credentialMessage.getOwnerID(),
                     this.credentialMessage.getOwnerName(),
-                    this.credentialMessage.getPublicKey());
+                    this.credentialMessage.getPublicKey(),
+                    this.credentialMessage.getValidSince());
 
             // return newly created certificate
             this.sendASAPMessage(ASAPCertificateStorage.APP_NAME,

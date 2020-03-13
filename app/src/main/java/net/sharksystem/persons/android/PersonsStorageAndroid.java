@@ -76,7 +76,8 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
 
         CredentialMessage credentialMessage =
                 new CredentialMessage(randomInt, userID,
-                        this.getOwnerName(), this.getPublicKey());
+                        this.getOwnerName(), this.getKeysCreationTime(),
+                        this.getPublicKey());
 
         snActivity.sendASAPMessage(APP_NAME, CREDENTIAL_URI,
                 credentialMessage.getMessageAsBytes(), true);

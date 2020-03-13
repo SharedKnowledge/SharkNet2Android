@@ -12,6 +12,7 @@ import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 
 public class CredentialMessage {
+    private final long validSince;
     private CharSequence ownerID;
     private CharSequence ownerName;
     private int randomInt;
@@ -21,13 +22,15 @@ public class CredentialMessage {
     public CharSequence getOwnerID() { return this.ownerID; }
     public CharSequence getOwnerName() { return this.ownerName; }
     public int getRandomInt() { return this.randomInt; }
+    public long getValidSince() { return this.validSince; }
     public PublicKey getPublicKey() { return this.publicKey; }
 
     public CredentialMessage(int randomInt, CharSequence ownerID, CharSequence ownerName,
-                             PublicKey publicKey) {
+                             long validSince, PublicKey publicKey) {
+        this.ownerName = ownerName;
         this.ownerID = ownerID;
         this.randomInt = randomInt;
-        this.ownerName = ownerName;
+        this.validSince = validSince;
         this.publicKey = publicKey;
     }
 
@@ -38,6 +41,7 @@ public class CredentialMessage {
         this.ownerName = dis.readUTF();
         this.ownerID = dis.readUTF();
         this.randomInt = dis.readInt();
+        this.validSince = dis.readLong();
 
         // public key
         String algorithm = dis.readUTF(); // read public key algorithm
@@ -65,7 +69,8 @@ public class CredentialMessage {
         DataOutputStream dos = new DataOutputStream(baos);
         dos.writeUTF(this.ownerName.toString());
         dos.writeUTF(this.ownerID.toString());
-        dos.writeInt(randomInt);
+        dos.writeInt(this.randomInt);
+        dos.writeLong(this.validSince);
 
         // public key
         dos.writeUTF(this.publicKey.getAlgorithm()); // write public key algorithm
