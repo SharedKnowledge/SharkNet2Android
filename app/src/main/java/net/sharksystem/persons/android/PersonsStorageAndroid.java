@@ -22,16 +22,20 @@ import java.util.Set;
 public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsStorageImpl*/ {
     public static final CharSequence APP_NAME = "SN2Credentials";
     public static final CharSequence CREDENTIAL_URI = "sn2://credential";
+    private static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
 
     private static PersonsStorageAndroid instance = null;
     private Set<CharSequence> selectedItemIDs = null;
 
     private PersonsStorageAndroid(ASAPStorage asapStorage, ASAPKeyStorage keyStorage)
             throws SharkException {
-        super(new ASAPCertificateStorageImpl(asapStorage,
-                SharkNetApp.getSharkNetApp().getOwnerID(),
-                SharkNetApp.getSharkNetApp().getASAPOwner()
-                ), keyStorage
+        super(
+            new ASAPCertificateStorageImpl(asapStorage,
+                    SharkNetApp.getSharkNetApp().getOwnerID(),
+                    SharkNetApp.getSharkNetApp().getASAPOwner()
+                ), 
+            keyStorage,
+            SN_ANDROID_DEFAULT_SIGNING_ALGORITHM
             );
 
         /*
