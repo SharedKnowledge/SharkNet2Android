@@ -68,7 +68,7 @@ public class MakanAddMessageActivity extends SharkNetActivity {
                 );
 
                 this.sendASAPMessage(MakanApp.APP_NAME, this.uri,
-                        makanMessage.getSerializedASAPMessageAsBytes());
+                        makanMessage.getSerializedASAPMessageAsBytes(), true);
 /*
                 Makan makan = MakanApp.getMakanApp().getMakanStorage().getMakan(this.uri);
                 Log.d(this.getLogStart(), "store makan message: " + this.uri + " | " + messageText);

@@ -78,9 +78,8 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
                 new CredentialMessage(randomInt, userID,
                         this.getOwnerName(), this.getPublicKey());
 
-        snActivity.sendASAPMessage(APP_NAME,
-                CREDENTIAL_URI,
-                credentialMessage.getMessageAsBytes());
+        snActivity.sendASAPMessage(APP_NAME, CREDENTIAL_URI,
+                credentialMessage.getMessageAsBytes(), true);
     }
 
     public void setLastPersonsSelection(Set<CharSequence> selectedItemIDs) {

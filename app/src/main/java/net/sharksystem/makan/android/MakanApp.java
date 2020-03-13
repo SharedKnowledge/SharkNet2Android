@@ -5,17 +5,12 @@ import android.app.Activity;
 import android.util.Log;
 
 import net.sharksystem.android.util.PermissionCheck;
-import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.ASAPStorage;
-import net.sharksystem.asap.android.apps.ASAPOnlineMessageSenderAndroidUserSide;
-import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.MakanStorage;
 import net.sharksystem.makan.MakanStorage_Impl;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class MakanApp {
     public static final CharSequence APP_NAME = "Makan";
