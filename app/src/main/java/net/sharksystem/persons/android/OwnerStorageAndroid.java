@@ -7,19 +7,13 @@ import android.util.Log;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.ASAPKeyStorage;
-import net.sharksystem.crypto.InMemoASAPKeyStorage;
-import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.Owner;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
 
 public class OwnerStorageAndroid implements Owner {
@@ -94,7 +88,7 @@ public class OwnerStorageAndroid implements Owner {
 
         // re-read from file system
         try {
-            File keyStoreFile = SharkNetApp.getSharkNetApp().getKeyStoreFile(true);
+            File keyStoreFile = SharkNetApp.getSharkNetApp().getPersonsStorageFile(true);
             this.androidASAPKeyStorage.load(new FileInputStream(keyStoreFile));
         } catch (Exception e) {
             Log.d(this.getLogStart(), "probably key store file not found: "

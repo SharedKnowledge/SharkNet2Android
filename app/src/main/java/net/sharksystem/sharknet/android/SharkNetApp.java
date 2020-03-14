@@ -7,7 +7,6 @@ import android.util.Log;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.asap.android.Util;
 import net.sharksystem.asap.android.apps.ASAPApplication;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.makan.android.MakanApp;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SharkNetApp extends ASAPApplication {
-    private static final String KEYSTORE_FILE_NAME = "sn2_keystoreFile";
+    private static final String PERSONS_STORAGE_FILE_NAME = "sn2_personsStorageFile";
     private static SharkNetApp singleton;
 
     private SharkNetApp(List<CharSequence> appFormats) {
@@ -63,13 +62,13 @@ public class SharkNetApp extends ASAPApplication {
                 new DrawerOnNavigationItemListener(activity, mDrawerLayout));
     }
 
-    public File getKeyStoreFile(boolean mustExist) throws SharkException {
+    public File getPersonsStorageFile(boolean mustExist) throws SharkException {
         CharSequence asapRootFolder = this.getASAPRootFolder();
 
-        String keyStoreFileName = asapRootFolder + "/" + KEYSTORE_FILE_NAME;
+        String keyStoreFileName = asapRootFolder + "/" + PERSONS_STORAGE_FILE_NAME;
         File keyStoreFile = new File(keyStoreFileName);
         if(mustExist && !keyStoreFile.exists()) {
-            throw new SharkException("keystore file does not exist");
+            throw new SharkException("persons storage file does not exist");
         }
 
         return keyStoreFile;

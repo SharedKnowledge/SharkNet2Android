@@ -66,7 +66,11 @@ public abstract class PersonListActivity extends SelectableListSharkNetActivity 
 
     protected void onResume() {
         super.onResume();
-        Log.d(Util.getLogStart(this), "onResume: assume data set changed.");
-        this.mAdapter.notifyDataSetChanged();
+        if(this.mAdapter != null) {
+            Log.d(Util.getLogStart(this), "onResume: assume data set changed.");
+            this.mAdapter.notifyDataSetChanged();
+        } else {
+            Log.e(Util.getLogStart(this), "onResume: content adapter not initialized?!");
+        }
     }
 }
