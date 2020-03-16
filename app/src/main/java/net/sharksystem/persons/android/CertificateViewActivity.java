@@ -34,10 +34,10 @@ public class CertificateViewActivity extends AppCompatActivity {
             this.signerID = personIntent.getSignerID();
 
             Collection<ASAPCertificate> certificateByOwner =
-                    PersonsStorageAndroid.getPersonsApp().getCertificateByOwner(this.ownerID);
+                    PersonsStorageAndroid.getPersonsApp().getCertificateBySubject(this.ownerID);
             ASAPCertificate cert = null;
             for(ASAPCertificate c : certificateByOwner) {
-                if(c.getSignerID().toString().equalsIgnoreCase(this.signerID.toString())) {
+                if(c.getIssuerID().toString().equalsIgnoreCase(this.signerID.toString())) {
                     // got it
                     cert = c;
                 }
@@ -52,16 +52,16 @@ public class CertificateViewActivity extends AppCompatActivity {
             }
 
             TextView tv = findViewById(R.id.certificate_view_owner_id);
-            tv.setText(cert.getOwnerID());
+            tv.setText(cert.getSubjectID());
 
             tv = findViewById(R.id.certificate_view_owner_name);
-            tv.setText(cert.getOwnerName());
+            tv.setText(cert.getSubjectName());
 
             tv = findViewById(R.id.certificate_view_signer_id);
-            tv.setText(cert.getSignerID());
+            tv.setText(cert.getIssuerID());
 
             tv = findViewById(R.id.certificate_view_signer_name);
-            tv.setText(cert.getSignerName());
+            tv.setText(cert.getIssuerName());
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd., yyyy");
 

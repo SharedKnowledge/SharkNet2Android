@@ -82,36 +82,36 @@ class CertificateListContentAdapter extends
                     new Date(asapCertificate.getValidUntil().getTimeInMillis())));
 
             CharSequence ownerName;
-            if(asapCertificate.getOwnerID().toString().
+            if(asapCertificate.getSubjectID().toString().
                     equalsIgnoreCase(PersonsStorageAndroid.getPersonsApp().getOwnerID().toString())) {
                 ownerName = "you";
             } else {
-                ownerName = asapCertificate.getOwnerName();
+                ownerName = asapCertificate.getSubjectName();
             }
 
             holder.ownerName.setText(ownerName);
             holder.ownerNameCopy.setText(ownerName);
 
             CharSequence signerName;
-            if(asapCertificate.getSignerID().toString().
+            if(asapCertificate.getIssuerID().toString().
                     equalsIgnoreCase(PersonsStorageAndroid.getPersonsApp().getOwnerID().toString())) {
                 signerName = "You";
             } else {
-                signerName = asapCertificate.getSignerName();
+                signerName = asapCertificate.getIssuerName();
             }
 
             holder.signerName.setText(signerName);
 
             int cef = PersonsStorageAndroid.getPersonsApp().
-                    getSigningFailureRate(asapCertificate.getSignerID());
+                    getSigningFailureRate(asapCertificate.getIssuerID());
             holder.caSigner.setText(String.valueOf(cef));
 
             int ia = PersonsStorageAndroid.getPersonsApp().
-                    getIdentityAssurance(asapCertificate.getOwnerID());
+                    getIdentityAssurance(asapCertificate.getSubjectID());
             holder.identityAssurance.setText(String.valueOf(ia));
 
-            holder.itemView.setTag(R.id.certificate_list_owner_tag, asapCertificate.getOwnerID());
-            holder.itemView.setTag(R.id.certificate_list_signer_tag, asapCertificate.getSignerID());
+            holder.itemView.setTag(R.id.certificate_list_owner_tag, asapCertificate.getSubjectID());
+            holder.itemView.setTag(R.id.certificate_list_signer_tag, asapCertificate.getIssuerID());
         } catch (SharkException e) {
             Log.e(this.getLogStart(), "failure: " + e.getLocalizedMessage());
             e.printStackTrace();

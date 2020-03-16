@@ -71,7 +71,7 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
 
             // return newly created certificate
             this.sendASAPMessage(ASAPCertificateStorage.APP_NAME,
-                    ASAPCertificate.ASAP_CERTIFICATE,
+                    ASAPCertificate.ASAP_CERTIFICATE_URI,
                     newCert.asBytes(), true);
 
         } catch (ASAPException | SharkException | IOException e) {

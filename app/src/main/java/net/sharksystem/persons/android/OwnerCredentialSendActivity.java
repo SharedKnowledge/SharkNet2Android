@@ -51,7 +51,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
         tv = this.findViewById(R.id.ownerSendCredentialsControlNumber);
         tv.setText(String.valueOf(-1));
 
-        this.getSharkNetApp().addASAPMessageReceivedListener(ASAPCertificate.ASAP_CERTIFICATE,
+        this.getSharkNetApp().addASAPMessageReceivedListener(ASAPCertificate.ASAP_CERTIFICATE_URI,
                 new OwnerCredentialSendActivity.CertificateMessageReceivedListener(this));
     }
 
@@ -102,21 +102,13 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
     }
 
     private void doHandleCertificateMessage(ASAPMessages asapMessages) {
-        try {
-            for (Iterator<byte[]> it = asapMessages.getMessages(); it.hasNext(); ) {
-                byte[] serializedCertificate = it.next();
-
-                ASAPCertificateImpl receivedCertificate =
-                        ASAPCertificateImpl.produceCertificateFromBytes(serializedCertificate);
-
-                // do it locally - bypass online exchange which would return this certificate
-                PersonsStorageAndroid.getPersonsApp().addCertificate(receivedCertificate);
-
-                Toast.makeText(this, "certificate added", Toast.LENGTH_SHORT).show();
-            }
-        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException | SharkException e) {
-            Log.e(this.getLogStart(), "problems when handling received certificate");
+        // something was received - integrate
+        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+        if(personsApp.syncNewReceivedCertificates()) {
+            personsApp.save();
         }
+
+        Toast.makeText(this, "certificates added", Toast.LENGTH_SHORT).show();
     }
 
     public void onDoneClick(View v) {
