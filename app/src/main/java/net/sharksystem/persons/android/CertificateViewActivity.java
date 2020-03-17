@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +16,8 @@ import java.util.Collection;
 import java.util.Date;
 
 public class CertificateViewActivity extends AppCompatActivity {
-    private CharSequence ownerID;
-    private CharSequence signerID;
+    private CharSequence subjectID;
+    private CharSequence issuerID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +28,14 @@ public class CertificateViewActivity extends AppCompatActivity {
         try {
             PersonIntent personIntent = new PersonIntent(this.getIntent());
 
-            this.ownerID = personIntent.getOwnerID();
-            this.signerID = personIntent.getSignerID();
+            this.subjectID = personIntent.getSubjectID();
+            this.issuerID = personIntent.getIssuerID();
 
             Collection<ASAPCertificate> certificateByOwner =
-                    PersonsStorageAndroid.getPersonsApp().getCertificateBySubject(this.ownerID);
+                    PersonsStorageAndroid.getPersonsApp().getCertificateBySubject(this.subjectID);
             ASAPCertificate cert = null;
             for(ASAPCertificate c : certificateByOwner) {
-                if(c.getIssuerID().toString().equalsIgnoreCase(this.signerID.toString())) {
+                if(c.getIssuerID().toString().equalsIgnoreCase(this.issuerID.toString())) {
                     // got it
                     cert = c;
                 }
@@ -51,16 +49,16 @@ public class CertificateViewActivity extends AppCompatActivity {
                 return;
             }
 
-            TextView tv = findViewById(R.id.certificate_view_owner_id);
+            TextView tv = findViewById(R.id.certificate_view_subject_id);
             tv.setText(cert.getSubjectID());
 
-            tv = findViewById(R.id.certificate_view_owner_name);
+            tv = findViewById(R.id.certificate_view_subject_name);
             tv.setText(cert.getSubjectName());
 
-            tv = findViewById(R.id.certificate_view_signer_id);
+            tv = findViewById(R.id.certificate_view_issuer_id);
             tv.setText(cert.getIssuerID());
 
-            tv = findViewById(R.id.certificate_view_signer_name);
+            tv = findViewById(R.id.certificate_view_issuer_name);
             tv.setText(cert.getIssuerName());
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd., yyyy");

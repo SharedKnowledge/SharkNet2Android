@@ -11,6 +11,7 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.util.DateTimeHelper;
+import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.Owner;
 import net.sharksystem.sharknet.android.SharkNetActivity;
@@ -48,7 +49,7 @@ public class OwnerActivity extends SharkNetActivity {
     private void setKeyCreationDate() throws SharkCryptoException {
         TextView creationTime = this.findViewById(R.id.ownerCreationTimeKeys);
         try {
-            // that's funny because long time means something like a long ok, not funny at all... :/
+            // that's funny because long is a homonym: data type but also means a long time span... ok, this is not funny at all... :/
             long longTime =
                     OwnerStorageAndroid.getOwnerStorageAndroid().getASAPKeyStorage().getCreationTime();
 
@@ -63,6 +64,9 @@ public class OwnerActivity extends SharkNetActivity {
     }
 
     private void notifyKeyPairCreated() throws SharkCryptoException {
+        // sync
+        PersonsStorageAndroid.getPersonsApp().syncNewReceivedCertificates();
+
         // re-launch
         this.finish();
         this.startActivity(new Intent(this, OwnerActivity.class));
@@ -75,7 +79,6 @@ public class OwnerActivity extends SharkNetActivity {
 
     public void onChangeClick(View view) throws SharkException {
         EditText userNameView = (EditText) findViewById(R.id.ownerDisplayName);
-
         String userNameString = userNameView.getText().toString();
 
         if(userNameString == null || userNameString.isEmpty()) {
@@ -93,15 +96,22 @@ public class OwnerActivity extends SharkNetActivity {
         }
     }
 
+    public void onShowOwnerAsSubjectCertificates(View view) {
+        Log.d(Util.getLogStart(this), "onShowOwnerAsSubjectCertificates");
+        Intent intent = null;
+        try {
+            intent = new PersonIntent(this,
+                    OwnerStorageAndroid.getOwnerStorageAndroid().getUUID(),
+                    CertificateListActivity.class);
+            this.startActivity(intent);
+        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+            Log.d(this.getLogStart(), "problems spawning certificate list: "
+                    + e.getLocalizedMessage());
+        }
+    }
+
     public void onCreateNewKeys(View view) {
         (new CreateKeyPairThread(this)).start();
-        /*
-        try {
-            PersonsStorageAndroid.getPersonsApp().generateKeyPair();
-        } catch (SharkException e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-        }
-        */
     }
 
     public void onAbortClick(View view) {

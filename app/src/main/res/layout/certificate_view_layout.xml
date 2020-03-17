@@ -9,7 +9,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/certificate_view_owner_name"
+            android:id="@+id/certificate_view_subject_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -17,7 +17,7 @@
             />
 
         <TextView
-            android:id="@+id/certificate_view_owner_id"
+            android:id="@+id/certificate_view_subject_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -32,7 +32,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/certificate_view_signer_name"
+            android:id="@+id/certificate_view_issuer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -40,7 +40,7 @@
             />
 
         <TextView
-            android:id="@+id/certificate_view_signer_id"
+            android:id="@+id/certificate_view_issuer_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"

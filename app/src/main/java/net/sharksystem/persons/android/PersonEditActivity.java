@@ -26,7 +26,7 @@ public class PersonEditActivity extends AppCompatActivity {
         try {
             PersonIntent personIntent = new PersonIntent(this.getIntent());
 
-            this.userID = personIntent.getOwnerID();
+            this.userID = personIntent.getSubjectID();
 
             PersonValuesImpl personValues =
                     PersonsStorageAndroid.getPersonsApp().getPersonValues(this.userID);

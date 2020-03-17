@@ -1,6 +1,5 @@
 package net.sharksystem.persons.android;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +15,6 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.ASAPCertificate;
-import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -47,13 +45,13 @@ public class CertificateListActivity extends SharkNetActivity {
             PersonIntent intent = new PersonIntent(this.getIntent());
             if(intent.isOwnerIDSet()) {
                 if(intent.explainIdentityAssurance()) {
-                    certList = this.produceListToExplain(intent.getOwnerID());
+                    certList = this.produceListToExplain(intent.getSubjectID());
                 } else {
-                    certList = this.produceListByOwner(intent.getOwnerID());
+                    certList = this.produceListByOwner(intent.getSubjectID());
                 }
             } else {
                 if(intent.isSignerIDSet()) {
-                    certList = this.produceListBySigner(intent.getSignerID());
+                    certList = this.produceListBySigner(intent.getIssuerID());
                 } else {
                     Toast.makeText(this,
                             "internal failure: neither owner nor signer id set",

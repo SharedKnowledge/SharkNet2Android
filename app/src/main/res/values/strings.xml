@@ -61,6 +61,7 @@
     <string name="delete">delete</string>
     <string name="identityAssuranceCalculatedWords">identity assurance:</string>
     <string name="signingFailureWords">signing failure set to: </string>
+    <string name="showOwnerAsSubjectCertificatesButtonText">Your Certs</string>
 
 
 </resources>
