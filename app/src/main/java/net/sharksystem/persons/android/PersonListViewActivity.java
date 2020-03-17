@@ -83,13 +83,13 @@ public class PersonListViewActivity extends PersonListActivity {
     private void doAddPerson() {
         Log.d(this.getLogStart(), "doAddPerson");
         try {
-            if(OwnerStorageAndroid.getOwnerStorageAndroid().getASAPKeyStorage().getCreationTime()
-                == DateTimeHelper.TIME_NOT_SET) {
+            if(!OwnerStorageAndroid.getOwnerStorageAndroid().secureKeyAvailable()) {
                 Toast.makeText(this,
                         "setup your secure keys first", Toast.LENGTH_SHORT).show();
                 this.startActivity(new Intent(this, OwnerActivity.class));
             } else {
-                this.startActivity(new Intent(this, PersonReceiveCredentialsActivity.class));
+                this.startActivity(new Intent(this,
+                        PersonReceiveCredentialsActivity.class));
             }
         } catch (SharkCryptoException | UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
             Toast.makeText(this,

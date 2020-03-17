@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import net.sharksystem.SharkException;
+import net.sharksystem.android.util.DateTimeHelper;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.ASAPKeyStorage;
+import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.Owner;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -150,5 +152,9 @@ public class OwnerStorageAndroid implements Owner {
 
     private String getLogStart() {
         return Util.getLogStart(this).toString();
+    }
+
+    public boolean secureKeyAvailable() throws SharkCryptoException {
+        return this.androidASAPKeyStorage.getCreationTime() != DateTimeHelper.TIME_NOT_SET;
     }
 }

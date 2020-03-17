@@ -103,11 +103,15 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
 
     private void doHandleCertificateMessage(ASAPMessages asapMessages) {
         // something was received - integrate
+        Log.d(this.getLogStart(), "reached doHandleCertificateMessage");
         PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+        Log.d(this.getLogStart(), "calling syncNewReceivedCertificates");
         if(personsApp.syncNewReceivedCertificates()) {
+            Log.d(this.getLogStart(), "calling save");
             personsApp.save();
         }
 
+        Log.d(this.getLogStart(), "certificates added");
         Toast.makeText(this, "certificates added", Toast.LENGTH_SHORT).show();
     }
 

@@ -63,6 +63,7 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
     public void onDoneClick(View v) {
         try {
             // sign and create certificate
+            Log.d(this.getLogStart(), "before call addAndSignPerson()");
             ASAPCertificate newCert = PersonsStorageAndroid.getPersonsApp().addAndSignPerson(
                     this.credentialMessage.getOwnerID(),
                     this.credentialMessage.getOwnerName(),
@@ -70,6 +71,7 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
                     this.credentialMessage.getValidSince());
 
             // return newly created certificate
+            Log.d(this.getLogStart(), "before send ASAP Message");
             this.sendASAPMessage(ASAPCertificateStorage.APP_NAME,
                     ASAPCertificate.ASAP_CERTIFICATE_URI,
                     newCert.asBytes(), true);
@@ -78,6 +80,7 @@ public class PersonReceiveCredentialsActivity extends SharkNetActivity {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
 
+        Log.d(this.getLogStart(), "finished sending freshly signed certificate back");
         this.finish();
     }
 
