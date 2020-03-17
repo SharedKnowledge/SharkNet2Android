@@ -47,11 +47,11 @@ public class CertificateListActivity extends SharkNetActivity {
                 if(intent.explainIdentityAssurance()) {
                     certList = this.produceListToExplain(intent.getSubjectID());
                 } else {
-                    certList = this.produceListByOwner(intent.getSubjectID());
+                    certList = this.produceListBySubject(intent.getSubjectID());
                 }
             } else {
                 if(intent.isSignerIDSet()) {
-                    certList = this.produceListBySigner(intent.getIssuerID());
+                    certList = this.produceListByIssuer(intent.getIssuerID());
                 } else {
                     Toast.makeText(this,
                             "internal failure: neither owner nor signer id set",
@@ -100,16 +100,16 @@ public class CertificateListActivity extends SharkNetActivity {
         return certList;
     }
 
-    private List<ASAPCertificate> produceListByOwner(CharSequence ownerID) throws SharkException {
+    private List<ASAPCertificate> produceListBySubject(CharSequence userID) throws SharkException {
         Collection<ASAPCertificate> certColl =
-                PersonsStorageAndroid.getPersonsApp().getCertificateBySubject(ownerID);
+                PersonsStorageAndroid.getPersonsApp().getCertificateBySubject(userID);
 
         return this.produceCertList(certColl);
     }
 
-    private List<ASAPCertificate> produceListBySigner(CharSequence signerID) throws SharkException {
+    private List<ASAPCertificate> produceListByIssuer(CharSequence userID) throws SharkException {
         Collection<ASAPCertificate> certColl =
-                PersonsStorageAndroid.getPersonsApp().getCertificateByIssuer(signerID);
+                PersonsStorageAndroid.getPersonsApp().getCertificateByIssuer(userID);
 
         return this.produceCertList(certColl);
     }

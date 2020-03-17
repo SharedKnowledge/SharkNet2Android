@@ -34,9 +34,11 @@ public class OwnerActivity extends SharkNetActivity {
 
         // set user name in layout
         EditText userNameView = this.findViewById(R.id.ownerDisplayName);
+        TextView userIDTV = this.findViewById(R.id.ownerID);
 
         try {
-            userNameView.setText(OwnerStorageAndroid.getIdentityStorage(this).getDisplayName());
+            userNameView.setText(OwnerStorageAndroid.getOwnerStorageAndroid().getDisplayName());
+            userIDTV.setText(OwnerStorageAndroid.getOwnerStorageAndroid().getUUID());
             this.setKeyCreationDate();
         } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException | SharkCryptoException e) {
             Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
@@ -49,7 +51,7 @@ public class OwnerActivity extends SharkNetActivity {
     private void setKeyCreationDate() throws SharkCryptoException {
         TextView creationTime = this.findViewById(R.id.ownerCreationTimeKeys);
         try {
-            // that's funny because long is a homonym: data type but also means a long time span... ok, this is not funny at all... :/
+            // that's funny because long is a homonym: data type but also means a long periode of time... ok, this is not funny at all... :/
             long longTime =
                     OwnerStorageAndroid.getOwnerStorageAndroid().getASAPKeyStorage().getCreationTime();
 
@@ -77,7 +79,7 @@ public class OwnerActivity extends SharkNetActivity {
         this.startActivity(new Intent(this, OwnerCredentialSendActivity.class));
     }
 
-    public void onChangeClick(View view) throws SharkException {
+    public void onSaveClick(View view) throws SharkException {
         EditText userNameView = (EditText) findViewById(R.id.ownerDisplayName);
         String userNameString = userNameView.getText().toString();
 
@@ -92,7 +94,9 @@ public class OwnerActivity extends SharkNetActivity {
             } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
                 Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
             }
-            super.onBackPressed();
+            // re-launch
+            this.finish();
+            this.startActivity(new Intent(this, OwnerActivity.class));
         }
     }
 
@@ -116,7 +120,7 @@ public class OwnerActivity extends SharkNetActivity {
 
     public void onAbortClick(View view) {
         // go back to previous activity
-        super.onBackPressed();
+        this.finish();
     }
 
     private class CreateKeyPairThread extends Thread {

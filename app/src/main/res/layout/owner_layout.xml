@@ -11,6 +11,13 @@
         />
 
     <TextView
+        android:id="@+id/ownerID"
+        android:layout_width="258dp"
+        android:layout_height="43dp"
+        android:ems="10"
+        />
+
+    <TextView
         android:id="@+id/ownerCreationTimeKeys"
         android:layout_width="258dp"
         android:layout_height="43dp"
@@ -51,7 +58,7 @@
             android:id="@+id/changeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onChangeClick"
+            android:onClick="onSaveClick"
             android:text="@string/save"
             />
 

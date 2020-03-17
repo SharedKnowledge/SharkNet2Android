@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import java.util.UUID;
 
 public class OwnerStorageAndroid implements Owner {
     private static OwnerStorageAndroid instance;
@@ -26,7 +27,7 @@ public class OwnerStorageAndroid implements Owner {
     private final static String OWNER_ID = "SharkNet2Identity_OwnerID";
 
     private final static String DEFAULT_OWNER_NAME = "SNUser";
-    private final static String DEFAULT_OWNER_ID = "42";
+    private final static String DEFAULT_OWNER_ID = "Default_SN_USER_ID";
     private final AndroidASAPKeyStorage androidASAPKeyStorage;
     private CharSequence ownerName;
     private boolean ownerNameSet;
@@ -123,13 +124,13 @@ public class OwnerStorageAndroid implements Owner {
         editor.putString(OWNER_NAME, userName.toString());
 
         // create owner id
-
-        // TODO: dummy version of an id
-        String ownerID = "ID_of_" + userName;
-        editor.putString(OWNER_ID, ownerID);
+        if(this.ownerID.toString().equalsIgnoreCase(DEFAULT_OWNER_ID)) {
+            // set id - once and only once.
+            this.ownerID = UUID.randomUUID().toString();
+            editor.putString(OWNER_ID, ownerID.toString());
+        }
 
         editor.commit();
-
     }
 
     @Override
