@@ -37,10 +37,10 @@ public class OwnerActivity extends SharkNetActivity {
         TextView userIDTV = this.findViewById(R.id.ownerID);
 
         try {
-            userNameView.setText(OwnerStorageAndroid.getOwnerStorageAndroid().getDisplayName());
-            userIDTV.setText(OwnerStorageAndroid.getOwnerStorageAndroid().getUUID());
+            userNameView.setText(SharkNetApp.getSharkNetApp().getOwnerStorage().getDisplayName());
+            userIDTV.setText(SharkNetApp.getSharkNetApp().getOwnerStorage().getUUID());
             this.setKeyCreationDate();
-        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException | SharkCryptoException e) {
+        } catch (SharkCryptoException e) {
             Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
             this.finish();
         }
@@ -50,18 +50,14 @@ public class OwnerActivity extends SharkNetActivity {
 
     private void setKeyCreationDate() throws SharkCryptoException {
         TextView creationTime = this.findViewById(R.id.ownerCreationTimeKeys);
-        try {
-            // that's funny because long is a homonym: data type but also means a long periode of time... ok, this is not funny at all... :/
-            long longTime =
-                    OwnerStorageAndroid.getOwnerStorageAndroid().getASAPKeyStorage().getCreationTime();
+        // that's funny because long is a homonym: data type but also means a long periode of time... ok, this is not funny at all... :/
+        long longTime =
+                SharkNetApp.getSharkNetApp().getASAPKeyStorage().getCreationTime();
 
-            if(longTime == DateTimeHelper.TIME_NOT_SET) {
-                creationTime.setText("please create a key pair");
-            } else {
-                creationTime.setText("keys created at: " + DateTimeHelper.long2DateString(longTime));
-            }
-        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
-            throw new SharkCryptoException(e.getLocalizedMessage());
+        if(longTime == DateTimeHelper.TIME_NOT_SET) {
+            creationTime.setText("please create a key pair");
+        } else {
+            creationTime.setText("keys created at: " + DateTimeHelper.long2DateString(longTime));
         }
     }
 
@@ -88,12 +84,8 @@ public class OwnerActivity extends SharkNetActivity {
         } else {
             Log.d(this.getLogStart(), "set new user name: " + userNameString);
             Owner identityStorage = null;
-            try {
-                identityStorage = OwnerStorageAndroid.getIdentityStorage(this);
-                identityStorage.setDisplayName(userNameString);
-            } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
-                Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
-            }
+            SharkNetApp.getSharkNetApp().getOwnerStorage().setDisplayName(userNameString);
+
             // re-launch
             this.finish();
             this.startActivity(new Intent(this, OwnerActivity.class));
@@ -103,15 +95,10 @@ public class OwnerActivity extends SharkNetActivity {
     public void onShowOwnerAsSubjectCertificates(View view) {
         Log.d(Util.getLogStart(this), "onShowOwnerAsSubjectCertificates");
         Intent intent = null;
-        try {
-            intent = new PersonIntent(this,
-                    OwnerStorageAndroid.getOwnerStorageAndroid().getUUID(),
-                    CertificateListActivity.class);
-            this.startActivity(intent);
-        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
-            Log.d(this.getLogStart(), "problems spawning certificate list: "
-                    + e.getLocalizedMessage());
-        }
+        intent = new PersonIntent(this,
+                SharkNetApp.getSharkNetApp().getOwnerID(),
+                CertificateListActivity.class);
+        this.startActivity(intent);
     }
 
     public void onCreateNewKeys(View view) {
@@ -133,8 +120,7 @@ public class OwnerActivity extends SharkNetActivity {
         public void run() {
             String text = null;
             try {
-                OwnerStorageAndroid o = OwnerStorageAndroid.getOwnerStorageAndroid(OwnerActivity.this);
-                o.generateKeyPair();
+                SharkNetApp.getSharkNetApp().generateKeyPair();
 
                 // debugging
                 /*
@@ -149,8 +135,6 @@ public class OwnerActivity extends SharkNetActivity {
             } catch (SharkException e) {
                 text = e.getLocalizedMessage();
                 Log.e(OwnerActivity.this.getLogStart(), text);
-            } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
-                Log.e(OwnerActivity.this.getLogStart(), e.getLocalizedMessage());
             }
         }
     }

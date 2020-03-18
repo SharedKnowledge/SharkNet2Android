@@ -14,10 +14,6 @@ import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyPair;
@@ -31,7 +27,7 @@ import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.util.Calendar;
 
-import static net.sharksystem.persons.android.OwnerStorageAndroid.PREFERENCES_FILE;
+import static net.sharksystem.sharknet.android.SharkNetApp.PREFERENCES_FILE;
 
 public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPKeyStorage {
     private static final String KEYPAIR_CREATION_TIME = "SharkNet2Identity_KeyPairCreationTime";
@@ -51,7 +47,7 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
         try {
             Calendar start = Calendar.getInstance();
             Calendar end = Calendar.getInstance();
-            //Jahr von heute plus YEAR Jahre
+            // start (now) + one year
             end.add(Calendar.YEAR, ASAPCertificateImpl.DEFAULT_CERTIFICATE_VALIDITY_IN_YEARS);
 
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(

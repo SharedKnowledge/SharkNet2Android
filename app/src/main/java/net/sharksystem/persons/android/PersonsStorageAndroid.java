@@ -39,7 +39,7 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
         super(
             new ASAPCertificateStorageImpl(asapStorage,
                     SharkNetApp.getSharkNetApp().getOwnerID(),
-                    SharkNetApp.getSharkNetApp().getASAPOwner()
+                    SharkNetApp.getSharkNetApp().getASAPOwnerID()
                 ), 
             keyStorage,
             SN_ANDROID_DEFAULT_SIGNING_ALGORITHM
@@ -62,11 +62,11 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
             try {
                 PersonsStorageAndroid.instance = new PersonsStorageAndroid(
                         ASAPEngineFS.getASAPStorage(
-                            SharkNetApp.getSharkNetApp().getASAPOwner().toString(), // owner
+                            SharkNetApp.getSharkNetApp().getASAPOwnerID().toString(), // owner
                             SharkNetApp.getSharkNetApp().getASAPRootFolder().
                                     toString() +"/" + ASAPCertificateStorage.APP_NAME, // folder
                             ASAPCertificateStorage.APP_NAME), // app name
-                        OwnerStorageAndroid.getOwnerStorageAndroid().getASAPKeyStorage()
+                        SharkNetApp.getSharkNetApp().getASAPKeyStorage()
                 );
 
                 //instance.fillWithExampleData();

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.android.util.DateTimeHelper;
 import net.sharksystem.crypto.SharkCryptoException;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -83,7 +84,7 @@ public class PersonListViewActivity extends PersonListActivity {
     private void doAddPerson() {
         Log.d(this.getLogStart(), "doAddPerson");
         try {
-            if(!OwnerStorageAndroid.getOwnerStorageAndroid().secureKeyAvailable()) {
+            if(!SharkNetApp.getSharkNetApp().secureKeyAvailable()) {
                 Toast.makeText(this,
                         "setup your secure keys first", Toast.LENGTH_SHORT).show();
                 this.startActivity(new Intent(this, OwnerActivity.class));
@@ -91,7 +92,7 @@ public class PersonListViewActivity extends PersonListActivity {
                 this.startActivity(new Intent(this,
                         PersonReceiveCredentialsActivity.class));
             }
-        } catch (SharkCryptoException | UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+        } catch (SharkCryptoException e) {
             Toast.makeText(this,
                     "serious problems: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }

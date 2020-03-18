@@ -42,11 +42,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
 
         // set user name in layout
         TextView tv = this.findViewById(R.id.ownerDisplayName);
-        try {
-            tv.setText(OwnerStorageAndroid.getIdentityStorage(this).getDisplayName());
-        } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
-            Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
-        }
+        tv.setText(SharkNetApp.getSharkNetApp().getOwnerStorage().getDisplayName());
 
         // set control number
         tv = this.findViewById(R.id.ownerSendCredentialsControlNumber);

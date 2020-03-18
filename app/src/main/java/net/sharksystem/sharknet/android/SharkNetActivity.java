@@ -27,7 +27,7 @@ public abstract class SharkNetActivity extends ASAPActivity {
         super.onCreate(savedInstanceState);
 
         // check if owner is set - if not - force to set
-        if(!this.sharkNetApp.isOwnerSet() && this.getClass() != OwnerActivity.class) {
+        if(!this.sharkNetApp.getOwnerStorage().isOwnerSet() && this.getClass() != OwnerActivity.class) {
             Log.d(this.getLogStart(), "ower not set - force setting");
             Intent intent = new Intent(this, OwnerActivity.class);
             this.startActivity(intent);
