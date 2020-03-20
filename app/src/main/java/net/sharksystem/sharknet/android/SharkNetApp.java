@@ -69,6 +69,10 @@ public class SharkNetApp extends ASAPApplication {
         return keyStoreFile;
     }
 
+    public boolean isStatusCanWork() {
+        return this.getOwnerStorage().isOwnerSet();
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////
     //                                     owner settings                                      //
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,8 +87,12 @@ public class SharkNetApp extends ASAPApplication {
 
     private Owner ownerStorage = null;
     public Owner getOwnerStorage() {
+        return this.getOwnerStorage(this.getActivity());
+    }
+
+    public Owner getOwnerStorage(Context context) {
         if(this.ownerStorage == null) {
-            this.ownerStorage = new OwnerStorage(this.getActivity());
+            this.ownerStorage = new OwnerStorage(context);
         }
 
         return this.ownerStorage;
@@ -94,7 +102,7 @@ public class SharkNetApp extends ASAPApplication {
     private final static String OWNER_NAME = "SharkNet2Identity_OwnerName";
     private final static String OWNER_ID = "SharkNet2Identity_OwnerID";
 
-    private final static String DEFAULT_OWNER_NAME = "SNUser";
+    public final static String DEFAULT_OWNER_NAME = "SNUser";
     private final static String DEFAULT_OWNER_ID = "Default_SN_USER_ID";
 
     private class OwnerStorage implements Owner {

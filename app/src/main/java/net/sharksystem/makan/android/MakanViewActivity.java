@@ -37,6 +37,7 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPUriConten
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Log.d(this.getLogStart(), "onCreate");
 
         // get parameters

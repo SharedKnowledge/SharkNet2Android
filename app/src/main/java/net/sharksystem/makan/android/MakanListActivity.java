@@ -36,6 +36,11 @@ public class MakanListActivity extends SharkNetActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(this.isFinishing()) {
+            Log.d(this.getLogStart(), "leave onCreate - isFinishing");
+            return;
+        }
+
         Log.d(this.getLogStart(), "onCreate");
 
         try {
