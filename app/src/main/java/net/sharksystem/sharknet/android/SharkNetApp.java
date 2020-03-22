@@ -10,6 +10,7 @@ import android.util.Log;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.util.DateTimeHelper;
+import net.sharksystem.asap.ASAP;
 import net.sharksystem.asap.android.apps.ASAPApplication;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.crypto.ASAPKeyStorage;
@@ -149,7 +150,8 @@ public class SharkNetApp extends ASAPApplication {
             // create owner id
             if(this.ownerID.toString().equalsIgnoreCase(DEFAULT_OWNER_ID)) {
                 // set id - once and only once.
-                this.ownerID = UUID.randomUUID().toString();
+//                this.ownerID = UUID.randomUUID().toString();
+                this.ownerID = ASAP.createUniqueID();
                 editor.putString(OWNER_ID, ownerID.toString());
             }
 

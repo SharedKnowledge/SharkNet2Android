@@ -7,6 +7,7 @@ import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPStorage;
 import net.sharksystem.asap.android.Util;
+import net.sharksystem.crypto.ASAPCertificate;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.crypto.ASAPCertificateStorageImpl;
 import net.sharksystem.crypto.ASAPKeyStorage;
@@ -23,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.PublicKey;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -88,6 +90,17 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
     //////////////////////////////////////////////////////////////////////////////////////////
     //                        decorator to implement persistence                            //
     //////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public ASAPCertificate addAndSignPerson(
+            CharSequence userID, CharSequence userName, PublicKey publicKey, long validSince)
+            throws SharkCryptoException, IOException {
+
+        ASAPCertificate cert = super.addAndSignPerson(userID, userName, publicKey, validSince);
+        this.save();
+
+        return cert;
+    }
 
     void save() {
         try {
