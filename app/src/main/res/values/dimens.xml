@@ -7,4 +7,7 @@
     <dimen name="marginUnderToolbar">56dp</dimen>
     <dimen name="recyclerRowEntryTextSize">16dp</dimen>
     <dimen name="rowPaddingHorizontal">2pt</dimen>
+    <dimen name="textSizeHuge">30pt</dimen>
+    <dimen name="textSizeGoodReadable">12pt</dimen>
+    <dimen name="textSizeGoodReadableSmall">8pt</dimen>
 </resources>

@@ -4,42 +4,43 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/ownerDisplayName"
+        android:id="@+id/personAddExplanationTextID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="32pt"
+        android:textSize="@dimen/textSizeGoodReadable"
         android:textStyle="bold"
-        />
-
-    <TextView
-        android:id="@+id/credentialsControlNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="32pt"
-        android:textStyle="bold"
-        android:digits="true"
-        />
-
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click send button.\nWait until your credentials are received.\nShow your screen to receiving party.\nPress done button after your credentials has been acknowleged."
+        android:text="@string/personAddExplanationText"
         />
 
     <Button
-        android:id="@+id/send"
+        android:id="@+id/continueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onSendClick"
-        android:text="@string/sendCredentialsButtonText"
+        android:onClick="onContinueClick"
+        android:text="@string/continueButtonText"
         />
 
     <Button
-        android:id="@+id/done"
+        android:id="@+id/gotoRadarButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onDoneClick"
-        android:text="@string/doneButtonText"
+        android:onClick="onGotoRadarClick"
+        android:text="@string/gotoRadarButtonText"
+        />
+
+    <Button
+        android:id="@+id/gotoNetworksSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onGotoNetworksSettingsClick"
+        android:text="@string/gotoNetworksSettingsButtonText"
+        />
+
+    <Button
+        android:id="@+id/abortButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onAbortClick"
+        android:text="@string/abort"
         />
 </LinearLayout>

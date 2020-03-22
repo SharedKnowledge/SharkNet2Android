@@ -90,7 +90,7 @@ public class PersonListViewActivity extends PersonListActivity {
                 this.startActivity(new Intent(this, OwnerActivity.class));
             } else {
                 this.startActivity(new Intent(this,
-                        PersonReceiveCredentialsActivity.class));
+                        PersonAddExplanationActivity.class));
             }
         } catch (SharkCryptoException e) {
             Toast.makeText(this,

@@ -3,6 +3,7 @@ package net.sharksystem.sharknet.android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import net.sharksystem.asap.android.apps.ASAPActivity;
@@ -40,5 +41,9 @@ public abstract class SharkNetActivity extends ASAPActivity {
 
         // setup asap app only after proper user account creation
         super.onCreate(savedInstanceState);
+    }
+
+    public void onAbortClick (View view) {
+        this.finish();
     }
 }

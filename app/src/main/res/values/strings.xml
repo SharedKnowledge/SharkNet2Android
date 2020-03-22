@@ -66,5 +66,23 @@
     <string name="showOwnerAsSubjectCertificatesButtonText">Your Certs</string>
     <string name="initSetYourNameText">Give yourself a name - can be changed any time</string>
 
+    <string name="continueButtonText">Continue</string>
+
+    <string name="gotoNetworksSettingsButtonText">Network Settings</string>
+    <string name="gotoRadarButtonText">Radar</string>
+
+    <string name="personWaitForCredentialText">Wait for a credential to be received. This might take some seconds
+        after your new contact has pressed its send button.</string>
+
+    <string name="personAddExplanationText">Persons can only be added during direct certificate exchange....
+        Please be sure you have activated Bluetooth (or anything else) and established a connection to your new contact
+        \n Press continue when you and your new contact are ready to transmit a credential</string>
+
+    <string name="receivedCertificateExplanation">You have received following credential information</string>
+
+    <string name="explainAddAndSignText">Compare received values with your new contacts phone. \n
+    Be very careful. Reject this credential if you have any doubt. By adding, you ensure yourself
+    and your peer group that you have identified this person as it claims to be. Your credibility is
+    at stake.</string>
 
 </resources>

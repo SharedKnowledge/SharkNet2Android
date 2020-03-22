@@ -1,6 +1,5 @@
 package net.sharksystem.persons.android;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,22 +7,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.SharkException;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.asap.apps.ASAPMessages;
 import net.sharksystem.crypto.ASAPCertificate;
-import net.sharksystem.crypto.ASAPCertificateImpl;
 import net.sharksystem.persons.CredentialMessage;
-import net.sharksystem.persons.PersonsStorage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.io.IOException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Iterator;
 import java.util.Random;
 
 public class OwnerCredentialSendActivity extends SharkNetActivity {
@@ -45,7 +35,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
         tv.setText(SharkNetApp.getSharkNetApp().getOwnerStorage().getDisplayName());
 
         // set control number
-        tv = this.findViewById(R.id.ownerSendCredentialsControlNumber);
+        tv = this.findViewById(R.id.credentialsControlNumber);
         tv.setText(String.valueOf(-1));
 
         this.getSharkNetApp().addASAPMessageReceivedListener(ASAPCertificate.ASAP_CERTIFICATE_URI,
@@ -74,7 +64,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
             sixDigitsInt /= 10;
 
             // set control number
-            TextView tv = this.findViewById(R.id.ownerSendCredentialsControlNumber);
+            TextView tv = this.findViewById(R.id.credentialsControlNumber);
             tv.setText(CredentialMessage.sixDigitsToString(sixDigitsInt));
 
             // send credential message

@@ -35,6 +35,7 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
 
     private static PersonsStorageAndroid instance = null;
     private Set<CharSequence> selectedItemIDs = null;
+    private CredentialMessage credentialMessage;
 
     private PersonsStorageAndroid(ASAPStorage asapStorage, ASAPKeyStorage keyStorage)
             throws SharkException, IOException {
@@ -121,9 +122,10 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
     public void sendCredentialMessage(SharkNetActivity snActivity, int randomInt, CharSequence userID)
             throws IOException, ASAPException, SharkCryptoException {
 
+        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
         CredentialMessage credentialMessage =
-                new CredentialMessage(randomInt, userID,
-                        this.getOwnerName(), this.getKeysCreationTime(),
+                new CredentialMessage(randomInt, personsApp.getOwnerID(),
+                        personsApp.getOwnerName(), this.getKeysCreationTime(),
                         this.getPublicKey());
 
         snActivity.sendASAPMessage(APP_NAME, CREDENTIAL_URI,
@@ -142,6 +144,14 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
     private Set<CharSequence> preselectedIDs = null;
     public void setPreselectionSet(Set<CharSequence> preselectedIDs) {
         this.preselectedIDs = preselectedIDs;
+    }
+
+    public void setReceivedCredential(CredentialMessage credentialMessage) {
+        this.credentialMessage = credentialMessage;
+    }
+
+    public CredentialMessage getReceivedCredential() {
+        return this.credentialMessage;
     }
 
     public Set<CharSequence> getPreselectionSet() {
