@@ -8,6 +8,7 @@ import android.view.View;
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.asap.apps.ASAPMessages;
+import net.sharksystem.crypto.ASAPCertificate;
 import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -25,14 +26,12 @@ public class PersonWaitForCredentialActivity extends SharkNetActivity {
 
         setContentView(R.layout.person_wait_for_credential_layout);
 
-        this.getSharkNetApp().addASAPMessageReceivedListener(PersonsStorageAndroid.CREDENTIAL_URI,
-                new ASAPMessageReceivedListener() {
-                    @Override
-                    public void asapMessagesReceived(ASAPMessages asapMessages) {
-                        Log.d(getLogStart(), "asapMessageReceived");
-                        doHandleCredentialMessage(asapMessages);
-                    }
-                });
+        this.getSharkNetApp().addASAPMessageReceivedListener(
+                PersonsStorageAndroid.CREDENTIAL_URI,
+                new CredentialMessageReceivedListener());
+
+        Log.d(getLogStart(), "asap Listener registered for "
+                + PersonsStorageAndroid.CREDENTIAL_URI);
     }
 
     public void onAbortClick(View v) {
@@ -48,7 +47,7 @@ public class PersonWaitForCredentialActivity extends SharkNetActivity {
             if(messages.hasNext()) {
                 Log.d(getLogStart(), "create credential message object..");
                 CredentialMessage credentialMessage = new CredentialMessage(messages.next());
-                Log.d(getLogStart(), "..created");
+                Log.d(getLogStart(), "..created: " + credentialMessage);
                 PersonsStorageAndroid.getPersonsApp().setReceivedCredential(credentialMessage);
                 Log.d(getLogStart(), "credential message saved with persons storage");
 
@@ -59,6 +58,14 @@ public class PersonWaitForCredentialActivity extends SharkNetActivity {
         } catch (Exception e) {
             Log.d(this.getLogStart(), "problems when handling incoming credential: "
                     + e.getLocalizedMessage());
+        }
+    }
+
+    private class CredentialMessageReceivedListener implements ASAPMessageReceivedListener {
+        @Override
+        public void asapMessagesReceived(ASAPMessages asapMessages) {
+            Log.d(getLogStart(), "asapMessageReceived");
+            PersonWaitForCredentialActivity.this.doHandleCredentialMessage(asapMessages);
         }
     }
 }

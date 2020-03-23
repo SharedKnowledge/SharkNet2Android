@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.sharksystem.R;
+import net.sharksystem.SharkException;
+import net.sharksystem.persons.PersonValuesImpl;
+import net.sharksystem.persons.android.PersonsStorageAndroid;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -33,16 +36,26 @@ public class RadarActivity extends SharkNetActivity {
         if(onlinePeerList == null || onlinePeerList.size() < 1) {
             peerListTextView.setText("no peer online");
         } else {
+            PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
             StringBuilder sb = new StringBuilder();
             sb.append("peers online;");
             sb.append("\n");
-            for(CharSequence peerName : onlinePeerList) {
+            for(CharSequence peerID : onlinePeerList) {
+                String peerName = "unknown";
+                try {
+                    peerName = personsApp.getPersonValues(peerID).getName().toString();
+                } catch (SharkException e) {
+                    e.printStackTrace();
+                }
+                sb.append("name: ");
                 sb.append(peerName);
+                sb.append(" | ");
+                sb.append("id: ");
+                sb.append(peerID);
                 sb.append("\n");
             }
             peerListTextView.setText(sb.toString());
         }
-
         peerListTextView.refreshDrawableState();
     }
 

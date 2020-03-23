@@ -9,7 +9,7 @@ import android.util.Log;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.android.util.DateTimeHelper;
+import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.asap.ASAP;
 import net.sharksystem.asap.android.apps.ASAPApplication;
 import net.sharksystem.crypto.ASAPCertificateStorage;
@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class SharkNetApp extends ASAPApplication {
     private static final String PERSONS_STORAGE_FILE_NAME = "sn2_personsStorageFile";
@@ -38,7 +37,7 @@ public class SharkNetApp extends ASAPApplication {
         if(SharkNetApp.singleton == null) {
             // SN supports the following applications
             List<CharSequence> appFormats = new ArrayList<>();
-            appFormats.add(PersonsStorageAndroid.APP_NAME);
+            appFormats.add(PersonsStorageAndroid.CREDENTIAL_APP_NAME);
             appFormats.add(MakanApp.APP_NAME);
             appFormats.add(ASAPCertificateStorage.APP_NAME);
 

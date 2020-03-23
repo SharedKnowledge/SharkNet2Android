@@ -5,17 +5,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.android.util.DateTimeHelper;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.sharknet.android.SharkNetApp;
-
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 
 public class PersonListViewActivity extends PersonListActivity {
 

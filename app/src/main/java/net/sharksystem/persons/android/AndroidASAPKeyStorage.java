@@ -7,7 +7,7 @@ import android.security.keystore.KeyProperties;
 import android.util.Log;
 
 import net.sharksystem.SharkException;
-import net.sharksystem.android.util.DateTimeHelper;
+import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.crypto.ASAPCertificateImpl;
 import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.InMemoASAPKeyStorage;

@@ -10,16 +10,12 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.android.util.DateTimeHelper;
+import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.Owner;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
-
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 
 public class OwnerActivity extends SharkNetActivity {
     public OwnerActivity() {

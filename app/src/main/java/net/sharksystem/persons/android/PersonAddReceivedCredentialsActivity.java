@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.crypto.ASAPCertificate;
 import net.sharksystem.crypto.ASAPCertificateStorage;
@@ -34,14 +35,6 @@ public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
         this.credential = PersonsStorageAndroid.getPersonsApp().getReceivedCredential();
         Log.d(this.getLogStart(), "got credential: " + this.credential);
 
-/*
-        android:id="@+id/credentialDisplayName"
-        android:id="@+id/credentialID"
-        android:id="@+id/credentialValidSince"
-        android:id="@+id/ownerSendCredentialsControlNumber"
- */
-//        credential.
-
         TextView tv = this.findViewById(R.id.credentialDisplayName);
         tv.setText(credential.getOwnerName());
 
@@ -49,7 +42,7 @@ public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
         tv.setText(credential.getOwnerID());
 
         tv = this.findViewById(R.id.credentialValidSince);
-        tv.setText("valid since: " + credential.getValidSince());
+        tv.setText("valid since: " + DateTimeHelper.long2DateString(credential.getValidSince()));
 
         tv = this.findViewById(R.id.credentialsControlNumber);
         tv.setText(CredentialMessage.sixDigitsToString(credential.getRandomInt()));

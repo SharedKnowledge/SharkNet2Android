@@ -1,6 +1,7 @@
 package net.sharksystem.persons;
 
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.util.DateTimeHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Random;
 
 public class CredentialMessage {
     private final long validSince;
@@ -18,28 +20,43 @@ public class CredentialMessage {
     private int randomInt;
     private PublicKey publicKey;
 
-
     public CharSequence getOwnerID() { return this.ownerID; }
     public CharSequence getOwnerName() { return this.ownerName; }
     public int getRandomInt() { return this.randomInt; }
     public long getValidSince() { return this.validSince; }
     public PublicKey getPublicKey() { return this.publicKey; }
 
-    public CredentialMessage(int randomInt, CharSequence ownerID, CharSequence ownerName,
+    public CredentialMessage(CharSequence ownerID, CharSequence ownerName,
                              long validSince, PublicKey publicKey) {
-        this.ownerName = ownerName;
         this.ownerID = ownerID;
-        this.randomInt = randomInt;
+        this.ownerName = ownerName;
         this.validSince = validSince;
         this.publicKey = publicKey;
+
+        int randomStart = ((new Random(System.currentTimeMillis())).nextInt());
+
+        // make it positiv
+        if(randomStart < 0) randomStart = 0-randomStart;
+
+        // take 6 digits
+        int sixDigitsInt = 0;
+        for(int i = 0; i < 6; i++) {
+            sixDigitsInt += randomStart % 10;
+            sixDigitsInt *= 10;
+            randomStart /= 10;
+        }
+
+        sixDigitsInt /= 10;
+
+        this.randomInt = sixDigitsInt;
     }
 
     public CredentialMessage(byte[] serializedMessage) throws IOException, SharkException {
         ByteArrayInputStream bais = new ByteArrayInputStream(serializedMessage);
         DataInputStream dis = new DataInputStream(bais);
 
-        this.ownerName = dis.readUTF();
         this.ownerID = dis.readUTF();
+        this.ownerName = dis.readUTF();
         this.randomInt = dis.readInt();
         this.validSince = dis.readLong();
 
@@ -67,8 +84,8 @@ public class CredentialMessage {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         DataOutputStream dos = new DataOutputStream(baos);
-        dos.writeUTF(this.ownerName.toString());
         dos.writeUTF(this.ownerID.toString());
+        dos.writeUTF(this.ownerName.toString());
         dos.writeInt(this.randomInt);
         dos.writeLong(this.validSince);
 
@@ -94,6 +111,31 @@ public class CredentialMessage {
 
             sb.append(digit);
         }
+
+        return sb.toString();
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("name: ");
+        sb.append(this.ownerName);
+        sb.append(" | ");
+
+        sb.append("id: ");
+        sb.append(this.ownerID);
+        sb.append(" | ");
+
+        sb.append("validsince: ");
+        sb.append(DateTimeHelper.long2DateString(this.validSince));
+        sb.append(" | ");
+
+        sb.append("randInt: ");
+        sb.append(this.randomInt);
+        sb.append(" | ");
+
+        sb.append("publicKey: ");
+        sb.append(this.publicKey);
 
         return sb.toString();
     }

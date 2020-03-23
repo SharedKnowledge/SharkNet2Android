@@ -19,7 +19,6 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsStorageImpl*/ {
-    public static final CharSequence APP_NAME = "SN2Credentials";
+    public static final CharSequence CREDENTIAL_APP_NAME = "SN2Credentials";
     public static final CharSequence CREDENTIAL_URI = "sn2://credential";
     private static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
 
@@ -60,7 +59,7 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
         }
     }
 
-    public static PersonsStorageAndroid getPersonsApp() {
+    public static synchronized PersonsStorageAndroid getPersonsApp() {
         if(PersonsStorageAndroid.instance == null) {
             try {
                 PersonsStorageAndroid.instance = new PersonsStorageAndroid(
@@ -119,17 +118,15 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
     //                        helper to exchange stati between activities                   //
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    public void sendCredentialMessage(SharkNetActivity snActivity, int randomInt, CharSequence userID)
-            throws IOException, ASAPException, SharkCryptoException {
+    public CredentialMessage createCredentialMessage() throws SharkCryptoException {
+            PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+            CredentialMessage credentialMessage =
+                    new CredentialMessage(
+                            SharkNetApp.getSharkNetApp().getOwnerStorage().getUUID(),
+                            SharkNetApp.getSharkNetApp().getOwnerStorage().getDisplayName(),
+                            this.getKeysCreationTime(), this.getPublicKey());
 
-        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
-        CredentialMessage credentialMessage =
-                new CredentialMessage(randomInt, personsApp.getOwnerID(),
-                        personsApp.getOwnerName(), this.getKeysCreationTime(),
-                        this.getPublicKey());
-
-        snActivity.sendASAPMessage(APP_NAME, CREDENTIAL_URI,
-                credentialMessage.getMessageAsBytes(), true);
+            return credentialMessage;
     }
 
     public void setLastPersonsSelection(Set<CharSequence> selectedItemIDs) {

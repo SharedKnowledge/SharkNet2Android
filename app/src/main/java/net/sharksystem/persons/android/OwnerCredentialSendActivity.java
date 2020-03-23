@@ -10,6 +10,7 @@ import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.asap.apps.ASAPMessages;
 import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -39,39 +40,28 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
         tv.setText(String.valueOf(-1));
 
         this.getSharkNetApp().addASAPMessageReceivedListener(ASAPCertificate.ASAP_CERTIFICATE_URI,
-                new OwnerCredentialSendActivity.CertificateMessageReceivedListener(this));
+                new OwnerCredentialSendActivity
+                        .CertificateMessageReceivedListener(this));
     }
 
     public void onSendClick(View v) {
         if(!sended) {
-            sended = true;
-            // 1st: produce random number with 6 digits
-            int randomInt = ((new Random(System.currentTimeMillis())).nextInt());
-
-            Log.d(this.getLogStart(), "randomInt: " + randomInt);
-
-            // make it positiv
-            if(randomInt < 0) randomInt = 0-randomInt;
-
-            // take 6 digits
-            int sixDigitsInt = 0;
-            for(int i = 0; i < 6; i++) {
-                sixDigitsInt += randomInt % 10;
-                sixDigitsInt *= 10;
-                randomInt /= 10;
-            }
-
-            sixDigitsInt /= 10;
-
-            // set control number
-            TextView tv = this.findViewById(R.id.credentialsControlNumber);
-            tv.setText(CredentialMessage.sixDigitsToString(sixDigitsInt));
-
             // send credential message
             try {
+                sended = true;
+
                 PersonsStorageAndroid personsAppAndroid = PersonsStorageAndroid.getPersonsApp();
-                personsAppAndroid.sendCredentialMessage(
-                        this, sixDigitsInt, personsAppAndroid.getOwnerID());
+                CredentialMessage credentialMessage = personsAppAndroid.createCredentialMessage();
+
+                // set control number
+                TextView tv = this.findViewById(R.id.credentialsControlNumber);
+                tv.setText(CredentialMessage.sixDigitsToString(credentialMessage.getRandomInt()));
+
+                Log.d(this.getLogStart(), "send credentials: " + credentialMessage);
+                this.sendASAPMessage(PersonsStorageAndroid.CREDENTIAL_APP_NAME,
+                        PersonsStorageAndroid.CREDENTIAL_URI,
+                        credentialMessage.getMessageAsBytes(),
+                        true);
 
             } catch (Exception e) {
                 Log.d(this.getLogStart(), "Exception when sending credential: "
@@ -99,7 +89,11 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
         }
 
         Log.d(this.getLogStart(), "certificates added");
-        Toast.makeText(this, "certificates added", Toast.LENGTH_SHORT).show();
+
+        // do we have issuers public key?
+        Toast.makeText(this,
+                "You received a signed certificate. Do you already have public key of the signer?"
+                , Toast.LENGTH_LONG).show();
     }
 
     public void onDoneClick(View v) {
