@@ -59,10 +59,11 @@ public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
                     this.credential.getValidSince());
 
             // return newly created certificate
-            Log.d(this.getLogStart(), "before send ASAP Message");
+            Log.d(this.getLogStart(), "right before sending certificate as ASAP Message");
             this.sendASAPMessage(ASAPCertificateStorage.APP_NAME,
                     ASAPCertificate.ASAP_CERTIFICATE_URI,
                     newCert.asBytes(), true);
+            Log.d(this.getLogStart(), ".. sent certificate message");
 
         } catch (ASAPException | SharkException | IOException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();

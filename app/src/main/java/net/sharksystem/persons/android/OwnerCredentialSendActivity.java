@@ -12,6 +12,7 @@ import net.sharksystem.asap.apps.ASAPMessages;
 import net.sharksystem.crypto.ASAPCertificate;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.persons.CredentialMessage;
+import net.sharksystem.persons.PersonsStorage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -58,8 +59,8 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
                 tv.setText(CredentialMessage.sixDigitsToString(credentialMessage.getRandomInt()));
 
                 Log.d(this.getLogStart(), "send credentials: " + credentialMessage);
-                this.sendASAPMessage(PersonsStorageAndroid.CREDENTIAL_APP_NAME,
-                        PersonsStorageAndroid.CREDENTIAL_URI,
+                this.sendASAPMessage(PersonsStorage.CREDENTIAL_APP_NAME,
+                        PersonsStorage.CREDENTIAL_URI,
                         credentialMessage.getMessageAsBytes(),
                         true);
 

@@ -28,8 +28,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsStorageImpl*/ {
-    public static final CharSequence CREDENTIAL_APP_NAME = "SN2Credentials";
-    public static final CharSequence CREDENTIAL_URI = "sn2://credential";
     private static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
 
     private static PersonsStorageAndroid instance = null;
@@ -66,8 +64,8 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
                         ASAPEngineFS.getASAPStorage(
                             SharkNetApp.getSharkNetApp().getASAPOwnerID().toString(), // owner
                             SharkNetApp.getSharkNetApp().getASAPRootFolder().
-                                    toString() +"/" + ASAPCertificateStorage.APP_NAME, // folder
-                            ASAPCertificateStorage.APP_NAME), // app name
+                                    toString() +"/" + ASAPCertificateStorage.CERTIFICATE_APP_NAME, // folder
+                            ASAPCertificateStorage.CERTIFICATE_APP_NAME), // app name
                         SharkNetApp.getSharkNetApp().getASAPKeyStorage()
                 );
 
@@ -119,7 +117,9 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
     //////////////////////////////////////////////////////////////////////////////////////////
 
     public CredentialMessage createCredentialMessage() throws SharkCryptoException {
-            PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+            return this.createCredentialMessage();
+
+                    /*
             CredentialMessage credentialMessage =
                     new CredentialMessage(
                             SharkNetApp.getSharkNetApp().getOwnerStorage().getUUID(),
@@ -127,6 +127,8 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
                             this.getKeysCreationTime(), this.getPublicKey());
 
             return credentialMessage;
+
+                     */
     }
 
     public void setLastPersonsSelection(Set<CharSequence> selectedItemIDs) {
