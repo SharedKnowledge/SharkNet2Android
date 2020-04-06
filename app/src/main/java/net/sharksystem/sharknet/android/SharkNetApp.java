@@ -39,7 +39,7 @@ public class SharkNetApp extends ASAPApplication {
             List<CharSequence> appFormats = new ArrayList<>();
             appFormats.add(PersonsStorageAndroid.CREDENTIAL_APP_NAME);
             appFormats.add(MakanApp.APP_NAME);
-            appFormats.add(ASAPCertificateStorage.APP_NAME);
+            appFormats.add(ASAPCertificateStorage.CERTIFICATE_APP_NAME);
 
             SharkNetApp.singleton = new SharkNetApp(appFormats);
         }
