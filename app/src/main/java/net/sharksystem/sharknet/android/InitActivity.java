@@ -1,13 +1,14 @@
 package net.sharksystem.sharknet.android;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.eID.IdentificationActivity;
 import net.sharksystem.persons.android.OwnerActivity;
 
 public class InitActivity extends AppCompatActivity {
@@ -33,5 +34,11 @@ public class InitActivity extends AppCompatActivity {
             Intent intent = new Intent(this, OwnerActivity.class);
             this.startActivity(intent);
         }
+    }
+
+    public void switchToEIdentification(View view) {
+        this.finish();
+        Intent intent = new Intent(this, IdentificationActivity.class);
+        this.startActivity(intent);
     }
 }
