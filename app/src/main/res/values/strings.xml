@@ -23,6 +23,11 @@
     <string name="networksettings">Network Settings</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!--    TODO eID: set Strings-->
+    <string name="switchToEIDButton">Get Name from eID</string>
+    <string name="eIDSetYourNameText">Identification by eID</string>
+    <string name="eIDSetYourNameMessage">Usage\n1) Activate NFC on your device\n2) Enter your PIN\n3) Hold your eID against the device\n4) Press \"READ eID\" button\n\nCaution! 3 failed attempts lead to your eID being locked</string>
+    <string name="doEIdentificationButton">READ eID</string>
 
     <!-- Settings explanation texts -->
     <string name="bluetoothToggleExplanationText">BT on / off</string>

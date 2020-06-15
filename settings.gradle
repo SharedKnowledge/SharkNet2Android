@@ -1,1 +1,1 @@
-include ':app', ':ASAPAndroidService'
+include ':app', ':ASAPAndroidService', ':ausweisapp2', ':ausweisapp2sdkextended'
