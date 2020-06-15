@@ -1,10 +1,10 @@
 package net.sharksystem.makan.android;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +12,6 @@ import android.view.MenuItem;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.asap.ASAPChunkReceivedListener;
 import net.sharksystem.asap.android.apps.ASAPUriContentChangedListener;
 import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetActivity;

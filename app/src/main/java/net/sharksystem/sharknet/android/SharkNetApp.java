@@ -3,8 +3,8 @@ package net.sharksystem.sharknet.android;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
+import com.google.android.material.navigation.NavigationView;
+import androidx.drawerlayout.widget.DrawerLayout;
 import android.util.Log;
 
 import net.sharksystem.R;

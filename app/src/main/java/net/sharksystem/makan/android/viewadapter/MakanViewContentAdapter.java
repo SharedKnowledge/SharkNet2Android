@@ -1,7 +1,7 @@
 package net.sharksystem.makan.android.viewadapter;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.ASAPStorage;
 import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.MakanMessage;
 import net.sharksystem.makan.android.MakanApp;

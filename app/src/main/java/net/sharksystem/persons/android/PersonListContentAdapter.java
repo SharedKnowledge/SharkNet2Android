@@ -2,7 +2,7 @@ package net.sharksystem.persons.android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +13,6 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.persons.PersonValues;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class PersonListContentAdapter extends
         RecyclerView.Adapter<PersonListContentAdapter.MyViewHolder>
