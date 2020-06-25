@@ -38,18 +38,6 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button_doEIdentification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="doEIdentification"
-        android:text="@string/doEIdentificationButton"
-        android:textAllCaps="false"
-        app:layout_constraintBaseline_toBaselineOf="@+id/password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toEndOf="@id/password"/>
-
     <ProgressBar
         android:id="@+id/progress_loader"
         style="?android:attr/progressBarStyle"
@@ -90,7 +78,7 @@
         android:text="@string/eIDSetYourNameMessage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_doEIdentification" />
+        app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
     <TextView
         android:id="@+id/textView2"

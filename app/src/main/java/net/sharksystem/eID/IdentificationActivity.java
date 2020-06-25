@@ -61,8 +61,8 @@ public class IdentificationActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        nfcIntent = intent;
-//        handleIntent(intent);
+//        nfcIntent = intent;
+        handleIntent(intent);
     }
 
     void handleIntent(Intent intent) {
