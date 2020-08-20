@@ -115,11 +115,10 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
     //////////////////////////////////////////////////////////////////////////////////////////
     //                        helper to exchange stati between activities                   //
     //////////////////////////////////////////////////////////////////////////////////////////
-
+/*
     public CredentialMessage createCredentialMessage() throws SharkCryptoException {
             return this.createCredentialMessage();
 
-                    /*
             CredentialMessage credentialMessage =
                     new CredentialMessage(
                             SharkNetApp.getSharkNetApp().getOwnerStorage().getUUID(),
@@ -127,9 +126,8 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
                             this.getKeysCreationTime(), this.getPublicKey());
 
             return credentialMessage;
-
-                     */
     }
+ */
 
     public void setLastPersonsSelection(Set<CharSequence> selectedItemIDs) {
         this.selectedItemIDs = selectedItemIDs;

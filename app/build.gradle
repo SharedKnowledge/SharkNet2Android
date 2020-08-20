@@ -8,7 +8,9 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -31,12 +33,20 @@ dependencies {
 
     //    implementation files('libs/AASP_Engine_0.2.0.jar')
 
-    // add AASP Engine for storing of data - included in makan-lib
-    // implementation files('libs/AASP_Engine_0.3.0.jar')
+    // to make espresso work
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+
+    // makan - app logic for chats
     implementation files('libs/MakanJava_0.2.0.jar')
+
+    // app logic certificate exchange / user management
     implementation files('libs/ASAPCertificate_0.1.0.jar')
 
+    // ASAP implementation comes with this android lib
+    // it hides the ASAP Peers, engines etc. in a service. See ASAPApplication and ASAPActivity
     //https://developer.android.com/studio/projects/android-library
-    // import AASP Android Service to actually exchange AASP messages
     implementation project(":ASAPAndroidService")
 }

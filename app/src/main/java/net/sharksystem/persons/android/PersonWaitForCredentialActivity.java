@@ -7,7 +7,7 @@ import android.view.View;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
-import net.sharksystem.asap.apps.ASAPMessages;
+import net.sharksystem.asap.ASAPMessages;
 import net.sharksystem.crypto.ASAPCertificate;
 import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
