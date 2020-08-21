@@ -19,7 +19,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static java.util.regex.Pattern.matches;
 import static org.junit.Assert.*;
@@ -39,8 +40,8 @@ public class ExampleInstrumentedTest {
             new ActivityTestRule<>(MakanListActivity.class);
 
     @Test
-    public void listGoesOverTheFold() {
-        //onView(withText("Hello world!")).check(matches(isDisplayed()));
+    public void removeAllMakan() {
+        onView(withId(R.id.moduleMakan)).perform(click());
+        onView(withId(R.id.makanMenuRemoveAllButton)).perform(click());
     }
-
 }

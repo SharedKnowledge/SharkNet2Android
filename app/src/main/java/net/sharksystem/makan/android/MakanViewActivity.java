@@ -21,7 +21,7 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 /**
  * View a single makan
  */
-public class MakanViewActivity extends SharkNetActivity implements ASAPUriContentChangedListener {
+public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
@@ -136,54 +136,10 @@ public class MakanViewActivity extends SharkNetActivity implements ASAPUriConten
         startActivity(intent);
     }
 
-    private boolean listenerSet = false;
-    protected void onStart() {
-        super.onStart();
-
-        // listen to chunk receiver
-        if(!this.listenerSet) {
-            this.getSharkNetApp().addASAPUriContentChangedListener(MakanApp.APP_NAME, this);
-            this.listenerSet = true;
-        }
-    }
-
     protected void onResume() {
         super.onResume();
-        Log.d(this.getLogStart(), "onResume");
-
         this.resetAdapter(); // that pretty resource intensive but works
         //mAdapter.notifyDataSetChanged(); // simple refresh
-
-        // listen to chunk receiver
-        if(!this.listenerSet) {
-            this.getSharkNetApp().addASAPUriContentChangedListener(MakanApp.APP_NAME, this);
-            this.listenerSet = true;
-        }
-    }
-
-    protected void onPause() {
-        super.onPause();
-
-        // stop listening to chunk receiver
-        this.getSharkNetApp().removeASAPUriContentChangedListener(MakanApp.APP_NAME, this);
-        this.listenerSet = false;
-    }
-
-    protected void onStop() {
-        // Unbind from the service
-        super.onStop();
-
-        // stop listening to chunk receiver
-        this.getSharkNetApp().removeASAPUriContentChangedListener(MakanApp.APP_NAME, this);
-        this.listenerSet = false;
-    }
-
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // stop listening to chunk receiver
-        this.getSharkNetApp().removeASAPUriContentChangedListener(MakanApp.APP_NAME, this);
-        this.listenerSet = false;
     }
 
     private void resetAdapter() {

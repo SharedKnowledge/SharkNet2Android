@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
+import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -23,7 +25,7 @@ import java.io.IOException;
 /**
  * work with makan list
  */
-public class MakanListActivity extends SharkNetActivity {
+public class MakanListActivity extends MakanUriContentChangedListenerActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
 
@@ -170,5 +172,12 @@ public class MakanListActivity extends SharkNetActivity {
         MakanApp.getMakanApp().getMakanStorage().removeAllMakan();
 
         Toast.makeText(this, "done - removed all makan", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void asapUriContentChanged(CharSequence changedUri) {
+        // content in a changed - could set something to make it visible - but at least redraw
+        Log.d(this.getLogStart(), "content in a uri changed redraw view (could highlight changed makan in some later versions)");
+        mAdapter.notifyDataSetChanged();
     }
 }
