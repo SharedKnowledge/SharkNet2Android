@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import net.sharksystem.asap.android.apps.ASAPActivity;
-import net.sharksystem.persons.android.OwnerActivity;
 
 public abstract class SharkNetActivity extends ASAPActivity {
     private SharkNetApp sharkNetApp;

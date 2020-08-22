@@ -4,7 +4,6 @@ import android.util.Log;
 
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPEngineFS;
-import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPStorage;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.ASAPCertificate;
@@ -14,7 +13,6 @@ import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.persons.PersonsStorageImpl;
-import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.File;

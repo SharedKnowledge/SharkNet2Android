@@ -4,11 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.util.Log;
 
-import net.sharksystem.android.util.PermissionCheck;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.MakanStorage;
 import net.sharksystem.makan.MakanStorage_Impl;
 import net.sharksystem.sharknet.android.SharkNetApp;
+import net.sharksystem.android.util.PermissionCheck;
 
 import java.io.IOException;
 

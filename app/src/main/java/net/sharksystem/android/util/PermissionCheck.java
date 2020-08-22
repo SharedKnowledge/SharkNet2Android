@@ -6,7 +6,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 public class PermissionCheck {
-
     public static void askForPermissions(Activity activity, String[] permissions) {
         if(permissions == null || permissions.length < 1) return;
 

@@ -1,1 +1,2 @@
+include ':ASAPAndroidService'
 include ':app', ':ASAPAndroidService'

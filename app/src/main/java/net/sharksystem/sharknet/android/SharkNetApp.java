@@ -9,9 +9,9 @@ import android.util.Log;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.asap.ASAP;
 import net.sharksystem.asap.android.apps.ASAPApplication;
+import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
@@ -172,7 +172,7 @@ public class SharkNetApp extends ASAPApplication {
     //                                     key storage                                         //
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    private AndroidASAPKeyStorage androidASAPKeyStorage = null;
+    AndroidASAPKeyStorage androidASAPKeyStorage = null;
 
     public ASAPKeyStorage getASAPKeyStorage() {
         if(androidASAPKeyStorage == null) {
