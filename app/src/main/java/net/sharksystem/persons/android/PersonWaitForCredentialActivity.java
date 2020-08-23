@@ -27,11 +27,11 @@ public class PersonWaitForCredentialActivity extends SharkNetActivity {
         setContentView(R.layout.person_wait_for_credential_layout);
 
         this.getSharkNetApp().addASAPMessageReceivedListener(
-                PersonsStorageAndroid.CREDENTIAL_URI,
+                PersonsStorageAndroid.CREDENTIAL_APP_NAME,
                 new CredentialMessageReceivedListener());
 
         Log.d(getLogStart(), "asap Listener registered for "
-                + PersonsStorageAndroid.CREDENTIAL_URI);
+                + PersonsStorageAndroid.CREDENTIAL_APP_NAME);
     }
 
     public void onAbortClick(View v) {
