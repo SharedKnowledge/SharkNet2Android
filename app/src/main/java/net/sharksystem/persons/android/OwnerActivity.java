@@ -59,7 +59,7 @@ public class OwnerActivity extends SharkNetActivity {
 
     private void notifyKeyPairCreated() throws SharkCryptoException {
         // sync
-        PersonsStorageAndroid.getPersonsApp().syncNewReceivedCertificates();
+        PersonsStorageAndroid.getPersonsStorage().syncNewReceivedCertificates();
 
         // re-launch
         this.finish();

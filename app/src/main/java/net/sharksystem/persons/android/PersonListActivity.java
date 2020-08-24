@@ -30,7 +30,7 @@ public abstract class PersonListActivity extends SelectableListSharkNetActivity 
             this.getSharkNetApp().setupDrawerLayout(this);
 
             Log.d(this.getLogStart(), "3");
-            PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+            PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsStorage();
             Log.d(this.getLogStart(), "4");
             Set<CharSequence> preselectionSet = personsApp.getPreselectionSet();
             //Log.d(this.getLogStart(), "got preselectedset: " + preselectionSet);

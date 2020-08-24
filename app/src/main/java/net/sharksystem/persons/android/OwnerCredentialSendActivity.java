@@ -15,8 +15,6 @@ import net.sharksystem.persons.PersonsStorage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.util.Random;
-
 public class OwnerCredentialSendActivity extends SharkNetActivity {
     private boolean sended = false;
 
@@ -50,7 +48,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
             try {
                 sended = true;
 
-                PersonsStorageAndroid personsAppAndroid = PersonsStorageAndroid.getPersonsApp();
+                PersonsStorageAndroid personsAppAndroid = PersonsStorageAndroid.getPersonsStorage();
                 CredentialMessage credentialMessage = personsAppAndroid.createCredentialMessage();
 
                 // set control number
@@ -81,7 +79,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
     private void doHandleCertificateMessage(ASAPMessages asapMessages) {
         // something was received - integrate
         Log.d(this.getLogStart(), "reached doHandleCertificateMessage");
-        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsStorage();
         Log.d(this.getLogStart(), "calling syncNewReceivedCertificates");
         if(personsApp.syncNewReceivedCertificates()) {
             Log.d(this.getLogStart(), "calling save");

@@ -15,6 +15,10 @@ import net.sharksystem.asap.ASAPStorage;
 import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.MakanMessage;
 import net.sharksystem.makan.android.MakanApp;
+import net.sharksystem.persons.PersonValuesImpl;
+import net.sharksystem.persons.android.PersonsStorageAndroid;
+import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -80,8 +84,8 @@ public class MakanViewContentAdapter extends
                     DateFormat.getInstance().format(message.getSentDate()));
 
             holder.messageTextView.setText(message.getContentAsString());
-
-            holder.senderTextView.setText("ID: " + (message.getSenderID()));
+            holder.senderTextView.setText(PersonsStorageAndroid.
+                    getPersonsStorage().getPersonName(message.getSenderID()));
 
         } catch (Throwable e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");

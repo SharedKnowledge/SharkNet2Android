@@ -8,7 +8,6 @@ import android.view.View;
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.asap.ASAPMessages;
-import net.sharksystem.crypto.ASAPCertificate;
 import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -48,7 +47,7 @@ public class PersonWaitForCredentialActivity extends SharkNetActivity {
                 Log.d(getLogStart(), "create credential message object..");
                 CredentialMessage credentialMessage = new CredentialMessage(messages.next());
                 Log.d(getLogStart(), "..created: " + credentialMessage);
-                PersonsStorageAndroid.getPersonsApp().setReceivedCredential(credentialMessage);
+                PersonsStorageAndroid.getPersonsStorage().setReceivedCredential(credentialMessage);
                 Log.d(getLogStart(), "credential message saved with persons storage");
 
                 this.finish();

@@ -12,26 +12,11 @@ import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.crypto.ASAPCertificate;
 import net.sharksystem.crypto.ASAPCertificateStorage;
-import net.sharksystem.crypto.ASAPKeyStorage;
-import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.security.UnrecoverableEntryException;
-import java.security.cert.CertificateException;
-
-import static net.sharksystem.persons.android.AndroidASAPKeyStorage.KEYSTORE_NAME;
-import static net.sharksystem.persons.android.AndroidASAPKeyStorage.KEYSTORE_OWNER_ALIAS;
-import static net.sharksystem.persons.android.PersonsStorageAndroid.SN_ANDROID_DEFAULT_SIGNING_ALGORITHM;
 
 public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
     private CredentialMessage credential;
@@ -47,7 +32,7 @@ public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
         setContentView(R.layout.person_add_received_credential_layout);
 
         Log.d(this.getLogStart(), "onCreate");
-        this.credential = PersonsStorageAndroid.getPersonsApp().getReceivedCredential();
+        this.credential = PersonsStorageAndroid.getPersonsStorage().getReceivedCredential();
         Log.d(this.getLogStart(), "got credential: " + this.credential);
 
         TextView tv = this.findViewById(R.id.credentialDisplayName);
@@ -82,7 +67,7 @@ public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
 */
             // sign and create certificate
             Log.d(this.getLogStart(), "before call addAndSignPerson()");
-            ASAPCertificate newCert = PersonsStorageAndroid.getPersonsApp().addAndSignPerson(
+            ASAPCertificate newCert = PersonsStorageAndroid.getPersonsStorage().addAndSignPerson(
                     this.credential.getOwnerID(),
                     this.credential.getOwnerName(),
                     this.credential.getPublicKey(),

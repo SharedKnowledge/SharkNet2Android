@@ -55,7 +55,7 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
         }
     }
 
-    public static synchronized PersonsStorageAndroid getPersonsApp() {
+    public static synchronized PersonsStorageAndroid getPersonsStorage() {
         if(PersonsStorageAndroid.instance == null) {
             try {
                 PersonsStorageAndroid.instance = new PersonsStorageAndroid(
@@ -156,5 +156,18 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
 
     private String getLogStart() {
         return Util.getLogStart(this).toString();
+    }
+
+    public CharSequence getPersonName(CharSequence userID) {
+        if(userID.equals(this.getOwnerID())) {
+            return "you";
+        }
+
+        try {
+            return this.getPersonValues(userID).getName();
+        } catch (SharkException e) {
+            // not found - return id instead
+            return userID;
+        }
     }
 }

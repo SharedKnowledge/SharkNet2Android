@@ -32,7 +32,7 @@ public class CertificateViewActivity extends AppCompatActivity {
             this.issuerID = personIntent.getIssuerID();
 
             Collection<ASAPCertificate> certificateByOwner =
-                    PersonsStorageAndroid.getPersonsApp().getCertificateBySubject(this.subjectID);
+                    PersonsStorageAndroid.getPersonsStorage().getCertificateBySubject(this.subjectID);
             ASAPCertificate cert = null;
             for(ASAPCertificate c : certificateByOwner) {
                 if(c.getIssuerID().toString().equalsIgnoreCase(this.issuerID.toString())) {

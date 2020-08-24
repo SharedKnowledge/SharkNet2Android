@@ -38,7 +38,7 @@ public class AddClosedMakanActivity extends SharkNetActivity {
     public void onShowPersonListClick(View view) {
         Log.d(this.getLogStart(), "onShowPersonListClick");
 
-        PersonsStorageAndroid.getPersonsApp().setPreselectionSet(this.selectedRecipients);
+        PersonsStorageAndroid.getPersonsStorage().setPreselectionSet(this.selectedRecipients);
         //Log.d(this.getLogStart(), "setPreselected: " + this.selectedRecipients);
         Intent intent = new Intent(this, PersonListSelectionActivity.class);
         this.startActivity(intent);
@@ -52,7 +52,7 @@ public class AddClosedMakanActivity extends SharkNetActivity {
             String name = nameText.getText().toString();
             String uri = "sn2://closedUriHasToBeCreated";
             Set<CharSequence> recipients =
-                    PersonsStorageAndroid.getPersonsApp().getLastPersonsSelection();
+                    PersonsStorageAndroid.getPersonsStorage().getLastPersonsSelection();
 
             try {
                 Log.d(this.getLogStart(), "call create with "
@@ -80,7 +80,7 @@ public class AddClosedMakanActivity extends SharkNetActivity {
     protected void onResume() {
         super.onResume();
 
-        this.selectedRecipients = PersonsStorageAndroid.getPersonsApp().getLastPersonsSelection();
+        this.selectedRecipients = PersonsStorageAndroid.getPersonsStorage().getLastPersonsSelection();
         TextView tv = this.findViewById(R.id.makanCreateSelectedMember);
         tv.setText(selectedRecipients.toString());
     }

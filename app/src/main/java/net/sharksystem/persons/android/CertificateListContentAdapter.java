@@ -83,7 +83,7 @@ class CertificateListContentAdapter extends
 
             CharSequence ownerName;
             if(asapCertificate.getSubjectID().toString().
-                    equalsIgnoreCase(PersonsStorageAndroid.getPersonsApp().getOwnerID().toString())) {
+                    equalsIgnoreCase(PersonsStorageAndroid.getPersonsStorage().getOwnerID().toString())) {
                 ownerName = "you";
             } else {
                 ownerName = asapCertificate.getSubjectName();
@@ -94,7 +94,7 @@ class CertificateListContentAdapter extends
 
             CharSequence signerName;
             if(asapCertificate.getIssuerID().toString().
-                    equalsIgnoreCase(PersonsStorageAndroid.getPersonsApp().getOwnerID().toString())) {
+                    equalsIgnoreCase(PersonsStorageAndroid.getPersonsStorage().getOwnerID().toString())) {
                 signerName = "You";
             } else {
                 signerName = asapCertificate.getIssuerName();
@@ -102,11 +102,11 @@ class CertificateListContentAdapter extends
 
             holder.signerName.setText(signerName);
 
-            int cef = PersonsStorageAndroid.getPersonsApp().
+            int cef = PersonsStorageAndroid.getPersonsStorage().
                     getSigningFailureRate(asapCertificate.getIssuerID());
             holder.caSigner.setText(String.valueOf(cef));
 
-            int ia = PersonsStorageAndroid.getPersonsApp().
+            int ia = PersonsStorageAndroid.getPersonsStorage().
                     getIdentityAssurance(asapCertificate.getSubjectID());
             holder.identityAssurance.setText(String.valueOf(ia));
 

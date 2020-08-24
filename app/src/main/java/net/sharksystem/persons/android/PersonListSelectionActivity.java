@@ -1,13 +1,9 @@
 package net.sharksystem.persons.android;
 
-import android.app.Activity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import net.sharksystem.R;
 
@@ -61,7 +57,7 @@ public class PersonListSelectionActivity extends PersonListActivity {
 
     private void doDone() {
         Log.d(this.getLogStart(), "doDone");
-        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsApp();
+        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsStorage();
         personsApp.setLastPersonsSelection(this.getSelectedItemIDs());
         this.finish();
     }

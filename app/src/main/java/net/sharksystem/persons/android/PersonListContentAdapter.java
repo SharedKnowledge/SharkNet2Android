@@ -14,9 +14,6 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.persons.PersonValues;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class PersonListContentAdapter extends
         RecyclerView.Adapter<PersonListContentAdapter.MyViewHolder>
         implements View.OnClickListener, View.OnLongClickListener {
@@ -67,7 +64,7 @@ public class PersonListContentAdapter extends
 
         try {
             PersonValues personValues =
-                    PersonsStorageAndroid.getPersonsApp().getPersonValuesByPosition(position);
+                    PersonsStorageAndroid.getPersonsStorage().getPersonValuesByPosition(position);
 
             CharSequence userID = personValues.getUserID();
             this.scs.setSelectedText(Integer.toString(position), userID,
@@ -91,7 +88,7 @@ public class PersonListContentAdapter extends
     @Override
     public int getItemCount() {
         Log.d(this.getLogStart(), "called getItemCount");
-        return PersonsStorageAndroid.getPersonsApp().getNumberOfPersons();
+        return PersonsStorageAndroid.getPersonsStorage().getNumberOfPersons();
     }
 
     @Override
