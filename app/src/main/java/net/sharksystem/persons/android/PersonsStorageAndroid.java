@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsStorageImpl*/ {
-    private static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
+    public static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
 
     private static PersonsStorageAndroid instance = null;
     private Set<CharSequence> selectedItemIDs = null;

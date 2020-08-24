@@ -31,8 +31,8 @@ import static net.sharksystem.sharknet.android.SharkNetApp.PREFERENCES_FILE;
 
 public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPKeyStorage {
     private static final String KEYPAIR_CREATION_TIME = "SharkNet2Identity_KeyPairCreationTime";
-    private static final String KEYSTORE_NAME = "AndroidKeyStore";
-    private static final String KEYSTORE_OWNER_ALIAS = "SN2_Owner_Keys";
+    public static final String KEYSTORE_NAME = "AndroidKeyStore";
+    public static final String KEYSTORE_OWNER_ALIAS = "SN2_Owner_Keys";
     private static final int KEY_SIZE = 2048;
     private final static int ANY_PURPOSE = KeyProperties.PURPOSE_ENCRYPT |
             KeyProperties.PURPOSE_DECRYPT | KeyProperties.PURPOSE_SIGN |
@@ -50,18 +50,31 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
             // start (now) + one year
             end.add(Calendar.YEAR, ASAPCertificateImpl.DEFAULT_CERTIFICATE_VALIDITY_IN_YEARS);
 
+            /* if you change this - make intensive test on credential exchange / cert creation
+            it took me some hours to figure that stuff out.
+             */
+            start.add(Calendar.DATE, -1); // to avoid key not yet valid problem
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("create key pair with start: ");
+            sb.append(DateTimeHelper.long2DateString(start.getTimeInMillis()));
+            sb.append(" | end: ");
+            sb.append(DateTimeHelper.long2DateString(end.getTimeInMillis()));
+
+            Log.d(this.getLogStart(), sb.toString());
+
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(
                     KeyProperties.KEY_ALGORITHM_RSA, KEYSTORE_NAME);
 
             keyPairGenerator.initialize(
-                    new KeyGenParameterSpec.Builder(KEYSTORE_OWNER_ALIAS, ANY_PURPOSE)
+                    new KeyGenParameterSpec.Builder(
+                            KEYSTORE_OWNER_ALIAS, ANY_PURPOSE)
                             .setRandomizedEncryptionRequired(false)
                             .setDigests(
                                     KeyProperties.DIGEST_NONE, KeyProperties.DIGEST_MD5,
                                     KeyProperties.DIGEST_SHA1, KeyProperties.DIGEST_SHA224,
                                     KeyProperties.DIGEST_SHA256, KeyProperties.DIGEST_SHA384,
                                     KeyProperties.DIGEST_SHA512)
-
                             .setSignaturePaddings(KeyProperties.SIGNATURE_PADDING_RSA_PSS)
                             .setEncryptionPaddings(
                                     KeyProperties.ENCRYPTION_PADDING_NONE,
