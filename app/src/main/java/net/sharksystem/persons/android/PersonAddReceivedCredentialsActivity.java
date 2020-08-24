@@ -67,6 +67,10 @@ public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
 
         } catch (ASAPException | SharkException | IOException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        } catch (RuntimeException e) {
+            Log.d(this.getLogStart(), "fatal. Could not add and sign person: "
+                    + e.getLocalizedMessage());
+            String text = e.getLocalizedMessage(); // debug break.
         }
 
         Log.d(this.getLogStart(), "finished sending freshly signed certificate back");

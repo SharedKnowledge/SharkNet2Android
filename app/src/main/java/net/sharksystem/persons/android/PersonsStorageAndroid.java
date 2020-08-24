@@ -36,8 +36,8 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
             throws SharkException, IOException {
         super(
             new ASAPCertificateStorageImpl(asapStorage,
-                    SharkNetApp.getSharkNetApp().getOwnerID(),
-                    SharkNetApp.getSharkNetApp().getASAPOwnerID()
+                    SharkNetApp.getSharkNetApp().getOwnerID(), // id
+                    SharkNetApp.getSharkNetApp().getOwnerStorage().getDisplayName() // name
                 ), 
             keyStorage,
             SN_ANDROID_DEFAULT_SIGNING_ALGORITHM

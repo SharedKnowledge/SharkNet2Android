@@ -65,6 +65,11 @@ public class PersonWaitForCredentialActivity extends SharkNetActivity {
         @Override
         public void asapMessagesReceived(ASAPMessages asapMessages) {
             Log.d(getLogStart(), "asapMessageReceived");
+            PersonWaitForCredentialActivity.this.
+                    getSharkNetApp().removeASAPMessageReceivedListener(
+                            PersonsStorageAndroid.CREDENTIAL_APP_NAME, this);
+
+            Log.d(getLogStart(), "removed listener, handle credential");
             PersonWaitForCredentialActivity.this.doHandleCredentialMessage(asapMessages);
         }
     }
