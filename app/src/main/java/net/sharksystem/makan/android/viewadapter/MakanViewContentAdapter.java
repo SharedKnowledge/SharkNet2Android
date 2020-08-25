@@ -97,11 +97,11 @@ public class MakanViewContentAdapter extends
 
     @Override
     public int getItemCount() {
-        Log.d(LOGSTART, "getItemCount");
+//        Log.d(LOGSTART, "getItemCount");
 
         try {
             int size = this.getMakan().size();
-            Log.d(LOGSTART, "got makan size of " + size);
+//            Log.d(LOGSTART, "got makan size of " + size);
             return this.getMakan().size(); // +1 ?? see comments in onBindViewHolder
 
         } catch (ASAPException | IOException e) {
