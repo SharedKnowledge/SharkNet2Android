@@ -9,7 +9,7 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.asap.ASAPMessages;
-import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.persons.PersonsStorage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
@@ -37,7 +37,8 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
         tv = this.findViewById(R.id.credentialsControlNumber);
         tv.setText(String.valueOf(-1));
 
-        this.getSharkNetApp().addASAPMessageReceivedListener(ASAPCertificate.ASAP_CERTIFICATE_URI,
+        this.getSharkNetApp().addASAPMessageReceivedListener(
+                ASAPCertificateStorage.CERTIFICATE_APP_NAME,
                 new OwnerCredentialSendActivity
                         .CertificateMessageReceivedListener(this));
     }
