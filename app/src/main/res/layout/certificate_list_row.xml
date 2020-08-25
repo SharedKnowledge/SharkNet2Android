@@ -13,43 +13,43 @@
 
         <!-- line 1 -->
     <TextView
-        android:id="@+id/certificate_list_row_signer"
+        android:id="@+id/certificate_list_row_issuer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/personName"
         android:textSize="@dimen/recyclerRowEntryTextSize"
         android:textStyle="bold">
-        <tag android:id="@+id/certificate_list_signer_tag" />
+        <tag android:id="@+id/certificate_list_issuer_tag" />
     </TextView>
 
     <TextView
         android:id="@+id/certificate_list_row_word_signed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/certificate_list_row_signer"
-        android:layout_alignBottom="@id/certificate_list_row_signer"
+        android:layout_toRightOf="@id/certificate_list_row_issuer"
+        android:layout_alignBottom="@id/certificate_list_row_issuer"
         android:textColor="@color/personName"
         android:textSize="@dimen/recyclerRowEntryTextSize"
         android:paddingLeft="@dimen/rowPaddingHorizontal"
         android:text="signed"/>
 
         <TextView
-            android:id="@+id/certificate_list_row_owner"
+            android:id="@+id/certificate_list_row_subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/certificate_list_row_word_signed"
             android:layout_alignBottom="@id/certificate_list_row_word_signed"
             android:paddingLeft="@dimen/rowPaddingHorizontal"
             android:textSize="@dimen/recyclerRowEntryTextSize">
-                <tag android:id="@+id/certificate_list_owner_tag" />
+                <tag android:id="@+id/certificate_list_subject_tag" />
         </TextView>
 
         <TextView
             android:id="@+id/certificate_list_row_valid_since"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/certificate_list_row_owner"
-            android:layout_alignBottom="@id/certificate_list_row_owner"
+            android:layout_toRightOf="@id/certificate_list_row_subject"
+            android:layout_alignBottom="@id/certificate_list_row_subject"
             android:textSize="@dimen/recyclerRowEntryTextSize"
             android:paddingLeft="@dimen/rowPaddingHorizontal"
             android:textColor="@color/personIdentityAssuranceLevel"
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/recyclerRowEntryTextSize"
-            android:layout_below="@id/certificate_list_row_signer"
+            android:layout_below="@id/certificate_list_row_issuer"
             android:text="certificate is valid until: "/>
 
         <TextView
@@ -87,7 +87,7 @@
             android:textColor="@color/personIdentityAssuranceLevel"/>
 
         <TextView
-            android:id="@+id/certificate_list_row_cf_signer"
+            android:id="@+id/certificate_list_row_cf_issuer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/recyclerRowEntryTextSize"
@@ -98,31 +98,30 @@
 
         <!-- line 4 -->
         <TextView
-            android:id="@+id/certificate_list_row_owner_copy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/recyclerRowEntryTextSize"
-            android:layout_below="@id/signing_failure_words"
-            />
-
-        <TextView
             android:id="@+id/identity_assurance_words"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/recyclerRowEntryTextSize"
-            android:paddingLeft="@dimen/rowPaddingHorizontal"
-            android:layout_toRightOf="@id/certificate_list_row_owner_copy"
-            android:layout_alignBottom="@id/certificate_list_row_owner_copy"
-            android:text="@string/identityAssuranceCalculatedWords"/>
+            android:layout_below="@id/signing_failure_words"
+            android:text= "@string/identityAssuranceCalculatedWords"/>
 
         <TextView
-            android:id="@+id/cert_exchange_failure"
+            android:id="@+id/certificate_list_row_subject_copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/recyclerRowEntryTextSize"
-            android:paddingLeft="@dimen/rowPaddingHorizontal"
             android:layout_toRightOf="@id/identity_assurance_words"
             android:layout_alignBottom="@id/identity_assurance_words"
-            android:textColor="@color/personIdentityAssuranceLevel"/>
+            android:textSize="@dimen/recyclerRowEntryTextSize"
+            />
+
+        <TextView
+                android:id="@+id/cert_exchange_failure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/recyclerRowEntryTextSize"
+                android:paddingLeft="@dimen/rowPaddingHorizontal"
+                android:layout_toRightOf="@id/certificate_list_row_subject_copy"
+                android:layout_alignBottom="@id/certificate_list_row_subject_copy"
+                android:textColor="@color/personIdentityAssuranceLevel"/>
 
 </RelativeLayout>

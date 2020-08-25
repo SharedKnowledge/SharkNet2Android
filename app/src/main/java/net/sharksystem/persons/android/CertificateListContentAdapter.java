@@ -28,17 +28,17 @@ class CertificateListContentAdapter extends
 //    private Set<CharSequence> selectedUserIDs = new HashSet<>();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView ownerName, ownerNameCopy, signerName,
+        public TextView subjectName, subjectNameCopy, issuerName,
                 identityAssurance, validUntil, validSince,
-                caSigner;
+                caIssuer;
 
         public MyViewHolder(View view) {
             super(view);
             validSince = view.findViewById(R.id.certificate_list_row_valid_since);
-            ownerName = view.findViewById(R.id.certificate_list_row_owner);
-            ownerNameCopy = view.findViewById(R.id.certificate_list_row_owner_copy);
-            signerName = view.findViewById(R.id.certificate_list_row_signer);
-            caSigner = view.findViewById(R.id.certificate_list_row_cf_signer);
+            subjectName = view.findViewById(R.id.certificate_list_row_subject);
+            subjectNameCopy = view.findViewById(R.id.certificate_list_row_subject_copy);
+            issuerName = view.findViewById(R.id.certificate_list_row_issuer);
+            caIssuer = view.findViewById(R.id.certificate_list_row_cf_issuer);
             identityAssurance = view.findViewById(R.id.cert_exchange_failure);
             validUntil = view.findViewById(R.id.certificate_list_row_valid_until);
             view.setOnClickListener(clickListener);
@@ -69,53 +69,51 @@ class CertificateListContentAdapter extends
     public void onBindViewHolder(CertificateListContentAdapter.MyViewHolder holder, int position) {
         Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
+        ASAPCertificate asapCertificate = this.certList.get(position);
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd., yyyy");
+        holder.validSince.setText(simpleDateFormat.format(
+                new Date(asapCertificate.getValidSince().getTimeInMillis())));
 
-        try {
-            ASAPCertificate asapCertificate = this.certList.get(position);
+        holder.validUntil.setText(simpleDateFormat.format(
+                new Date(asapCertificate.getValidUntil().getTimeInMillis())));
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd., yyyy");
-            holder.validSince.setText(simpleDateFormat.format(
-                    new Date(asapCertificate.getValidSince().getTimeInMillis())));
+        CharSequence ownerName = PersonsStorageAndroid.getPersonsStorage().
+                getPersonName(asapCertificate.getSubjectID());
 
-            holder.validUntil.setText(simpleDateFormat.format(
-                    new Date(asapCertificate.getValidUntil().getTimeInMillis())));
+        holder.subjectName.setText(ownerName);
 
-            CharSequence ownerName;
-            if(asapCertificate.getSubjectID().toString().
-                    equalsIgnoreCase(PersonsStorageAndroid.getPersonsStorage().getOwnerID().toString())) {
-                ownerName = "you";
-            } else {
-                ownerName = asapCertificate.getSubjectName();
-            }
+        holder.subjectNameCopy.setText(" " + ownerName + ": ");
 
-            holder.ownerName.setText(ownerName);
-            holder.ownerNameCopy.setText(ownerName);
-
-            CharSequence signerName;
-            if(asapCertificate.getIssuerID().toString().
-                    equalsIgnoreCase(PersonsStorageAndroid.getPersonsStorage().getOwnerID().toString())) {
-                signerName = "You";
-            } else {
-                signerName = asapCertificate.getIssuerName();
-            }
-
-            holder.signerName.setText(signerName);
-
-            int cef = PersonsStorageAndroid.getPersonsStorage().
-                    getSigningFailureRate(asapCertificate.getIssuerID());
-            holder.caSigner.setText(String.valueOf(cef));
-
-            int ia = PersonsStorageAndroid.getPersonsStorage().
-                    getIdentityAssurance(asapCertificate.getSubjectID());
-            holder.identityAssurance.setText(String.valueOf(ia));
-
-            holder.itemView.setTag(R.id.certificate_list_owner_tag, asapCertificate.getSubjectID());
-            holder.itemView.setTag(R.id.certificate_list_signer_tag, asapCertificate.getIssuerID());
-        } catch (SharkException e) {
-            Log.e(this.getLogStart(), "failure: " + e.getLocalizedMessage());
-            e.printStackTrace();
+        CharSequence signerName;
+        if(asapCertificate.getIssuerID().toString().
+                equalsIgnoreCase(PersonsStorageAndroid.getPersonsStorage().getOwnerID().toString())) {
+            signerName = "You";
+        } else {
+            signerName = asapCertificate.getIssuerName();
         }
+
+        holder.issuerName.setText(signerName);
+
+        int cef = PersonsStorageAndroid.getPersonsStorage().
+                getSigningFailureRate(asapCertificate.getIssuerID());
+
+        holder.caIssuer.setText(String.valueOf(cef));
+
+        int identityAssurance = 0;
+        try {
+            identityAssurance = PersonsStorageAndroid.getPersonsStorage().
+                    getIdentityAssurance(asapCertificate.getSubjectID());
+        } catch (SharkException e) {
+            Log.d(this.getLogStart(),
+                    "issuer in certificate but not found in person storage " +
+                            "- can happen if persons are manually removed from list");
+        }
+
+        holder.identityAssurance.setText(String.valueOf(identityAssurance));
+
+        holder.itemView.setTag(R.id.certificate_list_subject_tag, asapCertificate.getSubjectID());
+        holder.itemView.setTag(R.id.certificate_list_issuer_tag, asapCertificate.getIssuerID());
     }
 
     @Override
@@ -139,8 +137,8 @@ class CertificateListContentAdapter extends
 
     @Override
     public void onClick(View view) {
-        CharSequence owner = (CharSequence)view.getTag(R.id.certificate_list_owner_tag);
-        CharSequence signer = (CharSequence)view.getTag(R.id.certificate_list_signer_tag);
+        CharSequence owner = (CharSequence)view.getTag(R.id.certificate_list_subject_tag);
+        CharSequence signer = (CharSequence)view.getTag(R.id.certificate_list_issuer_tag);
         PersonIntent personIntent =
                 new PersonIntent(this.ctx, owner, signer, CertificateViewActivity.class);
 

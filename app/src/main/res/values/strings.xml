@@ -61,7 +61,7 @@
     <string name="showOwnCertificatesButtonText">OwnedCerts</string>
     <string name="showExplainIdentityAssuranceButtonText">Explain IA</string>
     <string name="delete">delete</string>
-    <string name="identityAssuranceCalculatedWords">identity assurance:</string>
+    <string name="identityAssuranceCalculatedWords">identity assurance of </string>
     <string name="signingFailureWords">signing failure set to: </string>
     <string name="showOwnerAsSubjectCertificatesButtonText">Your Certs</string>
     <string name="initSetYourNameText">Give yourself a name - can be changed any time</string>

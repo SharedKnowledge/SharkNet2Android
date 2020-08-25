@@ -28,20 +28,25 @@ public class CertificateViewActivity extends AppCompatActivity {
         try {
             PersonIntent personIntent = new PersonIntent(this.getIntent());
 
-            this.subjectID = personIntent.getSubjectID();
             this.issuerID = personIntent.getIssuerID();
+            this.subjectID = personIntent.getSubjectID();
 
-            Collection<ASAPCertificate> certificateByOwner =
-                    PersonsStorageAndroid.getPersonsStorage().getCertificateBySubject(this.subjectID);
-            ASAPCertificate cert = null;
-            for(ASAPCertificate c : certificateByOwner) {
-                if(c.getIssuerID().toString().equalsIgnoreCase(this.issuerID.toString())) {
-                    // got it
-                    cert = c;
-                }
+            if(subjectID == null || issuerID == null) {
+                Log.e(this.getLogStart(), "issuerID and subjectID must not be null: "
+                        + issuerID + " | " + subjectID);
+
+                Toast.makeText(this,
+                        "internal failure: see log", Toast.LENGTH_SHORT).show();
+                this.finish();
+                return;
             }
 
-            if(cert == null) {
+            ASAPCertificate cert = null;
+            try {
+                cert = PersonsStorageAndroid.getPersonsStorage().
+                        getCertificateByIssuerAndSubject(issuerID, subjectID);
+            }
+            catch(SharkException e) {
                 Log.e(this.getLogStart(), "internal failure: no cert found");
                 Toast.makeText(this,
                         "internal failure: no cert found", Toast.LENGTH_SHORT).show();

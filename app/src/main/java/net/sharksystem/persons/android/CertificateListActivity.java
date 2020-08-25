@@ -102,14 +102,14 @@ public class CertificateListActivity extends SharkNetActivity {
 
     private List<ASAPCertificate> produceListBySubject(CharSequence userID) throws SharkException {
         Collection<ASAPCertificate> certColl =
-                PersonsStorageAndroid.getPersonsStorage().getCertificateBySubject(userID);
+                PersonsStorageAndroid.getPersonsStorage().getCertificatesBySubject(userID);
 
         return this.produceCertList(certColl);
     }
 
     private List<ASAPCertificate> produceListByIssuer(CharSequence userID) throws SharkException {
         Collection<ASAPCertificate> certColl =
-                PersonsStorageAndroid.getPersonsStorage().getCertificateByIssuer(userID);
+                PersonsStorageAndroid.getPersonsStorage().getCertificatesByIssuer(userID);
 
         return this.produceCertList(certColl);
     }
@@ -137,7 +137,7 @@ public class CertificateListActivity extends SharkNetActivity {
         }
 
         for(CharSequence id : idPath) {
-            certList.add(personsApp.getCertificateBySubject(id).iterator().next());
+            certList.add(personsApp.getCertificatesBySubject(id).iterator().next());
         }
 
         return certList;

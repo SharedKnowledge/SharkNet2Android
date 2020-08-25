@@ -55,6 +55,10 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
         }
     }
 
+    public boolean isMe(CharSequence userID) {
+        return this.getOwnerID().equals(userID);
+    }
+
     public static synchronized PersonsStorageAndroid getPersonsStorage() {
         if(PersonsStorageAndroid.instance == null) {
             try {
@@ -160,7 +164,7 @@ public class PersonsStorageAndroid extends PersonsStorageImpl /*InMemoPersonsSto
 
     public CharSequence getPersonName(CharSequence userID) {
         if(userID.equals(this.getOwnerID())) {
-            return "you";
+            return "You";
         }
 
         try {
