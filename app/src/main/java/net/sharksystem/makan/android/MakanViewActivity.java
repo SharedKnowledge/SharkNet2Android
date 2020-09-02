@@ -30,10 +30,6 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
     private CharSequence topicUri = null;
     private CharSequence name;
 
-    public MakanViewActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +68,7 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
             mRecyclerView = (RecyclerView) findViewById(R.id.makan_view_recycler_view);
 
             mAdapter = new MakanViewContentAdapter(this,
-                    this.topicUri, this.name, this.getSharkNetApp().getASAPOwnerID());
+                    this.topicUri, this.name, this.getSharkNetApp().getOwnerID());
 
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
@@ -146,7 +142,7 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
         // reset adapter to get access to new data
         try {
             mAdapter = new MakanViewContentAdapter(this,
-                    this.topicUri, this.name, this.getSharkNetApp().getASAPOwnerID());
+                    this.topicUri, this.name, this.getSharkNetApp().getOwnerID());
             Log.d(this.getLogStart(), "recreate adapter");
             this.mRecyclerView.setAdapter(this.mAdapter);
             Log.d(this.getLogStart(), "notify data set changed");

@@ -12,15 +12,16 @@ import net.sharksystem.asap.ASAPMessages;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.persons.CredentialMessage;
 import net.sharksystem.persons.PersonsStorage;
-import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-public class OwnerCredentialSendActivity extends SharkNetActivity {
+public class OwnerCredentialSendActivity extends PersonAppActivity {
     private boolean sended = false;
 
-    public OwnerCredentialSendActivity() {
+/*    public OwnerCredentialSendActivity() {
         super(SharkNetApp.getSharkNetApp());
     }
+
+ */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +32,13 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
 
         // set user name in layout
         TextView tv = this.findViewById(R.id.ownerDisplayName);
-        tv.setText(SharkNetApp.getSharkNetApp().getOwnerStorage().getDisplayName());
+        tv.setText(SharkNetApp.getSharkNetApp().getOwner().getDisplayName());
 
         // set control number
         tv = this.findViewById(R.id.credentialsControlNumber);
         tv.setText(String.valueOf(-1));
 
-        this.getSharkNetApp().addASAPMessageReceivedListener(
+        this.getASAPApplication().addASAPMessageReceivedListener(
                 ASAPCertificateStorage.CERTIFICATE_APP_NAME,
                 new OwnerCredentialSendActivity
                         .CertificateMessageReceivedListener(this));
@@ -49,7 +50,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
             try {
                 sended = true;
 
-                PersonsStorageAndroid personsAppAndroid = PersonsStorageAndroid.getPersonsStorage();
+                PersonsStorageAndroidComponent personsAppAndroid = PersonsStorageAndroidComponent.getPersonsStorage();
                 CredentialMessage credentialMessage = personsAppAndroid.createCredentialMessage();
 
                 // set control number
@@ -80,7 +81,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
     private void doHandleCertificateMessage(ASAPMessages asapMessages) {
         // something was received - integrate
         Log.d(this.getLogStart(), "reached doHandleCertificateMessage");
-        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsStorage();
+        PersonsStorageAndroidComponent personsApp = PersonsStorageAndroidComponent.getPersonsStorage();
         Log.d(this.getLogStart(), "calling syncNewReceivedCertificates");
         if(personsApp.syncNewReceivedCertificates()) {
             Log.d(this.getLogStart(), "calling save");

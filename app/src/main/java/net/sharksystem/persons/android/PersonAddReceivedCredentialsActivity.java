@@ -13,17 +13,18 @@ import net.sharksystem.asap.ASAPException;
 import net.sharksystem.crypto.ASAPCertificate;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.persons.CredentialMessage;
-import net.sharksystem.sharknet.android.SharkNetActivity;
-import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
-public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
+public class PersonAddReceivedCredentialsActivity extends PersonAppActivity {
     private CredentialMessage credential;
 
+    /*
     public PersonAddReceivedCredentialsActivity() {
         super(SharkNetApp.getSharkNetApp());
     }
+
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
         setContentView(R.layout.person_add_received_credential_layout);
 
         Log.d(this.getLogStart(), "onCreate");
-        this.credential = PersonsStorageAndroid.getPersonsStorage().getReceivedCredential();
+        this.credential = PersonsStorageAndroidComponent.getPersonsStorage().getReceivedCredential();
         Log.d(this.getLogStart(), "got credential: " + this.credential);
 
         TextView tv = this.findViewById(R.id.credentialDisplayName);
@@ -67,7 +68,7 @@ public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
 */
             // sign and create certificate
             Log.d(this.getLogStart(), "before call addAndSignPerson()");
-            ASAPCertificate newCert = PersonsStorageAndroid.getPersonsStorage().addAndSignPerson(
+            ASAPCertificate newCert = PersonsStorageAndroidComponent.getPersonsStorage().addAndSignPerson(
                     this.credential.getOwnerID(),
                     this.credential.getOwnerName(),
                     this.credential.getPublicKey(),

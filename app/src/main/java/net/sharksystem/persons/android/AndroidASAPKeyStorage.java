@@ -7,15 +7,15 @@ import android.security.keystore.KeyProperties;
 import android.util.Log;
 
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPException;
+import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
 import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.crypto.ASAPCertificateImpl;
 import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
-import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
@@ -27,20 +27,29 @@ import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.util.Calendar;
 
-import static net.sharksystem.sharknet.android.SharkNetApp.PREFERENCES_FILE;
+import static net.sharksystem.sharknet.android.OwnerStorage.PREFERENCES_FILE;
 
+/**
+ * Overwrites key creation and add kex persistence to the more general super class
+ */
 public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPKeyStorage {
-    private static final String KEYPAIR_CREATION_TIME = "SharkNet2Identity_KeyPairCreationTime";
+    private static final String KEYPAIR_CREATION_TIME = "ASAPCertificatesKeyPairCreationTime";
     public static final String KEYSTORE_NAME = "AndroidKeyStore";
-    public static final String KEYSTORE_OWNER_ALIAS = "SN2_Owner_Keys";
+    public static final String KEYSTORE_OWNER_ALIAS = "ASAPCertificatesKeysOwner";
+    public static final String DEFAULT_KEYSTORE_PWD = "asap4ever";
     private static final int KEY_SIZE = 2048;
     private final static int ANY_PURPOSE = KeyProperties.PURPOSE_ENCRYPT |
             KeyProperties.PURPOSE_DECRYPT | KeyProperties.PURPOSE_SIGN |
             KeyProperties.PURPOSE_VERIFY;
-    private static final String KEYSTORE_PWD = "SharkNet2Identity_KeyStorePWD";
+    private static final String KEYSTORE_PWD = "ASAPCertificatesKeyStorePWD";
 
     private long creationTime = DateTimeHelper.TIME_NOT_SET;
     private KeyStore keyStore = null;
+    private Context initialContext = null;
+
+    public AndroidASAPKeyStorage(Context initialContext) {
+        this.initialContext = initialContext;
+    }
 
     @Override
     public void generateKeyPair() throws SharkException {
@@ -91,7 +100,7 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
             this.setPublicKey(keyPair.getPublic());
 
             this.setCreationTime(System.currentTimeMillis());
-            this.save();
+//            this.save();
         } catch (Exception e) {
             String text = "problems when generating key pair: " + e.getMessage();
             Log.d(this.getLogStart(), text);
@@ -100,7 +109,16 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
     }
 
     private Context getContext() {
-        return SharkNetApp.getSharkNetApp().getActivity();
+        try {
+            return PersonsStorageAndroidComponent.getPersonsStorage().getContext();
+        } catch (ASAPException e) {
+            Log.d(this.getLogStart(), "cannot get context: " + e.getLocalizedMessage());
+        } catch(ASAPComponentNotYetInitializedException e) {
+            // startup is sometimes a tricky thing
+            return this.initialContext;
+        }
+
+        return null;
     }
 
     private KeyStore getKeyStore() throws KeyStoreException {
@@ -117,8 +135,8 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
     }
 
 
-    public void load(InputStream inputStream) throws SharkCryptoException, IOException {
         /* nothing to do when using android key storage
+    public void load(InputStream inputStream) throws SharkCryptoException, IOException {
         KeyStore keyStore = null;
         try {
             // setup new one
@@ -129,11 +147,11 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
         } catch (NoSuchAlgorithmException | KeyStoreException | CertificateException e) {
             throw new SharkCryptoException(e.getLocalizedMessage());
         }
-         */
     }
+         */
 
-    private void save() {
         /* nothing to do when using android key storage
+    private void save() {
         try {
             File keyStoreFile = SharkNetApp.getSharkNetApp().getKeyStoreFile(false);
             KeyStore keyStore = this.getKeyStore();
@@ -142,8 +160,8 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
                 | NoSuchAlgorithmException | IOException e) {
             Log.e(this.getLogStart(), "cannot write key store file: " + e.getLocalizedMessage());
         }
-         */
     }
+         */
 
     public void setKeyStorePWD(String pwd) {
         Log.d(this.getLogStart(), "set key  store pwd: ");
@@ -156,17 +174,18 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
         // create owner id
         editor.commit();
 
-        this.save();
+        //this.save();
     }
 
     public String getKeyStorePWD() throws SharkCryptoException {
         SharedPreferences sharedPref = this.getContext().getSharedPreferences(
                 PREFERENCES_FILE, Context.MODE_PRIVATE);
 
-        return sharedPref.getString(KEYSTORE_PWD, "geheim");
+        return sharedPref.getString(KEYSTORE_PWD, DEFAULT_KEYSTORE_PWD);
     }
 
     protected void reloadKeys() throws SharkCryptoException {
+        Log.d(this.getLogStart(), "reload private keys from android key storage");
         try {
             KeyStore keyStore = this.getKeyStore();
             KeyStore.PrivateKeyEntry privateKeyEntry =
@@ -229,5 +248,40 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage implements ASAPK
 
     protected String getLogStart() {
         return this.getClass().getSimpleName();
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //                                     key storage                                         //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    private static AndroidASAPKeyStorage instance = null;
+
+    public static ASAPKeyStorage initializeASAPKeyStorage(Context initialContext) {
+        if(instance == null) {
+            // re-read from file system
+            try {
+                AndroidASAPKeyStorage.instance = new AndroidASAPKeyStorage(initialContext);
+//                AndroidASAPKeyStorage.instance.load(new FileInputStream(keyStoreFile));
+            } catch (Exception e) {
+                Log.d("AndroidASAPKeyStorage", "probably key store file not found: "
+                        + e.getLocalizedMessage());
+            }
+        }
+        return instance;
+    }
+
+    public static ASAPKeyStorage getASAPKeyStorage() {
+        if(instance == null) {
+            throw new ASAPComponentNotYetInitializedException("asap key storage must be initialized first");
+        }
+        return instance;
+    }
+
+    static AndroidASAPKeyStorage getAndroidASAPKeyStorage() {
+        return (AndroidASAPKeyStorage) AndroidASAPKeyStorage.getASAPKeyStorage();
+    }
+
+    public boolean secureKeyAvailable() throws SharkCryptoException {
+        return instance.getCreationTime() != DateTimeHelper.TIME_NOT_SET;
     }
 }

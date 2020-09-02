@@ -9,10 +9,6 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 public abstract class MakanUriContentChangedListenerActivity extends SharkNetActivity
         implements ASAPUriContentChangedListener {
 
-    public MakanUriContentChangedListenerActivity(SharkNetApp sharkNetApp) {
-        super(sharkNetApp);
-    }
-
     private boolean listenerSet = false;
 
     private void stopUriListening() {

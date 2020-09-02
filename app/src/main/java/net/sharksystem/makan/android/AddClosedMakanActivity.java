@@ -12,7 +12,7 @@ import net.sharksystem.R;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.android.ASAPServiceMessage;
 import net.sharksystem.persons.android.PersonListSelectionActivity;
-import net.sharksystem.persons.android.PersonsStorageAndroid;
+import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -21,10 +21,6 @@ import java.util.Set;
 public class AddClosedMakanActivity extends SharkNetActivity {
 
     private Set<CharSequence> selectedRecipients = null;
-
-    public AddClosedMakanActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +34,7 @@ public class AddClosedMakanActivity extends SharkNetActivity {
     public void onShowPersonListClick(View view) {
         Log.d(this.getLogStart(), "onShowPersonListClick");
 
-        PersonsStorageAndroid.getPersonsStorage().setPreselectionSet(this.selectedRecipients);
+        PersonsStorageAndroidComponent.getPersonsStorage().setPreselectionSet(this.selectedRecipients);
         //Log.d(this.getLogStart(), "setPreselected: " + this.selectedRecipients);
         Intent intent = new Intent(this, PersonListSelectionActivity.class);
         this.startActivity(intent);
@@ -52,7 +48,7 @@ public class AddClosedMakanActivity extends SharkNetActivity {
             String name = nameText.getText().toString();
             String uri = "sn2://closedUriHasToBeCreated";
             Set<CharSequence> recipients =
-                    PersonsStorageAndroid.getPersonsStorage().getLastPersonsSelection();
+                    PersonsStorageAndroidComponent.getPersonsStorage().getLastPersonsSelection();
 
             try {
                 Log.d(this.getLogStart(), "call create with "
@@ -80,7 +76,7 @@ public class AddClosedMakanActivity extends SharkNetActivity {
     protected void onResume() {
         super.onResume();
 
-        this.selectedRecipients = PersonsStorageAndroid.getPersonsStorage().getLastPersonsSelection();
+        this.selectedRecipients = PersonsStorageAndroidComponent.getPersonsStorage().getLastPersonsSelection();
         TextView tv = this.findViewById(R.id.makanCreateSelectedMember);
         tv.setText(selectedRecipients.toString());
     }

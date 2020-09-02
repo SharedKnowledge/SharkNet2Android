@@ -13,11 +13,6 @@ import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class SettingsActivity extends SharkNetActivity {
-
-    public SettingsActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

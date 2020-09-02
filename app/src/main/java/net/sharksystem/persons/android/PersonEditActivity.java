@@ -29,7 +29,7 @@ public class PersonEditActivity extends AppCompatActivity {
             this.userID = personIntent.getSubjectID();
 
             PersonValuesImpl personValues =
-                    PersonsStorageAndroid.getPersonsStorage().getPersonValues(this.userID);
+                    PersonsStorageAndroidComponent.getPersonsStorage().getPersonValues(this.userID);
 
             TextView userIDView = findViewById(R.id.personEditUserID);
             userIDView.setText(String.valueOf(userID));
@@ -62,7 +62,7 @@ public class PersonEditActivity extends AppCompatActivity {
         int certExchangeFailure = certExchangeFailureSeekBar.getProgress();
 
         try {
-            PersonsStorageAndroid.getPersonsStorage().setSigningFailureRate(this.userID, certExchangeFailure);
+            PersonsStorageAndroidComponent.getPersonsStorage().setSigningFailureRate(this.userID, certExchangeFailure);
         } catch (SharkException e) {
             Log.e(this.getLogStart(), "couldn't save data: " + e.getLocalizedMessage());
             Toast.makeText(this, "couldn't save data", Toast.LENGTH_SHORT).show();

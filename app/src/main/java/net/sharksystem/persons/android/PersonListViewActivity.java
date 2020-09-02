@@ -78,7 +78,7 @@ public class PersonListViewActivity extends PersonListActivity {
     private void doAddPerson() {
         Log.d(this.getLogStart(), "doAddPerson");
         try {
-            if(!SharkNetApp.getSharkNetApp().secureKeyAvailable()) {
+            if(!AndroidASAPKeyStorage.getAndroidASAPKeyStorage().secureKeyAvailable()) {
                 Toast.makeText(this,
                         "setup your secure keys first", Toast.LENGTH_SHORT).show();
                 this.startActivity(new Intent(this, OwnerActivity.class));

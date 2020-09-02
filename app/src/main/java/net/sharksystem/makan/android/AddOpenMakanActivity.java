@@ -16,10 +16,6 @@ import java.io.IOException;
 
 public class AddOpenMakanActivity extends SharkNetActivity {
 
-    public AddOpenMakanActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(this.getLogStart(), "onCreate");

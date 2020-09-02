@@ -13,13 +13,14 @@ import net.sharksystem.SharkException;
 import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.SharkCryptoException;
-import net.sharksystem.persons.Owner;
-import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.sharknet.android.Owner;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-public class OwnerActivity extends SharkNetActivity {
+public class OwnerActivity extends PersonAppActivity {
     public OwnerActivity() {
-        super(SharkNetApp.getSharkNetApp());
+        //super(SharkNetApp.getSharkNetApp());
+        // just make a debug break.
+        super();
     }
 
     @Override
@@ -33,22 +34,22 @@ public class OwnerActivity extends SharkNetActivity {
         TextView userIDTV = this.findViewById(R.id.ownerID);
 
         try {
-            userNameView.setText(SharkNetApp.getSharkNetApp().getOwnerStorage().getDisplayName());
-            userIDTV.setText(SharkNetApp.getSharkNetApp().getOwnerStorage().getUUID());
-            this.setKeyCreationDate();
+            userNameView.setText(this.getOwnerStorage().getDisplayName());
+            userIDTV.setText(this.getOwnerStorage().getUUID());
+            this.setKeyCreationDateView();
         } catch (SharkCryptoException e) {
             Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
             this.finish();
         }
 
-        this.getSharkNetApp().setupDrawerLayout(this);
+        this.getASAPApplication().setupDrawerLayout(this);
     }
 
-    private void setKeyCreationDate() throws SharkCryptoException {
+    private void setKeyCreationDateView() throws SharkCryptoException {
         TextView creationTime = this.findViewById(R.id.ownerCreationTimeKeys);
         // that's funny because long is a homonym: data type but also means a long periode of time... ok, this is not funny at all... :/
         long longTime =
-                SharkNetApp.getSharkNetApp().getASAPKeyStorage().getCreationTime();
+                AndroidASAPKeyStorage.getASAPKeyStorage().getCreationTime();
 
         if(longTime == DateTimeHelper.TIME_NOT_SET) {
             creationTime.setText("please create a key pair");
@@ -59,7 +60,7 @@ public class OwnerActivity extends SharkNetActivity {
 
     private void notifyKeyPairCreated() throws SharkCryptoException {
         // sync
-        PersonsStorageAndroid.getPersonsStorage().syncNewReceivedCertificates();
+        PersonsStorageAndroidComponent.getPersonsStorage().syncNewReceivedCertificates();
 
         // re-launch
         this.finish();
@@ -80,7 +81,7 @@ public class OwnerActivity extends SharkNetActivity {
         } else {
             Log.d(this.getLogStart(), "set new user name: " + userNameString);
             Owner identityStorage = null;
-            SharkNetApp.getSharkNetApp().getOwnerStorage().setDisplayName(userNameString);
+            SharkNetApp.getSharkNetApp().getOwner().setDisplayName(userNameString);
 
             // re-launch
             this.finish();
@@ -116,7 +117,7 @@ public class OwnerActivity extends SharkNetActivity {
         public void run() {
             String text = null;
             try {
-                SharkNetApp.getSharkNetApp().generateKeyPair();
+                AndroidASAPKeyStorage.getASAPKeyStorage().generateKeyPair();
 
                 // debugging
                 /*

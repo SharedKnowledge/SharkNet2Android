@@ -5,18 +5,13 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.persons.android.PersonsStorageAndroid;
+import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.util.List;
 
 public class RadarActivity extends SharkNetActivity {
-
-    public RadarActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +28,7 @@ public class RadarActivity extends SharkNetActivity {
         if(onlinePeerList == null || onlinePeerList.size() < 1) {
             peerListTextView.setText("no peer online");
         } else {
-            PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsStorage();
+            PersonsStorageAndroidComponent personsApp = PersonsStorageAndroidComponent.getPersonsStorage();
             StringBuilder sb = new StringBuilder();
             sb.append("peers online;");
             sb.append("\n");

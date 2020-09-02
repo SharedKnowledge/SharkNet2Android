@@ -15,21 +15,15 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.ASAPCertificate;
-import net.sharksystem.sharknet.android.SharkNetActivity;
-import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CertificateListActivity extends SharkNetActivity {
+public class CertificateListActivity extends PersonAppActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private CertificateListContentAdapter mAdapter;
-
-    public CertificateListActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,14 +96,14 @@ public class CertificateListActivity extends SharkNetActivity {
 
     private List<ASAPCertificate> produceListBySubject(CharSequence userID) throws SharkException {
         Collection<ASAPCertificate> certColl =
-                PersonsStorageAndroid.getPersonsStorage().getCertificatesBySubject(userID);
+                PersonsStorageAndroidComponent.getPersonsStorage().getCertificatesBySubject(userID);
 
         return this.produceCertList(certColl);
     }
 
     private List<ASAPCertificate> produceListByIssuer(CharSequence userID) throws SharkException {
         Collection<ASAPCertificate> certColl =
-                PersonsStorageAndroid.getPersonsStorage().getCertificatesByIssuer(userID);
+                PersonsStorageAndroidComponent.getPersonsStorage().getCertificatesByIssuer(userID);
 
         return this.produceCertList(certColl);
     }
@@ -117,7 +111,7 @@ public class CertificateListActivity extends SharkNetActivity {
     private List<ASAPCertificate> produceListToExplain(CharSequence userID)
             throws SharkException {
 
-        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsStorage();
+        PersonsStorageAndroidComponent personsApp = PersonsStorageAndroidComponent.getPersonsStorage();
 
         List<ASAPCertificate> certList = new ArrayList<>();
         List<CharSequence> idPath = personsApp.getIdentityAssurancesCertificationPath(userID);

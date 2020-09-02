@@ -11,10 +11,12 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 import net.sharksystem.sharknet.android.settings.SettingsActivity;
 
 
-public class PersonAddExplanationActivity extends SharkNetActivity {
-    public PersonAddExplanationActivity() {
+public class PersonAddExplanationActivity extends PersonAppActivity {
+/*    public PersonAddExplanationActivity() {
         super(SharkNetApp.getSharkNetApp());
     }
+
+ */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

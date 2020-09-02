@@ -12,7 +12,6 @@ import net.sharksystem.SharkException;
 import net.sharksystem.crypto.ASAPCertificate;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
 public class CertificateViewActivity extends AppCompatActivity {
@@ -43,7 +42,7 @@ public class CertificateViewActivity extends AppCompatActivity {
 
             ASAPCertificate cert = null;
             try {
-                cert = PersonsStorageAndroid.getPersonsStorage().
+                cert = PersonsStorageAndroidComponent.getPersonsStorage().
                         getCertificateByIssuerAndSubject(issuerID, subjectID);
             }
             catch(SharkException e) {

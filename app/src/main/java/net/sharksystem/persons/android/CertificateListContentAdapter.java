@@ -78,7 +78,7 @@ class CertificateListContentAdapter extends
         holder.validUntil.setText(simpleDateFormat.format(
                 new Date(asapCertificate.getValidUntil().getTimeInMillis())));
 
-        CharSequence ownerName = PersonsStorageAndroid.getPersonsStorage().
+        CharSequence ownerName = PersonsStorageAndroidComponent.getPersonsStorage().
                 getPersonName(asapCertificate.getSubjectID());
 
         holder.subjectName.setText(ownerName);
@@ -87,7 +87,7 @@ class CertificateListContentAdapter extends
 
         CharSequence signerName;
         if(asapCertificate.getIssuerID().toString().
-                equalsIgnoreCase(PersonsStorageAndroid.getPersonsStorage().getOwnerID().toString())) {
+                equalsIgnoreCase(PersonsStorageAndroidComponent.getPersonsStorage().getOwnerID().toString())) {
             signerName = "You";
         } else {
             signerName = asapCertificate.getIssuerName();
@@ -95,14 +95,14 @@ class CertificateListContentAdapter extends
 
         holder.issuerName.setText(signerName);
 
-        int cef = PersonsStorageAndroid.getPersonsStorage().
+        int cef = PersonsStorageAndroidComponent.getPersonsStorage().
                 getSigningFailureRate(asapCertificate.getIssuerID());
 
         holder.caIssuer.setText(String.valueOf(cef));
 
         int identityAssurance = 0;
         try {
-            identityAssurance = PersonsStorageAndroid.getPersonsStorage().
+            identityAssurance = PersonsStorageAndroidComponent.getPersonsStorage().
                     getIdentityAssurance(asapCertificate.getSubjectID());
         } catch (SharkException e) {
             Log.d(this.getLogStart(),

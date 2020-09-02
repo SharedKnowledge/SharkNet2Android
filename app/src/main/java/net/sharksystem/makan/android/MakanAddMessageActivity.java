@@ -21,10 +21,6 @@ public class MakanAddMessageActivity extends SharkNetActivity {
     private CharSequence name = null;
     private CharSequence uri;
 
-    public MakanAddMessageActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

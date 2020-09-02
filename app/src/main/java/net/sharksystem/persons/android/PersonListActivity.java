@@ -12,7 +12,7 @@ import net.sharksystem.asap.android.Util;
 
 import java.util.Set;
 
-public abstract class PersonListActivity extends SelectableListSharkNetActivity /*SharkNetActivity*/ {
+public abstract class PersonListActivity extends SelectableListPersonAppActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private PersonListContentAdapter mAdapter;
@@ -23,18 +23,16 @@ public abstract class PersonListActivity extends SelectableListSharkNetActivity 
         Log.d(this.getLogStart(), "onCreate");
 
         try {
-            Log.d(this.getLogStart(), "1");
             setContentView(R.layout.person_list_drawer_layout);
 
-            Log.d(this.getLogStart(), "2");
-            this.getSharkNetApp().setupDrawerLayout(this);
+//            this.getSharkNetApp().setupDrawerLayout(this);
+            this.getASAPApplication().setupDrawerLayout(this);
 
-            Log.d(this.getLogStart(), "3");
-            PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsStorage();
-            Log.d(this.getLogStart(), "4");
+            PersonsStorageAndroidComponent personsApp =
+                    PersonsStorageAndroidComponent.getPersonsStorage();
+
             Set<CharSequence> preselectionSet = personsApp.getPreselectionSet();
             //Log.d(this.getLogStart(), "got preselectedset: " + preselectionSet);
-            Log.d(this.getLogStart(), "5");
             if(preselectionSet != null && !preselectionSet.isEmpty()) {
                 this.selectableContentSource.setPreselection(preselectionSet);
                 personsApp.setPreselectionSet(null);
@@ -43,7 +41,6 @@ public abstract class PersonListActivity extends SelectableListSharkNetActivity 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
-            Log.d(this.getLogStart(), "6");
             // setup toolbar
             Toolbar myToolbar = (Toolbar) findViewById(R.id.person_list_with_toolbar);
             setSupportActionBar(myToolbar);
@@ -51,19 +48,14 @@ public abstract class PersonListActivity extends SelectableListSharkNetActivity 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare recycler view                      //
             ////////////////////////////////////////////////////////////////////////
-            Log.d(this.getLogStart(), "7");
             mRecyclerView = (RecyclerView) findViewById(R.id.person_list_recycler_view);
 
-            Log.d(this.getLogStart(), "8");
             mAdapter = new PersonListContentAdapter(this, this.selectableContentSource);
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
 
-            Log.d(this.getLogStart(), "9");
             mRecyclerView.setLayoutManager(mLayoutManager);
-            Log.d(this.getLogStart(), "10");
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            Log.d(this.getLogStart(), "11");
             mRecyclerView.setAdapter(mAdapter);
             Log.d(this.getLogStart(), "attached content adapter");
         }

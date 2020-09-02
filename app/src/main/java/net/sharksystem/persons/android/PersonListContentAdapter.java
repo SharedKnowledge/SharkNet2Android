@@ -64,7 +64,7 @@ public class PersonListContentAdapter extends
 
         try {
             PersonValues personValues =
-                    PersonsStorageAndroid.getPersonsStorage().getPersonValuesByPosition(position);
+                    PersonsStorageAndroidComponent.getPersonsStorage().getPersonValuesByPosition(position);
 
             CharSequence userID = personValues.getUserID();
             this.scs.setSelectedText(Integer.toString(position), userID,
@@ -90,7 +90,7 @@ public class PersonListContentAdapter extends
     @Override
     public int getItemCount() {
         Log.d(this.getLogStart(), "called getItemCount");
-        return PersonsStorageAndroid.getPersonsStorage().getNumberOfPersons();
+        return PersonsStorageAndroidComponent.getPersonsStorage().getNumberOfPersons();
     }
 
     @Override

@@ -57,7 +57,7 @@ public class PersonListSelectionActivity extends PersonListActivity {
 
     private void doDone() {
         Log.d(this.getLogStart(), "doDone");
-        PersonsStorageAndroid personsApp = PersonsStorageAndroid.getPersonsStorage();
+        PersonsStorageAndroidComponent personsApp = PersonsStorageAndroidComponent.getPersonsStorage();
         personsApp.setLastPersonsSelection(this.getSelectedItemIDs());
         this.finish();
     }

@@ -31,10 +31,6 @@ public class MakanListActivity extends MakanUriContentChangedListenerActivity {
 
     private MakanListContentAdapter mAdapter;
 
-    public MakanListActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

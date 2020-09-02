@@ -1,48 +1,85 @@
 package net.sharksystem.sharknet.android;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 
 import net.sharksystem.R;
-import net.sharksystem.SharkException;
-import net.sharksystem.asap.ASAP;
 import net.sharksystem.asap.android.apps.ASAPApplication;
-import net.sharksystem.asap.util.DateTimeHelper;
+import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
 import net.sharksystem.crypto.ASAPCertificateStorage;
-import net.sharksystem.crypto.ASAPKeyStorage;
-import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.makan.android.MakanApp;
-import net.sharksystem.persons.Owner;
-import net.sharksystem.persons.android.AndroidASAPKeyStorage;
-import net.sharksystem.persons.android.PersonsStorageAndroid;
+import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SharkNetApp extends ASAPApplication {
-    private static final String PERSONS_STORAGE_FILE_NAME = "sn2_personsStorageFile";
+public class SharkNetApp extends ASAPApplication implements OwnerFactory {
     private static SharkNetApp singleton;
+    private Owner ownerStorage = null;
 
-    private SharkNetApp(List<CharSequence> appFormats) {
-        super(appFormats);
+    /**
+     * set up service site
+     * @param appFormats
+     */
+    private SharkNetApp(List<CharSequence> appFormats, Activity initActivity) {
+        // start asap app
+        super(appFormats, initActivity);
+
+        // initialize owner storage
+        this.ownerStorage = new OwnerStorage(initActivity);
     }
 
-    public static SharkNetApp getSharkNetApp() {
+    /**
+     * Initialize app site
+     */
+    public void startASAPApplication() {
+        /* just to demonstrate that this method exists. There is nothing to do,though:
+            format was already set in constructor
+            getOwnerID is available ownerID available - call super
+        */
+
+        // do not forget to call super method
+        super.startASAPApplication();
+    }
+
+    public static boolean isStarted() { return SharkNetApp.singleton != null; }
+
+    static SharkNetApp initializeSharkNetApp(Activity initActivity) {
         if(SharkNetApp.singleton == null) {
+            Log.d(getLogStart(), "initialize / startup");
             // SN supports the following applications
             List<CharSequence> appFormats = new ArrayList<>();
-            appFormats.add(PersonsStorageAndroid.CREDENTIAL_APP_NAME);
+
+            // add component persons
+            for(CharSequence f : PersonsStorageAndroidComponent.geRequiredFormats()) {
+                appFormats.add(f);
+            }
+
+            //appFormats.add(PersonsStorageAndroid.CREDENTIAL_APP_NAME);
             appFormats.add(MakanApp.APP_NAME);
             appFormats.add(ASAPCertificateStorage.CERTIFICATE_APP_NAME);
 
-            SharkNetApp.singleton = new SharkNetApp(appFormats);
+            // already set
+            SharkNetApp.singleton = new SharkNetApp(appFormats, initActivity);
+
+            // initialize application components
+            PersonsStorageAndroidComponent.initialize(
+                    SharkNetApp.singleton, // ASAPApplication
+                    SharkNetApp.singleton // OwnerFactory
+            );
+
+            // all components put together - launch the system
+            SharkNetApp.singleton.startASAPApplication();
         }
+
+        return SharkNetApp.getSharkNetApp();
+    }
+
+    public static SharkNetApp getSharkNetApp() {
+        if(SharkNetApp.singleton == null) throw
+                new ASAPComponentNotYetInitializedException("failed to initialize SharkNetApplication");
 
         return SharkNetApp.singleton;
     }
@@ -57,147 +94,26 @@ public class SharkNetApp extends ASAPApplication {
                 new DrawerOnNavigationItemListener(activity, mDrawerLayout));
     }
 
-    public File getPersonsStorageFile(boolean mustExist) throws SharkException {
-        CharSequence asapRootFolder = this.getASAPRootFolder();
-
-        String keyStoreFileName = asapRootFolder + "/" + PERSONS_STORAGE_FILE_NAME;
-        File keyStoreFile = new File(keyStoreFileName);
-        if(mustExist && !keyStoreFile.exists()) {
-            throw new SharkException("persons storage file does not exist");
-        }
-
-        return keyStoreFile;
-    }
-
-    public boolean isStatusCanWork() {
-        return this.getOwnerStorage().isOwnerSet();
-    }
-
     /////////////////////////////////////////////////////////////////////////////////////////////
     //                                     owner settings                                      //
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    public CharSequence getASAPOwnerID() {
-        return this.getOwnerID();
+    private static String getLogStart() {
+        return SharkNetApp.class.getSimpleName();
     }
 
-    public CharSequence getOwnerID() {
-        return this.getOwnerStorage().getUUID();
-    }
+    @Override
+    public Owner getOwner() {
+        Activity currentActivity = this.getActivity();
+        if(currentActivity == null) return this.ownerStorage;
 
-    private Owner ownerStorage = null;
-    public Owner getOwnerStorage() {
-        return this.getOwnerStorage(this.getActivity());
-    }
-
-    public Owner getOwnerStorage(Context context) {
-        if(this.ownerStorage == null) {
-            this.ownerStorage = new OwnerStorage(context);
-        }
-
+        // after initialization - create preferences access with active activity
+        this.ownerStorage = new OwnerStorage(currentActivity);
         return this.ownerStorage;
     }
 
-    public final static String PREFERENCES_FILE = "SharkNet2Identity";
-    private final static String OWNER_NAME = "SharkNet2Identity_OwnerName";
-    private final static String OWNER_ID = "SharkNet2Identity_OwnerID";
-
-    public final static String DEFAULT_OWNER_NAME = "SNUser";
-    private final static String DEFAULT_OWNER_ID = "Default_SN_USER_ID";
-
-    private class OwnerStorage implements Owner {
-        private CharSequence ownerName;
-        private CharSequence ownerID;
-
-        private OwnerStorage(Context ctx) {
-            SharedPreferences sharedPref = ctx.getSharedPreferences(
-                    PREFERENCES_FILE, Context.MODE_PRIVATE);
-
-            if(sharedPref.contains(OWNER_NAME)) {
-                this.ownerName = sharedPref.getString(OWNER_NAME, DEFAULT_OWNER_NAME);
-            } else {
-                this.ownerName = DEFAULT_OWNER_NAME;
-            }
-
-            if(sharedPref.contains(OWNER_ID)) {
-                this.ownerID = sharedPref.getString(OWNER_ID, DEFAULT_OWNER_ID);
-            } else {
-                this.ownerID = DEFAULT_OWNER_ID;
-            }
-        }
-
-        @Override
-        public boolean isOwnerSet() {
-            return !this.ownerName.toString().equalsIgnoreCase(DEFAULT_OWNER_NAME);
-        }
-
-        public boolean isOwnerIDSet() {
-            return !this.ownerID.toString().equalsIgnoreCase(DEFAULT_OWNER_ID);
-        }
-
-        @Override
-        public void setDisplayName(CharSequence userName) {
-            this.ownerName = userName;
-
-            SharedPreferences sharedPref = SharkNetApp.this.getActivity().getSharedPreferences(
-                    PREFERENCES_FILE, Context.MODE_PRIVATE);
-
-            SharedPreferences.Editor editor = sharedPref.edit();
-
-            editor.putString(OWNER_NAME, userName.toString());
-
-            // create owner id
-            if(this.ownerID.toString().equalsIgnoreCase(DEFAULT_OWNER_ID)) {
-                // set id - once and only once.
-//                this.ownerID = UUID.randomUUID().toString();
-                this.ownerID = ASAP.createUniqueID();
-                editor.putString(OWNER_ID, ownerID.toString());
-            }
-
-            editor.commit();
-        }
-
-        @Override
-        public CharSequence getUUID() {
-            return this.ownerID;
-        }
-
-        @Override
-        public CharSequence getDisplayName() {
-            return this.ownerName;
-        }
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    //                                     key storage                                         //
-    /////////////////////////////////////////////////////////////////////////////////////////////
-
-    AndroidASAPKeyStorage androidASAPKeyStorage = null;
-
-    public ASAPKeyStorage getASAPKeyStorage() {
-        if(androidASAPKeyStorage == null) {
-            // re-read from file system
-            try {
-                this.androidASAPKeyStorage = new AndroidASAPKeyStorage();
-                File keyStoreFile = SharkNetApp.getSharkNetApp().getPersonsStorageFile(true);
-                this.androidASAPKeyStorage.load(new FileInputStream(keyStoreFile));
-            } catch (Exception e) {
-                Log.d(this.getLogStart(), "probably key store file not found: "
-                        + e.getLocalizedMessage());
-            }
-        }
-        return this.androidASAPKeyStorage;
-    }
-
-    public void generateKeyPair() throws SharkException {
-        this.androidASAPKeyStorage.generateKeyPair();
-    }
-
-    public boolean secureKeyAvailable() throws SharkCryptoException {
-        return this.androidASAPKeyStorage.getCreationTime() != DateTimeHelper.TIME_NOT_SET;
-    }
-
-    private String getLogStart() {
-        return net.sharksystem.asap.util.Log.startLog(this).toString();
+    public CharSequence getOwnerID() { return this.getOwner().getUUID(); }
+    public CharSequence getOwnerName() {
+        return this.getOwner().getDisplayName();
     }
 }

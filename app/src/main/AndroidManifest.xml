@@ -15,8 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:theme">
-        <activity android:name=".sharknet.android.InitActivity"></activity>
-        <!-- tools:replace="android:theme" needed to import AASPAndroidService module -->
+        <activity android:name=".sharknet.android.InitActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- tools:replace="android:theme" needed to import ASAPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
         <activity android:name=".persons.android.CertificateViewActivity" />
         <activity android:name=".persons.android.CertificateListActivity"></activity>
@@ -47,11 +52,6 @@
         <activity
             android:name=".makan.android.MakanListActivity"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
