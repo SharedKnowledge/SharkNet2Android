@@ -9,12 +9,12 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.InMemoMakanMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.io.IOException;
 import java.util.Date;
 
 public class MakanAddMessageActivity extends SharkNetActivity {
@@ -30,10 +30,10 @@ public class MakanAddMessageActivity extends SharkNetActivity {
 
         setContentView(R.layout.makan_add_message);
 
-        MakanIntent intent;
+        ASAPChannelIntent intent;
         try {
-            intent = new MakanIntent(this.getIntent());
-            this.name = intent.getUserFriendlyName();
+            intent = new ASAPChannelIntent(this.getIntent());
+            this.name = intent.getName();
             this.uri = intent.getUri();
         } catch (SharkException e) {
             Log.d(this.getLogStart(), "cannot create makan intent - fatal");
@@ -81,7 +81,7 @@ public class MakanAddMessageActivity extends SharkNetActivity {
     }
 
     public void onAbortClick(View view) {
-        MakanIntent intent = new MakanIntent(this, this.name, this.uri, MakanViewActivity.class);
+        ASAPChannelIntent intent = new ASAPChannelIntent(this, this.name, this.uri, MakanViewActivity.class);
         startActivity(intent);
     }
 }

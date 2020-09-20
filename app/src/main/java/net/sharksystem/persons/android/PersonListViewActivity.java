@@ -8,8 +8,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.crypto.SharkCryptoException;
-import net.sharksystem.sharknet.android.SharkNetApp;
+import net.sharksystem.sharknet.android.AndroidASAPKeyStorage;
 
 public class PersonListViewActivity extends PersonListActivity {
 
@@ -78,7 +79,7 @@ public class PersonListViewActivity extends PersonListActivity {
     private void doAddPerson() {
         Log.d(this.getLogStart(), "doAddPerson");
         try {
-            if(!AndroidASAPKeyStorage.getAndroidASAPKeyStorage().secureKeyAvailable()) {
+            if(!PersonsStorageAndroidComponent.getPersonsStorage().getAndroidASAPKeyStorage().secureKeyAvailable()) {
                 Toast.makeText(this,
                         "setup your secure keys first", Toast.LENGTH_SHORT).show();
                 this.startActivity(new Intent(this, OwnerActivity.class));
@@ -86,7 +87,7 @@ public class PersonListViewActivity extends PersonListActivity {
                 this.startActivity(new Intent(this,
                         PersonAddExplanationActivity.class));
             }
-        } catch (SharkCryptoException e) {
+        } catch (ASAPSecurityException e) {
             Toast.makeText(this,
                     "serious problems: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }

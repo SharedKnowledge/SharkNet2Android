@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.persons.PersonValuesImpl;
 
@@ -45,7 +46,7 @@ public class PersonEditActivity extends AppCompatActivity {
             tv = findViewById(R.id.personEditIdentityAssuranceLevel);
             tv.setText(String.valueOf(personValues.getIdentityAssurance()));
 
-        } catch (SharkException e) {
+        } catch (ASAPSecurityException | SharkException e) {
             Log.e(Util.getLogStart(this), "fatal: " + e.getLocalizedMessage());
             Toast.makeText(
                     this, "fatal: " + e.getLocalizedMessage(),
@@ -63,7 +64,7 @@ public class PersonEditActivity extends AppCompatActivity {
 
         try {
             PersonsStorageAndroidComponent.getPersonsStorage().setSigningFailureRate(this.userID, certExchangeFailure);
-        } catch (SharkException e) {
+        } catch (ASAPSecurityException e) {
             Log.e(this.getLogStart(), "couldn't save data: " + e.getLocalizedMessage());
             Toast.makeText(this, "couldn't save data", Toast.LENGTH_SHORT).show();
         }

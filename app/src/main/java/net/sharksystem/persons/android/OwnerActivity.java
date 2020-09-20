@@ -10,9 +10,11 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.SharkCryptoException;
+import net.sharksystem.sharknet.android.AndroidASAPKeyStorage;
 import net.sharksystem.sharknet.android.Owner;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -37,7 +39,7 @@ public class OwnerActivity extends PersonAppActivity {
             userNameView.setText(this.getOwnerStorage().getDisplayName());
             userIDTV.setText(this.getOwnerStorage().getUUID());
             this.setKeyCreationDateView();
-        } catch (SharkCryptoException e) {
+        } catch (ASAPSecurityException e) {
             Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
             this.finish();
         }
@@ -45,11 +47,11 @@ public class OwnerActivity extends PersonAppActivity {
         this.getASAPApplication().setupDrawerLayout(this);
     }
 
-    private void setKeyCreationDateView() throws SharkCryptoException {
+    private void setKeyCreationDateView() throws ASAPSecurityException {
         TextView creationTime = this.findViewById(R.id.ownerCreationTimeKeys);
         // that's funny because long is a homonym: data type but also means a long periode of time... ok, this is not funny at all... :/
         long longTime =
-                AndroidASAPKeyStorage.getASAPKeyStorage().getCreationTime();
+                PersonsStorageAndroidComponent.getPersonsStorage().getASAPKeyStorage().getCreationTime();
 
         if(longTime == DateTimeHelper.TIME_NOT_SET) {
             creationTime.setText("please create a key pair");
@@ -117,7 +119,7 @@ public class OwnerActivity extends PersonAppActivity {
         public void run() {
             String text = null;
             try {
-                AndroidASAPKeyStorage.getASAPKeyStorage().generateKeyPair();
+                PersonsStorageAndroidComponent.getPersonsStorage().getASAPKeyStorage().generateKeyPair();
 
                 // debugging
                 /*
@@ -129,7 +131,7 @@ public class OwnerActivity extends PersonAppActivity {
                 text = "new keypair created";
                 Log.d(OwnerActivity.this.getLogStart(), text);
                 this.ownerActivity.notifyKeyPairCreated();
-            } catch (SharkException e) {
+            } catch (ASAPSecurityException | SharkCryptoException e) {
                 text = e.getLocalizedMessage();
                 Log.e(OwnerActivity.this.getLogStart(), text);
             }

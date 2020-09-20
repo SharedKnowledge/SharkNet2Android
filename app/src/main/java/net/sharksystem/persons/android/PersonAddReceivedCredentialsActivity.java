@@ -81,7 +81,7 @@ public class PersonAddReceivedCredentialsActivity extends PersonAppActivity {
                     newCert.asBytes(), true);
             Log.d(this.getLogStart(), ".. sent certificate message");
 
-        } catch (ASAPException | SharkException | IOException e) {
+        } catch (ASAPException | IOException e) {
             Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             Log.i(this.getLogStart(), e.getLocalizedMessage());
         } catch (RuntimeException e) {

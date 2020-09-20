@@ -1,4 +1,4 @@
-package net.sharksystem.makan.android;
+package net.sharksystem.asap.sharknet.android;
 
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,19 +12,16 @@ import android.view.MenuItem;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPChannel;
 import net.sharksystem.android.ASAPChannelIntent;
-import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
 
-/**
- * View a single makan
- */
-public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
+public class SNChannelViewActivity extends SNChannelsActivity {
     private RecyclerView mRecyclerView;
+    private SNChannelViewContentAdapter mAdapter;
 
-    private MakanViewContentAdapter mAdapter;
-
-    private CharSequence topicUri = null;
+    private CharSequence channelURI = null;
     private CharSequence name;
+    private ASAPChannel asapChannel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,36 +32,44 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
         // get parameters
         try {
             ASAPChannelIntent intent = new ASAPChannelIntent(this.getIntent());
-            this.topicUri = intent.getUri();
+            this.channelURI = intent.getUri();
             this.name = intent.getName();
 
         } catch (SharkException e) {
-            Log.d(this.getLogStart(), "cannot create makan view intent from intent (fatal): "
+            Log.d(this.getLogStart(), "could not read from intent (fatal): "
                     + e.getLocalizedMessage());
 
             return;
         }
 
         try {
-            setContentView(R.layout.makan_view_drawer_layout);
+//            setContentView(R.layout.makan_view_drawer_layout);
+            setContentView(R.layout.sn_channel_view_drawer_layout);
 
-            this.getSharkNetApp().setupDrawerLayout(this);
+            this.getASAPApplication().setupDrawerLayout(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
             // setup toolbar
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_view_with_toolbar);
+//            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_view_with_toolbar);
+            Toolbar myToolbar = (Toolbar) findViewById(R.id.sn_channel_view_drawer_layout);
             setSupportActionBar(myToolbar);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare recycler view                      //
             ////////////////////////////////////////////////////////////////////////
 
-            mRecyclerView = (RecyclerView) findViewById(R.id.makan_view_recycler_view);
+//            mRecyclerView = (RecyclerView) findViewById(R.id.makan_view_recycler_view);
+            mRecyclerView = (RecyclerView) findViewById(R.id.sn_channel_view_recycler_view);
 
-            mAdapter = new MakanViewContentAdapter(this,
-                    this.topicUri, this.name, this.getSharkNetApp().getOwnerID());
+            this.asapChannel =
+                    SNChannelsComponent.getSharkNetChannelComponent().getStorage(this.channelURI);
+
+            mAdapter = new SNChannelViewContentAdapter(
+                    this,
+                    this.asapChannel,
+                    this.channelURI, this.name);
 
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
@@ -79,7 +84,7 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
     }
 
     /////////////////////////////////////////////////////////////////////////////////
-    //                               makan toolbar methods                         //
+    //                               sn channel toolbar methods                    //
     /////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -90,7 +95,7 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.makan_view_action_buttons, menu);
+        inflater.inflate(R.menu.sn_channel_view_action_buttons, menu);
         return true;
     }
 
@@ -99,7 +104,7 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
 
         try {
             switch (item.getItemId()) {
-                case R.id.makanMenuAddMessage:
+                case R.id.snChannelViewMenuAddMessage:
                     this.doAddMessage();
                     return true;
 
@@ -121,9 +126,8 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
         Log.d(this.getLogStart(), "doAddMessageCalled");
 
         ASAPChannelIntent intent = new ASAPChannelIntent(this,
-                this.name, this.topicUri,
-                MakanAddMessageActivity.class);
-
+                this.name, this.channelURI,
+                SNChannelAddMessageActivity.class);
 
         startActivity(intent);
     }
@@ -136,26 +140,23 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
 
     private void resetAdapter() {
         // reset adapter to get access to new data
-        try {
-            mAdapter = new MakanViewContentAdapter(this,
-                    this.topicUri, this.name, this.getSharkNetApp().getOwnerID());
-            Log.d(this.getLogStart(), "recreate adapter");
-            this.mRecyclerView.setAdapter(this.mAdapter);
-            Log.d(this.getLogStart(), "notify data set changed");
-            mAdapter.notifyDataSetChanged();
-        } catch (SharkException e) {
-            e.printStackTrace();
-        }
+        mAdapter = new SNChannelViewContentAdapter(this,
+                this.asapChannel,
+                this.channelURI, this.name);
+        Log.d(this.getLogStart(), "recreate adapter");
+        this.mRecyclerView.setAdapter(this.mAdapter);
+        Log.d(this.getLogStart(), "notify data set changed");
+        mAdapter.notifyDataSetChanged();
     }
 
-    @Override
     public void asapUriContentChanged(CharSequence changedUri) {
         Log.d(this.getLogStart(), "uriContentChanged: " + changedUri);
 
-        if(this.topicUri.toString().equalsIgnoreCase(changedUri.toString())) {
+        if(this.channelURI.toString().equalsIgnoreCase(changedUri.toString())) {
             this.resetAdapter();
         } else {
-            Log.d(this.getLogStart(), "not my uri: " + this.topicUri);
+            Log.d(this.getLogStart(), "not my uri: " + this.channelURI);
         }
     }
+
 }

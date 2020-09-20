@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.persons.PersonValues;
 
 public class PersonListContentAdapter extends
@@ -81,7 +82,7 @@ public class PersonListContentAdapter extends
             Log.d(this.getLogStart(), "signing failure: " + signingFailureRate);
             holder.personCertificateExchangeFailure.setText(String.valueOf(signingFailureRate));
 
-        } catch (SharkException e) {
+        } catch (ASAPSecurityException e) {
             Toast.makeText(this.ctx, "error finding person information: ", Toast.LENGTH_SHORT).show();
             return;
         }

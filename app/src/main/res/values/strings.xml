@@ -84,5 +84,9 @@
     Be very careful. Reject this credential if you have any doubt. By adding, you ensure yourself
     and your peer group that you have identified this person as it claims to be. Your credibility is
     at stake.</string>
+    <string name="appSharkNet">SNChannels</string>
+    <string name="snAddChannelButtonText">Add Channel</string>
+    <string name="snRemoveAllChannelButtonText">Remove all</string>
+    <string name="snChannelMenuAddMessageButtonText">Add message</string>
 
 </resources>

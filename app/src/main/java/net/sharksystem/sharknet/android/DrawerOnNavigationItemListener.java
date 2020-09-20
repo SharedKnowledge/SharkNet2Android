@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import net.sharksystem.R;
+import net.sharksystem.asap.sharknet.android.SNChannelsListActivity;
 import net.sharksystem.persons.android.OwnerActivity;
 import net.sharksystem.makan.android.MakanListActivity;
 import net.sharksystem.persons.android.PersonListViewActivity;
@@ -36,6 +37,11 @@ public class DrawerOnNavigationItemListener implements
 
             Intent intent = null;
             switch (itemId) {
+                case R.id.moduleSharkNetChannels:
+                    intent = new Intent(this.activity, SNChannelsListActivity.class);
+                    this.activity.startActivity(intent);
+                    break;
+
                 case R.id.moduleMakan:
                     intent = new Intent(this.activity, MakanListActivity.class);
                     this.activity.startActivity(intent);

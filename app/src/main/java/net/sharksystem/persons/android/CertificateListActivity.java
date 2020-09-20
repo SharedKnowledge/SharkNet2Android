@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.ASAPCertificate;
 
@@ -94,14 +95,14 @@ public class CertificateListActivity extends PersonAppActivity {
         return certList;
     }
 
-    private List<ASAPCertificate> produceListBySubject(CharSequence userID) throws SharkException {
+    private List<ASAPCertificate> produceListBySubject(CharSequence userID) throws ASAPSecurityException {
         Collection<ASAPCertificate> certColl =
                 PersonsStorageAndroidComponent.getPersonsStorage().getCertificatesBySubject(userID);
 
         return this.produceCertList(certColl);
     }
 
-    private List<ASAPCertificate> produceListByIssuer(CharSequence userID) throws SharkException {
+    private List<ASAPCertificate> produceListByIssuer(CharSequence userID) throws ASAPSecurityException {
         Collection<ASAPCertificate> certColl =
                 PersonsStorageAndroidComponent.getPersonsStorage().getCertificatesByIssuer(userID);
 
@@ -109,7 +110,7 @@ public class CertificateListActivity extends PersonAppActivity {
     }
 
     private List<ASAPCertificate> produceListToExplain(CharSequence userID)
-            throws SharkException {
+            throws SharkException, ASAPSecurityException {
 
         PersonsStorageAndroidComponent personsApp = PersonsStorageAndroidComponent.getPersonsStorage();
 

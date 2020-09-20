@@ -1,4 +1,4 @@
-package net.sharksystem.makan.android;
+package net.sharksystem.asap.sharknet.android;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,54 +13,50 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.makan.android.viewadapter.MakanListContentAdapter;
-import net.sharksystem.makan.android.viewadapter.MakanViewContentAdapter;
-import net.sharksystem.sharknet.android.SharkNetActivity;
-import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
-/**
- * work with makan list
- */
-public class MakanListActivity extends MakanUriContentChangedListenerActivity {
+public class SNChannelsListActivity extends SNChannelsActivity {
     private RecyclerView mRecyclerView;
 
-    private MakanListContentAdapter mAdapter;
+//    private MakanListContentAdapter mAdapter;
+    private SNChannelsListContentAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(this.isFinishing()) {
-            Log.d(this.getLogStart(), "leave onCreate - isFinishing");
-            return;
-        }
-
         Log.d(this.getLogStart(), "onCreate");
 
         try {
-            setContentView(R.layout.makan_list_drawer_layout);
+            setContentView(R.layout.sn_channels_list_drawer_layout);
 
-            this.getSharkNetApp().setupDrawerLayout(this);
+            this.getASAPApplication().setupDrawerLayout(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
             // setup toolbar
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_list_with_toolbar);
+//            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_list_with_toolbar);
+            Toolbar myToolbar = (Toolbar) findViewById(R.id.sn_channel_list_with_toolbar);
+
             setSupportActionBar(myToolbar);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare recycler view                      //
             ////////////////////////////////////////////////////////////////////////
 
-            mRecyclerView = (RecyclerView) findViewById(R.id.makan_list_recycler_view);
+//            mRecyclerView = (RecyclerView) findViewById(R.id.makan_list_recycler_view);
+            mRecyclerView = (RecyclerView) findViewById(R.id.sn_channel_list_recycler_view);
 
+            mAdapter = new SNChannelsListContentAdapter(this);
+            RecyclerView.LayoutManager mLayoutManager =
+                    new LinearLayoutManager(getApplicationContext());
+            /*
             mAdapter = new MakanListContentAdapter(this);
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
+             */
 
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -88,7 +84,7 @@ public class MakanListActivity extends MakanUriContentChangedListenerActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.makan_list_action_buttons, menu);
+        inflater.inflate(R.menu.sn_channel_list_action_buttons, menu);
         return true;
     }
 
@@ -97,15 +93,11 @@ public class MakanListActivity extends MakanUriContentChangedListenerActivity {
 
         try {
             switch (item.getItemId()) {
-                case R.id.makanMenuAddOpenButton:
-                    this.doAddOpenMakan();
+                case R.id.snAddChannelButton:
+                    this.doAddChannel();
                     return true;
 
-                case R.id.makanMenuAddClosedButton:
-                    this.doAddClosedMakan();
-                    return true;
-
-                case R.id.makanMenuRemoveAllButton:
+                case R.id.snRemoveAllChannelButton:
                     this.doRemoveAll();
                     // force adapter to refresh ui
                     this.mAdapter.notifyDataSetChanged();
@@ -144,19 +136,11 @@ public class MakanListActivity extends MakanUriContentChangedListenerActivity {
     //                                ASAP / Makan Storage Management                          //
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void doAddOpenMakan() {
+    private void doAddChannel() {
         String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(this.getLogStart(), "doAddOpenMakanCalled");
+        Log.d(this.getLogStart(), "doAddChannel");
 
-        Intent intent = new Intent(this, AddOpenMakanActivity.class);
-        this.startActivity(intent);
-    }
-
-    private void doAddClosedMakan() {
-        String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(this.getLogStart(), "doAddClosedMakanCalled");
-
-        Intent intent = new Intent(this, AddClosedMakanActivity.class);
+        Intent intent = new Intent(this, SNChannelAddActivity.class);
         this.startActivity(intent);
     }
 
@@ -164,15 +148,16 @@ public class MakanListActivity extends MakanUriContentChangedListenerActivity {
         String sampleLine = Long.toString(System.currentTimeMillis());
         Log.d(this.getLogStart(), "doRemoveAll called");
 
-        MakanApp.getMakanApp().getMakanStorage().removeAllMakan();
+        SNChannelsComponent.getSharkNetChannelComponent().removeAll();
 
         Toast.makeText(this, "done - removed all makan", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
+//    @Override
     public void asapUriContentChanged(CharSequence changedUri) {
         // content in a changed - could set something to make it visible - but at least redraw
         Log.d(this.getLogStart(), "content in a uri changed redraw view (could highlight changed makan in some later versions)");
         mAdapter.notifyDataSetChanged();
     }
+
 }

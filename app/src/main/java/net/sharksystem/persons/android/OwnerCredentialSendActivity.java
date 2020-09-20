@@ -10,8 +10,8 @@ import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.asap.ASAPMessages;
 import net.sharksystem.crypto.ASAPCertificateStorage;
+import net.sharksystem.persons.ASAPPKI;
 import net.sharksystem.persons.CredentialMessage;
-import net.sharksystem.persons.PersonsStorage;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class OwnerCredentialSendActivity extends PersonAppActivity {
@@ -50,7 +50,9 @@ public class OwnerCredentialSendActivity extends PersonAppActivity {
             try {
                 sended = true;
 
-                PersonsStorageAndroidComponent personsAppAndroid = PersonsStorageAndroidComponent.getPersonsStorage();
+                PersonsStorageAndroidComponent personsAppAndroid =
+                        PersonsStorageAndroidComponent.getPersonsStorage();
+
                 CredentialMessage credentialMessage = personsAppAndroid.createCredentialMessage();
 
                 // set control number
@@ -58,8 +60,8 @@ public class OwnerCredentialSendActivity extends PersonAppActivity {
                 tv.setText(CredentialMessage.sixDigitsToString(credentialMessage.getRandomInt()));
 
                 Log.d(this.getLogStart(), "send credentials: " + credentialMessage);
-                this.sendASAPMessage(PersonsStorage.CREDENTIAL_APP_NAME,
-                        PersonsStorage.CREDENTIAL_URI,
+                this.sendASAPMessage(ASAPPKI.CREDENTIAL_APP_NAME,
+                        ASAPPKI.CREDENTIAL_URI,
                         credentialMessage.getMessageAsBytes(),
                         true);
 

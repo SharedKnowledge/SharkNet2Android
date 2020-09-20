@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -36,7 +37,7 @@ public class RadarActivity extends SharkNetActivity {
                 String peerName = "unknown";
                 try {
                     peerName = personsApp.getPersonValues(peerID).getName().toString();
-                } catch (SharkException e) {
+                } catch (ASAPSecurityException e) {
                     e.printStackTrace();
                 }
                 sb.append("name: ");

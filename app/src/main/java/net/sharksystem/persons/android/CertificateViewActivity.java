@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.crypto.ASAPCertificate;
 
 import java.text.SimpleDateFormat;
@@ -45,7 +46,7 @@ public class CertificateViewActivity extends AppCompatActivity {
                 cert = PersonsStorageAndroidComponent.getPersonsStorage().
                         getCertificateByIssuerAndSubject(issuerID, subjectID);
             }
-            catch(SharkException e) {
+            catch(ASAPSecurityException e) {
                 Log.e(this.getLogStart(), "internal failure: no cert found");
                 Toast.makeText(this,
                         "internal failure: no cert found", Toast.LENGTH_SHORT).show();

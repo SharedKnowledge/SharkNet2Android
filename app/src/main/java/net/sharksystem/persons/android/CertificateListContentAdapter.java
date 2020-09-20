@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.crypto.ASAPCertificate;
 
 import java.text.SimpleDateFormat;
@@ -104,7 +105,7 @@ class CertificateListContentAdapter extends
         try {
             identityAssurance = PersonsStorageAndroidComponent.getPersonsStorage().
                     getIdentityAssurance(asapCertificate.getSubjectID());
-        } catch (SharkException e) {
+        } catch (ASAPSecurityException e) {
             Log.d(this.getLogStart(),
                     "issuer in certificate but not found in person storage " +
                             "- can happen if persons are manually removed from list");

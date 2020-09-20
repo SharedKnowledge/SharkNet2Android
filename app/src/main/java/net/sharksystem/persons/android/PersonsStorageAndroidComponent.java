@@ -6,6 +6,7 @@ import android.util.Log;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPEngineFS;
 import net.sharksystem.asap.ASAPException;
+import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.ASAPStorage;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.asap.android.apps.ASAPApplication;
@@ -16,10 +17,10 @@ import net.sharksystem.crypto.ASAPCertificate;
 import net.sharksystem.crypto.ASAPCertificateStorage;
 import net.sharksystem.crypto.ASAPCertificateStorageImpl;
 import net.sharksystem.crypto.ASAPKeyStorage;
-import net.sharksystem.crypto.SharkCryptoException;
+import net.sharksystem.persons.ASAPPKIImpl;
 import net.sharksystem.persons.CredentialMessage;
-import net.sharksystem.persons.PersonsStorageImpl;
 import net.sharksystem.persons.TestHelperPersonStorage;
+import net.sharksystem.sharknet.android.AndroidASAPKeyStorage;
 import net.sharksystem.sharknet.android.Owner;
 import net.sharksystem.sharknet.android.OwnerFactory;
 
@@ -35,7 +36,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PersonsStorageAndroidComponent extends PersonsStorageImpl
+public class PersonsStorageAndroidComponent extends ASAPPKIImpl
         implements ASAPApplicationComponent /*InMemoPersonsStorageImpl*/ {
 
     public static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
@@ -46,10 +47,12 @@ public class PersonsStorageAndroidComponent extends PersonsStorageImpl
     private final OwnerFactory ownerFactory;
     private Set<CharSequence> selectedItemIDs = null;
     private CredentialMessage credentialMessage;
+    private final AndroidASAPKeyStorage asapKeyStorage;
 
-    private PersonsStorageAndroidComponent(ASAPApplication asapApplication, OwnerFactory ownerFactory,
-                                           ASAPStorage asapStorage, ASAPKeyStorage keyStorage)
-            throws SharkException, IOException {
+    private PersonsStorageAndroidComponent(ASAPApplication asapApplication,
+                       OwnerFactory ownerFactory, ASAPStorage asapStorage,
+                           AndroidASAPKeyStorage keyStorage)
+            throws IOException, ASAPSecurityException {
 
         super(
             new ASAPCertificateStorageImpl(asapStorage,
@@ -63,6 +66,8 @@ public class PersonsStorageAndroidComponent extends PersonsStorageImpl
         // set up component helper
         this.asapComponentHelper = new ASAPApplicationComponentHelper();
         this.asapComponentHelper.setASAPApplication(asapApplication);
+
+        this.asapKeyStorage = keyStorage;
 
         // remember owner storage
         this.ownerFactory = ownerFactory;
@@ -82,7 +87,8 @@ public class PersonsStorageAndroidComponent extends PersonsStorageImpl
         }
     }
 
-    public static void initialize(ASAPApplication asapApplication, OwnerFactory ownerFactory) {
+    public static void initialize(ASAPApplication asapApplication,
+                              OwnerFactory ownerFactory, AndroidASAPKeyStorage asapKeyStorage) {
         try {
             /*
             File personsStorageFile =
@@ -99,12 +105,13 @@ public class PersonsStorageAndroidComponent extends PersonsStorageImpl
                             ASAPCertificateStorage.CERTIFICATE_APP_NAME), // app name
 
 //                    AndroidASAPKeyStorage.createASAPKeyStorage(personsStorageFile)
-                    AndroidASAPKeyStorage.initializeASAPKeyStorage(asapApplication.getActivity())
+//                    AndroidASAPKeyStorage.initializeASAPKeyStorage(asapApplication.getActivity())
+                    asapKeyStorage
             );
 
             //instance.fillWithExampleData();
         } catch (Exception e) {
-            Log.e(net.sharksystem.asap.util.Log.startLog(PersonsStorageImpl.class).toString(),
+            Log.e(net.sharksystem.asap.util.Log.startLog(ASAPPKIImpl.class).toString(),
                     "problems when creating ASAP Storage:" + e.getLocalizedMessage());
         }
     }
@@ -135,7 +142,7 @@ public class PersonsStorageAndroidComponent extends PersonsStorageImpl
     @Override
     public ASAPCertificate addAndSignPerson(
             CharSequence userID, CharSequence userName, PublicKey publicKey, long validSince)
-            throws SharkCryptoException, IOException {
+            throws IOException, ASAPSecurityException {
 
         ASAPCertificate cert = super.addAndSignPerson(userID, userName, publicKey, validSince);
         this.save();
@@ -209,7 +216,7 @@ public class PersonsStorageAndroidComponent extends PersonsStorageImpl
 
         try {
             return this.getPersonValues(userID).getName();
-        } catch (SharkException e) {
+        } catch (ASAPSecurityException e) {
             // not found - return id instead
             return userID;
         }
@@ -245,5 +252,13 @@ public class PersonsStorageAndroidComponent extends PersonsStorageImpl
     @Override
     public ASAPApplication getASAPApplication() {
         return this.asapComponentHelper.getASAPApplication();
+    }
+
+    public ASAPKeyStorage getASAPKeyStorage() {
+        return this.asapKeyStorage;
+    }
+
+    public AndroidASAPKeyStorage getAndroidASAPKeyStorage() {
+        return this.asapKeyStorage;
     }
 }

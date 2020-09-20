@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.asap.sharknet.android.SNChannelsListActivity;
 import net.sharksystem.makan.android.MakanListActivity;
 import net.sharksystem.persons.android.OwnerActivity;
 
@@ -27,7 +28,8 @@ public class InitActivity extends AppCompatActivity {
 
         if(launchFirstActivity) {
             // leave - we have no business here
-            Intent intent = new Intent(this, MakanListActivity.class);
+//            Intent intent = new Intent(this, MakanListActivity.class);
+            Intent intent = new Intent(this, SNChannelsListActivity.class);
             this.startActivity(intent);
         } else {
             setContentView(R.layout.init);

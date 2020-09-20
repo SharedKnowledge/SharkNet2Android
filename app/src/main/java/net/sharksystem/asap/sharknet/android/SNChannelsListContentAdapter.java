@@ -1,4 +1,4 @@
-package net.sharksystem.makan.android.viewadapter;
+package net.sharksystem.asap.sharknet.android;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,68 +11,58 @@ import android.widget.TextView;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.makan.Makan;
-import net.sharksystem.makan.MakanStorage;
-import net.sharksystem.makan.android.MakanApp;
 import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.makan.android.MakanViewActivity;
 
 import java.io.IOException;
 
-public class MakanListContentAdapter extends
-        RecyclerView.Adapter<MakanListContentAdapter.MyViewHolder> implements View.OnClickListener {
+class SNChannelsListContentAdapter extends
+        RecyclerView.Adapter<SNChannelsListContentAdapter.MyViewHolder>
+                implements View.OnClickListener {
 
     private final Context ctx;
     private View.OnClickListener clickListener;
+
+    @Override
+    public SNChannelsListContentAdapter.MyViewHolder onCreateViewHolder(
+            ViewGroup parent, int viewType) {
+        Log.d(this.getLogStart(), "onCreateViewHolder");
+
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.sn_channels_list_row, parent, false);
+
+        return new SNChannelsListContentAdapter.MyViewHolder(itemView);
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView uriTextView, nameTextView;
 
         public MyViewHolder(View view) {
             super(view);
-            uriTextView = (TextView) view.findViewById(R.id.makan_list_row_uid);
-            nameTextView = (TextView) view.findViewById(R.id.makan_list_row_name);
+            uriTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_uri);
+            nameTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_name);
             view.setOnClickListener(clickListener);
         }
     }
 
-    public MakanListContentAdapter(Context ctx) throws SharkException {
+    public SNChannelsListContentAdapter(Context ctx) throws SharkException {
         Log.d(this.getLogStart(), "constructor");
         this.ctx = ctx;
         this.clickListener = this;
     }
 
     @Override
-    public MakanListContentAdapter.MyViewHolder onCreateViewHolder(
-            ViewGroup parent, int viewType) {
-        Log.d(this.getLogStart(), "onCreateViewHolder");
-
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.makan_list_row, parent, false);
-
-        return new MakanListContentAdapter.MyViewHolder(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(MakanListContentAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(SNChannelsListContentAdapter.MyViewHolder holder, int position) {
         Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
         // go ahead
         try {
-            MakanStorage makanStorage = MakanApp.getMakanApp().getMakanStorage();
-            if(makanStorage == null) {
-                Log.d(this.getLogStart(), "fatal: no makan storage");
-                return;
-            }
+            SNChannelInformation snInfo =
+                    SNChannelsComponent.getSharkNetChannelComponent().
+                            getSNChannelInformation(position);
 
-            Makan makan = makanStorage.getMakan(position);
-            if(makan == null) {
-                Log.d(this.getLogStart(), "fatal: no makan");
-                return;
-            }
-
-            holder.uriTextView.setText(makan.getURI());
-            holder.nameTextView.setText(makan.getName());
+            holder.uriTextView.setText(snInfo.uri);
+            holder.nameTextView.setText(snInfo.name);
         } catch (IOException | ASAPException e) {
             Log.e(this.getLogStart(), "problems while showing makan entries: "
                     + e.getLocalizedMessage());
@@ -86,7 +76,7 @@ public class MakanListContentAdapter extends
 
         int realSize = 0;
         try {
-            realSize = MakanApp.getMakanApp().getMakanStorage().size();
+            realSize = SNChannelsComponent.getSharkNetChannelComponent().size();
             Log.d(this.getLogStart(), "count is: " + realSize);
         } catch (Exception e) {
             Log.e(this.getLogStart(), "cannot access message storage (yet?)");
@@ -99,10 +89,10 @@ public class MakanListContentAdapter extends
     public void onClick(View view) {
         Log.d(this.getLogStart(), "click on view recognized");
 
-        TextView uriTextView = (TextView) view.findViewById(R.id.makan_list_row_uid);
+        TextView uriTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_uri);
         Log.d(this.getLogStart(), "uri: " + uriTextView.getText());
 
-        TextView nameTextView = (TextView) view.findViewById(R.id.makan_list_row_name);
+        TextView nameTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_name);
         Log.d(this.getLogStart(), "name: " + nameTextView.getText());
 
         ASAPChannelIntent intent =
@@ -110,7 +100,7 @@ public class MakanListContentAdapter extends
                         ctx,
                         nameTextView.getText(),
                         uriTextView.getText(),
-                        MakanViewActivity.class);
+                        SNChannelViewActivity.class);
 
         ctx.startActivity(intent);
     }
