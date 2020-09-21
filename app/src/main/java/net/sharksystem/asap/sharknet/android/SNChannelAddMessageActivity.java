@@ -44,13 +44,13 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
 
         Log.d(this.getLogStart(), "created with name: " + this.name + " / " + this.uri);
 
-        TextView topicTextView = (TextView) findViewById(R.id.makanName);
+        TextView topicTextView = (TextView) findViewById(R.id.snChannelName);
         topicTextView.setText(this.name);
     }
 
     public void onAddClick(View view) {
         // get new message
-        EditText messageTextView = (EditText) findViewById(R.id.makanMessage);
+        EditText messageTextView = (EditText) findViewById(R.id.snMessage);
 
         String messageText = messageTextView.getText().toString();
 
@@ -60,17 +60,16 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
             try {
 
                 // let's sort things out.
-                CharSequence topic = this.uri;
                 CharSequence sender =
                         SNChannelsComponent.getSharkNetChannelComponent().getOwnerID();
                 Set<CharSequence> recipients = new HashSet<>();
                 recipients.add("Alice"); // TODO must come from GUI
-                boolean sign = false; // TODO must come from GUI
-                boolean encrypt = false;  // TODO must come from GUI
+                boolean sign = true; // TODO must come from GUI
+                boolean encrypt = true;  // TODO must come from GUI
                 BasicKeyStore basicKeyStore =
                         SNChannelsComponent.getSharkNetChannelComponent().getBasicKeyStore();
 
-                byte[] content = "TestContent".getBytes();  // TODO must come from GUI
+                byte[] content = messageText.getBytes();
 
                 byte[] serializedMessage = null;
                     serializedMessage = InMemoSNMessage.serializeMessage(

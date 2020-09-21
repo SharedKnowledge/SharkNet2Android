@@ -53,7 +53,7 @@ public class SNChannelViewActivity extends SNChannelsActivity {
             ////////////////////////////////////////////////////////////////////////
             // setup toolbar
 //            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_view_with_toolbar);
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.sn_channel_view_drawer_layout);
+            Toolbar myToolbar = (Toolbar) findViewById(R.id.sn_channel_view_with_toolbar);
             setSupportActionBar(myToolbar);
 
             ////////////////////////////////////////////////////////////////////////
