@@ -7,9 +7,9 @@
     <!-- to make recyclerview running -->
     <color name="message">#999999</color>
     <color name="topic">#222222</color>
-    <color name="makanMessage">#999999</color>
+    <color name="snMessage">#999999</color>
     <color name="makanSentDate">#999999</color>
-    <color name="makanSender">#999999</color>
+    <color name="snSender">#999999</color>
 
     <color name="personName">#999999</color>
     <color name="personIdentityAssuranceLevel">#999999</color>

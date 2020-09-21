@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/makan_list_row_uid"
-        android:textColor="@color/makanMessage"
+        android:textColor="@color/snMessage"
         android:textSize="16dp"
         android:textStyle="bold"
         />

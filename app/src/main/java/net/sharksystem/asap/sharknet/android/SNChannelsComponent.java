@@ -5,7 +5,6 @@ import android.text.Editable;
 import android.util.Log;
 
 import net.sharksystem.asap.ASAPChannel;
-import net.sharksystem.asap.ASAPChunkReceivedListener;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPMessages;
 import net.sharksystem.asap.ASAPStorage;
@@ -15,28 +14,33 @@ import net.sharksystem.asap.android.apps.ASAPApplicationComponentHelper;
 import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.crypto.BasicKeyStore;
+import net.sharksystem.sharknet.android.PersonsStorage;
 import net.sharksystem.sharknet.android.OwnerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class SNChannelsComponent implements ASAPApplicationComponent, ASAPMessageReceivedListener {
+public class SNChannelsComponent implements
+        ASAPApplicationComponent, ASAPMessageReceivedListener, PersonsStorage {
     public static final CharSequence APP_NAME = "SharkNet";
     private static final String KEY_NAME_SN_CHANNEL_NAME = "snChannelName";
     private static SNChannelsComponent instance;
     private final ASAPApplicationComponentHelper asapComponentHelper;
     private final BasicKeyStore basicKeyStore;
     private final OwnerFactory ownerFactory;
+    private final PersonsStorage personsStorage;
 
     public SNChannelsComponent(ASAPApplication asapApplication,
-                   BasicKeyStore basicKeyStore, OwnerFactory ownerFactory) {
+                   BasicKeyStore basicKeyStore, OwnerFactory ownerFactory,
+                   PersonsStorage personsStorage) {
 
         // set up component helper
         this.asapComponentHelper = new ASAPApplicationComponentHelper();
         this.asapComponentHelper.setASAPApplication(asapApplication);
         this.basicKeyStore = basicKeyStore;
         this.ownerFactory = ownerFactory;
+        this.personsStorage = personsStorage;
     }
 
     /**
@@ -44,12 +48,15 @@ public class SNChannelsComponent implements ASAPApplicationComponent, ASAPMessag
      * @param asapApplication
      */
     public static void initialize(ASAPApplication asapApplication,
-                      BasicKeyStore basicKeyStore, OwnerFactory ownerFactory) {
+                      BasicKeyStore basicKeyStore,
+                      OwnerFactory ownerFactory,
+                      PersonsStorage personsStorage) {
         try {
             SNChannelsComponent.instance = new SNChannelsComponent(
                     asapApplication,
                     basicKeyStore,
-                    ownerFactory
+                    ownerFactory,
+                    personsStorage
             );
 
             // add chunk received listener
@@ -156,4 +163,8 @@ public class SNChannelsComponent implements ASAPApplicationComponent, ASAPMessag
         return this.getClass().getSimpleName() + ": ";
     }
 
+    @Override
+    public CharSequence getPersonName(CharSequence peerID) throws ASAPException {
+        return this.personsStorage.getPersonName(peerID);
+    }
 }

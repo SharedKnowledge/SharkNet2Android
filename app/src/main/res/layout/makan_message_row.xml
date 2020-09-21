@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:textColor="@color/makanSender"
+        android:textColor="@color/snSender"
         android:layout_alignRight="@id/makan_message_row_date"
         />
 
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/makan_message_row_date"
-        android:textColor="@color/makanMessage"
+        android:textColor="@color/snMessage"
         android:textSize="16dp"
         android:textStyle="bold"
         />

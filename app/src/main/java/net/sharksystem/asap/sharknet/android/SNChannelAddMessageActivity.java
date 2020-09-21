@@ -12,7 +12,6 @@ import net.sharksystem.SharkException;
 import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.sharknet.InMemoSNMessage;
-import net.sharksystem.asap.sharknet.SNMessage;
 import net.sharksystem.crypto.BasicKeyStore;
 
 import java.io.IOException;
@@ -63,7 +62,7 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
                 CharSequence sender =
                         SNChannelsComponent.getSharkNetChannelComponent().getOwnerID();
                 Set<CharSequence> recipients = new HashSet<>();
-                recipients.add("Alice"); // TODO must come from GUI
+                recipients.add(sender); // TODO must come from GUI
                 boolean sign = true; // TODO must come from GUI
                 boolean encrypt = true;  // TODO must come from GUI
                 BasicKeyStore basicKeyStore =
@@ -80,7 +79,7 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
                         serializedMessage, true);
 
             } catch (ASAPException | IOException e) {
-                Log.d(this.getLogStart(), "problems when sending makan message: "
+                Log.d(this.getLogStart(), "problems when sending message in SNChannel: "
                         + e.getLocalizedMessage());
             }
         }

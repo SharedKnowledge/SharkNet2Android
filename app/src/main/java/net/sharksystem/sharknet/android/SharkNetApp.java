@@ -88,7 +88,8 @@ public class SharkNetApp extends ASAPApplication implements OwnerFactory {
             SNChannelsComponent.initialize(
                     SharkNetApp.singleton, // ASAPApplication
                     asapKeyStorage, // BasicKeyStore
-                    SharkNetApp.singleton // OwnerFactory
+                    SharkNetApp.singleton, // OwnerFactory
+                    PersonsStorageAndroidComponent.getPersonsStorage() // PersonStorage
             );
 
             // all components put together - launch the system

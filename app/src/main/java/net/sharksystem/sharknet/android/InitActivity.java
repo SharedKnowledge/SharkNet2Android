@@ -28,8 +28,8 @@ public class InitActivity extends AppCompatActivity {
 
         if(launchFirstActivity) {
             // leave - we have no business here
-            Intent intent = new Intent(this, MakanListActivity.class);
-//            Intent intent = new Intent(this, SNChannelsListActivity.class);
+//            Intent intent = new Intent(this, MakanListActivity.class);
+            Intent intent = new Intent(this, SNChannelsListActivity.class);
             this.startActivity(intent);
         } else {
             setContentView(R.layout.init);

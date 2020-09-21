@@ -23,6 +23,7 @@ import net.sharksystem.persons.TestHelperPersonStorage;
 import net.sharksystem.sharknet.android.AndroidASAPKeyStorage;
 import net.sharksystem.sharknet.android.Owner;
 import net.sharksystem.sharknet.android.OwnerFactory;
+import net.sharksystem.sharknet.android.PersonsStorage;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,7 +38,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PersonsStorageAndroidComponent extends ASAPPKIImpl
-        implements ASAPApplicationComponent /*InMemoPersonsStorageImpl*/ {
+        implements ASAPApplicationComponent, PersonsStorage /*InMemoPersonsStorageImpl*/ {
 
     public static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
     private static final String PERSONS_STORAGE_FILE_NAME = "sn2_personsStorageFile";

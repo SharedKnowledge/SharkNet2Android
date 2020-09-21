@@ -11,6 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/row_padding_vertical">
 
+    <!-- line 1 -->
     <TextView
         android:id="@+id/sn_channel_message_row_date"
         android:layout_width="wrap_content"
@@ -24,18 +25,58 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:textColor="@color/makanSender"
+        android:textColor="@color/snSender"
         android:layout_alignRight="@id/sn_channel_message_row_date"
         />
 
+    <!-- line 2 -->
     <TextView
         android:id="@+id/sn_channel_message_row_message"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/sn_channel_message_row_date"
-        android:textColor="@color/makanMessage"
+        android:textColor="@color/snMessage"
         android:textSize="16dp"
         android:textStyle="bold"
+        />
+
+    <!-- line 3 -->
+    <TextView
+        android:id="@+id/sn_channel_message_row_encrypted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sn_channel_message_row_message"
+        android:textColor="@color/snSender"
+        />
+
+    <TextView
+        android:id="@+id/sn_channel_message_row_verified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/snSender"
+        android:layout_below="@id/sn_channel_message_row_message"
+        android:layout_marginLeft="8dp"
+        android:layout_toEndOf="@id/sn_channel_message_row_encrypted"
+        />
+
+    <TextView
+        android:id="@+id/sn_channel_message_row_identityassurance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/snSender"
+        android:layout_below="@id/sn_channel_message_row_message"
+        android:layout_alignEnd="@id/sn_channel_message_row_message"
+        />
+
+    <!-- line 4 -->
+    <TextView
+        android:id="@+id/sn_channel_message_row_recipients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sn_channel_message_row_encrypted"
+        android:textColor="@color/snSender"
         />
 
 </RelativeLayout>
