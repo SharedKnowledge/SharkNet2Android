@@ -11,7 +11,8 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.sharknet.SharkNetMessage;
+import net.sharksystem.asap.sharknet.InMemoSNMessage;
+import net.sharksystem.asap.sharknet.SNMessage;
 import net.sharksystem.crypto.BasicKeyStore;
 
 import java.io.IOException;
@@ -58,7 +59,7 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
         } else {
             try {
 
-                // let's sort the things out.
+                // let's sort things out.
                 CharSequence topic = this.uri;
                 CharSequence sender =
                         SNChannelsComponent.getSharkNetChannelComponent().getOwnerID();
@@ -71,20 +72,9 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
 
                 byte[] content = "TestContent".getBytes();  // TODO must come from GUI
 
-                // create sn message
-                SharkNetMessage snMessage;
-
-                if(recipients.size() < 2) {
-                    snMessage = new SharkNetMessage(
-                            content, topic, sender, recipients.iterator().next(),
-                            sign, encrypt, basicKeyStore);
-                } else { // more recipients
-                    snMessage = new SharkNetMessage(
-                            content, topic, sender, recipients, sign, basicKeyStore);
-                }
-
-                // serialize
-                byte[] serializedMessage = snMessage.getSerializedMessage();
+                byte[] serializedMessage = null;
+                    serializedMessage = InMemoSNMessage.serializeMessage(
+                            content, sender, recipients, sign, encrypt, basicKeyStore);
 
                 // deliver as asap message
                 this.sendASAPMessage(SNChannelsComponent.APP_NAME, this.uri,

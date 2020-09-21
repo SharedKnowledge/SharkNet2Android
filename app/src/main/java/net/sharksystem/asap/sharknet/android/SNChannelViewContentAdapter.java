@@ -11,7 +11,8 @@ import android.widget.TextView;
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPChannel;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.sharknet.SharkNetMessage;
+import net.sharksystem.asap.sharknet.InMemoSNMessage;
+import net.sharksystem.asap.sharknet.SNMessage;
 import net.sharksystem.crypto.BasicKeyStore;
 import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.android.MakanApp;
@@ -75,14 +76,11 @@ public class SNChannelViewContentAdapter extends
                 CharSequence ownerID, BasicKeyStore basicKeyStore) throws IOException, ASAPException {
  */
             CharSequence sender;
-            String uri = this.asapChannel.getUri().toString();
-            CharSequence ownerID = SNChannelsComponent.getSharkNetChannelComponent().getOwnerID();
-
             BasicKeyStore basicKeyStore =
                     SNChannelsComponent.getSharkNetChannelComponent().getBasicKeyStore();
 
-            SharkNetMessage snMessage =
-                    SharkNetMessage.parseMessage(asapMessage, uri, ownerID, basicKeyStore);
+            SNMessage snMessage =
+                    InMemoSNMessage.parseMessage(asapMessage, basicKeyStore);
 
             // produce SNMessage
             String date = "dummy Date";
