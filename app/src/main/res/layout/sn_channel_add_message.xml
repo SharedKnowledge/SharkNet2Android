@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- line 1 -->
     <TextView
         android:id="@+id/snChannelName"
         android:layout_width="258dp"
@@ -10,6 +11,7 @@
         android:text="no ownerName"
         />
 
+    <!-- line 2 -->
     <EditText
         android:id="@+id/snMessage"
         android:layout_width="258dp"
@@ -18,17 +20,109 @@
         android:inputType="textMultiLine"
         />
 
+    <!-- recipients -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/recipientsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="recipients: "
+            />
+
+        <TextView
+            android:id="@+id/snMessageRecipients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="anybody"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/selectRecipients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onSelectRecipients"
+            android:text="Select"
+            />
+
+        <Button
+            android:id="@+id/removeAllRecipients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRemoveRecipients"
+            android:text="to anybody"
+            />
+    </LinearLayout>
+
+    <!-- line : encryption -->
+    <!-- https://developer.android.com/guide/topics/ui/controls/checkbox -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/end2end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="E2E security: "
+            />
+
+        <CheckBox
+            android:id="@+id/snSigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="sign" />
+
+        <CheckBox
+            android:id="@+id/snEncrypted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="false"
+            android:onClick="onEncryptedClick"
+            android:text="encrypt" />
+    </LinearLayout>
+
+
+    <!-- comments -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            />
+
+    </LinearLayout>
+
+    <!-- line last -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onAddClick"
-            android:text="@string/add"
+            android:onClick="onSendClick"
+            android:text="@string/send"
             />
 
         <Button

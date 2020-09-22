@@ -2,7 +2,7 @@
     <string name="defaultOwnerName">SNUser</string>
 
     <string name="app_name">SN2</string>
-    <string name="send">hello</string>
+    <string name="send">Send</string>
     <string name="hello">hello</string>
 
     <string name="bubbleAddBubbleText">bubble</string>
