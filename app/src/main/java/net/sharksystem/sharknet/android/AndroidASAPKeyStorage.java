@@ -65,6 +65,37 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage
         this.initialContext = initialContext;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //                   overwrite specific android default encryption settings                //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public String getRSASigningAlgorithm() {
+//        return DEFAULT_SIGNATURE_ALGORITHM;
+        return "SHA256withECDSA";
+    }
+
+    /*
+    @Override
+    public String getSymmetricEncryptionAlgorithm() {
+        return DEFAULT_SYMMETRIC_ENCRYPTION_ALGORITHM;    }
+
+    @Override
+    public String getSymmetricKeyType() {
+        return DEFAULT_SYMMETRIC_KEY_TYPE;
+    }
+
+    @Override
+    public int getSymmetricKeyLen() {
+        return DEFAULT_AES_KEY_SIZE;
+    }
+
+    @Override
+    public String getRSAEncryptionAlgorithm() {
+        return DEFAULT_RSA_ENCRYPTION_ALGORITHM;
+    }
+   */
+
     @Override
     public void generateKeyPair() throws ASAPSecurityException {
         try {

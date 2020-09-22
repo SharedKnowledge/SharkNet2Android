@@ -129,6 +129,7 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
                 Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 Log.d(this.getLogStart(), "problems when sending message in SNChannel: "
                         + e.getLocalizedMessage());
+                e.printStackTrace();
             }
         }
 
