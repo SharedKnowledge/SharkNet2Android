@@ -147,15 +147,29 @@ public class SNChannelViewContentAdapter extends
             // do we have an decrypted message?
             if(snMessage.couldBeDecrypted()) {
                 byte[] snContent = snMessage.getContent();
-                content2View = String.valueOf(snMessage);
+                content2View = String.valueOf(snContent);
 
                 Timestamp creationTime = snMessage.getCreationTime();
                 timestamp2View = DateTimeHelper.long2DateString(creationTime.getTime());
 
-                sender2View = "from: " + snMessage.getSender();
+                CharSequence senderName = snMessage.getSender();
+                try {
+                    senderName = SNChannelsComponent.getSharkNetChannelComponent().
+                            getPersonName(senderName);
+                }
+                catch(ASAPException e) {
+                    // no name found
+                }
+
+                sender2View = "from: " + senderName;
 
                 if(snMessage.verified()) {
                     verified2View = "verified";
+
+                    int identityAssurance = SNChannelsComponent.getSharkNetChannelComponent().
+                            getAsapPKI().getIdentityAssurance(snMessage.getSender());
+
+                    iA2View = "iA (" + senderName + "): " + identityAssurance;
                 }
             }
 

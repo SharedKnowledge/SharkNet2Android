@@ -14,6 +14,7 @@ import net.sharksystem.asap.android.apps.ASAPApplicationComponentHelper;
 import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
 import net.sharksystem.crypto.BasicKeyStore;
+import net.sharksystem.persons.ASAPPKI;
 import net.sharksystem.sharknet.android.PersonsStorage;
 import net.sharksystem.sharknet.android.OwnerFactory;
 
@@ -30,15 +31,19 @@ public class SNChannelsComponent implements
     private final BasicKeyStore basicKeyStore;
     private final OwnerFactory ownerFactory;
     private final PersonsStorage personsStorage;
+    private final ASAPPKI asapPKI;
 
     public SNChannelsComponent(ASAPApplication asapApplication,
-                   BasicKeyStore basicKeyStore, OwnerFactory ownerFactory,
+                   BasicKeyStore basicKeyStore,
+                   ASAPPKI asapPKI,
+                   OwnerFactory ownerFactory,
                    PersonsStorage personsStorage) {
 
         // set up component helper
         this.asapComponentHelper = new ASAPApplicationComponentHelper();
         this.asapComponentHelper.setASAPApplication(asapApplication);
         this.basicKeyStore = basicKeyStore;
+        this.asapPKI = asapPKI;
         this.ownerFactory = ownerFactory;
         this.personsStorage = personsStorage;
     }
@@ -49,12 +54,14 @@ public class SNChannelsComponent implements
      */
     public static void initialize(ASAPApplication asapApplication,
                       BasicKeyStore basicKeyStore,
+                      ASAPPKI asapPKI,
                       OwnerFactory ownerFactory,
                       PersonsStorage personsStorage) {
         try {
             SNChannelsComponent.instance = new SNChannelsComponent(
                     asapApplication,
                     basicKeyStore,
+                    asapPKI,
                     ownerFactory,
                     personsStorage
             );
@@ -87,6 +94,8 @@ public class SNChannelsComponent implements
     public BasicKeyStore getBasicKeyStore() {
         return this.basicKeyStore;
     }
+
+    public ASAPPKI getAsapPKI() { return this.asapPKI; }
 
     public CharSequence getOwnerID() {
         return this.ownerFactory.getOwner().getUUID();
