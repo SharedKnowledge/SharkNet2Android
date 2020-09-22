@@ -16,6 +16,6 @@ public class PersonAppActivity extends ASAPActivity {
     }
 
     Owner getOwnerStorage() {
-        return PersonsStorageAndroidComponent.getPersonsStorage().getOwner();
+        return PersonsStorageAndroidComponent.getPersonsStorage().getOwnerData();
     }
 }

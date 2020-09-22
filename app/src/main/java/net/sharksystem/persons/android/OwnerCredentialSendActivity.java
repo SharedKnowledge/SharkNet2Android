@@ -32,7 +32,7 @@ public class OwnerCredentialSendActivity extends PersonAppActivity {
 
         // set user name in layout
         TextView tv = this.findViewById(R.id.ownerDisplayName);
-        tv.setText(SharkNetApp.getSharkNetApp().getOwner().getDisplayName());
+        tv.setText(SharkNetApp.getSharkNetApp().getOwnerData().getDisplayName());
 
         // set control number
         tv = this.findViewById(R.id.credentialsControlNumber);

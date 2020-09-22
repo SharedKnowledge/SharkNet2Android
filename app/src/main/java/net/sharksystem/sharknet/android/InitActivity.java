@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.sharknet.android.SNChannelsListActivity;
-import net.sharksystem.makan.android.MakanListActivity;
 import net.sharksystem.persons.android.OwnerActivity;
 
 public class InitActivity extends AppCompatActivity {
@@ -22,7 +21,7 @@ public class InitActivity extends AppCompatActivity {
         if(!SharkNetApp.isStarted()) {
             Log.d(this.getLogStart(), "Startup SharkNetApplication");
             SharkNetApp sharkNetApp = SharkNetApp.initializeSharkNetApp(this);
-            Owner owner = sharkNetApp.getOwner();
+            Owner owner = sharkNetApp.getOwnerData();
             if (!owner.isOwnerSet()) launchFirstActivity = false;
         }
 
@@ -45,7 +44,7 @@ public class InitActivity extends AppCompatActivity {
             Toast.makeText(this, "you must define another name",
                     Toast.LENGTH_SHORT).show();
         } else {
-            SharkNetApp.getSharkNetApp().getOwner().setDisplayName(ownerName);
+            SharkNetApp.getSharkNetApp().getOwnerData().setDisplayName(ownerName);
             this.finish();
             Intent intent = new Intent(this, OwnerActivity.class);
             this.startActivity(intent);

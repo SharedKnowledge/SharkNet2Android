@@ -14,6 +14,7 @@ import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.crypto.ASAPCertificateImpl;
 import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.crypto.BasicKeyStore;
+import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
 import net.sharksystem.persons.ASAPKeyStoreWithWriteAccess;
 import net.sharksystem.persons.ASAPPKI;
@@ -37,8 +38,10 @@ import static net.sharksystem.sharknet.android.OwnerStorage.PREFERENCES_FILE;
 /**
  * Overwrites key creation and add kex persistence to the more general super class
  */
-public class AndroidASAPKeyStorage extends SampleFullAsapPKIStorage
-        implements ASAPKeyStoreWithWriteAccess, ASAPPKI, BasicKeyStore {
+public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage
+//        SampleFullAsapPKIStorage
+//        implements ASAPKeyStoreWithWriteAccess, ASAPPKI, BasicKeyStore
+{
 
     private static final String KEYPAIR_CREATION_TIME = "ASAPCertificatesKeyPairCreationTime";
     public static final String KEYSTORE_NAME = "AndroidKeyStore";
@@ -58,7 +61,7 @@ public class AndroidASAPKeyStorage extends SampleFullAsapPKIStorage
                                      CharSequence ownerID, CharSequence ownerName)
                 throws ASAPSecurityException {
 
-        super(ownerID, ownerName);
+        //super(ownerID, ownerName);
         this.initialContext = initialContext;
     }
 

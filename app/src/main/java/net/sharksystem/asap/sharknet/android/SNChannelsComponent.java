@@ -98,7 +98,7 @@ public class SNChannelsComponent implements
     public ASAPPKI getAsapPKI() { return this.asapPKI; }
 
     public CharSequence getOwnerID() {
-        return this.ownerFactory.getOwner().getUUID();
+        return this.ownerFactory.getOwnerData().getUUID();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

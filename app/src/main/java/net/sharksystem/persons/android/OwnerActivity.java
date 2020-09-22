@@ -14,7 +14,6 @@ import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.crypto.SharkCryptoException;
-import net.sharksystem.sharknet.android.AndroidASAPKeyStorage;
 import net.sharksystem.sharknet.android.Owner;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -83,7 +82,7 @@ public class OwnerActivity extends PersonAppActivity {
         } else {
             Log.d(this.getLogStart(), "set new user name: " + userNameString);
             Owner identityStorage = null;
-            SharkNetApp.getSharkNetApp().getOwner().setDisplayName(userNameString);
+            SharkNetApp.getSharkNetApp().getOwnerData().setDisplayName(userNameString);
 
             // re-launch
             this.finish();

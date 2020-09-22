@@ -64,13 +64,16 @@ public class SharkNetApp extends ASAPApplication implements OwnerFactory {
             appFormats.add(ASAPCertificateStorage.CERTIFICATE_APP_NAME);
 
             ///////////////// initialize application object  ///////////////////////////////////
+            Log.d(getLogStart(), "create SharkNetApp object");
             SharkNetApp.singleton = new SharkNetApp(appFormats, initActivity);
 
             // read owner information from preference or somewhere else
+            Log.d(getLogStart(), "get owner from shared preferences");
             Owner owner = SharkNetApp.singleton.getOwner(initActivity);
 
             ///////////////// initialize application components //////////////////////////////
             // key storage
+            Log.d(getLogStart(), "init AndroidASAPKeyStorage");
             AndroidASAPKeyStorage asapKeyStorage =
                     AndroidASAPKeyStorage.initializeASAPKeyStorage(
                             initActivity,
@@ -78,22 +81,26 @@ public class SharkNetApp extends ASAPApplication implements OwnerFactory {
                             owner.getDisplayName());
 
             // persons / contacts
-            PersonsStorageAndroidComponent.initialize(
+            Log.d(getLogStart(), "init PersonsStorageAndroidComponent");
+
+            PersonsStorageAndroidComponent asapPKI = PersonsStorageAndroidComponent.initialize(
                     SharkNetApp.singleton, // ASAPApplication
                     SharkNetApp.singleton, // OwnerFactory
                     asapKeyStorage
             );
 
             // snChannels
+            Log.d(getLogStart(), "init SNChannelsComponent");
             SNChannelsComponent.initialize(
                     SharkNetApp.singleton, // ASAPApplication
-                    asapKeyStorage, // BasicKeyStore
-                    asapKeyStorage, // ASAPPKI
+                    asapPKI, // BasicKeyStore
+                    asapPKI, // ASAPPKI
                     SharkNetApp.singleton, // OwnerFactory
                     PersonsStorageAndroidComponent.getPersonsStorage() // PersonStorage
             );
 
             // all components put together - launch the system
+            Log.d(getLogStart(), "launch SN2 application");
             SharkNetApp.singleton.startASAPApplication();
         }
 
@@ -138,12 +145,12 @@ public class SharkNetApp extends ASAPApplication implements OwnerFactory {
     }
 
     @Override
-    public Owner getOwner() {
+    public Owner getOwnerData() {
         return this.getOwner(this.getActivity());
     }
 
-    public CharSequence getOwnerID() { return this.getOwner().getUUID(); }
+    public CharSequence getOwnerID() { return this.getOwnerData().getUUID(); }
     public CharSequence getOwnerName() {
-        return this.getOwner().getDisplayName();
+        return this.getOwnerData().getDisplayName();
     }
 }

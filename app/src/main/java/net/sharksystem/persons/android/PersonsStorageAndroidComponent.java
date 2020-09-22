@@ -19,6 +19,7 @@ import net.sharksystem.crypto.ASAPCertificateStorageImpl;
 import net.sharksystem.crypto.ASAPKeyStorage;
 import net.sharksystem.persons.ASAPPKIImpl;
 import net.sharksystem.persons.CredentialMessage;
+import net.sharksystem.persons.FullAsapPKIStorage;
 import net.sharksystem.persons.TestHelperPersonStorage;
 import net.sharksystem.sharknet.android.AndroidASAPKeyStorage;
 import net.sharksystem.sharknet.android.Owner;
@@ -37,8 +38,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PersonsStorageAndroidComponent extends ASAPPKIImpl
-        implements ASAPApplicationComponent, PersonsStorage /*InMemoPersonsStorageImpl*/ {
+public class PersonsStorageAndroidComponent extends FullAsapPKIStorage //ASAPPKIImpl
+        implements ASAPApplicationComponent, PersonsStorage, OwnerFactory /*InMemoPersonsStorageImpl*/ {
 
     public static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
     private static final String PERSONS_STORAGE_FILE_NAME = "sn2_personsStorageFile";
@@ -85,11 +86,14 @@ public class PersonsStorageAndroidComponent extends ASAPPKIImpl
 //            Log.d(this.getLogStart(), "there is no persons storage persistence file - ok. Start empty");
             Log.d(this.getLogStart(), "there is no persons storage persistence file - fill with EXAMPLE DATA");
             TestHelperPersonStorage.fillWithExampleData(this);
+            this.save();
         }
     }
 
-    public static void initialize(ASAPApplication asapApplication,
-                              OwnerFactory ownerFactory, AndroidASAPKeyStorage asapKeyStorage) {
+    public static PersonsStorageAndroidComponent initialize(
+            ASAPApplication asapApplication, OwnerFactory ownerFactory,
+            AndroidASAPKeyStorage asapKeyStorage) {
+
         try {
             /*
             File personsStorageFile =
@@ -110,11 +114,12 @@ public class PersonsStorageAndroidComponent extends ASAPPKIImpl
                     asapKeyStorage
             );
 
-            //instance.fillWithExampleData();
+            return PersonsStorageAndroidComponent.instance;
         } catch (Exception e) {
             Log.e(net.sharksystem.asap.util.Log.startLog(ASAPPKIImpl.class).toString(),
                     "problems when creating ASAP Storage:" + e.getLocalizedMessage());
         }
+        return null;
     }
 
     public static synchronized PersonsStorageAndroidComponent getPersonsStorage()
@@ -126,8 +131,8 @@ public class PersonsStorageAndroidComponent extends ASAPPKIImpl
         return PersonsStorageAndroidComponent.instance;
     }
 
-    Owner getOwner() {
-        return this.ownerFactory.getOwner();
+    public Owner getOwnerData() {
+        return this.ownerFactory.getOwnerData();
     }
 
     /*
