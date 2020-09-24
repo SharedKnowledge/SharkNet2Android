@@ -6,19 +6,14 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Log;
 
-import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
 import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.crypto.ASAPCertificateImpl;
 import net.sharksystem.crypto.ASAPKeyStorage;
-import net.sharksystem.crypto.BasicKeyStore;
 import net.sharksystem.crypto.InMemoASAPKeyStorage;
 import net.sharksystem.crypto.SharkCryptoException;
-import net.sharksystem.persons.ASAPKeyStoreWithWriteAccess;
-import net.sharksystem.persons.ASAPPKI;
-import net.sharksystem.persons.SampleFullAsapPKIStorage;
 import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
 
 import java.io.IOException;
@@ -38,10 +33,9 @@ import static net.sharksystem.sharknet.android.OwnerStorage.PREFERENCES_FILE;
 /**
  * Overwrites key creation and add kex persistence to the more general super class
  */
-public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage
-//        SampleFullAsapPKIStorage
-//        implements ASAPKeyStoreWithWriteAccess, ASAPPKI, BasicKeyStore
-{
+public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
+
+    public static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
 
     private static final String KEYPAIR_CREATION_TIME = "ASAPCertificatesKeyPairCreationTime";
     public static final String KEYSTORE_NAME = "AndroidKeyStore";
@@ -70,9 +64,8 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage
     /////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public String getRSASigningAlgorithm() {
-//        return DEFAULT_SIGNATURE_ALGORITHM;
-        return "SHA256withECDSA";
+    public String getAsymmetricSigningAlgorithm() {
+        return SN_ANDROID_DEFAULT_SIGNING_ALGORITHM;
     }
 
     /*
@@ -87,12 +80,17 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage
 
     @Override
     public int getSymmetricKeyLen() {
-        return DEFAULT_AES_KEY_SIZE;
+        return DEFAULT_SYMMETRIC_KEY_SIZE;
     }
 
     @Override
-    public String getRSAEncryptionAlgorithm() {
-        return DEFAULT_RSA_ENCRYPTION_ALGORITHM;
+    public String getAsymmetricEncryptionAlgorithm() {
+        return DEFAULT_ASYMMETRIC_ENCRYPTION_ALGORITHM;
+    }
+
+    @Override
+    public String getAsymmetricSigningAlgorithm() {
+        return DEFAULT_ASYMMETRIC_SIGNATURE_ALGORITHM;
     }
    */
 
@@ -239,7 +237,11 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage
             super.setPrivateKey(privateKeyEntry.getPrivateKey());
             super.setPublicKey(privateKeyEntry.getCertificate().getPublicKey());
         } catch (KeyStoreException | UnrecoverableEntryException | NoSuchAlgorithmException e) {
-            throw new ASAPSecurityException(e.getLocalizedMessage());
+            Log.d(this.getLogStart(), e.getLocalizedMessage());
+            e.printStackTrace();
+
+            // maybe not generated yet.
+            this.generateKeyPair();
         }
     }
 

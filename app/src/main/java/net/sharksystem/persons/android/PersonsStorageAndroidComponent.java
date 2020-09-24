@@ -41,7 +41,6 @@ import java.util.Set;
 public class PersonsStorageAndroidComponent extends FullAsapPKIStorage //ASAPPKIImpl
         implements ASAPApplicationComponent, PersonsStorage, OwnerFactory /*InMemoPersonsStorageImpl*/ {
 
-    public static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
     private static final String PERSONS_STORAGE_FILE_NAME = "sn2_personsStorageFile";
 
     private static PersonsStorageAndroidComponent instance = null;
@@ -61,8 +60,7 @@ public class PersonsStorageAndroidComponent extends FullAsapPKIStorage //ASAPPKI
                     asapApplication.getOwnerID(), // id
                     asapApplication.getOwnerName() // name
                 ),
-            keyStorage,
-            SN_ANDROID_DEFAULT_SIGNING_ALGORITHM
+            keyStorage
             );
 
         // set up component helper
