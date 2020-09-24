@@ -131,15 +131,15 @@ public class SNChannelViewContentAdapter extends
                 recipients2View = sb.toString();
             }
 
-            CharSequence encrypted2View = "E2E encrypted: no";
+            CharSequence encrypted2View = "not E2E encrypted";
             if(snMessage.encrypted()) {
-                encrypted2View = "E2E encrypted: yes";
+                encrypted2View = "is E2E encrypted";
             }
 
             // assume defaults at first
             CharSequence sender2View = "from: unknown";
-            CharSequence content2View = "decrypted message";
-            CharSequence verified2View = "verified: no";
+            CharSequence content2View = "cannot decrypt message";
+            CharSequence verified2View = "not verified";
             CharSequence timestamp2View = "time: unknown";
             CharSequence iA2View = "iA: unknown";
 
@@ -147,7 +147,7 @@ public class SNChannelViewContentAdapter extends
             // do we have an decrypted message?
             if(snMessage.couldBeDecrypted()) {
                 byte[] snContent = snMessage.getContent();
-                content2View = String.valueOf(snContent);
+                content2View = new String(snContent);
 
                 Timestamp creationTime = snMessage.getCreationTime();
                 timestamp2View = DateTimeHelper.long2DateString(creationTime.getTime());
@@ -164,12 +164,12 @@ public class SNChannelViewContentAdapter extends
                 sender2View = "from: " + senderName;
 
                 if(snMessage.verified()) {
-                    verified2View = "verified";
+                    verified2View = "is verified";
 
                     int identityAssurance = SNChannelsComponent.getSharkNetChannelComponent().
                             getAsapPKI().getIdentityAssurance(snMessage.getSender());
 
-                    iA2View = "iA (" + senderName + "): " + identityAssurance;
+                    iA2View = "iA of " + senderName + " is " + identityAssurance;
                 }
             }
 

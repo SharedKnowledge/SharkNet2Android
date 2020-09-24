@@ -13,6 +13,7 @@ import net.sharksystem.asap.android.apps.ASAPApplicationComponent;
 import net.sharksystem.asap.android.apps.ASAPApplicationComponentHelper;
 import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
 import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
+import net.sharksystem.asap.sharknet.SNMessage;
 import net.sharksystem.crypto.BasicKeyStore;
 import net.sharksystem.persons.ASAPPKI;
 import net.sharksystem.sharknet.android.PersonsStorage;
@@ -174,6 +175,13 @@ public class SNChannelsComponent implements
 
     @Override
     public CharSequence getPersonName(CharSequence peerID) throws ASAPException {
-        return this.personsStorage.getPersonName(peerID);
+        String personName = this.personsStorage.getPersonName(peerID).toString();
+        // replace special SN symbols
+        switch(personName) {
+            case SNMessage.ANONYMOUS: return "unknown";
+            case SNMessage.ANY_RECIPIENT: return "anybody";
+        }
+
+        return personName;
     }
 }
