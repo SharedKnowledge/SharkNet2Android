@@ -47,6 +47,14 @@
         android:max="10"
         android:min="1"
         android:progress="5"
+        android:thumbTint="#00FF00"
+        android:thumbTintMode="add"
+        android:tickMarkTint="#FF0000"
+        android:tickMarkTintMode="screen"
+        android:progressTint="#00FF00"
+        android:progressTintMode="src_over"
+        android:progressBackgroundTint="#0000FF"
+        android:progressBackgroundTintMode="src_over"
         app:layout_constraintStart_toStartOf="@+id/personName"
         app:layout_constraintTop_toBottomOf="@+id/personName" />
 
