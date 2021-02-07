@@ -10,10 +10,13 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.asap.ASAPException;
+import net.sharksystem.messenger.SharkMessengerException;
+import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
-public class SNChannelAddActivity extends SNChannelsActivity {
+public class SNChannelAddActivity extends SharkNetActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +24,7 @@ public class SNChannelAddActivity extends SNChannelsActivity {
 
         setContentView(R.layout.sn_channel_add_drawer_layout);
 
-        this.getASAPApplication().setupDrawerLayout(this);
+        this.getSharkNetApp().setupDrawerLayout(this);
     }
 
     public void onClick(View view) {
@@ -30,7 +33,7 @@ public class SNChannelAddActivity extends SNChannelsActivity {
             EditText nameText = this.findViewById(R.id.snChannelAddName);
 
             try {
-                SNChannelsComponent.getSharkNetChannelComponent().createChannel(
+                SharkNetApp.getSharkNetApp().getSharkMessenger().createChannel(
                         uriText.getText(),
                         nameText.getText()
                 );
@@ -45,7 +48,7 @@ public class SNChannelAddActivity extends SNChannelsActivity {
                 String text = "failure: " + e.getLocalizedMessage();
                 Log.e(this.getLogStart(), text);
                 Toast.makeText(this, "IO error - that's serious", Toast.LENGTH_SHORT).show();
-            } catch (ASAPException e) {
+            } catch (SharkMessengerException e) {
                 String text = "failure: " + e.getLocalizedMessage();
                 Log.w(this.getLogStart(), text);
                 Toast.makeText(this, "already exists(?)", Toast.LENGTH_SHORT).show();

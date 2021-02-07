@@ -13,16 +13,15 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.sharknet.InMemoSNMessage;
-import net.sharksystem.crypto.BasicKeyStore;
 import net.sharksystem.persons.android.PersonListSelectionActivity;
-import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
+import net.sharksystem.persons.android.PersonStatusHelper;
+import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Set;
 
-public class SNChannelAddMessageActivity extends SNChannelsActivity {
+public class SNChannelAddMessageActivity extends SharkNetActivity {
     private CharSequence name = null;
     private CharSequence uri;
     private Set<CharSequence> selectedRecipients = null;
@@ -53,7 +52,7 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
     }
 
     public void onSelectRecipients(View view) {
-        PersonsStorageAndroidComponent.getPersonsStorage().setPreselectionSet(this.selectedRecipients);
+        PersonStatusHelper.getPersonsStorage().setPreselectionSet(this.selectedRecipients);
         //Log.d(this.getLogStart(), "setPreselected: " + this.selectedRecipients);
         Intent intent = new Intent(this, PersonListSelectionActivity.class);
         this.startActivity(intent);
@@ -87,7 +86,7 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
 
     public void onRemoveRecipients(View view) {
         this.selectedRecipients = null;
-        PersonsStorageAndroidComponent.getPersonsStorage().setPreselectionSet(null);
+        PersonStatusHelper.getPersonsStorage().setPreselectionSet(null);
         this.redrawRecipientList();
     }
 
@@ -139,6 +138,8 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
 
     private void compileAndSendASAPMessage(byte[] content, boolean sign, boolean encrypt)
             throws IOException, ASAPException {
+        // TODO
+        /*
         CharSequence sender =
                 SNChannelsComponent.getSharkNetChannelComponent().getOwnerID();
         BasicKeyStore basicKeyStore =
@@ -148,11 +149,17 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
         // deliver as asap message
         this.sendASAPMessage(SNChannelsComponent.APP_NAME, this.uri,
                 serializedMessage, true);
+
+         */
     }
 
     private void compileAndSendASAPMessage(byte[] content, CharSequence recipient,
                            boolean sign, boolean encrypt)
             throws IOException, ASAPException {
+
+        // TODO
+
+        /*
         CharSequence sender =
                 SNChannelsComponent.getSharkNetChannelComponent().getOwnerID();
         BasicKeyStore basicKeyStore =
@@ -162,6 +169,7 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
         // deliver as asap message
         this.sendASAPMessage(SNChannelsComponent.APP_NAME, this.uri,
                 serializedMessage, true);
+         */
     }
 
     public void onAbortClick(View view) {
@@ -179,8 +187,8 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
             for(CharSequence recipient : this.selectedRecipients) {
                 CharSequence recipientName = recipient;
                 try {
-                    recipientName = SNChannelsComponent.getSharkNetChannelComponent().
-                            getPersonName(recipient);
+                    recipientName = SharkNetApp.getSharkNetApp().getSharkPKI().
+                            getPersonValuesByID(recipient).getName();
                 } catch (ASAPException e) {
                     // name not found
                 }
@@ -206,7 +214,7 @@ public class SNChannelAddMessageActivity extends SNChannelsActivity {
         super.onResume();
 
         this.selectedRecipients =
-                PersonsStorageAndroidComponent.getPersonsStorage().getLastPersonsSelection();
+                PersonStatusHelper.getPersonsStorage().getLastPersonsSelection();
 
         this.redrawRecipientList();
     }

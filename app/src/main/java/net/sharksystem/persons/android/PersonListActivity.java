@@ -1,11 +1,12 @@
 package net.sharksystem.persons.android;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.android.Util;
@@ -26,10 +27,10 @@ public abstract class PersonListActivity extends SelectableListPersonAppActivity
             setContentView(R.layout.person_list_drawer_layout);
 
 //            this.getSharkNetApp().setupDrawerLayout(this);
-            this.getASAPApplication().setupDrawerLayout(this);
+            this.getSharkNetApp().setupDrawerLayout(this);
 
-            PersonsStorageAndroidComponent personsApp =
-                    PersonsStorageAndroidComponent.getPersonsStorage();
+            PersonStatusHelper personsApp =
+                    PersonStatusHelper.getPersonsStorage();
 
             Set<CharSequence> preselectionSet = personsApp.getPreselectionSet();
             //Log.d(this.getLogStart(), "got preselectedset: " + preselectionSet);

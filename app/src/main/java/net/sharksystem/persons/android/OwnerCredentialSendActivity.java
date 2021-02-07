@@ -7,21 +7,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.android.apps.ASAPMessageReceivedListener;
+import net.sharksystem.asap.ASAPMessageReceivedListener;
 import net.sharksystem.asap.ASAPMessages;
-import net.sharksystem.crypto.ASAPCertificateStorage;
-import net.sharksystem.persons.ASAPPKI;
-import net.sharksystem.persons.CredentialMessage;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-public class OwnerCredentialSendActivity extends PersonAppActivity {
+public class OwnerCredentialSendActivity extends SharkNetActivity {
     private boolean sended = false;
-
-/*    public OwnerCredentialSendActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
-
- */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +24,18 @@ public class OwnerCredentialSendActivity extends PersonAppActivity {
 
         // set user name in layout
         TextView tv = this.findViewById(R.id.ownerDisplayName);
-        tv.setText(SharkNetApp.getSharkNetApp().getOwnerData().getDisplayName());
+        tv.setText(SharkNetApp.getSharkNetApp().getDisplayName());
 
         // set control number
         tv = this.findViewById(R.id.credentialsControlNumber);
         tv.setText(String.valueOf(-1));
 
-        this.getASAPApplication().addASAPMessageReceivedListener(
-                ASAPCertificateStorage.CERTIFICATE_APP_NAME,
-                new OwnerCredentialSendActivity
-                        .CertificateMessageReceivedListener(this));
+        Toast.makeText(this, "implementation is obsolete", Toast.LENGTH_LONG).show();
+        //this.getSharkNetApp().getSharkPKI().setSharkCredentialReceivedListener(this);
     }
 
     public void onSendClick(View v) {
+        /*
         if(!sended) {
             // send credential message
             try {
@@ -78,9 +69,14 @@ public class OwnerCredentialSendActivity extends PersonAppActivity {
         } else {
             Toast.makeText(this, "credential already sent", Toast.LENGTH_SHORT).show();
         }
+
+         */
+        Toast.makeText(this, "implementation removed", Toast.LENGTH_LONG).show();
     }
 
     private void doHandleCertificateMessage(ASAPMessages asapMessages) {
+        Toast.makeText(this, "implementation removed", Toast.LENGTH_LONG).show();
+        /*
         // something was received - integrate
         Log.d(this.getLogStart(), "reached doHandleCertificateMessage");
         PersonsStorageAndroidComponent personsApp = PersonsStorageAndroidComponent.getPersonsStorage();
@@ -96,6 +92,7 @@ public class OwnerCredentialSendActivity extends PersonAppActivity {
         Toast.makeText(this,
                 "You received a signed certificate. Do you already have public key of the signer?"
                 , Toast.LENGTH_LONG).show();
+         */
     }
 
     public void onDoneClick(View v) {

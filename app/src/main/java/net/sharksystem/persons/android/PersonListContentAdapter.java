@@ -2,7 +2,6 @@ package net.sharksystem.persons.android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.persons.PersonValues;
+import net.sharksystem.asap.persons.PersonValues;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class PersonListContentAdapter extends
         RecyclerView.Adapter<PersonListContentAdapter.MyViewHolder>
@@ -65,7 +67,7 @@ public class PersonListContentAdapter extends
 
         try {
             PersonValues personValues =
-                    PersonsStorageAndroidComponent.getPersonsStorage().getPersonValuesByPosition(position);
+                    SharkNetApp.getSharkNetApp().getSharkPKI().getPersonValuesByPosition(position);
 
             CharSequence userID = personValues.getUserID();
             this.scs.setSelectedText(Integer.toString(position), userID,
@@ -91,7 +93,7 @@ public class PersonListContentAdapter extends
     @Override
     public int getItemCount() {
         Log.d(this.getLogStart(), "called getItemCount");
-        return PersonsStorageAndroidComponent.getPersonsStorage().getNumberOfPersons();
+        return SharkNetApp.getSharkNetApp().getSharkPKI().getNumberOfPersons();
     }
 
     @Override

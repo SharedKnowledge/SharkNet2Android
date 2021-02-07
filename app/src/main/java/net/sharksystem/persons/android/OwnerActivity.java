@@ -11,19 +11,11 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.asap.util.DateTimeHelper;
 import net.sharksystem.asap.android.Util;
-import net.sharksystem.crypto.SharkCryptoException;
-import net.sharksystem.sharknet.android.Owner;
-import net.sharksystem.sharknet.android.SharkNetApp;
+import net.sharksystem.asap.utils.DateTimeHelper;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 
-public class OwnerActivity extends PersonAppActivity {
-    public OwnerActivity() {
-        //super(SharkNetApp.getSharkNetApp());
-        // just make a debug break.
-        super();
-    }
-
+public class OwnerActivity extends SharkNetActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,22 +27,21 @@ public class OwnerActivity extends PersonAppActivity {
         TextView userIDTV = this.findViewById(R.id.ownerID);
 
         try {
-            userNameView.setText(this.getOwnerStorage().getDisplayName());
-            userIDTV.setText(this.getOwnerStorage().getUUID());
+            userNameView.setText(this.getSharkNetApp().getDisplayName());
+            userIDTV.setText(this.getSharkNetApp().getUUID());
             this.setKeyCreationDateView();
         } catch (ASAPSecurityException e) {
             Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
             this.finish();
         }
 
-        this.getASAPApplication().setupDrawerLayout(this);
+        this.getSharkNetApp().setupDrawerLayout(this);
     }
 
     private void setKeyCreationDateView() throws ASAPSecurityException {
         TextView creationTime = this.findViewById(R.id.ownerCreationTimeKeys);
         // that's funny because long is a homonym: data type but also means a long periode of time... ok, this is not funny at all... :/
-        long longTime =
-                PersonsStorageAndroidComponent.getPersonsStorage().getASAPKeyStorage().getCreationTime();
+        long longTime = this.getSharkNetApp().getSharkPKI().getKeysCreationTime();
 
         if(longTime == DateTimeHelper.TIME_NOT_SET) {
             creationTime.setText("please create a key pair");
@@ -59,9 +50,9 @@ public class OwnerActivity extends PersonAppActivity {
         }
     }
 
-    private void notifyKeyPairCreated() throws SharkCryptoException {
+    private void notifyKeyPairCreated() {
         // sync
-        PersonsStorageAndroidComponent.getPersonsStorage().syncNewReceivedCertificates();
+        this.getSharkNetApp().getSharkPKI().syncNewReceivedCertificates();
 
         // re-launch
         this.finish();
@@ -81,8 +72,7 @@ public class OwnerActivity extends PersonAppActivity {
             Toast.makeText(this, "user name is", Toast.LENGTH_SHORT).show();
         } else {
             Log.d(this.getLogStart(), "set new user name: " + userNameString);
-            Owner identityStorage = null;
-            SharkNetApp.getSharkNetApp().getOwnerData().setDisplayName(userNameString);
+            this.getSharkNetApp().initializeSystem(this, userNameString);
 
             // re-launch
             this.finish();
@@ -94,7 +84,7 @@ public class OwnerActivity extends PersonAppActivity {
         Log.d(Util.getLogStart(this), "onShowOwnerAsSubjectCertificates");
         Intent intent = null;
         intent = new PersonIntent(this,
-                SharkNetApp.getSharkNetApp().getOwnerID(),
+                this.getSharkNetApp().getID(),
                 CertificateListActivity.class);
         this.startActivity(intent);
     }
@@ -118,7 +108,7 @@ public class OwnerActivity extends PersonAppActivity {
         public void run() {
             String text = null;
             try {
-                PersonsStorageAndroidComponent.getPersonsStorage().getASAPKeyStorage().generateKeyPair();
+                OwnerActivity.this.getSharkNetApp().getSharkPKI().generateKeyPair();
 
                 // debugging
                 /*
@@ -130,15 +120,13 @@ public class OwnerActivity extends PersonAppActivity {
                 text = "new keypair created";
                 Log.d(OwnerActivity.this.getLogStart(), text);
                 this.ownerActivity.notifyKeyPairCreated();
-            } catch (ASAPSecurityException | SharkCryptoException e) {
+            } catch (ASAPSecurityException e) {
                 text = e.getLocalizedMessage();
                 Log.e(OwnerActivity.this.getLogStart(), text);
             }
         }
     }
-
     protected String getLogStart() {
         return this.getClass().getSimpleName();
     }
-
 }

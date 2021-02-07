@@ -1,12 +1,13 @@
 package net.sharksystem.makan.android.viewadapter;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
@@ -14,7 +15,8 @@ import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.MakanMessage;
 import net.sharksystem.makan.android.MakanApp;
-import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
+import net.sharksystem.persons.android.PersonStatusHelper;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -80,8 +82,8 @@ public class MakanViewContentAdapter extends
                     DateFormat.getInstance().format(message.getSentDate()));
 
             holder.messageTextView.setText(message.getContentAsString());
-            holder.senderTextView.setText(PersonsStorageAndroidComponent.
-                    getPersonsStorage().getPersonName(message.getSenderID()));
+            holder.senderTextView.setText(SharkNetApp.getSharkNetApp().
+                    getSharkPKI().getPersonValuesByID(message.getSenderID()).getName());
 
         } catch (Throwable e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
@@ -109,10 +111,13 @@ public class MakanViewContentAdapter extends
     }
 
     private Makan getMakan() throws IOException, ASAPException {
+        return null;
+        /*
         if(this.makan == null) {
             this.makan = MakanApp.getMakanApp().getMakanStorage().getMakan(this.channelURI);
         }
         return this.makan;
+         */
     }
 
     public void sync() {

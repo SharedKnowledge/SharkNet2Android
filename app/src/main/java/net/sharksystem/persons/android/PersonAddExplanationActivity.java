@@ -7,17 +7,9 @@ import android.view.View;
 import net.sharksystem.R;
 import net.sharksystem.radar.android.RadarActivity;
 import net.sharksystem.sharknet.android.SharkNetActivity;
-import net.sharksystem.sharknet.android.SharkNetApp;
 import net.sharksystem.sharknet.android.settings.SettingsActivity;
 
-
-public class PersonAddExplanationActivity extends PersonAppActivity {
-/*    public PersonAddExplanationActivity() {
-        super(SharkNetApp.getSharkNetApp());
-    }
-
- */
-
+public class PersonAddExplanationActivity extends SharkNetActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

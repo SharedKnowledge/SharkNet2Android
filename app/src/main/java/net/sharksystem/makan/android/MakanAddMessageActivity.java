@@ -58,7 +58,7 @@ public class MakanAddMessageActivity extends SharkNetActivity {
             try {
                 // send message via ASAP Service to leverage online exchange etc. pp.
                 InMemoMakanMessage makanMessage = new InMemoMakanMessage(
-                        SharkNetApp.getSharkNetApp().getOwnerID(),
+                        SharkNetApp.getSharkNetApp().getID(),
                         messageText,
                         new Date()
                 );

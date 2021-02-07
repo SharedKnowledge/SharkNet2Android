@@ -6,15 +6,10 @@ import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Log;
 
-import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
-import net.sharksystem.asap.util.DateTimeHelper;
-import net.sharksystem.crypto.ASAPCertificateImpl;
-import net.sharksystem.crypto.ASAPKeyStorage;
-import net.sharksystem.crypto.InMemoASAPKeyStorage;
-import net.sharksystem.crypto.SharkCryptoException;
-import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
+import net.sharksystem.asap.crypto.InMemoASAPKeyStore;
+import net.sharksystem.asap.pki.ASAPCertificate;
+import net.sharksystem.asap.utils.DateTimeHelper;
 
 import java.io.IOException;
 import java.security.KeyPair;
@@ -28,12 +23,10 @@ import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.util.Calendar;
 
-import static net.sharksystem.sharknet.android.OwnerStorage.PREFERENCES_FILE;
-
 /**
- * Overwrites key creation and add kex persistence to the more general super class
+ * Overwrites key creation and add key persistence to the more general super class
  */
-public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
+public class AndroidASAPKeyStore extends InMemoASAPKeyStore {
 
     public static final String SN_ANDROID_DEFAULT_SIGNING_ALGORITHM = "SHA256withRSA/PSS";
 
@@ -49,14 +42,22 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
 
     private long creationTime = DateTimeHelper.TIME_NOT_SET;
     private KeyStore keyStore = null;
-    private Context initialContext = null;
+    private Context currentContext = null;
 
-    public AndroidASAPKeyStorage(Context initialContext,
-                                     CharSequence ownerID, CharSequence ownerName)
+    public AndroidASAPKeyStore(Context currentContext, CharSequence ownerID)
                 throws ASAPSecurityException {
 
-        //super(ownerID, ownerName);
-        this.initialContext = initialContext;
+        super(ownerID);
+        this.currentContext = currentContext;
+
+        // re-load - if possible
+        try {
+            this.reloadKeys(currentContext);
+        }
+        catch(ASAPSecurityException e) {
+            // no keys yet
+            this.generateKeyPair();
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +101,7 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
             Calendar start = Calendar.getInstance();
             Calendar end = Calendar.getInstance();
             // start (now) + one year
-            end.add(Calendar.YEAR, ASAPCertificateImpl.DEFAULT_CERTIFICATE_VALIDITY_IN_YEARS);
+            end.add(Calendar.YEAR, ASAPCertificate.DEFAULT_CERTIFICATE_VALIDITY_IN_YEARS);
 
             /* if you change this - make intensive test on credential exchange / cert creation
             it took me some hours to figure that stuff out.
@@ -138,30 +139,14 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
                             .setKeySize(KEY_SIZE)
                             .build());
 
-            KeyPair keyPair = keyPairGenerator.generateKeyPair();
-            this.setPrivateKey(keyPair.getPrivate());
-            this.setPublicKey(keyPair.getPublic());
-
-            this.setCreationTime(System.currentTimeMillis());
-//            this.save();
+            this.setKeyPair(keyPairGenerator.generateKeyPair()); // keep it in memo? Dangerous?
+            this.setCreationTime(this.currentContext, System.currentTimeMillis());
+//            this.save(); // already saved with keystore
         } catch (Exception e) {
             String text = "problems when generating key pair: " + e.getMessage();
             Log.d(this.getLogStart(), text);
             throw new ASAPSecurityException(text);
         }
-    }
-
-    private Context getContext() {
-        try {
-            return PersonsStorageAndroidComponent.getPersonsStorage().getContext();
-        } catch (ASAPException e) {
-            Log.d(this.getLogStart(), "cannot get context: " + e.getLocalizedMessage());
-        } catch(ASAPComponentNotYetInitializedException e) {
-            // startup is sometimes a tricky thing
-            return this.initialContext;
-        }
-
-        return null;
     }
 
     private KeyStore getKeyStore() throws KeyStoreException {
@@ -176,7 +161,6 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
 
         return this.keyStore;
     }
-
 
         /* nothing to do when using android key storage
     public void load(InputStream inputStream) throws SharkCryptoException, IOException {
@@ -206,74 +190,38 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
     }
          */
 
-    public void setKeyStorePWD(String pwd) {
-        Log.d(this.getLogStart(), "set key  store pwd: ");
-        SharedPreferences sharedPref = this.getContext().getSharedPreferences(
-                PREFERENCES_FILE, Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(KEYSTORE_PWD, pwd);
-
-        // create owner id
-        editor.commit();
-
-        //this.save();
-    }
-
-    public String getKeyStorePWD() throws SharkCryptoException {
-        SharedPreferences sharedPref = this.getContext().getSharedPreferences(
-                PREFERENCES_FILE, Context.MODE_PRIVATE);
-
-        return sharedPref.getString(KEYSTORE_PWD, DEFAULT_KEYSTORE_PWD);
-    }
-
-    protected void reloadKeys() throws ASAPSecurityException {
+    protected void reloadKeys(Context ctx) throws ASAPSecurityException {
         Log.d(this.getLogStart(), "reload private keys from android key storage");
         try {
             KeyStore keyStore = this.getKeyStore();
             KeyStore.PrivateKeyEntry privateKeyEntry =
                     (KeyStore.PrivateKeyEntry) keyStore.getEntry(KEYSTORE_OWNER_ALIAS, null);
 
-            super.setPrivateKey(privateKeyEntry.getPrivateKey());
-            super.setPublicKey(privateKeyEntry.getCertificate().getPublicKey());
+            if(privateKeyEntry == null) throw new ASAPSecurityException("no keys stored");
+
+            PrivateKey privateKey = privateKeyEntry.getPrivateKey();
+            PublicKey publicKey = privateKeyEntry.getCertificate().getPublicKey();
+
+            Log.d(this.getLogStart(), "key pair reloaded from android key storage");
+            super.setKeyPair(new KeyPair(publicKey, privateKey));
         } catch (KeyStoreException | UnrecoverableEntryException | NoSuchAlgorithmException e) {
             Log.d(this.getLogStart(), e.getLocalizedMessage());
-            e.printStackTrace();
+            throw new ASAPSecurityException("error when reloading key pair: ", e);
+        }
 
-            // maybe not generated yet.
-            this.generateKeyPair();
+        // reload key creation time
+        SharedPreferences sharedPref = ctx.getSharedPreferences(
+                SharkNetApp.PREFERENCES_FILE, Context.MODE_PRIVATE);
+        if (this.creationTime == DateTimeHelper.TIME_NOT_SET) {
+            this.creationTime = sharedPref.getLong(KEYPAIR_CREATION_TIME, DateTimeHelper.TIME_NOT_SET);
         }
     }
 
-    @Override
-    public PrivateKey getPrivateKey() throws ASAPSecurityException {
-        try {
-            super.getPrivateKey();
-        }
-        catch(ASAPSecurityException e) {
-            // maybe not yet loaded
-            this.reloadKeys();
-        }
-        return super.getPrivateKey();
-    }
-
-    @Override
-    public PublicKey getPublicKey() throws ASAPSecurityException {
-        try {
-            super.getPublicKey();
-        }
-        catch(ASAPSecurityException e) {
-            // maybe not yet loaded
-            this.reloadKeys();
-        }
-        return super.getPublicKey();
-    }
-
-    public void setCreationTime(long time) {
+    public void setCreationTime(Context ctx, long time) {
         Log.d(this.getLogStart(), "set new creation time: " + DateTimeHelper.long2DateString(time));
         this.creationTime = time;
-        SharedPreferences sharedPref = this.getContext().getSharedPreferences(
-                PREFERENCES_FILE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = ctx.getSharedPreferences(
+                SharkNetApp.PREFERENCES_FILE, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong(KEYPAIR_CREATION_TIME, time);
@@ -283,13 +231,7 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
     }
 
     @Override
-    public long getCreationTime() throws ASAPSecurityException {
-        SharedPreferences sharedPref = this.getContext().getSharedPreferences(
-                PREFERENCES_FILE, Context.MODE_PRIVATE);
-        if(this.creationTime == DateTimeHelper.TIME_NOT_SET) {
-            this.creationTime = sharedPref.getLong(KEYPAIR_CREATION_TIME, DateTimeHelper.TIME_NOT_SET);
-        }
-
+    public long getKeysCreationTime() {
         return this.creationTime;
     }
 
@@ -301,6 +243,7 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
     //                                     key storage                                         //
     /////////////////////////////////////////////////////////////////////////////////////////////
 
+    /*
     private static AndroidASAPKeyStorage instance = null;
 
     public static AndroidASAPKeyStorage initializeASAPKeyStorage(
@@ -331,6 +274,7 @@ public class AndroidASAPKeyStorage extends InMemoASAPKeyStorage {
     }
 
     public boolean secureKeyAvailable() throws ASAPSecurityException {
-        return instance.getCreationTime() != DateTimeHelper.TIME_NOT_SET;
+        return instance.getKeysCreationTime() != DateTimeHelper.TIME_NOT_SET;
     }
+     */
 }

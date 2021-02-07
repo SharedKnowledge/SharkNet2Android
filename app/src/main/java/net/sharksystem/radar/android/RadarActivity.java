@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import net.sharksystem.R;
-import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
+import net.sharksystem.persons.android.PersonStatusHelper;
+import net.sharksystem.pki.SharkPKIComponent;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.util.List;
+import java.util.Set;
 
 public class RadarActivity extends SharkNetActivity {
     @Override
@@ -25,18 +25,20 @@ public class RadarActivity extends SharkNetActivity {
     private void setOnlinePeerText() {
         TextView peerListTextView = this.findViewById(R.id.radarOnlinePeersList);
 
-        List<CharSequence> onlinePeerList = this.getSharkNetApp().getOnlinePeerList();
+        Set<CharSequence> onlinePeerList = this.getASAPAndroidPeer().getOnlinePeerList();
         if(onlinePeerList == null || onlinePeerList.size() < 1) {
-            peerListTextView.setText("no peer online");
+            peerListTextView.setText("no peer(s) connected");
         } else {
-            PersonsStorageAndroidComponent personsApp = PersonsStorageAndroidComponent.getPersonsStorage();
+            PersonStatusHelper personsApp = PersonStatusHelper.getPersonsStorage();
+            SharkPKIComponent sharkPKIComponent = this.getSharkNetApp().getSharkPKI();
+
             StringBuilder sb = new StringBuilder();
-            sb.append("peers online;");
+            sb.append("peers connected:");
             sb.append("\n");
             for(CharSequence peerID : onlinePeerList) {
                 String peerName = "unknown";
                 try {
-                    peerName = personsApp.getPersonValues(peerID).getName().toString();
+                    peerName = sharkPKIComponent.getPersonValuesByID(peerID).getName().toString();
                 } catch (ASAPSecurityException e) {
                     e.printStackTrace();
                 }
@@ -52,7 +54,8 @@ public class RadarActivity extends SharkNetActivity {
         peerListTextView.refreshDrawableState();
     }
 
-    public void asapNotifyOnlinePeersChanged(List<CharSequence> peerList) {
+    // TODO: use environment listener concept!
+    public void asapNotifyOnlinePeersChanged(Set<CharSequence> peerList) {
         super.asapNotifyOnlinePeersChanged(peerList);
         this.setOnlinePeerText();
     }

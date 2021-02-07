@@ -1,14 +1,15 @@
 package net.sharksystem.makan.android;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
@@ -64,7 +65,7 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
             mRecyclerView = (RecyclerView) findViewById(R.id.makan_view_recycler_view);
 
             mAdapter = new MakanViewContentAdapter(this,
-                    this.topicUri, this.name, this.getSharkNetApp().getOwnerID());
+                    this.topicUri, this.name, this.getSharkNetApp().getID());
 
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
@@ -138,7 +139,7 @@ public class MakanViewActivity extends MakanUriContentChangedListenerActivity {
         // reset adapter to get access to new data
         try {
             mAdapter = new MakanViewContentAdapter(this,
-                    this.topicUri, this.name, this.getSharkNetApp().getOwnerID());
+                    this.topicUri, this.name, this.getSharkNetApp().getID());
             Log.d(this.getLogStart(), "recreate adapter");
             this.mRecyclerView.setAdapter(this.mAdapter);
             Log.d(this.getLogStart(), "notify data set changed");

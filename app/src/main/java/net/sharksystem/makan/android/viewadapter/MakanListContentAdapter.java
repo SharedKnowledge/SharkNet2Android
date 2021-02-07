@@ -1,12 +1,13 @@
 package net.sharksystem.makan.android.viewadapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
@@ -73,7 +74,7 @@ public class MakanListContentAdapter extends
 
             holder.uriTextView.setText(makan.getURI());
             holder.nameTextView.setText(makan.getName());
-        } catch (IOException | ASAPException e) {
+        } catch (IOException | ASAPException | SharkException e) {
             Log.e(this.getLogStart(), "problems while showing makan entries: "
                     + e.getLocalizedMessage());
             e.printStackTrace();
@@ -116,6 +117,6 @@ public class MakanListContentAdapter extends
     }
 
     private String getLogStart() {
-        return net.sharksystem.asap.util.Log.startLog(this).toString();
+        return net.sharksystem.utils.Log.startLog(this).toString();
     }
 }

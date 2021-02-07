@@ -1,8 +1,10 @@
 package net.sharksystem.persons.android;
 
+import net.sharksystem.sharknet.android.SharkNetActivity;
+
 import java.util.Set;
 
-abstract class SelectableListPersonAppActivity extends PersonAppActivity {
+abstract class SelectableListPersonAppActivity extends SharkNetActivity {
     protected SelectableListContentAdapterHelper selectableContentSource
             = new SelectableListContentAdapterHelper();
 

@@ -1,18 +1,21 @@
 package net.sharksystem.asap.sharknet.android;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.android.ASAPChannelIntent;
-import net.sharksystem.makan.android.MakanViewActivity;
+import net.sharksystem.messenger.SharkMessengerChannelInformation;
+import net.sharksystem.messenger.SharkMessengerException;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
@@ -57,13 +60,12 @@ class SNChannelsListContentAdapter extends
 
         // go ahead
         try {
-            SNChannelInformation snInfo =
-                    SNChannelsComponent.getSharkNetChannelComponent().
-                            getSNChannelInformation(position);
+            SharkMessengerChannelInformation snInfo = SharkNetApp.getSharkNetApp().getSharkMessenger()
+                    .getSharkMessengerChannelInformation(position);
 
             holder.uriTextView.setText(snInfo.uri);
             holder.nameTextView.setText(snInfo.name);
-        } catch (IOException | ASAPException e) {
+        } catch (IOException | SharkMessengerException e) {
             Log.e(this.getLogStart(), "problems while showing makan entries: "
                     + e.getLocalizedMessage());
             e.printStackTrace();
@@ -76,7 +78,7 @@ class SNChannelsListContentAdapter extends
 
         int realSize = 0;
         try {
-            realSize = SNChannelsComponent.getSharkNetChannelComponent().size();
+            realSize = SharkNetApp.getSharkNetApp().getSharkMessenger().size();
             Log.d(this.getLogStart(), "count is: " + realSize);
         } catch (Exception e) {
             Log.e(this.getLogStart(), "cannot access message storage (yet?)");
@@ -106,6 +108,6 @@ class SNChannelsListContentAdapter extends
     }
 
     private String getLogStart() {
-        return net.sharksystem.asap.util.Log.startLog(this).toString();
+        return net.sharksystem.utils.Log.startLog(this).toString();
     }
 }

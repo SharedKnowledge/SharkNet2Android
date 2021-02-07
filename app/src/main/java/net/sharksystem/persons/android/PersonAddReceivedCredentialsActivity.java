@@ -7,16 +7,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.SharkException;
-import net.sharksystem.asap.util.DateTimeHelper;
-import net.sharksystem.asap.ASAPException;
-import net.sharksystem.crypto.ASAPCertificate;
-import net.sharksystem.crypto.ASAPCertificateStorage;
-import net.sharksystem.persons.CredentialMessage;
+import net.sharksystem.asap.persons.CredentialMessage;
+import net.sharksystem.asap.utils.DateTimeHelper;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 
-import java.io.IOException;
-
-public class PersonAddReceivedCredentialsActivity extends PersonAppActivity {
+public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
     private CredentialMessage credential;
 
     /*
@@ -33,7 +28,7 @@ public class PersonAddReceivedCredentialsActivity extends PersonAppActivity {
         setContentView(R.layout.person_add_received_credential_layout);
 
         Log.d(this.getLogStart(), "onCreate");
-        this.credential = PersonsStorageAndroidComponent.getPersonsStorage().getReceivedCredential();
+        this.credential = PersonStatusHelper.getPersonsStorage().getReceivedCredential();
         Log.d(this.getLogStart(), "got credential: " + this.credential);
 
         TextView tv = this.findViewById(R.id.credentialDisplayName);
@@ -51,6 +46,9 @@ public class PersonAddReceivedCredentialsActivity extends PersonAppActivity {
 
     public void onAddClick(View v) {
         try {
+            Toast.makeText(this, "review implementation!!", Toast.LENGTH_LONG).show();
+            this.getSharkNetApp().getSharkPKI().acceptAndSignCredential(this.credential);
+
             /* debugging code - I nearly run nuts..
             KeyStore keyStore = KeyStore.getInstance(KEYSTORE_NAME);
             keyStore.load(null);
@@ -67,6 +65,7 @@ public class PersonAddReceivedCredentialsActivity extends PersonAppActivity {
             byte[] signature = s.sign();
 */
             // sign and create certificate
+            /*
             Log.d(this.getLogStart(), "before call addAndSignPerson()");
             ASAPCertificate newCert = PersonsStorageAndroidComponent.getPersonsStorage().addAndSignPerson(
                     this.credential.getOwnerID(),
@@ -88,10 +87,12 @@ public class PersonAddReceivedCredentialsActivity extends PersonAppActivity {
             Log.d(this.getLogStart(), "fatal. Could not add and sign person: "
                     + e.getLocalizedMessage());
             String text = e.getLocalizedMessage(); // debug break.
-/*        } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException | SignatureException | UnrecoverableEntryException | InvalidKeyException e) {
+        } catch (CertificateException | NoSuchAlgorithmException | KeyStoreException | SignatureException | UnrecoverableEntryException | InvalidKeyException e) {
             Log.d(this.getLogStart(), "fatal: "
                     + e.getLocalizedMessage());
  */
+        } catch (Exception e) {
+
         }
         this.finish();
     }

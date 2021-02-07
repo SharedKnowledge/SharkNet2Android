@@ -1,21 +1,24 @@
 package net.sharksystem.asap.sharknet.android;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPChannel;
 import net.sharksystem.android.ASAPChannelIntent;
+import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
-public class SNChannelViewActivity extends SNChannelsActivity {
+public class SNChannelViewActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;
     private SNChannelViewContentAdapter mAdapter;
 
@@ -46,7 +49,7 @@ public class SNChannelViewActivity extends SNChannelsActivity {
 //            setContentView(R.layout.makan_view_drawer_layout);
             setContentView(R.layout.sn_channel_view_drawer_layout);
 
-            this.getASAPApplication().setupDrawerLayout(this);
+            this.getSharkNetApp().setupDrawerLayout(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
@@ -63,13 +66,12 @@ public class SNChannelViewActivity extends SNChannelsActivity {
 //            mRecyclerView = (RecyclerView) findViewById(R.id.makan_view_recycler_view);
             mRecyclerView = (RecyclerView) findViewById(R.id.sn_channel_view_recycler_view);
 
+            /*
             this.asapChannel =
-                    SNChannelsComponent.getSharkNetChannelComponent().getStorage(this.channelURI);
+                    SharkNetApp.getSharkNetApp().getSharkMessenger().getStorage(this.channelURI);
+             */
 
-            mAdapter = new SNChannelViewContentAdapter(
-                    this,
-                    this.asapChannel,
-                    this.channelURI, this.name);
+            mAdapter = new SNChannelViewContentAdapter(this, this.channelURI, this.name);
 
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
@@ -140,9 +142,7 @@ public class SNChannelViewActivity extends SNChannelsActivity {
 
     private void resetAdapter() {
         // reset adapter to get access to new data
-        mAdapter = new SNChannelViewContentAdapter(this,
-                this.asapChannel,
-                this.channelURI, this.name);
+        mAdapter = new SNChannelViewContentAdapter(this, this.channelURI, this.name);
         Log.d(this.getLogStart(), "recreate adapter");
         this.mRecyclerView.setAdapter(this.mAdapter);
         Log.d(this.getLogStart(), "notify data set changed");

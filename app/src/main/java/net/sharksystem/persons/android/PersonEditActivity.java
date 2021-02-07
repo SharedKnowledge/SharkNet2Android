@@ -2,7 +2,6 @@ package net.sharksystem.persons.android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
@@ -13,9 +12,10 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.android.Util;
-import net.sharksystem.persons.PersonValuesImpl;
+import net.sharksystem.asap.persons.PersonValues;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 
-public class PersonEditActivity extends AppCompatActivity {
+public class PersonEditActivity extends SharkNetActivity {
     private CharSequence userID;
 
     @Override
@@ -29,8 +29,8 @@ public class PersonEditActivity extends AppCompatActivity {
 
             this.userID = personIntent.getSubjectID();
 
-            PersonValuesImpl personValues =
-                    PersonsStorageAndroidComponent.getPersonsStorage().getPersonValues(this.userID);
+            PersonValues personValues =
+                    this.getSharkNetApp().getSharkPKI().getPersonValuesByID(this.userID);
 
             TextView userIDView = findViewById(R.id.personEditUserID);
             userIDView.setText(String.valueOf(userID));
@@ -63,7 +63,7 @@ public class PersonEditActivity extends AppCompatActivity {
         int certExchangeFailure = certExchangeFailureSeekBar.getProgress();
 
         try {
-            PersonsStorageAndroidComponent.getPersonsStorage().setSigningFailureRate(this.userID, certExchangeFailure);
+            this.getSharkNetApp().getSharkPKI().setSigningFailureRate(this.userID, certExchangeFailure);
         } catch (ASAPSecurityException e) {
             Log.e(this.getLogStart(), "couldn't save data: " + e.getLocalizedMessage());
             Toast.makeText(this, "couldn't save data", Toast.LENGTH_SHORT).show();

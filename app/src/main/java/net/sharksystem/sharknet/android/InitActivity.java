@@ -1,7 +1,7 @@
 package net.sharksystem.sharknet.android;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,20 +9,24 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.SharkException;
 import net.sharksystem.asap.sharknet.android.SNChannelsListActivity;
 import net.sharksystem.persons.android.OwnerActivity;
 
-public class InitActivity extends AppCompatActivity {
+public class InitActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean launchFirstActivity = false;
 
-        boolean launchFirstActivity = true;
-        if(!SharkNetApp.isStarted()) {
-            Log.d(this.getLogStart(), "Startup SharkNetApplication");
-            SharkNetApp sharkNetApp = SharkNetApp.initializeSharkNetApp(this);
-            Owner owner = sharkNetApp.getOwnerData();
-            if (!owner.isOwnerSet()) launchFirstActivity = false;
+        Log.d(this.getLogStart(), "Startup SharkNetApplication");
+        try {
+            String ownerID = SharkNetApp.getOwnerID(this);
+            SharkNetApp.initializeSharkNetApp(this, ownerID);
+            launchFirstActivity = true; // we are ready for takeoff
+        }
+        catch(SharkException se) {
+            Log.e(this.getLogStart(), "cannot initialized app: " + se.getLocalizedMessage());
         }
 
         if(launchFirstActivity) {
@@ -40,11 +44,11 @@ public class InitActivity extends AppCompatActivity {
 
         String ownerName = ownerNameEditText.getText().toString();
 
-        if(ownerName.equalsIgnoreCase(OwnerStorage.DEFAULT_OWNER_NAME)) {
+        if(ownerName.equalsIgnoreCase(SharkNetApp.DEFAULT_OWNER_NAME)) {
             Toast.makeText(this, "you must define another name",
                     Toast.LENGTH_SHORT).show();
         } else {
-            SharkNetApp.getSharkNetApp().getOwnerData().setDisplayName(ownerName);
+            SharkNetApp.initializeSystem(this, ownerName);
             this.finish();
             Intent intent = new Intent(this, OwnerActivity.class);
             this.startActivity(intent);

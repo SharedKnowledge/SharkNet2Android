@@ -1,17 +1,19 @@
 package net.sharksystem.persons.android;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.asap.pki.ASAPCertificate;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -79,8 +81,13 @@ class CertificateListContentAdapter extends
         holder.validUntil.setText(simpleDateFormat.format(
                 new Date(asapCertificate.getValidUntil().getTimeInMillis())));
 
-        CharSequence ownerName = PersonsStorageAndroidComponent.getPersonsStorage().
-                getPersonName(asapCertificate.getSubjectID());
+        CharSequence ownerName = null;
+        try {
+            ownerName = SharkNetApp.getSharkNetApp().
+                    getSharkPKI().getPersonValuesByID(asapCertificate.getSubjectID()).getName();
+        } catch (ASAPSecurityException e) {
+            Log.d(this.getLogStart(), "problems finding a name for peerID: " + e.getLocalizedMessage());
+        }
 
         holder.subjectName.setText(ownerName);
 
@@ -88,7 +95,7 @@ class CertificateListContentAdapter extends
 
         CharSequence signerName;
         if(asapCertificate.getIssuerID().toString().
-                equalsIgnoreCase(PersonsStorageAndroidComponent.getPersonsStorage().getOwnerID().toString())) {
+                equalsIgnoreCase(SharkNetApp.getSharkNetApp().getID().toString())) {
             signerName = "You";
         } else {
             signerName = asapCertificate.getIssuerName();
@@ -96,14 +103,14 @@ class CertificateListContentAdapter extends
 
         holder.issuerName.setText(signerName);
 
-        int cef = PersonsStorageAndroidComponent.getPersonsStorage().
+        int cef = SharkNetApp.getSharkNetApp().getSharkPKI().
                 getSigningFailureRate(asapCertificate.getIssuerID());
 
         holder.caIssuer.setText(String.valueOf(cef));
 
         int identityAssurance = 0;
         try {
-            identityAssurance = PersonsStorageAndroidComponent.getPersonsStorage().
+            identityAssurance = SharkNetApp.getSharkNetApp().getSharkPKI().
                     getIdentityAssurance(asapCertificate.getSubjectID());
         } catch (ASAPSecurityException e) {
             Log.d(this.getLogStart(),

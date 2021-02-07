@@ -1,7 +1,6 @@
 package net.sharksystem.persons.android;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -10,12 +9,13 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.asap.pki.ASAPCertificate;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CertificateViewActivity extends AppCompatActivity {
+public class CertificateViewActivity extends SharkNetActivity {
     private CharSequence subjectID;
     private CharSequence issuerID;
 
@@ -43,7 +43,7 @@ public class CertificateViewActivity extends AppCompatActivity {
 
             ASAPCertificate cert = null;
             try {
-                cert = PersonsStorageAndroidComponent.getPersonsStorage().
+                cert = this.getSharkNetApp().getSharkPKI().
                         getCertificateByIssuerAndSubject(issuerID, subjectID);
             }
             catch(ASAPSecurityException e) {
@@ -89,9 +89,5 @@ public class CertificateViewActivity extends AppCompatActivity {
     public void onDeleteClick(View view) {
         Toast.makeText(this, "TODO: doDeleteClick", Toast.LENGTH_SHORT).show();
         this.finish();
-    }
-
-    private String getLogStart() {
-        return net.sharksystem.asap.util.Log.startLog(this).toString();
     }
 }

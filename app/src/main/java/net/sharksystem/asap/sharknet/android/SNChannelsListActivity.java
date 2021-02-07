@@ -2,22 +2,26 @@ package net.sharksystem.asap.sharknet.android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPException;
+import net.sharksystem.messenger.SharkMessengerException;
+import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
-public class SNChannelsListActivity extends SNChannelsActivity {
+public class SNChannelsListActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;
 
 //    private MakanListContentAdapter mAdapter;
@@ -31,7 +35,7 @@ public class SNChannelsListActivity extends SNChannelsActivity {
         try {
             setContentView(R.layout.sn_channels_list_drawer_layout);
 
-            this.getASAPApplication().setupDrawerLayout(this);
+            this.getSharkNetApp().setupDrawerLayout(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
@@ -144,11 +148,11 @@ public class SNChannelsListActivity extends SNChannelsActivity {
         this.startActivity(intent);
     }
 
-    private void doRemoveAll() throws IOException, ASAPException {
+    private void doRemoveAll() throws IOException, SharkMessengerException {
         String sampleLine = Long.toString(System.currentTimeMillis());
         Log.d(this.getLogStart(), "doRemoveAll called");
 
-        SNChannelsComponent.getSharkNetChannelComponent().removeAll();
+        SharkNetApp.getSharkNetApp().getSharkMessenger().removeAllChannels();
 
         Toast.makeText(this, "done - removed all makan", Toast.LENGTH_SHORT).show();
     }

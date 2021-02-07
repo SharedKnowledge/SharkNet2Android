@@ -1,27 +1,29 @@
 package net.sharksystem.persons.android;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.android.Util;
-import net.sharksystem.crypto.ASAPCertificate;
+import net.sharksystem.asap.pki.ASAPCertificate;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CertificateListActivity extends PersonAppActivity {
+public class CertificateListActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private CertificateListContentAdapter mAdapter;
@@ -97,25 +99,24 @@ public class CertificateListActivity extends PersonAppActivity {
 
     private List<ASAPCertificate> produceListBySubject(CharSequence userID) throws ASAPSecurityException {
         Collection<ASAPCertificate> certColl =
-                PersonsStorageAndroidComponent.getPersonsStorage().getCertificatesBySubject(userID);
+                this.getSharkNetApp().getSharkPKI().getCertificatesBySubject(userID);
 
         return this.produceCertList(certColl);
     }
 
     private List<ASAPCertificate> produceListByIssuer(CharSequence userID) throws ASAPSecurityException {
         Collection<ASAPCertificate> certColl =
-                PersonsStorageAndroidComponent.getPersonsStorage().getCertificatesByIssuer(userID);
+                this.getSharkNetApp().getSharkPKI().getCertificatesByIssuer(userID);
 
         return this.produceCertList(certColl);
     }
 
     private List<ASAPCertificate> produceListToExplain(CharSequence userID)
-            throws SharkException, ASAPSecurityException {
-
-        PersonsStorageAndroidComponent personsApp = PersonsStorageAndroidComponent.getPersonsStorage();
+            throws ASAPSecurityException {
 
         List<ASAPCertificate> certList = new ArrayList<>();
-        List<CharSequence> idPath = personsApp.getIdentityAssurancesCertificationPath(userID);
+        List<CharSequence> idPath =
+                this.getSharkNetApp().getSharkPKI().getIdentityAssurancesCertificationPath(userID);
 
         if(idPath.isEmpty()) {
             Toast.makeText(this, "Person can not be verified", Toast.LENGTH_LONG).show();
@@ -123,7 +124,7 @@ public class CertificateListActivity extends PersonAppActivity {
             return null;
         }
 
-        if(idPath.get(0).toString().equalsIgnoreCase(personsApp.getOwnerID().toString())) {
+        if(idPath.get(0).toString().equalsIgnoreCase(this.getSharkNetApp().getID().toString())) {
             // direct certificate
             Toast.makeText(this, "You met this person and signed a certificate",
                     Toast.LENGTH_LONG).show();
@@ -132,7 +133,8 @@ public class CertificateListActivity extends PersonAppActivity {
         }
 
         for(CharSequence id : idPath) {
-            certList.add(personsApp.getCertificatesBySubject(id).iterator().next());
+            certList.add(this.getSharkNetApp().getSharkPKI().
+                    getCertificatesBySubject(id).iterator().next());
         }
 
         return certList;

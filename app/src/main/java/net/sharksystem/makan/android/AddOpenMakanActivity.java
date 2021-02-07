@@ -8,7 +8,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
+import net.sharksystem.asap.android.apps.ASAPActivity;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -34,14 +36,14 @@ public class AddOpenMakanActivity extends SharkNetActivity {
                 MakanApp.getMakanApp().getMakanStorage().createMakan(
                         uriText.getText(),
                         nameText.getText(),
-                        SharkNetApp.getSharkNetApp().getOwnerID()
+                        SharkNetApp.getSharkNetApp().getID()
                 );
 
             } catch (IOException e) {
                 String text = "failure: " + e.getLocalizedMessage();
                 Log.e(this.getLogStart(), text);
                 Toast.makeText(this, "IO error - that's serious", Toast.LENGTH_SHORT).show();
-            } catch (ASAPException e) {
+            } catch (ASAPException | SharkException e) {
                 String text = "failure: " + e.getLocalizedMessage();
                 Log.w(this.getLogStart(), text);
                 Toast.makeText(this, "already exists(?)", Toast.LENGTH_SHORT).show();

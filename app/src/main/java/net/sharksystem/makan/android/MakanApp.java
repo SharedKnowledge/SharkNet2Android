@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.util.Log;
 
+import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
+import net.sharksystem.asap.android.apps.ASAPApplicationComponentHelper;
 import net.sharksystem.makan.MakanStorage;
 import net.sharksystem.makan.MakanStorage_Impl;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -38,14 +40,15 @@ public class MakanApp {
     }
 
 
-    public MakanStorage getMakanStorage() throws IOException, ASAPException {
+    public MakanStorage getMakanStorage() throws IOException, ASAPException, SharkException {
         Log.d(LOGSTART, "ALWAYS SET MAKAN STORAGE TO NULL FOR DEBUGGING");
         this.makanStorage = null; // TODO: DEBUGGING
         if(this.makanStorage == null) {
             Log.d(LOGSTART, "makanStorage is null - create on");
 
             this.makanStorage = new MakanStorage_Impl(
-                    SharkNetApp.getSharkNetApp().getASAPStorage(MakanApp.APP_NAME));
+                SharkNetApp.getSharkNetApp().getSharkPeer().
+                        getASAPPeer().getASAPStorage(MakanApp.APP_NAME));
 
             //MakanApp.makanStorage = new MakanStorage_Impl(MakanApp.getASAPMakanStorage());
         } else {

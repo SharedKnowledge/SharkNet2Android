@@ -1,118 +1,133 @@
 package net.sharksystem.sharknet.android;
 
 import android.app.Activity;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.drawerlayout.widget.DrawerLayout;
+import com.google.android.material.navigation.NavigationView;
+
 import net.sharksystem.R;
-import net.sharksystem.asap.android.apps.ASAPApplication;
-import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
-import net.sharksystem.asap.sharknet.android.SNChannelsComponent;
-import net.sharksystem.crypto.ASAPCertificateStorage;
-import net.sharksystem.makan.android.MakanApp;
-import net.sharksystem.persons.android.PersonsStorageAndroidComponent;
+import net.sharksystem.SharkComponent;
+import net.sharksystem.SharkException;
+import net.sharksystem.SharkPeer;
+import net.sharksystem.SharkPeerFS;
+import net.sharksystem.SharkStatusException;
+import net.sharksystem.asap.ASAP;
+import net.sharksystem.asap.ASAPSecurityException;
+import net.sharksystem.makan.android.MakanUriContentChangedListenerActivity;
+import net.sharksystem.messenger.SharkMessengerComponent;
+import net.sharksystem.messenger.SharkMessengerComponentFactory;
+import net.sharksystem.pki.SharkPKIComponent;
+import net.sharksystem.pki.SharkPKIComponentFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SharkNetApp extends ASAPApplication implements OwnerFactory {
+public class SharkNetApp {
+    private static final CharSequence APP_FOLDER_NAME = "SharkNet2_AppData";
     private static SharkNetApp singleton;
-    private Owner ownerStorage = null;
-
-    /**
-     * set up service site
-     * @param appFormats
-     */
-    private SharkNetApp(List<CharSequence> appFormats, Activity initActivity) {
-        // start asap app
-        super(appFormats, initActivity);
-
-        // initialize owner storage
-        this.ownerStorage = new OwnerStorage(initActivity);
-    }
-
-    /**
-     * Initialize app site
-     */
-    public void startASAPApplication() {
-        /* just to demonstrate that this method exists. There is nothing to do,though:
-            format was already set in constructor
-            getOwnerID is available ownerID available - call super
-        */
-
-        // do not forget to call super method
-        super.startASAPApplication();
-    }
-
-    public static boolean isStarted() { return SharkNetApp.singleton != null; }
-
-    static SharkNetApp initializeSharkNetApp(Activity initActivity) {
-        if(SharkNetApp.singleton == null) {
-            Log.d(getLogStart(), "initialize / startup");
-            // SN supports the following applications
-            List<CharSequence> appFormats = new ArrayList<>();
-
-            ///////////////// collect required component formats //////////////////////////////
-            for(CharSequence f : PersonsStorageAndroidComponent.geRequiredFormats()) {
-                appFormats.add(f);
-            }
-
-            ///////////////// old fashioned - they do not follow component guidelines  ////////
-            //appFormats.add(PersonsStorageAndroid.CREDENTIAL_APP_NAME);
-            appFormats.add(MakanApp.APP_NAME);
-            appFormats.add(ASAPCertificateStorage.CERTIFICATE_APP_NAME);
-
-            ///////////////// initialize application object  ///////////////////////////////////
-            Log.d(getLogStart(), "create SharkNetApp object");
-            SharkNetApp.singleton = new SharkNetApp(appFormats, initActivity);
-
-            // read owner information from preference or somewhere else
-            Log.d(getLogStart(), "get owner from shared preferences");
-            Owner owner = SharkNetApp.singleton.getOwner(initActivity);
-
-            ///////////////// initialize application components //////////////////////////////
-            // key storage
-            Log.d(getLogStart(), "init AndroidASAPKeyStorage");
-            AndroidASAPKeyStorage asapKeyStorage =
-                    AndroidASAPKeyStorage.initializeASAPKeyStorage(
-                            initActivity,
-                            owner.getUUID(),
-                            owner.getDisplayName());
-
-            // persons / contacts
-            Log.d(getLogStart(), "init PersonsStorageAndroidComponent");
-
-            PersonsStorageAndroidComponent asapPKI = PersonsStorageAndroidComponent.initialize(
-                    SharkNetApp.singleton, // ASAPApplication
-                    SharkNetApp.singleton, // OwnerFactory
-                    asapKeyStorage
-            );
-
-            // snChannels
-            Log.d(getLogStart(), "init SNChannelsComponent");
-            SNChannelsComponent.initialize(
-                    SharkNetApp.singleton, // ASAPApplication
-                    asapPKI, // BasicKeyStore
-                    asapPKI, // ASAPPKI
-                    SharkNetApp.singleton, // OwnerFactory
-                    PersonsStorageAndroidComponent.getPersonsStorage() // PersonStorage
-            );
-
-            // all components put together - launch the system
-            Log.d(getLogStart(), "launch SN2 application");
-            SharkNetApp.singleton.startASAPApplication();
-        }
-
-        return SharkNetApp.getSharkNetApp();
-    }
+    private SharkPeer sharkPeer;
 
     public static SharkNetApp getSharkNetApp() {
         if(SharkNetApp.singleton == null) throw
-                new ASAPComponentNotYetInitializedException("failed to initialize SharkNetApplication");
+                new SharkStatusException("SharkNetApplication not yet initialized");
 
         return SharkNetApp.singleton;
     }
+
+    public SharkPeer getSharkPeer() {
+        if(this.sharkPeer == null) throw
+                new SharkStatusException("Shark peer not yet initialized");
+
+        return this.sharkPeer;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //                                     system setup                                        //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static SharkNetApp initializeSharkNetApp(
+            Context context, String ownerID) throws SharkException {
+        ///////////////////////////////////// get saved data of this app.
+        if(SharkNetApp.singleton == null) {
+            Log.d(getLogStart(), "going to initialize shark net application");
+            SharkNetApp.singleton = new SharkNetApp(context, ownerID);
+
+            SharkNetApp.singleton.sharkPeer = new SharkPeerFS(
+                    SharkNetApp.singleton.getID(),
+                    SharkNetApp.APP_FOLDER_NAME // folder is pre-defined - could be set be user
+            );
+
+            ///////////////////////////////////// setup PKI
+            // create Android specific key store
+            AndroidASAPKeyStore androidASAPKeyStore = null;
+            try {
+                androidASAPKeyStore = new AndroidASAPKeyStore(context, ownerID);
+            } catch (ASAPSecurityException e) {
+                Log.e(getLogStart(), "cannot create Android key store, fatal - give up: "
+                        + e.getLocalizedMessage());
+                throw new SharkException("cannot create Android key store", e);
+            }
+
+            // create a pki component factory with android key store
+            SharkPKIComponentFactory pkiComponentFactory =
+                    new SharkPKIComponentFactory(androidASAPKeyStore);
+
+            // register this component with shark peer
+            SharkNetApp.singleton.sharkPeer.addComponent(
+                    pkiComponentFactory, SharkPKIComponent.class);
+
+            SharkComponent sharkPKI =
+                    SharkNetApp.singleton.sharkPeer.getComponent(SharkPKIComponent.class);
+
+            Log.d(getLogStart(), "set pki behaviour: send credential message if possible");
+            sharkPKI.setBehaviour(
+                    SharkPKIComponent.BEHAVIOUR_SEND_CREDENTIAL_FIRST_ENCOUNTER, true);
+
+            ///////////////////////////////////// setup SharkMessenger
+            // create messenger factory - needs a pki
+            SharkMessengerComponentFactory messengerFactory =
+                    new SharkMessengerComponentFactory(SharkNetApp.singleton.getSharkPKI());
+
+            // register this component with shark peer
+            SharkNetApp.singleton.sharkPeer.addComponent(
+                    messengerFactory, SharkMessengerComponent.class);
+
+            Log.d(getLogStart(), "shark net components added");
+            ///////////////////////////////////// ignition
+            SharkNetApp.singleton.sharkPeer.start();
+            Log.d(getLogStart(), "shark net application launched");
+        } else {
+            Log.d(getLogStart(), "shark net application already initialized - ignore");
+        }
+
+        return SharkNetApp.singleton;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //                                    component getter                                     //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    public SharkPKIComponent getSharkPKI() {
+        try {
+            return (SharkPKIComponent)this.sharkPeer.getComponent(SharkPKIComponent.class);
+        } catch (SharkException e) {
+            // this cannot happen - this component is initialized in init
+            throw new SharkStatusException("internal error: " + e.getLocalizedMessage());
+        }
+    }
+
+    public SharkMessengerComponent getSharkMessenger() {
+        try {
+            return (SharkMessengerComponent)this.sharkPeer.getComponent(SharkMessengerComponent.class);
+        } catch (SharkException e) {
+            // this cannot happen - this component is initialized in init
+            throw new SharkStatusException("internal error: " + e.getLocalizedMessage());
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //                                      GUI support                                        //
+    /////////////////////////////////////////////////////////////////////////////////////////////
 
     public void setupDrawerLayout(Activity activity) {
         DrawerLayout mDrawerLayout = activity.findViewById(R.id.sharknet_drawer_layout);
@@ -129,28 +144,99 @@ public class SharkNetApp extends ASAPApplication implements OwnerFactory {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
-    //                                     owner settings                                      //
+    //                    application setting beside ASAP/Shark                                //
     /////////////////////////////////////////////////////////////////////////////////////////////
+    public final static String PREFERENCES_FILE = "SharkNet2Identity";
+    private final static String OWNER_NAME = "SharkNet2Identity_OwnerName";
+    private final static String OWNER_ID = "SharkNet2Identity_OwnerID";
+
+    public final static String DEFAULT_OWNER_NAME = "SNUser";
+    private final static String DEFAULT_OWNER_ID = "Default_SN_USER_ID";
+
+    private CharSequence ownerName;
+    private CharSequence ownerID;
+
+    public CharSequence getUUID() { return this.getID(); }
+    public CharSequence getID() { return this.ownerID; }
+    public CharSequence getDisplayName() { return this.ownerName; }
+
+    private SharkNetApp(Context initialContext, String ownerID) {
+        SharedPreferences sharedPref = initialContext.getSharedPreferences(
+                PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+        if(sharedPref.contains(OWNER_NAME)) {
+            this.ownerName = sharedPref.getString(OWNER_NAME, DEFAULT_OWNER_NAME);
+        } else {
+            this.ownerName = DEFAULT_OWNER_NAME;
+        }
+
+        this.ownerID = ownerID;
+    }
+
+    /**
+     * Return ownerID or throws an exception is no ID is set. The id is created by
+     * automatically when the system is initialized
+     * @param context
+     * @return id
+     * @throws SharkException
+     * @see #initializeSystem(Context, CharSequence)
+     */
+    public static String getOwnerID(Context context) throws SharkException {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+        if(sharedPref.contains(OWNER_ID)) {
+            return sharedPref.getString(OWNER_ID, DEFAULT_OWNER_ID);
+        } else throw new SharkException("not yet personalized - no id set");
+    }
+
+    /**
+     * Static method to initialize system with a name. An ID is automatically created and will
+     * not be changed.
+     * @param ctx
+     * @param ownerName
+     */
+    public static void initializeSystem(Context ctx, CharSequence ownerName) {
+        SharedPreferences sharedPref = ctx.getSharedPreferences(
+                PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putString(OWNER_NAME, ownerName.toString());
+
+        // create owner id
+        String ownerID = ASAP.createUniqueID();
+        editor.putString(OWNER_ID, ownerID);
+
+        editor.commit();
+    }
+
+    /**
+     * Change owner name (but not id)
+     * @param ctx
+     * @param userName new owner name
+     */
+    public void changeOwnerName(Context ctx, CharSequence userName) {
+        SharedPreferences sharedPref = ctx.getSharedPreferences(
+                PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(OWNER_NAME, userName.toString());
+        editor.commit();
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //                                          utils                                          //
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    public void removeASAPUriContentChangedListener(CharSequence appName, MakanUriContentChangedListenerActivity makanUriContentChangedListenerActivity) {
+        Log.d(getLogStart(), "we should re-introduce a UIR changed listener");
+    }
+
+    public void addASAPUriContentChangedListener(Object appName, MakanUriContentChangedListenerActivity makanUriContentChangedListenerActivity) {
+        Log.d(getLogStart(), "we should re-introduce a UIR changed listener");
+    }
 
     private static String getLogStart() {
         return SharkNetApp.class.getSimpleName();
-    }
-
-    public Owner getOwner(Activity activity) {
-        if(activity == null) return this.ownerStorage;
-
-        // after initialization - create preferences access with active activity
-        this.ownerStorage = new OwnerStorage(activity);
-        return this.ownerStorage;
-    }
-
-    @Override
-    public Owner getOwnerData() {
-        return this.getOwner(this.getActivity());
-    }
-
-    public CharSequence getOwnerID() { return this.getOwnerData().getUUID(); }
-    public CharSequence getOwnerName() {
-        return this.getOwnerData().getDisplayName();
     }
 }

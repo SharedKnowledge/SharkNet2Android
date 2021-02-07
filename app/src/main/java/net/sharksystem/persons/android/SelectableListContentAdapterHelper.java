@@ -1,8 +1,9 @@
 package net.sharksystem.persons.android;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.HashSet;
 import java.util.Set;

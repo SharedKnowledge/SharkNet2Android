@@ -4,11 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import net.sharksystem.SharkException;
-import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.util.Helper;
+import net.sharksystem.asap.utils.Helper;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 class OpenMakanIntent extends Intent {

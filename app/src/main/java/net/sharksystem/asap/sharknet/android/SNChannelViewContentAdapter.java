@@ -1,27 +1,24 @@
 package net.sharksystem.asap.sharknet.android;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import net.sharksystem.R;
-import net.sharksystem.asap.ASAPChannel;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.asap.sharknet.InMemoSNMessage;
-import net.sharksystem.asap.sharknet.SNMessage;
-import net.sharksystem.asap.util.DateTimeHelper;
-import net.sharksystem.crypto.BasicKeyStore;
-import net.sharksystem.makan.Makan;
-import net.sharksystem.makan.android.MakanApp;
+import net.sharksystem.asap.utils.DateTimeHelper;
+import net.sharksystem.messenger.SharkMessage;
+import net.sharksystem.messenger.SharkMessengerComponent;
+import net.sharksystem.messenger.SharkMessengerException;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.util.Set;
 
 public class SNChannelViewContentAdapter extends
@@ -33,9 +30,6 @@ public class SNChannelViewContentAdapter extends
     // parameter to create makan wrapper
     private final CharSequence channelURI;
     private final CharSequence channelName;
-    private final ASAPChannel asapChannel;
-
-    private Makan makan;
 
     @Override
     public SNChannelViewContentAdapter.MyViewHolder onCreateViewHolder(
@@ -67,10 +61,8 @@ public class SNChannelViewContentAdapter extends
         }
     }
 
-    public SNChannelViewContentAdapter(Activity activity, ASAPChannel asapChannel,
-                                       CharSequence uri, CharSequence name) {
+    public SNChannelViewContentAdapter(Activity activity, CharSequence uri, CharSequence name) {
         this.activity = activity;
-        this.asapChannel = asapChannel;
         this.channelURI = uri;
         this.channelName = name;
         Log.d(LOGSTART, "constructor");
@@ -81,28 +73,16 @@ public class SNChannelViewContentAdapter extends
         Log.d(LOGSTART, "onBindViewHolder with position: " + position);
 
         try {
-            byte[] asapMessage = this.asapChannel.getMessages().getMessage(position, false);
+            //byte[] asapMessage = this.asapChannel.getMessages().getMessage(position, false);
+            SharkMessengerComponent sharkMessenger =
+                    SharkNetApp.getSharkNetApp().getSharkMessenger();
 
-/*
-    public static SharkNetMessage parseMessage(byte[] message, String sender, String uri,
-                CharSequence ownerID, BasicKeyStore basicKeyStore) throws IOException, ASAPException {
- */
-            BasicKeyStore basicKeyStore =
-                    SNChannelsComponent.getSharkNetChannelComponent().getBasicKeyStore();
-
-            SNMessage snMessage = null;
-            try {
-                snMessage = InMemoSNMessage.parseMessage(asapMessage, basicKeyStore);
-            }
-            catch(ASAPSecurityException e) {
-                // could not be parsed
-                Log.d(LOGSTART, "could not parse SNMessage " + position);
-                return;
-            }
+            SharkMessage sharkMessage =
+                    sharkMessenger.getSharkMessage(this.channelURI, position, false);
 
             CharSequence recipients2View;
 
-            Set<CharSequence> recipients = snMessage.getRecipients();
+            Set<CharSequence> recipients = sharkMessage.getRecipients();
             if(recipients == null || recipients.isEmpty()) {
                 recipients2View = "anybody";
             } else {
@@ -119,8 +99,9 @@ public class SNChannelViewContentAdapter extends
 
                     CharSequence recipientName = null;
                     try {
-                        sb.append(SNChannelsComponent.getSharkNetChannelComponent().
-                                getPersonName(recipientID));
+                        recipientName = SharkNetApp.getSharkNetApp().getSharkPKI()
+                                .getPersonValuesByID(recipientID).getName();
+                        sb.append(recipientName);
                     }
                     catch(ASAPException e) {
                         // no name found
@@ -132,7 +113,7 @@ public class SNChannelViewContentAdapter extends
             }
 
             CharSequence encrypted2View = "not E2E encrypted";
-            if(snMessage.encrypted()) {
+            if(sharkMessage.encrypted()) {
                 encrypted2View = "is E2E encrypted";
             }
 
@@ -145,31 +126,32 @@ public class SNChannelViewContentAdapter extends
 
 
             // do we have an decrypted message?
-            if(snMessage.couldBeDecrypted()) {
-                byte[] snContent = snMessage.getContent();
+            if(sharkMessage.couldBeDecrypted()) {
+                byte[] snContent = sharkMessage.getContent();
                 content2View = new String(snContent);
 
-                Timestamp creationTime = snMessage.getCreationTime();
+                Timestamp creationTime = sharkMessage.getCreationTime();
                 timestamp2View = DateTimeHelper.long2DateString(creationTime.getTime());
 
-                CharSequence senderName = snMessage.getSender();
+                CharSequence senderID = sharkMessage.getSender();
                 try {
-                    senderName = SNChannelsComponent.getSharkNetChannelComponent().
-                            getPersonName(senderName);
+                    senderID = SharkNetApp.getSharkNetApp().getSharkPKI()
+                            .getPersonValuesByID(senderID).getName();
                 }
                 catch(ASAPException e) {
                     // no name found
                 }
 
-                sender2View = "from: " + senderName;
+                sender2View = "from: " + senderID;
 
-                if(snMessage.verified()) {
+                if(sharkMessage.verified()) {
                     verified2View = "is verified";
 
-                    int identityAssurance = SNChannelsComponent.getSharkNetChannelComponent().
-                            getAsapPKI().getIdentityAssurance(snMessage.getSender());
+                    int identityAssurance =
+                            SharkNetApp.getSharkNetApp().getSharkPKI().
+                                    getIdentityAssurance(sharkMessage.getSender());
 
-                    iA2View = "iA of " + senderName + " is " + identityAssurance;
+                    iA2View = "iA of " + senderID + " is " + identityAssurance;
                 }
             }
 
@@ -192,25 +174,14 @@ public class SNChannelViewContentAdapter extends
     @Override
     public int getItemCount() {
         try {
-            int size = this.asapChannel.getMessages().size();
+            int size = SharkNetApp.getSharkNetApp().getSharkMessenger().size();
             return size;
 
-        } catch (IOException e) {
+        } catch (IOException | SharkMessengerException e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
             Log.e(LOGSTART, "got exception class: " + e.getClass().getSimpleName()
                     + "message: " + e.getLocalizedMessage());
             return 0;
         }
-    }
-
-    private Makan getMakan() throws IOException, ASAPException {
-        if(this.makan == null) {
-            this.makan = MakanApp.getMakanApp().getMakanStorage().getMakan(this.channelURI);
-        }
-        return this.makan;
-    }
-
-    public void sync() {
-        this.makan = null;
     }
 }

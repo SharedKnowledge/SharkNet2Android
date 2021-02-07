@@ -2,11 +2,13 @@ package net.sharksystem.sharknet.android;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.sharknet.android.SNChannelsListActivity;
