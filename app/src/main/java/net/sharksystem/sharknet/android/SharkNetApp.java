@@ -15,12 +15,19 @@ import net.sharksystem.SharkPeer;
 import net.sharksystem.SharkPeerFS;
 import net.sharksystem.SharkStatusException;
 import net.sharksystem.asap.ASAP;
+import net.sharksystem.asap.ASAPException;
+import net.sharksystem.asap.ASAPPeer;
 import net.sharksystem.asap.ASAPSecurityException;
+import net.sharksystem.asap.android.Util;
+import net.sharksystem.asap.android.apps.ASAPAndroidPeer;
 import net.sharksystem.makan.android.MakanUriContentChangedListenerActivity;
 import net.sharksystem.messenger.SharkMessengerComponent;
 import net.sharksystem.messenger.SharkMessengerComponentFactory;
 import net.sharksystem.pki.SharkPKIComponent;
 import net.sharksystem.pki.SharkPKIComponentFactory;
+
+import java.io.File;
+import java.io.IOException;
 
 public class SharkNetApp {
     private static final CharSequence APP_FOLDER_NAME = "SharkNet2_AppData";
@@ -45,23 +52,29 @@ public class SharkNetApp {
     //                                     system setup                                        //
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static SharkNetApp initializeSharkNetApp(
-            Context context, String ownerID) throws SharkException {
+    public static SharkNetApp initializeSharkNetApp(Activity initialActivity, String ownerID)
+            throws SharkException, IOException, ASAPException {
+
         ///////////////////////////////////// get saved data of this app.
         if(SharkNetApp.singleton == null) {
             Log.d(getLogStart(), "going to initialize shark net application");
-            SharkNetApp.singleton = new SharkNetApp(context, ownerID);
+            SharkNetApp.singleton = new SharkNetApp(initialActivity, ownerID);
 
+            // produce folder
+            File rootDir =
+                Util.getASAPRootDirectory(initialActivity, SharkNetApp.APP_FOLDER_NAME, ownerID);
+
+            // produce application side shark peer
             SharkNetApp.singleton.sharkPeer = new SharkPeerFS(
                     SharkNetApp.singleton.getID(),
-                    SharkNetApp.APP_FOLDER_NAME // folder is pre-defined - could be set be user
+                    rootDir.getAbsolutePath()
             );
 
             ///////////////////////////////////// setup PKI
             // create Android specific key store
             AndroidASAPKeyStore androidASAPKeyStore = null;
             try {
-                androidASAPKeyStore = new AndroidASAPKeyStore(context, ownerID);
+                androidASAPKeyStore = new AndroidASAPKeyStore(initialActivity, ownerID);
             } catch (ASAPSecurityException e) {
                 Log.e(getLogStart(), "cannot create Android key store, fatal - give up: "
                         + e.getLocalizedMessage());
@@ -79,10 +92,6 @@ public class SharkNetApp {
             SharkComponent sharkPKI =
                     SharkNetApp.singleton.sharkPeer.getComponent(SharkPKIComponent.class);
 
-            Log.d(getLogStart(), "set pki behaviour: send credential message if possible");
-            sharkPKI.setBehaviour(
-                    SharkPKIComponent.BEHAVIOUR_SEND_CREDENTIAL_FIRST_ENCOUNTER, true);
-
             ///////////////////////////////////// setup SharkMessenger
             // create messenger factory - needs a pki
             SharkMessengerComponentFactory messengerFactory =
@@ -94,8 +103,27 @@ public class SharkNetApp {
 
             Log.d(getLogStart(), "shark net components added");
             ///////////////////////////////////// ignition
-            SharkNetApp.singleton.sharkPeer.start();
+
+            // setup android (application side peer)
+            ASAPAndroidPeer.initializePeer(
+                    ownerID,
+                    SharkNetApp.singleton.sharkPeer.getFormats(),
+                    SharkNetApp.APP_FOLDER_NAME,
+                    initialActivity);
+
+            // launch service side
+            ASAPPeer applicationSideASAPPeer = ASAPAndroidPeer.startPeer(initialActivity);
+            Log.d(getLogStart(), "ASAP had a liftoff");
+
+            // use asap peer proxy for this app side shark peer
+            SharkNetApp.singleton.sharkPeer.start(applicationSideASAPPeer);
             Log.d(getLogStart(), "shark net application launched");
+
+            ///////////////////////////////////// set behaviour
+            Log.d(getLogStart(), "set pki behaviour: send credential message if possible");
+            sharkPKI.setBehaviour(
+                    SharkPKIComponent.BEHAVIOUR_SEND_CREDENTIAL_FIRST_ENCOUNTER, true);
+
         } else {
             Log.d(getLogStart(), "shark net application already initialized - ignore");
         }

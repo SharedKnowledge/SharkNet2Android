@@ -24,6 +24,10 @@ import java.io.IOException;
 public class SNChannelsListActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;
 
+    public SNChannelsListActivity() {
+        super(); // need a breakpoint
+    }
+
 //    private MakanListContentAdapter mAdapter;
     private SNChannelsListContentAdapter mAdapter;
 

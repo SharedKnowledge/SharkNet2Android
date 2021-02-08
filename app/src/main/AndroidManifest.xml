@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     package="net.sharksystem">
-    <!-- AASPEngine needs to write in files -->
+    <!-- ASAPEngine needs to write in files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!--"@style/Theme.AppCompat.Light.NoActionBar"-->
@@ -61,5 +61,4 @@
             android:launchMode="singleTask">
         </activity>
     </application>
-
 </manifest>

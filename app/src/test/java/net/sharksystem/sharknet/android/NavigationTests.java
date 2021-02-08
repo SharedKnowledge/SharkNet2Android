@@ -1,4 +1,4 @@
-package net.sharksystem.bubble.android;
+package net.sharksystem.sharknet.android;
 
 
 import org.junit.Test;

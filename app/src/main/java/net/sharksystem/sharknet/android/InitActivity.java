@@ -10,32 +10,56 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.sharknet.android.SNChannelsListActivity;
 import net.sharksystem.persons.android.OwnerActivity;
+
+import java.io.IOException;
 
 public class InitActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boolean launchFirstActivity = false;
-
         Log.d(this.getLogStart(), "Startup SharkNetApplication");
+
         try {
+            // used before? is there an ownerID?
             String ownerID = SharkNetApp.getOwnerID(this);
-            SharkNetApp.initializeSharkNetApp(this, ownerID);
-            launchFirstActivity = true; // we are ready for takeoff
+            // yes - ignition!
+            this.initializeSystem(ownerID);
         }
         catch(SharkException se) {
-            Log.e(this.getLogStart(), "cannot initialized app: " + se.getLocalizedMessage());
-        }
+            Log.d(this.getLogStart(), "most probably first app usage: "
+                    + se.getLocalizedMessage());
 
-        if(launchFirstActivity) {
-            // leave - we have no business here
-//            Intent intent = new Intent(this, MakanListActivity.class);
-            Intent intent = new Intent(this, SNChannelsListActivity.class);
-            this.startActivity(intent);
-        } else {
+            // no - ask for name with this activity
             setContentView(R.layout.init);
+        }
+    }
+
+    private void initializeSystem(String ownerID) {
+        try {
+            boolean veryFirstLaunch = false;
+            if(ownerID == null) {
+                veryFirstLaunch = true;
+                ownerID = SharkNetApp.getOwnerID(this);
+            }
+
+            SharkNetApp.initializeSharkNetApp(this, ownerID);
+
+            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : SNChannelsListActivity.class;
+            this.finish();
+            Intent intent = new Intent(this, firstActivity);
+            this.startActivity(intent);
+        }
+        catch(SharkException | ASAPException se) {
+            Log.e(this.getLogStart(), "cannot initialized app - fatal: "
+                    + se.getLocalizedMessage());
+            se.printStackTrace();
+            Toast.makeText(this, "internal fatal error: cannot launch system",
+                    Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -49,9 +73,7 @@ public class InitActivity extends Activity {
                     Toast.LENGTH_SHORT).show();
         } else {
             SharkNetApp.initializeSystem(this, ownerName);
-            this.finish();
-            Intent intent = new Intent(this, OwnerActivity.class);
-            this.startActivity(intent);
+            this.initializeSystem(null);
         }
     }
 
