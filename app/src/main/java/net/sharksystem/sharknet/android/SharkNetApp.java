@@ -23,6 +23,7 @@ import net.sharksystem.asap.android.apps.ASAPAndroidPeer;
 import net.sharksystem.makan.android.MakanUriContentChangedListenerActivity;
 import net.sharksystem.messenger.SharkMessengerComponent;
 import net.sharksystem.messenger.SharkMessengerComponentFactory;
+import net.sharksystem.pki.HelperPKITests;
 import net.sharksystem.pki.SharkPKIComponent;
 import net.sharksystem.pki.SharkPKIComponentFactory;
 
@@ -124,6 +125,9 @@ public class SharkNetApp {
             sharkPKI.setBehaviour(
                     SharkPKIComponent.BEHAVIOUR_SEND_CREDENTIAL_FIRST_ENCOUNTER, true);
 
+            ///////////////////////////////////// testing: example data
+            Log.d(getLogStart(), "fill pki with example data");
+            HelperPKITests.fillWithExampleData((SharkPKIComponent) sharkPKI);
         } else {
             Log.d(getLogStart(), "shark net application already initialized - ignore");
         }

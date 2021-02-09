@@ -8,6 +8,11 @@ public abstract class SharkNetActivity extends ASAPActivity {
         return SharkNetApp.getSharkNetApp();
     }
 
+    public SharkNetActivity() {
+
+        int breakpoint = 42;
+    }
+
     protected SharkPeer getSharkPeer() {
         return this.getSharkNetApp().getSharkPeer();
     }

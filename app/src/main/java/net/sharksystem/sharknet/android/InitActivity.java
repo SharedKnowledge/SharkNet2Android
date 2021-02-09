@@ -13,6 +13,8 @@ import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.sharknet.android.SNChannelsListActivity;
 import net.sharksystem.persons.android.OwnerActivity;
+import net.sharksystem.persons.android.PersonListActivity;
+import net.sharksystem.sharknet.android.settings.SettingsActivity;
 
 import java.io.IOException;
 
@@ -46,6 +48,7 @@ public class InitActivity extends Activity {
             }
 
             SharkNetApp.initializeSharkNetApp(this, ownerID);
+            Log.d(this.getLogStart(), "shark system is initialized - start first activity");
 
             Class firstActivity = veryFirstLaunch ? OwnerActivity.class : SNChannelsListActivity.class;
             this.finish();
