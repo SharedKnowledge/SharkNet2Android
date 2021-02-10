@@ -13,6 +13,8 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.asap.ASAPException;
+import net.sharksystem.messenger.SharkMessengerComponent;
+import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.persons.android.PersonListSelectionActivity;
 import net.sharksystem.persons.android.PersonStatusHelper;
 import net.sharksystem.sharknet.android.SharkNetActivity;
@@ -29,9 +31,6 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // check permissions
-//        MakanApp.askForPermissions(this);
 
         setContentView(R.layout.sn_channel_add_message);
 
@@ -101,30 +100,19 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
         } else {
             try {
                 // let's sort things out.
+                byte[] content = messageText.getBytes();
+
                 CheckBox signCheckBox = findViewById(R.id.snSigned);
                 boolean sign = signCheckBox.isChecked();
 
                 CheckBox encryptedCheckBox = findViewById(R.id.snEncrypted);
                 boolean encrypt = encryptedCheckBox.isChecked();
 
-                byte[] content = messageText.getBytes();
+                // send with shark messenger
+                this.getSharkNetApp().getSharkMessenger().sendSharkMessage(
+                        content, this.uri, sign, encrypt);
 
-                // lets produce and send asap messages
-                // 1) no recipients
-                if(this.selectedRecipients == null || this.selectedRecipients.isEmpty()) {
-                    this.compileAndSendASAPMessage(content, null, sign, encrypt);
-                } else {
-                    // 2) no encryption or just a single recipient
-                    if(!encrypt || this.selectedRecipients.size() == 1) {
-                        this.compileAndSendASAPMessage(content, sign, encrypt);
-                    } else {
-                        // 3) encrypt more than one recipient - each gets its own message
-                        for(CharSequence receiver : this.selectedRecipients) {
-                            this.compileAndSendASAPMessage(content, receiver, sign, encrypt);
-                        }
-                    }
-                }
-            } catch (ASAPException | IOException e) {
+            } catch (IOException | SharkMessengerException e) {
                 Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 Log.d(this.getLogStart(), "problems when sending message in SNChannel: "
                         + e.getLocalizedMessage());
@@ -132,44 +120,8 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
             }
         }
 
-        // done here
+        // we are done here
         this.finish();
-    }
-
-    private void compileAndSendASAPMessage(byte[] content, boolean sign, boolean encrypt)
-            throws IOException, ASAPException {
-        // TODO
-        /*
-        CharSequence sender =
-                SNChannelsComponent.getSharkNetChannelComponent().getOwnerID();
-        BasicKeyStore basicKeyStore =
-                SNChannelsComponent.getSharkNetChannelComponent().getBasicKeyStore();
-        byte[] serializedMessage = InMemoSNMessage.serializeMessage(
-                content, sender, this.selectedRecipients, sign, encrypt, basicKeyStore);
-        // deliver as asap message
-        this.sendASAPMessage(SNChannelsComponent.APP_NAME, this.uri,
-                serializedMessage, true);
-
-         */
-    }
-
-    private void compileAndSendASAPMessage(byte[] content, CharSequence recipient,
-                           boolean sign, boolean encrypt)
-            throws IOException, ASAPException {
-
-        // TODO
-
-        /*
-        CharSequence sender =
-                SNChannelsComponent.getSharkNetChannelComponent().getOwnerID();
-        BasicKeyStore basicKeyStore =
-                SNChannelsComponent.getSharkNetChannelComponent().getBasicKeyStore();
-        byte[] serializedMessage = InMemoSNMessage.serializeMessage(
-                content, sender, recipient, sign, encrypt, basicKeyStore);
-        // deliver as asap message
-        this.sendASAPMessage(SNChannelsComponent.APP_NAME, this.uri,
-                serializedMessage, true);
-         */
     }
 
     public void onAbortClick(View view) {
