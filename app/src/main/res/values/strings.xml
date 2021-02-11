@@ -88,5 +88,7 @@
     <string name="snAddChannelButtonText">Add Channel</string>
     <string name="snRemoveAllChannelButtonText">Remove all</string>
     <string name="snChannelMenuAddMessageButtonText">Add message</string>
+    <string name="channel_name">receivedCredential</string>
+    <string name="channel_description">Credential received</string>
 
 </resources>

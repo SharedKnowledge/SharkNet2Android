@@ -11,10 +11,8 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.sharknet.android.SNChannelsListActivity;
-import net.sharksystem.persons.android.OwnerActivity;
-import net.sharksystem.persons.android.PersonListActivity;
-import net.sharksystem.sharknet.android.settings.SettingsActivity;
+import net.sharksystem.messenger.android.SNChannelsListActivity;
+import net.sharksystem.pki.android.OwnerActivity;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package net.sharksystem.asap.sharknet.android;
+package net.sharksystem.messenger.android;
 
 class SNChannelInformation {
     final CharSequence uri;

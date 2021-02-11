@@ -11,10 +11,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.sharknet.android.SNChannelsListActivity;
-import net.sharksystem.persons.android.OwnerActivity;
+import net.sharksystem.messenger.android.SNChannelsListActivity;
+import net.sharksystem.pki.android.OwnerActivity;
 import net.sharksystem.makan.android.MakanListActivity;
-import net.sharksystem.persons.android.PersonListViewActivity;
+import net.sharksystem.pki.android.PersonListViewActivity;
 import net.sharksystem.radar.android.RadarActivity;
 import net.sharksystem.sharknet.android.settings.SettingsActivity;
 

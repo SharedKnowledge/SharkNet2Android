@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.persons.android.PersonStatusHelper;
+import net.sharksystem.pki.android.PersonStatusHelper;
 import net.sharksystem.pki.SharkPKIComponent;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;

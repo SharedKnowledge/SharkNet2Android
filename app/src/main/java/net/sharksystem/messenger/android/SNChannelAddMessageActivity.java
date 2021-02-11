@@ -1,4 +1,4 @@
-package net.sharksystem.asap.sharknet.android;
+package net.sharksystem.messenger.android;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +13,9 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.messenger.SharkMessengerComponent;
 import net.sharksystem.messenger.SharkMessengerException;
-import net.sharksystem.persons.android.PersonListSelectionActivity;
-import net.sharksystem.persons.android.PersonStatusHelper;
+import net.sharksystem.pki.android.PersonListSelectionActivity;
+import net.sharksystem.pki.android.PersonStatusHelper;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 

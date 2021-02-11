@@ -1,4 +1,4 @@
-package net.sharksystem.persons.android;
+package net.sharksystem.pki.android;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package net.sharksystem.persons.android;
+package net.sharksystem.pki.android;
 
 import android.os.Bundle;
 import android.util.Log;

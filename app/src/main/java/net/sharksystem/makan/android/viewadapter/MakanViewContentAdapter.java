@@ -14,8 +14,6 @@ import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.makan.Makan;
 import net.sharksystem.makan.MakanMessage;
-import net.sharksystem.makan.android.MakanApp;
-import net.sharksystem.persons.android.PersonStatusHelper;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;

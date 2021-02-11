@@ -11,8 +11,8 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.android.ASAPServiceMessage;
-import net.sharksystem.persons.android.PersonListSelectionActivity;
-import net.sharksystem.persons.android.PersonStatusHelper;
+import net.sharksystem.pki.android.PersonListSelectionActivity;
+import net.sharksystem.pki.android.PersonStatusHelper;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 
 import java.util.Set;

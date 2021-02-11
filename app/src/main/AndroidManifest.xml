@@ -24,24 +24,24 @@
         </activity>
         <!-- tools:replace="android:theme" needed to import ASAPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
-        <activity android:name=".persons.android.CertificateViewActivity" />
-        <activity android:name=".persons.android.CertificateListActivity"></activity>
-        <activity android:name=".persons.android.PersonEditActivity" />
-        <activity android:name=".persons.android.PersonAddReceivedCredentialsActivity" />
-        <activity android:name=".persons.android.PersonAddExplanationActivity" />
-        <activity android:name=".persons.android.PersonWaitForCredentialActivity" />
-        <activity android:name=".persons.android.OwnerCredentialSendActivity" />
+        <activity android:name=".pki.android.CertificateViewActivity" />
+        <activity android:name=".pki.android.CertificateListActivity"></activity>
+        <activity android:name=".pki.android.PersonEditActivity" />
+        <activity android:name=".pki.android.PersonAddReceivedCredentialsActivity" />
+        <activity android:name=".pki.android.PersonAddExplanationActivity" />
+        <activity android:name=".pki.android.PersonWaitForCredentialActivity" />
+        <activity android:name=".pki.android.OwnerCredentialSendActivity" />
 
         <!-- SN Channels -->
-        <activity android:name=".asap.sharknet.android.SNChannelsListActivity" />
-        <activity android:name=".asap.sharknet.android.SNChannelAddActivity" />
-        <activity android:name=".asap.sharknet.android.SNChannelViewActivity" />
-        <activity android:name=".asap.sharknet.android.SNChannelAddMessageActivity" />
+        <activity android:name=".messenger.android.SNChannelsListActivity" />
+        <activity android:name=".messenger.android.SNChannelAddActivity" />
+        <activity android:name=".messenger.android.SNChannelViewActivity" />
+        <activity android:name=".messenger.android.SNChannelAddMessageActivity" />
 
         <activity
-            android:name=".persons.android.PersonListViewActivity"
+            android:name=".pki.android.PersonListViewActivity"
             android:launchMode="singleTask"></activity>
-        <activity android:name=".persons.android.PersonListSelectionActivity"></activity>
+        <activity android:name=".pki.android.PersonListSelectionActivity"></activity>
         <activity android:name=".makan.android.AddOpenMakanActivity" />
         <activity android:name=".makan.android.AddClosedMakanActivity" />
         <activity
@@ -54,7 +54,7 @@
             android:label="@string/title_activity_settings"
             android:launchMode="singleTask"></activity>
         <activity
-            android:name=".persons.android.OwnerActivity"
+            android:name=".pki.android.OwnerActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".makan.android.MakanListActivity"

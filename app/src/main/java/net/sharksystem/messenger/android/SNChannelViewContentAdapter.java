@@ -1,4 +1,4 @@
-package net.sharksystem.asap.sharknet.android;
+package net.sharksystem.messenger.android;
 
 import android.app.Activity;
 import android.util.Log;

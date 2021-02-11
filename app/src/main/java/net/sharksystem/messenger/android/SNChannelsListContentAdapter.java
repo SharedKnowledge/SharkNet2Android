@@ -1,4 +1,4 @@
-package net.sharksystem.asap.sharknet.android;
+package net.sharksystem.messenger.android;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.asap.ASAPException;
 import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.messenger.SharkMessengerChannelInformation;
 import net.sharksystem.messenger.SharkMessengerException;

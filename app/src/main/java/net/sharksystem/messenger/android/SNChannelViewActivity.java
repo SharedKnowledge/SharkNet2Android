@@ -1,4 +1,4 @@
-package net.sharksystem.asap.sharknet.android;
+package net.sharksystem.messenger.android;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +16,6 @@ import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPChannel;
 import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.sharknet.android.SharkNetActivity;
-import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class SNChannelViewActivity extends SharkNetActivity {
     private RecyclerView mRecyclerView;

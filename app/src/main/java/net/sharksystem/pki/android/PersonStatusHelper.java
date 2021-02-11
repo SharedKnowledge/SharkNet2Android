@@ -1,4 +1,4 @@
-package net.sharksystem.persons.android;
+package net.sharksystem.pki.android;
 
 import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
 import net.sharksystem.asap.persons.CredentialMessage;

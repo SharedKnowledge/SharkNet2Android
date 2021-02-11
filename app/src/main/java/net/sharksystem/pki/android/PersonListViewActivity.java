@@ -1,4 +1,4 @@
-package net.sharksystem.persons.android;
+package net.sharksystem.pki.android;
 
 import android.content.Intent;
 import android.util.Log;
@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.ASAPSecurityException;
 
 public class PersonListViewActivity extends PersonListActivity {
 

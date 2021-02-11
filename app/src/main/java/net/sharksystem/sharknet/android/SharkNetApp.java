@@ -9,7 +9,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import net.sharksystem.R;
-import net.sharksystem.SharkComponent;
 import net.sharksystem.SharkException;
 import net.sharksystem.SharkPeer;
 import net.sharksystem.SharkPeerFS;
@@ -26,6 +25,7 @@ import net.sharksystem.messenger.SharkMessengerComponentFactory;
 import net.sharksystem.pki.HelperPKITests;
 import net.sharksystem.pki.SharkPKIComponent;
 import net.sharksystem.pki.SharkPKIComponentFactory;
+import net.sharksystem.pki.android.SharkPKIReceivedCredentialMessageHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +34,7 @@ public class SharkNetApp {
     private static final CharSequence APP_FOLDER_NAME = "SharkNet2_AppData";
     private static SharkNetApp singleton;
     private SharkPeer sharkPeer;
+    private ASAPAndroidPeer asapAndroidPeer;
 
     public static SharkNetApp getSharkNetApp() {
         if(SharkNetApp.singleton == null) throw
@@ -90,7 +91,7 @@ public class SharkNetApp {
             SharkNetApp.singleton.sharkPeer.addComponent(
                     pkiComponentFactory, SharkPKIComponent.class);
 
-            SharkComponent sharkPKI =
+            SharkPKIComponent sharkPKI = (SharkPKIComponent)
                     SharkNetApp.singleton.sharkPeer.getComponent(SharkPKIComponent.class);
 
             ///////////////////////////////////// setup SharkMessenger
@@ -113,17 +114,26 @@ public class SharkNetApp {
                     initialActivity);
 
             // launch service side
-            ASAPPeer applicationSideASAPPeer = ASAPAndroidPeer.startPeer(initialActivity);
+            ASAPAndroidPeer applicationSideASAPPeer = ASAPAndroidPeer.startPeer(initialActivity);
             Log.d(getLogStart(), "ASAP had a liftoff");
+
+            // remember
+            SharkNetApp.singleton.setApplicationSideASAPAndroidPeer(applicationSideASAPPeer);
 
             // use asap peer proxy for this app side shark peer
             SharkNetApp.singleton.sharkPeer.start(applicationSideASAPPeer);
             Log.d(getLogStart(), "shark net application launched");
 
             ///////////////////////////////////// set behaviour
+
+            ///////////////////////////////////// PKI
             Log.d(getLogStart(), "set pki behaviour: send credential message if possible");
             sharkPKI.setBehaviour(
                     SharkPKIComponent.BEHAVIOUR_SEND_CREDENTIAL_FIRST_ENCOUNTER, true);
+
+            // set credential received listener
+            sharkPKI.setSharkCredentialReceivedListener(
+                    new SharkPKIReceivedCredentialMessageHandler(initialActivity));
 
             ///////////////////////////////////// testing: example data
             Log.d(getLogStart(), "fill pki with example data");
@@ -133,6 +143,14 @@ public class SharkNetApp {
         }
 
         return SharkNetApp.singleton;
+    }
+
+    private void setApplicationSideASAPAndroidPeer(ASAPAndroidPeer asapAndroidPeer) {
+        this.asapAndroidPeer = asapAndroidPeer;
+    }
+
+    public ASAPAndroidPeer getASAPAndroidPeer() {
+        return this.asapAndroidPeer;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////

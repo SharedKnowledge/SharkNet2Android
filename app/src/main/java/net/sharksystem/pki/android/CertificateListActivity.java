@@ -1,4 +1,4 @@
-package net.sharksystem.persons.android;
+package net.sharksystem.pki.android;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
-import net.sharksystem.SharkException;
 import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.asap.pki.ASAPCertificate;
