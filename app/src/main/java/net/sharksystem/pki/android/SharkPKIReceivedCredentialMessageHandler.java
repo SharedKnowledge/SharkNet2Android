@@ -56,17 +56,13 @@ public class SharkPKIReceivedCredentialMessageHandler implements SharkCredential
         }
     }
 
-    private static NotificationCompat.Builder createCredentialNotificationBuilder(Context context) {
-        return new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SN2_CREDENTIAL_RECEIVED)
-            .setSmallIcon(R.drawable.ic_notifications_black_24dp) // should change this: TODO
-            .setContentTitle("Credential received")
-            .setContentText("A peer wants you to issue a certificate ...")
-//            .setStyle(new NotificationCompat.BigTextStyle()
-//                    .bigText("Much longer text that cannot fit one line..."))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-    }
-
-    public void createCredentialReceivedIntent(CredentialMessage credentialMessage) {
+    /**
+     * Credential received listener
+     * @param credentialMessage
+     */
+    @Override
+    public void credentialReceived(CredentialMessage credentialMessage) {
+        Log.d(getLogStart(), "credential message received: " + credentialMessage);
         Context context = SharkNetApp.getSharkNetApp().getASAPAndroidPeer().getActivity();
 
         // store message to be retrievable from processing activity
@@ -85,28 +81,19 @@ public class SharkPKIReceivedCredentialMessageHandler implements SharkCredential
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_SN2_CREDENTIAL_RECEIVED)
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp) // should change this: TODO
+                .setSmallIcon(R.drawable.shark_red_lowerres)
                 .setContentTitle("Credential received")
                 .setContentText("A peer wants you to issue a certificate ...")
 //            .setStyle(new NotificationCompat.BigTextStyle()
 //                    .bigText("Much longer text that cannot fit one line..."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
         // notificationId is a unique int for each notification that you must define
         notificationManager.notify(nextNotificationID(), builder.build());
-    }
-
-    /**
-     * Credential received listener
-     * @param credentialMessage
-     */
-    @Override
-    public void credentialReceived(CredentialMessage credentialMessage) {
-        Log.d(getLogStart(), "credential message received: " + credentialMessage);
-
-
     }
 
     private static String getLogStart() {

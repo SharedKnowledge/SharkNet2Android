@@ -6,7 +6,6 @@
     <!-- ASAPEngine needs to write in files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!--"@style/Theme.AppCompat.Light.NoActionBar"-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,34 +13,35 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme= "@style/NoActionBar"
+        android:theme="@style/NoActionBar"
         tools:replace="android:theme">
+
+        <activity android:name=".sharknet.android.SNTestActivity"></activity>
+
         <activity android:name=".sharknet.android.InitActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- tools:replace="android:theme" needed to import ASAPAndroidService module -->
+        </activity> <!-- tools:replace="android:theme" needed to import ASAPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
+
         <activity android:name=".pki.android.CertificateViewActivity" />
-        <activity android:name=".pki.android.CertificateListActivity"></activity>
+        <activity android:name=".pki.android.CertificateListActivity" />
         <activity android:name=".pki.android.PersonEditActivity" />
         <activity android:name=".pki.android.PersonAddReceivedCredentialsActivity" />
         <activity android:name=".pki.android.PersonAddExplanationActivity" />
         <activity android:name=".pki.android.PersonWaitForCredentialActivity" />
-        <activity android:name=".pki.android.OwnerCredentialSendActivity" />
-
-        <!-- SN Channels -->
+        <activity android:name=".pki.android.OwnerCredentialSendActivity" /> <!-- SN Channels -->
         <activity android:name=".messenger.android.SNChannelsListActivity" />
         <activity android:name=".messenger.android.SNChannelAddActivity" />
         <activity android:name=".messenger.android.SNChannelViewActivity" />
         <activity android:name=".messenger.android.SNChannelAddMessageActivity" />
-
         <activity
             android:name=".pki.android.PersonListViewActivity"
-            android:launchMode="singleTask"></activity>
-        <activity android:name=".pki.android.PersonListSelectionActivity"></activity>
+            android:launchMode="singleTask" />
+        <activity android:name=".pki.android.PersonListSelectionActivity" />
         <activity android:name=".makan.android.AddOpenMakanActivity" />
         <activity android:name=".makan.android.AddClosedMakanActivity" />
         <activity
@@ -52,13 +52,13 @@
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".pki.android.OwnerActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".makan.android.MakanListActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"></activity>
     </application>
+
 </manifest>

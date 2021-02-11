@@ -35,6 +35,7 @@ public class SharkNetApp {
     private static SharkNetApp singleton;
     private SharkPeer sharkPeer;
     private ASAPAndroidPeer asapAndroidPeer;
+    private SharkPKIReceivedCredentialMessageHandler receivedCredentialListener;
 
     public static SharkNetApp getSharkNetApp() {
         if(SharkNetApp.singleton == null) throw
@@ -132,8 +133,10 @@ public class SharkNetApp {
                     SharkPKIComponent.BEHAVIOUR_SEND_CREDENTIAL_FIRST_ENCOUNTER, true);
 
             // set credential received listener
+            SharkNetApp.singleton.receivedCredentialListener =
+                    new SharkPKIReceivedCredentialMessageHandler(initialActivity);
             sharkPKI.setSharkCredentialReceivedListener(
-                    new SharkPKIReceivedCredentialMessageHandler(initialActivity));
+                    SharkNetApp.singleton.receivedCredentialListener);
 
             ///////////////////////////////////// testing: example data
             Log.d(getLogStart(), "fill pki with example data");
@@ -152,6 +155,12 @@ public class SharkNetApp {
     public ASAPAndroidPeer getASAPAndroidPeer() {
         return this.asapAndroidPeer;
     }
+
+    // debug / tests
+    SharkPKIReceivedCredentialMessageHandler getReceivedCredentialListener() {
+        return this.receivedCredentialListener;
+    }
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     //                                    component getter                                     //

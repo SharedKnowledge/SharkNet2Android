@@ -48,7 +48,9 @@ public class InitActivity extends Activity {
             SharkNetApp.initializeSharkNetApp(this, ownerID);
             Log.d(this.getLogStart(), "shark system is initialized - start first activity");
 
-            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : SNChannelsListActivity.class;
+//            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : SNChannelsListActivity.class;
+            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : SNTestActivity.class;
+
             this.finish();
             Intent intent = new Intent(this, firstActivity);
             this.startActivity(intent);
