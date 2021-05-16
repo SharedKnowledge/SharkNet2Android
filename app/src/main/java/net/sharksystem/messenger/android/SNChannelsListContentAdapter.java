@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.ASAPChannelIntent;
-import net.sharksystem.messenger.SharkMessengerChannelInformation;
 import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -57,6 +56,7 @@ class SNChannelsListContentAdapter extends
     public void onBindViewHolder(SNChannelsListContentAdapter.MyViewHolder holder, int position) {
         Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
+    /* TODO
         // go ahead
         try {
             SharkMessengerChannelInformation snInfo = SharkNetApp.getSharkNetApp().getSharkMessenger()
@@ -69,6 +69,7 @@ class SNChannelsListContentAdapter extends
                     + e.getLocalizedMessage());
             e.printStackTrace();
         }
+             */
     }
 
     @Override
@@ -77,7 +78,11 @@ class SNChannelsListContentAdapter extends
 
         int realSize = 0;
         try {
-            realSize = SharkNetApp.getSharkNetApp().getSharkMessenger().size();
+            // TODO
+            String uriDUMMY = "sn2://dummyURI";
+            realSize = SharkNetApp.getSharkNetApp().getSharkMessenger().
+                    getChannel(uriDUMMY).getMessages().size();
+
             Log.d(this.getLogStart(), "count is: " + realSize);
         } catch (Exception e) {
             Log.e(this.getLogStart(), "cannot access message storage (yet?)");

@@ -7,8 +7,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.persons.CredentialMessage;
 import net.sharksystem.asap.utils.DateTimeHelper;
+import net.sharksystem.pki.CredentialMessage;
+import net.sharksystem.pki.PKIHelper;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 
 public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
@@ -32,16 +33,16 @@ public class PersonAddReceivedCredentialsActivity extends SharkNetActivity {
         Log.d(this.getLogStart(), "got credential: " + this.credential);
 
         TextView tv = this.findViewById(R.id.credentialDisplayName);
-        tv.setText(credential.getOwnerName());
+        tv.setText(credential.getSubjectName());
 
         tv = this.findViewById(R.id.credentialID);
-        tv.setText(credential.getOwnerID());
+        tv.setText(credential.getSubjectID());
 
         tv = this.findViewById(R.id.credentialValidSince);
         tv.setText("valid since: " + DateTimeHelper.long2DateString(credential.getValidSince()));
 
         tv = this.findViewById(R.id.credentialsControlNumber);
-        tv.setText(CredentialMessage.sixDigitsToString(credential.getRandomInt()));
+        tv.setText(PKIHelper.sixDigitsToString(credential.getRandomInt()));
     }
 
     public void onAddClick(View v) {

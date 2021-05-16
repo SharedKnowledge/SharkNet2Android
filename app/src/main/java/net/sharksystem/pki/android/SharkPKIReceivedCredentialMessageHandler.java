@@ -13,7 +13,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.persons.CredentialMessage;
+import net.sharksystem.pki.CredentialMessage;
 import net.sharksystem.pki.SharkCredentialReceivedListener;
 import net.sharksystem.sharknet.android.SharkNetApp;
 

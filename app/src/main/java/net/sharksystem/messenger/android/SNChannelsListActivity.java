@@ -59,11 +59,6 @@ public class SNChannelsListActivity extends SharkNetActivity {
             mAdapter = new SNChannelsListContentAdapter(this);
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
-            /*
-            mAdapter = new MakanListContentAdapter(this);
-            RecyclerView.LayoutManager mLayoutManager =
-                    new LinearLayoutManager(getApplicationContext());
-             */
 
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());

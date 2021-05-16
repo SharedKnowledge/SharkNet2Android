@@ -77,8 +77,9 @@ public class SNChannelViewContentAdapter extends
             SharkMessengerComponent sharkMessenger =
                     SharkNetApp.getSharkNetApp().getSharkMessenger();
 
-            SharkMessage sharkMessage =
-                    sharkMessenger.getSharkMessage(this.channelURI, position, false);
+            SharkMessage sharkMessage = sharkMessenger.getChannel(this.channelURI)
+                            .getMessages(false, true)
+                            .getSharkMessage(position, false);
 
             CharSequence recipients2View;
 
@@ -174,7 +175,11 @@ public class SNChannelViewContentAdapter extends
     @Override
     public int getItemCount() {
         try {
-            int size = SharkNetApp.getSharkNetApp().getSharkMessenger().size();
+            int size = SharkNetApp.getSharkNetApp()
+                    .getSharkMessenger()
+                    .getChannel(this.channelURI)
+                    .getMessages()
+                    .size();
             return size;
 
         } catch (IOException | SharkMessengerException e) {

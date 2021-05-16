@@ -1,7 +1,7 @@
 package net.sharksystem.pki.android;
 
 import net.sharksystem.asap.android.apps.ASAPComponentNotYetInitializedException;
-import net.sharksystem.asap.persons.CredentialMessage;
+import net.sharksystem.pki.CredentialMessage;
 
 import java.util.HashSet;
 import java.util.Set;

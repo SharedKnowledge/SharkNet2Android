@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPMessages;
-import net.sharksystem.asap.persons.CredentialMessage;
+import net.sharksystem.pki.CredentialMessage;
 import net.sharksystem.pki.SharkCredentialReceivedListener;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 

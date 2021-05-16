@@ -1,13 +1,11 @@
 package net.sharksystem.sharknet.android;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.asap.persons.CredentialMessage;
+import net.sharksystem.pki.CredentialMessage;
 import net.sharksystem.pki.android.SharkPKIReceivedCredentialMessageHandler;
 
 public class SNTestActivity extends SharkNetActivity {
