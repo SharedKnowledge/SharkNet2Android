@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.sharksystem.EncounterConnectionType;
 import net.sharksystem.R;
 import net.sharksystem.asap.ASAPMessageReceivedListener;
 import net.sharksystem.asap.ASAPMessages;
@@ -109,7 +110,10 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
         }
 
         @Override
-        public void asapMessagesReceived(ASAPMessages asapMessages) {
+        public void asapMessagesReceived(ASAPMessages asapMessages,
+                                         String senderE2E, // E2E part
+                                         String senderPoint2Point, boolean verified, boolean encrypted, // Point2Point part
+                                         EncounterConnectionType connectionType) {
             Log.d(getLogStart(), "asapMessageReceived");
             this.ownerCredentialSendActivity.doHandleCertificateMessage(asapMessages);
         }
