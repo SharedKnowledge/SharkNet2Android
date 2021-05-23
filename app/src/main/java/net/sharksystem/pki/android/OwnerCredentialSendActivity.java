@@ -13,6 +13,8 @@ import net.sharksystem.asap.ASAPMessages;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+import java.util.List;
+
 public class OwnerCredentialSendActivity extends SharkNetActivity {
     private boolean sended = false;
 
@@ -112,7 +114,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
         @Override
         public void asapMessagesReceived(ASAPMessages asapMessages,
                                          String senderE2E, // E2E part
-                                         ASAPHop asapHop) {
+                                         List<ASAPHop> asapHops) {
             Log.d(getLogStart(), "asapMessageReceived");
             this.ownerCredentialSendActivity.doHandleCertificateMessage(asapMessages);
         }
