@@ -74,7 +74,7 @@ public class MakanListContentAdapter extends
 
             holder.uriTextView.setText(makan.getURI());
             holder.nameTextView.setText(makan.getName());
-        } catch (IOException | ASAPException | SharkException e) {
+        } catch (IOException | SharkException e) {
             Log.e(this.getLogStart(), "problems while showing makan entries: "
                     + e.getLocalizedMessage());
             e.printStackTrace();

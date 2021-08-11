@@ -129,8 +129,10 @@ public class SharkNetApp {
 
             ///////////////////////////////////// PKI
             Log.d(getLogStart(), "set pki behaviour: send credential message if possible");
+            /*
             sharkPKI.setBehaviour(
                     SharkPKIComponent.BEHAVIOUR_SEND_CREDENTIAL_FIRST_ENCOUNTER, true);
+             */
 
             // set credential received listener
             SharkNetApp.singleton.receivedCredentialListener =
@@ -153,6 +155,7 @@ public class SharkNetApp {
     }
 
     public ASAPAndroidPeer getASAPAndroidPeer() {
+//            return this.sharkPeer.getASAPPeer();
         return this.asapAndroidPeer;
     }
 

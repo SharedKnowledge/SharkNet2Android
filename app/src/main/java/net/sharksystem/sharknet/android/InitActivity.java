@@ -55,7 +55,7 @@ public class InitActivity extends Activity {
             Intent intent = new Intent(this, firstActivity);
             this.startActivity(intent);
         }
-        catch(SharkException | ASAPException se) {
+        catch(SharkException se) {
             Log.e(this.getLogStart(), "cannot initialized app - fatal: "
                     + se.getLocalizedMessage());
             se.printStackTrace();

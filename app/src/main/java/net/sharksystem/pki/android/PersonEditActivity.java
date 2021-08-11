@@ -46,7 +46,7 @@ public class PersonEditActivity extends SharkNetActivity {
             tv = findViewById(R.id.personEditIdentityAssuranceLevel);
             tv.setText(String.valueOf(personValues.getIdentityAssurance()));
 
-        } catch (ASAPSecurityException | SharkException e) {
+        } catch (SharkException e) {
             Log.e(Util.getLogStart(this), "fatal: " + e.getLocalizedMessage());
             Toast.makeText(
                     this, "fatal: " + e.getLocalizedMessage(),

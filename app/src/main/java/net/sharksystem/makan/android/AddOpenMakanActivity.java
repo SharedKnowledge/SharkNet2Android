@@ -43,7 +43,7 @@ public class AddOpenMakanActivity extends SharkNetActivity {
                 String text = "failure: " + e.getLocalizedMessage();
                 Log.e(this.getLogStart(), text);
                 Toast.makeText(this, "IO error - that's serious", Toast.LENGTH_SHORT).show();
-            } catch (ASAPException | SharkException e) {
+            } catch (SharkException e) {
                 String text = "failure: " + e.getLocalizedMessage();
                 Log.w(this.getLogStart(), text);
                 Toast.makeText(this, "already exists(?)", Toast.LENGTH_SHORT).show();
