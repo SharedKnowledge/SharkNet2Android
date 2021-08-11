@@ -4,9 +4,6 @@
     <!-- https://developer.android.com/training/implementing-navigation/nav-drawer -->
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/moduleMakan"
-            android:title="@string/appMakan" />
-        <item
             android:id="@+id/moduleSharkNetChannels"
             android:title="@string/appSharkNet" />
         <item

@@ -5,6 +5,17 @@
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sharknet_draw_header.xml" value="0.21510416666666668" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sharknet_drawer_navigation_view.xml" value="0.21510416666666668" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channels_list_drawer_layout.xml" value="0.18115942028985507" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channels_list_with_toolbar.xml" value="0.16354166666666667" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/menu/sharknet_draweritems.xml" value="0.21510416666666668" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

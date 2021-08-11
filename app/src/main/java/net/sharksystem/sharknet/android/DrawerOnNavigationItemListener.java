@@ -13,7 +13,6 @@ import com.google.android.material.navigation.NavigationView;
 import net.sharksystem.R;
 import net.sharksystem.messenger.android.SNChannelsListActivity;
 import net.sharksystem.pki.android.OwnerActivity;
-import net.sharksystem.makan.android.MakanListActivity;
 import net.sharksystem.pki.android.PersonListViewActivity;
 import net.sharksystem.radar.android.RadarActivity;
 import net.sharksystem.sharknet.android.settings.SettingsActivity;
@@ -41,11 +40,6 @@ public class DrawerOnNavigationItemListener implements
             switch (itemId) {
                 case R.id.moduleSharkNetChannels:
                     intent = new Intent(this.activity, SNChannelsListActivity.class);
-                    this.activity.startActivity(intent);
-                    break;
-
-                case R.id.moduleMakan:
-                    intent = new Intent(this.activity, MakanListActivity.class);
                     this.activity.startActivity(intent);
                     break;
 

@@ -15,11 +15,9 @@ import net.sharksystem.SharkPeerFS;
 import net.sharksystem.SharkStatusException;
 import net.sharksystem.asap.ASAP;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.ASAPPeer;
 import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.asap.android.apps.ASAPAndroidPeer;
-import net.sharksystem.makan.android.MakanUriContentChangedListenerActivity;
 import net.sharksystem.messenger.SharkMessengerComponent;
 import net.sharksystem.messenger.SharkMessengerComponentFactory;
 import net.sharksystem.pki.HelperPKITests;
@@ -290,14 +288,6 @@ public class SharkNetApp {
     /////////////////////////////////////////////////////////////////////////////////////////////
     //                                          utils                                          //
     /////////////////////////////////////////////////////////////////////////////////////////////
-    public void removeASAPUriContentChangedListener(CharSequence appName, MakanUriContentChangedListenerActivity makanUriContentChangedListenerActivity) {
-        Log.d(getLogStart(), "we should re-introduce a UIR changed listener");
-    }
-
-    public void addASAPUriContentChangedListener(Object appName, MakanUriContentChangedListenerActivity makanUriContentChangedListenerActivity) {
-        Log.d(getLogStart(), "we should re-introduce a UIR changed listener");
-    }
-
     private static String getLogStart() {
         return SharkNetApp.class.getSimpleName();
     }
