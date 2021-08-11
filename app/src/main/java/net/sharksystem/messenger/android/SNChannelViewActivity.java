@@ -54,7 +54,6 @@ public class SNChannelViewActivity extends SharkNetActivity {
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
             // setup toolbar
-//            Toolbar myToolbar = (Toolbar) findViewById(R.id.makan_view_with_toolbar);
             Toolbar myToolbar = (Toolbar) findViewById(R.id.sn_channel_view_with_toolbar);
             setSupportActionBar(myToolbar);
 
@@ -62,7 +61,6 @@ public class SNChannelViewActivity extends SharkNetActivity {
             //                         prepare recycler view                      //
             ////////////////////////////////////////////////////////////////////////
 
-//            mRecyclerView = (RecyclerView) findViewById(R.id.makan_view_recycler_view);
             mRecyclerView = (RecyclerView) findViewById(R.id.sn_channel_view_recycler_view);
 
             /*

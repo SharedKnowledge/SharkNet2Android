@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textColor="@color/makanSentDate"
+        android:textColor="@color/messageSentDate"
         />
 
     <TextView
@@ -25,6 +25,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/sn_channel_list_row_uri"
         android:textColor="@color/snMessage"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/sn_channel_list_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sn_channel_list_row_name"
+        android:textColor="@color/messageSentDate"
         android:textSize="16dp"
         android:textStyle="bold"
         />

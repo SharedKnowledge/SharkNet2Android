@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.ASAPChannelIntent;
+import net.sharksystem.messenger.SharkMessengerChannel;
 import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -36,12 +37,13 @@ class SNChannelsListContentAdapter extends
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView uriTextView, nameTextView;
+        public TextView uriTextView, nameTextView, ageTextView;
 
         public MyViewHolder(View view) {
             super(view);
             uriTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_uri);
             nameTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_name);
+            ageTextView = (TextView) view.findViewById(R.id.sn_channel_list_age);
             view.setOnClickListener(clickListener);
         }
     }
@@ -56,20 +58,23 @@ class SNChannelsListContentAdapter extends
     public void onBindViewHolder(SNChannelsListContentAdapter.MyViewHolder holder, int position) {
         Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
-    /* TODO
-        // go ahead
         try {
-            SharkMessengerChannelInformation snInfo = SharkNetApp.getSharkNetApp().getSharkMessenger()
-                    .getSharkMessengerChannelInformation(position);
+            SharkMessengerChannel channel = SharkNetApp.getSharkNetApp().getSharkMessenger().getChannel(position);
 
-            holder.uriTextView.setText(snInfo.uri);
-            holder.nameTextView.setText(snInfo.name);
+            holder.uriTextView.setText(channel.getURI());
+            holder.nameTextView.setText(channel.getTitle());
+            CharSequence ageString = "age: unknown";
+            switch(channel.getAge()) {
+                case BRONZE_AGE: ageString = "bronze age"; break;
+                case STONE_AGE: ageString = "stone age"; break;
+                case NETWORK_AGE: ageString = "network age"; break;
+            }
+            holder.ageTextView.setText(ageString);
         } catch (IOException | SharkMessengerException e) {
-            Log.e(this.getLogStart(), "problems while showing makan entries: "
+            Log.e(this.getLogStart(), "problems while showing channel information: "
                     + e.getLocalizedMessage());
             e.printStackTrace();
         }
-             */
     }
 
     @Override
@@ -78,14 +83,10 @@ class SNChannelsListContentAdapter extends
 
         int realSize = 0;
         try {
-            // TODO
-            String uriDUMMY = "sn2://dummyURI";
-            realSize = SharkNetApp.getSharkNetApp().getSharkMessenger().
-                    getChannel(uriDUMMY).getMessages().size();
-
+            realSize = SharkNetApp.getSharkNetApp().getSharkMessenger().getChannelUris().size();
             Log.d(this.getLogStart(), "count is: " + realSize);
         } catch (Exception e) {
-            Log.e(this.getLogStart(), "cannot access message storage (yet?)");
+            Log.e(this.getLogStart(), "cannot find number of open channels: " + e.getLocalizedMessage());
             return 0;
         }
         return realSize;
