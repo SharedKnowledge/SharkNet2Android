@@ -38,17 +38,15 @@
         <activity android:name=".messenger.android.SNChannelAddActivity" />
         <activity android:name=".messenger.android.SNChannelViewActivity" />
         <activity android:name=".messenger.android.SNChannelAddMessageActivity" />
+        <activity android:name=".messenger.android.SNMessageViewActivity" />
+
         <activity
             android:name=".pki.android.PersonListViewActivity"
             android:launchMode="singleTask" />
         <activity android:name=".pki.android.PersonListSelectionActivity" />
-        <activity android:name=".makan.android.AddOpenMakanActivity" />
-        <activity android:name=".makan.android.AddClosedMakanActivity" />
         <activity
             android:name=".radar.android.RadarActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".makan.android.MakanViewActivity" />
-        <activity android:name=".makan.android.MakanAddMessageActivity" />
         <activity
             android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -56,9 +54,6 @@
         <activity
             android:name=".pki.android.OwnerActivity"
             android:launchMode="singleTask" />
-        <activity
-            android:name=".makan.android.MakanListActivity"
-            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
+import net.sharksystem.android.ASAPChannelIntent;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.utils.DateTimeHelper;
 import net.sharksystem.messenger.SharkMessage;
@@ -22,14 +24,16 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 public class SNChannelViewContentAdapter extends
-        RecyclerView.Adapter<SNChannelViewContentAdapter.MyViewHolder>  {
+        RecyclerView.Adapter<SNChannelViewContentAdapter.MyViewHolder>
+        implements View.OnClickListener {
 
     private static final String LOGSTART = "SNCViewContentAdapter";
     private final Activity activity;
 
-    // parameter to create makan wrapper
     private final CharSequence channelURI;
     private final CharSequence channelName;
+
+    private View.OnClickListener clickListener;
 
     @Override
     public SNChannelViewContentAdapter.MyViewHolder onCreateViewHolder(
@@ -45,8 +49,6 @@ public class SNChannelViewContentAdapter extends
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView encryptedTextView;
         private final TextView verifiedTextView;
-        private final TextView identityAssuranceTextView;
-        private final TextView recipientsTextView;
         public TextView dateTextView, messageTextView, senderTextView;
 
         public MyViewHolder(View view) {
@@ -56,8 +58,7 @@ public class SNChannelViewContentAdapter extends
             senderTextView = (TextView) view.findViewById(R.id.sn_channel_message_row_sender);
             encryptedTextView = (TextView) view.findViewById(R.id.sn_channel_message_row_encrypted);
             verifiedTextView = (TextView) view.findViewById(R.id.sn_channel_message_row_verified);
-            identityAssuranceTextView = (TextView) view.findViewById(R.id.sn_channel_message_row_identityassurance);
-            recipientsTextView = (TextView) view.findViewById(R.id.sn_channel_message_row_recipients);
+            view.setOnClickListener(clickListener);
         }
     }
 
@@ -66,6 +67,7 @@ public class SNChannelViewContentAdapter extends
         this.channelURI = uri;
         this.channelName = name;
         Log.d(LOGSTART, "constructor");
+        this.clickListener = this;
     }
 
     @Override
@@ -81,88 +83,20 @@ public class SNChannelViewContentAdapter extends
                             .getMessages(false, true)
                             .getSharkMessage(position, false);
 
-            CharSequence recipients2View;
-
-            Set<CharSequence> recipients = sharkMessage.getRecipients();
-            if(recipients == null || recipients.isEmpty()) {
-                recipients2View = "anybody";
-            } else {
-                StringBuilder sb = new StringBuilder();
-
-                boolean firstRound = true;
-                for (CharSequence recipientID : recipients) {
-                    if (firstRound) {
-                        firstRound = false;
-                        sb.append("to: ");
-                    } else {
-                        sb.append("|");
-                    }
-
-                    CharSequence recipientName = null;
-                    try {
-                        recipientName = SharkNetApp.getSharkNetApp().getSharkPKI()
-                                .getPersonValuesByID(recipientID).getName();
-                        sb.append(recipientName);
-                    }
-                    catch(ASAPException e) {
-                        // no name found
-                        sb.append(recipientID);
-                    }
-                }
-
-                recipients2View = sb.toString();
-            }
-
-            CharSequence encrypted2View = "not E2E encrypted";
-            if(sharkMessage.encrypted()) {
-                encrypted2View = "is E2E encrypted";
-            }
-
-            // assume defaults at first
-            CharSequence sender2View = "from: unknown";
-            CharSequence content2View = "cannot decrypt message";
-            CharSequence verified2View = "not verified";
-            CharSequence timestamp2View = "time: unknown";
-            CharSequence iA2View = "iA: unknown";
-
-
-            // do we have an decrypted message?
-            if(sharkMessage.couldBeDecrypted()) {
-                byte[] snContent = sharkMessage.getContent();
-                content2View = new String(snContent);
-
-                Timestamp creationTime = sharkMessage.getCreationTime();
-                timestamp2View = DateTimeHelper.long2DateString(creationTime.getTime());
-
-                CharSequence senderID = sharkMessage.getSender();
-                try {
-                    senderID = SharkNetApp.getSharkNetApp().getSharkPKI()
-                            .getPersonValuesByID(senderID).getName();
-                }
-                catch(ASAPException e) {
-                    // no name found
-                }
-
-                sender2View = "from: " + senderID;
-
-                if(sharkMessage.verified()) {
-                    verified2View = "is verified";
-
-                    int identityAssurance =
-                            SharkNetApp.getSharkNetApp().getSharkPKI().
-                                    getIdentityAssurance(sharkMessage.getSender());
-
-                    iA2View = "iA of " + senderID + " is " + identityAssurance;
-                }
-            }
+            CharSequence encrypted2View =
+                    SNMessageViewHelper.getEncryptedCharSequence(sharkMessage);
+            CharSequence sender2View = SNMessageViewHelper.getSenderCharSequence(sharkMessage);
+            CharSequence content2View = SNMessageViewHelper.getContentCharSequence(sharkMessage);
+            CharSequence verified2View = SNMessageViewHelper.getVerifiedCharSequence(sharkMessage);
+            CharSequence timestamp2View = SNMessageViewHelper.getCreationTimeCharSequence(sharkMessage);
 
             holder.dateTextView.setText(timestamp2View);
             holder.messageTextView.setText(content2View);
             holder.senderTextView.setText(sender2View);
             holder.encryptedTextView.setText(encrypted2View);
             holder.verifiedTextView.setText(verified2View);
-            holder.identityAssuranceTextView.setText(iA2View);
-            holder.recipientsTextView.setText(recipients2View);
+
+            holder.itemView.setId(position);
 
         } catch (Throwable e) {
             Log.e(LOGSTART, "cannot access message storage (yet?)");
@@ -189,4 +123,20 @@ public class SNChannelViewContentAdapter extends
             return 0;
         }
     }
+
+
+    @Override
+    public void onClick(View view) {
+        int position = view.getId();
+
+        SNMessageIntent intent = new SNMessageIntent(
+                this.activity, this.channelURI, position, SNMessageViewActivity.class);
+
+        this.activity.startActivity(intent);
+    }
+
+    private String getLogStart() {
+        return net.sharksystem.utils.Log.startLog(this).toString();
+    }
+
 }

@@ -10,10 +10,10 @@
     android:orientation="horizontal">
     <TextView
         android:id="@+id/snChannelAddURIExplanation"
-        android:text="@string/makanAddMakanURIExplanationText"
+        android:text="@string/snMessageURIExplanationText"
         android:layout_gravity="left|top" />
 
-    <EditText
+    <TextView
         android:id="@+id/snChannelAddURI"
         android:inputType="text"
         android:text="sn2://ChannelURI"
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/snChannelAddNameExplanation"
-        android:text="@string/makanAddMakanNameExplanationText"
+        android:text="@string/snMessagerChannelNameExplanationText"
         android:layout_gravity="left|top" />
 
     <EditText

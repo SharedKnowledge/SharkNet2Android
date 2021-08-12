@@ -27,7 +27,6 @@ public class SNChannelsListActivity extends SharkNetActivity {
         super(); // need a breakpoint
     }
 
-//    private MakanListContentAdapter mAdapter;
     private SNChannelsListContentAdapter mAdapter;
 
     @Override

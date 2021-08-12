@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.android.ASAPChannelIntent;
+import net.sharksystem.asap.ASAP;
 import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -24,22 +26,28 @@ public class SNChannelAddActivity extends SharkNetActivity {
         setContentView(R.layout.sn_channel_add_drawer_layout);
 
         this.getSharkNetApp().setupDrawerLayout(this);
+
+        TextView tvUri = this.findViewById(R.id.snChannelAddURI);
+        String uniqueID = ASAP.createUniqueID();
+        String channelUri = "sn2://" + uniqueID;
+        tvUri.setText(channelUri);
     }
 
     public void onClick(View view) {
         if(view == this.findViewById(R.id.snChannelAddDoAdd)) {
-            EditText uriText = this.findViewById(R.id.snChannelAddURI);
             EditText nameText = this.findViewById(R.id.snChannelAddName);
+            String channelNameString = nameText.getEditableText().toString();
+            TextView tvUri = this.findViewById(R.id.snChannelAddURI);
+            String uriString = tvUri.getText().toString();
 
             try {
                 SharkNetApp.getSharkNetApp().getSharkMessenger().createChannel(
-                        uriText.getText(),
-                        nameText.getText()
+                        uriString, channelNameString
                 );
 
                 // view new channel
                 Intent intent = new ASAPChannelIntent(this, nameText.toString(),
-                        uriText.toString(), SNChannelViewActivity.class);
+                        uriString, SNChannelViewActivity.class);
 
                 this.startActivity(intent);
 

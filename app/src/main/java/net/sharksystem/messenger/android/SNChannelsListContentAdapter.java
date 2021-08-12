@@ -43,7 +43,7 @@ class SNChannelsListContentAdapter extends
             super(view);
             uriTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_uri);
             nameTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_name);
-            ageTextView = (TextView) view.findViewById(R.id.sn_channel_list_age);
+            //ageTextView = (TextView) view.findViewById(R.id.sn_channel_list_age);
             view.setOnClickListener(clickListener);
         }
     }
@@ -59,10 +59,12 @@ class SNChannelsListContentAdapter extends
         Log.d(this.getLogStart(), "onBindViewHolder with position: " + position);
 
         try {
-            SharkMessengerChannel channel = SharkNetApp.getSharkNetApp().getSharkMessenger().getChannel(position);
+            SharkMessengerChannel channel =
+                    SharkNetApp.getSharkNetApp().getSharkMessenger().getChannel(position);
 
             holder.uriTextView.setText(channel.getURI());
-            holder.nameTextView.setText(channel.getTitle());
+            holder.nameTextView.setText(channel.getName());
+            /*
             CharSequence ageString = "age: unknown";
             switch(channel.getAge()) {
                 case BRONZE_AGE: ageString = "bronze age"; break;
@@ -70,6 +72,7 @@ class SNChannelsListContentAdapter extends
                 case NETWORK_AGE: ageString = "network age"; break;
             }
             holder.ageTextView.setText(ageString);
+             */
         } catch (IOException | SharkMessengerException e) {
             Log.e(this.getLogStart(), "problems while showing channel information: "
                     + e.getLocalizedMessage());

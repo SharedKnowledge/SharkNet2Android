@@ -12,8 +12,9 @@
     android:paddingTop="@dimen/row_padding_vertical">
 
     <!-- line 1 -->
+    <!-- date | sender -->
     <TextView
-        android:id="@+id/sn_channel_message_row_date"
+        android:id="@+id/sn_message_creation_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -21,42 +22,74 @@
         />
 
     <TextView
-        android:id="@+id/sn_channel_message_row_sender"
+        android:id="@+id/sn_message_sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:textColor="@color/snSender"
-        android:layout_alignRight="@id/sn_channel_message_row_date"
+        android:layout_alignRight="@id/sn_message_creation_time"
         />
 
     <!-- line 2 -->
+    <!-- content -->
     <TextView
-        android:id="@+id/sn_channel_message_row_message"
+        android:id="@+id/sn_message_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sn_channel_message_row_date"
+        android:layout_below="@id/sn_message_creation_time"
         android:textColor="@color/snMessage"
         android:textSize="16dp"
         android:textStyle="bold"
         />
 
     <!-- line 3 -->
+    <!-- E2E | signed+verified | iA -->
     <TextView
-        android:id="@+id/sn_channel_message_row_encrypted"
+        android:id="@+id/sn_message_encrypted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sn_channel_message_row_message"
+        android:layout_below="@id/sn_message_content"
         android:textColor="@color/snSender"
         />
 
     <TextView
-        android:id="@+id/sn_channel_message_row_verified"
+        android:id="@+id/sn_message_verified"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:textColor="@color/snSender"
-        android:layout_below="@id/sn_channel_message_row_message"
+        android:layout_below="@id/sn_message_content"
         android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@id/sn_channel_message_row_encrypted"
+        android:layout_toEndOf="@id/sn_message_encrypted"
+        />
+
+    <TextView
+        android:id="@+id/sn_message_identityassurance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/snSender"
+        android:layout_below="@id/sn_message_content"
+        android:layout_alignEnd="@id/sn_message_content"
+        />
+
+    <!-- line 4 -->
+    <!-- recipients -->
+    <TextView
+        android:id="@+id/sn_message_receivers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sn_message_encrypted"
+        android:textColor="@color/snSender"
+        />
+
+    <!-- line 5 -->
+    <!-- hop list -->
+    <TextView
+        android:id="@+id/sn_message_asap_hops"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sn_message_receivers"
+        android:textColor="@color/snSender"
         />
 </RelativeLayout>
