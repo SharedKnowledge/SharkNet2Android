@@ -8,10 +8,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/certificate_list_row.xml" value="0.24728260869565216" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/person_list_row.xml" value="0.24728260869565216" />
         <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sharknet_draw_header.xml" value="0.21510416666666668" />
         <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sharknet_drawer_navigation_view.xml" value="0.21510416666666668" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channel_add_drawer_layout.xml" value="0.24728260869565216" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channel_add_layout.xml" value="0.24728260869565216" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channel_view_drawer_layout.xml" value="0.23020833333333332" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channel_view_with_toolbar.xml" value="0.23020833333333332" />
         <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channels_list_drawer_layout.xml" value="0.18115942028985507" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channels_list_recycler_view.xml" value="0.24728260869565216" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channels_list_row.xml" value="0.24728260869565216" />
         <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channels_list_with_toolbar.xml" value="0.16354166666666667" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_message_view_drawer_layout.xml" value="0.24728260869565216" />
+        <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/layout/sn_message_view_layout.xml" value="0.24728260869565216" />
         <entry key="..\:/user/thsc/_code_aktuell/_Shark/sharkNet2Android/app/src/main/res/menu/sharknet_draweritems.xml" value="0.21510416666666668" />
       </map>
     </option>
