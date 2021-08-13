@@ -48,6 +48,29 @@
         android:id="@+id/settingsBluetoothD_And_D_ExplanationButton"
         android:text="Scan Neighbourhood"
         android:layout_gravity="left|top" />
+
+    <TextView
+        android:id="@+id/settingsASAPHubs"
+        android:text="@string/settingsASAPHubsExplanation"
+        android:layout_gravity="left|top" />
+
+    <ToggleButton
+        android:id="@+id/settingsASAPHubsExplanationButton"
+        android:text="Hubs on | off"
+        android:layout_gravity="left|top" />
+
+    <TextView
+        android:id="@+id/settingsConfigASAPHubs"
+        android:text="@string/settingsConfigASAPHubsExplanation"
+        android:layout_gravity="left|top"
+        android:onClick="onConfigASAPHubs"
+        />
+
+    <Button
+        android:id="@+id/settingsASAPHubsConfigureButton"
+        android:text="@string/configHubsButtonText"
+        android:onClick="onConfigASAPHubs"
+        android:layout_gravity="left|top" />
 </GridLayout>
 
     <!-- https://developer.android.com/guide/topics/resources/layout-resource -->

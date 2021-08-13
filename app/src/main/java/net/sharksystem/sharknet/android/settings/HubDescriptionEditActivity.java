@@ -1,0 +1,115 @@
+package net.sharksystem.sharknet.android.settings;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import net.sharksystem.R;
+import net.sharksystem.SharkException;
+import net.sharksystem.SharkPeer;
+import net.sharksystem.android.IntentWithPosition;
+import net.sharksystem.asap.android.apps.ASAPActivity;
+import net.sharksystem.hub.hubside.Hub;
+import net.sharksystem.hub.peerside.HubConnectorDescription;
+import net.sharksystem.hub.peerside.TCPHubConnectorDescription;
+import net.sharksystem.sharknet.android.SharkNetApp;
+
+import java.io.IOException;
+
+// TCP only
+public class HubDescriptionEditActivity extends ASAPActivity {
+    private HubConnectorDescription origHubDescription;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Intent intent = this.getIntent();
+
+        // prepare defaults if a new enty is created
+        CharSequence hostNameString = "hostName";
+        CharSequence portString = String.valueOf(Hub.DEFAULT_PORT);
+        int layout = R.layout.settings_hub_description_editor_drawer_layout;
+
+        // there could be a position in intent
+        try {
+            IntentWithPosition intentWithPosition = new IntentWithPosition(intent);
+
+            // this can fail - and end in catch
+            int position = intentWithPosition.getPosition();
+
+            // we have got a position
+            this.origHubDescription =
+                    SharkNetApp.getSharkNetApp().getSharkPeer().getHubDescription(position);
+
+            TCPHubConnectorDescription tcpDescr = (TCPHubConnectorDescription) origHubDescription;
+
+            hostNameString = tcpDescr.getHostName();
+            portString = Integer.toString(tcpDescr.getPort());
+
+            layout = R.layout.settings_hub_description_editor_with_delete_drawer_layout;
+
+        } catch (SharkException e) {
+            // take defaults - a new description is created
+        }
+
+        setContentView(layout);
+
+        SharkNetApp.getSharkNetApp().setupDrawerLayout(this);
+
+        EditText etHostName = this.findViewById(R.id.settingsTCPHubDescriptionHostName);
+        EditText etPort = this.findViewById(R.id.settingsTCPHubDescriptionPort);
+
+        etHostName.setText(hostNameString);
+        etPort.setText(portString);
+    }
+
+    public void onClick(View view) {
+        if(view == this.findViewById(R.id.abortButton)) {
+            this.finish();
+            return;
+        }
+
+        // remove or add - in any case create a description object from GUI entries
+
+        // add new one
+        EditText etHostName = this.findViewById(R.id.settingsTCPHubDescriptionHostName);
+        EditText etPort = this.findViewById(R.id.settingsTCPHubDescriptionPort);
+
+        String hostNameString = etHostName.getEditableText().toString();
+        String portString = etPort.getEditableText().toString();
+        int port = Hub.DEFAULT_PORT;
+        try {
+             port = Integer.parseInt(portString);
+        }
+        catch (NumberFormatException e) {
+            Toast.makeText(this, "port must be a number: " + portString, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            TCPHubConnectorDescription descriptionFromGUI =
+                    new TCPHubConnectorDescription(hostNameString, port);
+
+            SharkPeer sPeer = SharkNetApp.getSharkNetApp().getSharkPeer();
+
+            if(view == this.findViewById(R.id.deleteButton)) {
+                sPeer.removeHubDescription(descriptionFromGUI);
+            }
+            else if(view == this.findViewById(R.id.save)) {
+                // remove old one - it was most probably changed
+                if(this.origHubDescription != null) {
+                    sPeer.removeHubDescription(this.origHubDescription);
+                }
+
+                // add data from GUI
+                sPeer.addHubDescription(descriptionFromGUI);
+            }
+        } catch (IOException e) {
+            Log.e(this.getLogStart(), "not good: " + e.getLocalizedMessage());
+        }
+
+        this.finish();
+    }
+}

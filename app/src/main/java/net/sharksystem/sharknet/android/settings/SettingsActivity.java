@@ -1,7 +1,9 @@
 package net.sharksystem.sharknet.android.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
@@ -143,6 +145,11 @@ public class SettingsActivity extends SharkNetActivity {
     protected void onStart() {
         super.onStart();
         this.refreshProtocolStatus();
+    }
+
+    public void onConfigASAPHubs(View view) {
+        Intent intent = new Intent(this, HubDescriptionsListActivity.class);
+        this.startActivity(intent);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////

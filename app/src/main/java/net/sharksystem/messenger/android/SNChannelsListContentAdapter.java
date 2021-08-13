@@ -43,7 +43,6 @@ class SNChannelsListContentAdapter extends
             super(view);
             uriTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_uri);
             nameTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_name);
-            //ageTextView = (TextView) view.findViewById(R.id.sn_channel_list_age);
             view.setOnClickListener(clickListener);
         }
     }

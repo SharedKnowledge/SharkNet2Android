@@ -4,9 +4,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/makanMenuAddMessage"
+        android:id="@+id/settingHubDescriptionsAdd"
         android:checkable="true"
-        android:title="@string/makanMenuAddMessageButtonText"
+        android:title="@string/add"
+        app:showAsAction="always|withText"
+        />
+    <item
+        android:id="@+id/settingHubDescriptionsCancel"
+        android:checkable="true"
+        android:title="@string/abort"
         app:showAsAction="always|withText"
         />
 </menu>

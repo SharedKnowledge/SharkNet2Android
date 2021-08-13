@@ -7,7 +7,7 @@
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/person_list_with_toolbar"
+        android:id="@+id/settings_hub_description_list_with_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -16,6 +16,6 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:ignore="MissingConstraints" />
 
-    <include layout = "@layout/person_list_recycler_view"/>
+    <include layout = "@layout/settings_hub_descriptions_list_recycler_view"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

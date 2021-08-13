@@ -1,4 +1,4 @@
-package net.sharksystem.messenger.android;
+package net.sharksystem.sharknet.android.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -14,19 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
-import net.sharksystem.messenger.SharkMessengerException;
-import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.asap.android.apps.ASAPActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.io.IOException;
-
-public class SNChannelsListActivity extends SharkNetActivity {
+public class HubDescriptionsListActivity extends ASAPActivity {
     private RecyclerView mRecyclerView;
-
-    public SNChannelsListActivity() {
-        super(); // need a breakpoint
-    }
-    private SNChannelsListContentAdapter mAdapter;
+    private HubDescriptionsListContentAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,23 +26,23 @@ public class SNChannelsListActivity extends SharkNetActivity {
         Log.d(this.getLogStart(), "onCreate");
 
         try {
-            setContentView(R.layout.sn_channels_list_drawer_layout);
-            this.getSharkNetApp().setupDrawerLayout(this);
+            setContentView(R.layout.settings_hub_descriptions_list_drawer_layout);
+            SharkNetApp.getSharkNetApp().setupDrawerLayout(this);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare action bar                         //
             ////////////////////////////////////////////////////////////////////////
             // setup toolbar
-            Toolbar myToolbar = (Toolbar) findViewById(R.id.sn_channel_list_with_toolbar);
+            Toolbar myToolbar = (Toolbar) findViewById(R.id.settings_hub_description_list_with_toolbar);
             setSupportActionBar(myToolbar);
 
             ////////////////////////////////////////////////////////////////////////
             //                         prepare recycler view                      //
             ////////////////////////////////////////////////////////////////////////
 
-            mRecyclerView = (RecyclerView) findViewById(R.id.sn_channel_list_recycler_view);
+            mRecyclerView = findViewById(R.id.settings_hub_descriptions_list_recycler_view);
 
-            mAdapter = new SNChannelsListContentAdapter(this);
+            mAdapter = new HubDescriptionsListContentAdapter(this);
             RecyclerView.LayoutManager mLayoutManager =
                     new LinearLayoutManager(getApplicationContext());
 
@@ -65,7 +57,6 @@ public class SNChannelsListActivity extends SharkNetActivity {
             // debug break
             int i = 42;
         }
-
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -80,22 +71,25 @@ public class SNChannelsListActivity extends SharkNetActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.sn_channel_list_action_buttons, menu);
+        inflater.inflate(R.menu.settings_hub_descriptions_list_toolbar, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         try {
             switch (item.getItemId()) {
-                case R.id.snAddChannelButton:
-                    this.doAddChannel();
+                case R.id.settingHubDescriptionsAdd:
+                    Intent intent = new Intent(this, HubDescriptionEditActivity.class);
+                    this.startActivity(intent);
                     return true;
 
-                case R.id.snRemoveAllChannelButton:
-                    this.doRemoveAll();
+                case R.id.settingHubDescriptionsCancel:
+                    //this.doRemoveAll();
                     // force adapter to refresh ui
-                    this.mAdapter.notifyDataSetChanged();
+                    //this.mAdapter.notifyDataSetChanged();
+                    this.finish();
                     return true;
 
                 default:
@@ -111,45 +105,9 @@ public class SNChannelsListActivity extends SharkNetActivity {
         return false;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    //                                     life cycle                                          //
-    /////////////////////////////////////////////////////////////////////////////////////////////
-
+    @Override
     protected void onResume() {
         super.onResume();
-        Log.d(this.getLogStart(), "onResume");
-
-        if(mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-        }
+        this.mAdapter.notifyDataSetChanged();
     }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    //                                call shark messenger app logic                           //
-    /////////////////////////////////////////////////////////////////////////////////////////////
-
-    private void doAddChannel() {
-        String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(this.getLogStart(), "doAddChannel");
-
-        Intent intent = new Intent(this, SNChannelAddActivity.class);
-        this.startActivity(intent);
-    }
-
-    private void doRemoveAll() throws IOException, SharkMessengerException {
-        String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(this.getLogStart(), "doRemoveAll called");
-
-        SharkNetApp.getSharkNetApp().getSharkMessenger().removeAllChannels();
-
-        Toast.makeText(this, "done - removed all makan", Toast.LENGTH_SHORT).show();
-    }
-
-//    @Override
-    public void asapUriContentChanged(CharSequence changedUri) {
-        // content in a changed - could set something to make it visible - but at least redraw
-        Log.d(this.getLogStart(), "content in a uri changed redraw view (could highlight changed makan in some later versions)");
-        mAdapter.notifyDataSetChanged();
-    }
-
 }
