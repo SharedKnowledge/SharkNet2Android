@@ -8,16 +8,18 @@ import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import net.sharksystem.R;
+import net.sharksystem.asap.android.apps.ASAPActivity;
 import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
-public class SettingsActivity extends SharkNetActivity {
+public class SettingsActivity extends ASAPActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.settings_drawer_layout);
 
-        this.getSharkNetApp().setupDrawerLayout(this);
+        SharkNetApp.getSharkNetApp().setupDrawerLayout(this);
 
         // add listener for each setting
 
@@ -109,6 +111,27 @@ public class SettingsActivity extends SharkNetActivity {
                             } else {
                                 Log.d(getLogStart(), "ui said: switch off BT - TODO nyi");
                                 //sharkNetApp.stopBluetooth();
+                            }
+                        }
+                    }
+                });
+
+        ///////////////// ASAP Hub on / off
+        toggle = (ToggleButton) findViewById(R.id.settingsASAPHubsExplanationButton);
+        // set initial status
+        toggle.setChecked(isASAPHubsConnected());
+
+        // add behaviour
+        toggle.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (!dontDoAnything) {
+                            if (isChecked) {
+                                Log.d(getLogStart(), "ui said: switch on BT D and D");
+                                connectASAPHubs();
+                            } else {
+                                disconnectASAPHubs();
                             }
                         }
                     }
