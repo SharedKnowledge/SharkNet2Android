@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
@@ -76,9 +77,12 @@ public class HubDescriptionEditActivity extends ASAPActivity {
         // add new one
         EditText etHostName = this.findViewById(R.id.settingsTCPHubDescriptionHostName);
         EditText etPort = this.findViewById(R.id.settingsTCPHubDescriptionPort);
+        ToggleButton tbMultiChannel = this.findViewById(R.id.settingsTCPHubDescriptionMultiChannel);
 
         String hostNameString = etHostName.getEditableText().toString();
         String portString = etPort.getEditableText().toString();
+        boolean multiChannel = tbMultiChannel.isChecked();
+
         int port = Hub.DEFAULT_PORT;
         try {
              port = Integer.parseInt(portString);
@@ -90,7 +94,7 @@ public class HubDescriptionEditActivity extends ASAPActivity {
 
         try {
             TCPHubConnectorDescription descriptionFromGUI =
-                    new TCPHubConnectorDescription(hostNameString, port);
+                    new TCPHubConnectorDescription(hostNameString, port, multiChannel);
 
             SharkPeer sPeer = SharkNetApp.getSharkNetApp().getSharkPeer();
 

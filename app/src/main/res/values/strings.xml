@@ -95,5 +95,6 @@
     <string name="channel_description">Credential received</string>
     <string name="hostNameText">hostname</string>
     <string name="settingsTCPHubDescriptionPortExplanationText">port number</string>
+    <string name="settingsTCPHubDescriptionMultiChannelExplanationText">multiChannel</string>
 
 </resources>

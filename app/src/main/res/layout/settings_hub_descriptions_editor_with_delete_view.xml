@@ -30,6 +30,16 @@
         android:inputType="numberDecimal"
         android:layout_gravity="left|top" />
 
+    <TextView
+        android:id="@+id/settingsTCPHubDescriptionMultiChannelExplanation"
+        android:text="@string/settingsTCPHubDescriptionMultiChannelExplanationText"
+        android:layout_gravity="left|top" />
+
+    <ToggleButton
+        android:id="@+id/settingsTCPHubDescriptionMultiChannel"
+        android:text="on | off"
+        android:layout_gravity="left|top" />
+
     <Button
         android:id="@+id/save"
         android:text="Save"

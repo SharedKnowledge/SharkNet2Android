@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.android.ASAPChannelIntent;
-import net.sharksystem.asap.ASAP;
+import net.sharksystem.asap.utils.PeerIDHelper;
 import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -28,7 +28,8 @@ public class SNChannelAddActivity extends SharkNetActivity {
         this.getSharkNetApp().setupDrawerLayout(this);
 
         TextView tvUri = this.findViewById(R.id.snChannelAddURI);
-        String uniqueID = ASAP.createUniqueID();
+
+        String uniqueID = PeerIDHelper.createUniqueID();
         String channelUri = "sn2://" + uniqueID;
         tvUri.setText(channelUri);
     }

@@ -28,15 +28,14 @@
         android:textSize="16dp"
         android:textStyle="bold"
         />
-    <!--
-        <TextView
-            android:id="@+id/sn_channel_list_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/sn_channel_list_row_name"
-            android:textColor="@color/messageSentDate"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            />
-    -->
+
+    <TextView
+        android:id="@+id/settings_hub_descriptions_row_connectorMultiChannel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/settings_hub_descriptions_row_connectorDescriptionString"
+        android:textColor="@color/messageSentDate"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
 </RelativeLayout>

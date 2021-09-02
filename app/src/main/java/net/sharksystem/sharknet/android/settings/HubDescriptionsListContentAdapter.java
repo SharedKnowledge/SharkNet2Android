@@ -14,6 +14,7 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.IntentWithPosition;
 import net.sharksystem.hub.peerside.HubConnectorDescription;
+import net.sharksystem.hub.peerside.TCPHubConnectorDescription;
 import net.sharksystem.messenger.SharkMessengerChannel;
 import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetApp;
@@ -44,14 +45,16 @@ public class HubDescriptionsListContentAdapter extends
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView connectorType, connectorDescriptionString;
+        public TextView connectorType, connectorDescriptionString, multiChannel;
 
         public MyViewHolder(View view) {
             super(view);
-            connectorType = (TextView)
+            this.connectorType = (TextView)
                     view.findViewById(R.id.settings_hub_descriptions_row_connectorType);
-            connectorDescriptionString = (TextView)
+            this.connectorDescriptionString = (TextView)
                     view.findViewById(R.id.settings_hub_descriptions_row_connectorDescriptionString);
+            this.multiChannel = (TextView)
+                    view.findViewById(R.id.settings_hub_descriptions_row_connectorMultiChannel);
             view.setOnClickListener(clickListener);
         }
     }
@@ -66,12 +69,20 @@ public class HubDescriptionsListContentAdapter extends
                     SharkNetApp.getSharkNetApp().getSharkPeer().getHubDescription(position);
 
             String typeString = "unknown type";
+            String multiChannelString = "shared connection";
             switch(hubDescriptions.getType()) {
-                case HubConnectorDescription.TCP: typeString = "TCP"; break;
+                case HubConnectorDescription.TCP:
+                    typeString = "TCP";
+                    TCPHubConnectorDescription tcpDescr = (TCPHubConnectorDescription) hubDescriptions;
+                    if(tcpDescr.isMultiChannel()) {
+                        multiChannelString = "multi channel";
+                    }
+                    break;
             }
 
             holder.connectorType.setText(typeString);
             holder.connectorDescriptionString.setText(hubDescriptions.toString());
+            holder.multiChannel.setText(multiChannelString);
 
             holder.itemView.setId(position);
 
