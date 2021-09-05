@@ -60,4 +60,11 @@
         android:layout_gravity="left|top"
         android:onClick="onAbortClick"
         />
+
+    <Button
+        android:id="@+id/defaultButton"
+        android:text="Set Default"
+        android:layout_gravity="left|top"
+        android:onClick="onDefaultClick"
+        />
 </GridLayout>

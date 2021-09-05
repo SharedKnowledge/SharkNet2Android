@@ -14,9 +14,6 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.IntentWithPosition;
 import net.sharksystem.hub.peerside.HubConnectorDescription;
-import net.sharksystem.hub.peerside.TCPHubConnectorDescription;
-import net.sharksystem.messenger.SharkMessengerChannel;
-import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
@@ -73,8 +70,7 @@ public class HubDescriptionsListContentAdapter extends
             switch(hubDescriptions.getType()) {
                 case HubConnectorDescription.TCP:
                     typeString = "TCP";
-                    TCPHubConnectorDescription tcpDescr = (TCPHubConnectorDescription) hubDescriptions;
-                    if(tcpDescr.isMultiChannel()) {
+                    if(hubDescriptions.canMultiChannel()) {
                         multiChannelString = "multi channel";
                     }
                     break;

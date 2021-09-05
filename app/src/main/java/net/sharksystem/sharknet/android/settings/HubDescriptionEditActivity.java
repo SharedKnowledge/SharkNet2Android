@@ -15,7 +15,7 @@ import net.sharksystem.android.IntentWithPosition;
 import net.sharksystem.asap.android.apps.ASAPActivity;
 import net.sharksystem.hub.hubside.Hub;
 import net.sharksystem.hub.peerside.HubConnectorDescription;
-import net.sharksystem.hub.peerside.TCPHubConnectorDescription;
+import net.sharksystem.hub.peerside.TCPHubConnectorDescriptionImpl;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
@@ -44,10 +44,8 @@ public class HubDescriptionEditActivity extends ASAPActivity {
             this.origHubDescription =
                     SharkNetApp.getSharkNetApp().getSharkPeer().getHubDescription(position);
 
-            TCPHubConnectorDescription tcpDescr = (TCPHubConnectorDescription) origHubDescription;
-
-            hostNameString = tcpDescr.getHostName();
-            portString = Integer.toString(tcpDescr.getPort());
+            hostNameString = origHubDescription.getHostName();
+            portString = Integer.toString(origHubDescription.getPortNumber());
 
             layout = R.layout.settings_hub_description_editor_with_delete_drawer_layout;
 
@@ -72,6 +70,17 @@ public class HubDescriptionEditActivity extends ASAPActivity {
             return;
         }
 
+        if(view == this.findViewById(R.id.defaultButton)) {
+            EditText etHostName = this.findViewById(R.id.settingsTCPHubDescriptionHostName);
+            EditText etPort = this.findViewById(R.id.settingsTCPHubDescriptionPort);
+            ToggleButton tbMultiChannel = this.findViewById(R.id.settingsTCPHubDescriptionMultiChannel);
+
+            etHostName.setText("asaphub.f4.htw-berlin.de");
+            etPort.setText("6910");
+            tbMultiChannel.setChecked(true);
+            return;
+        }
+
         // remove or add - in any case create a description object from GUI entries
 
         // add new one
@@ -93,8 +102,8 @@ public class HubDescriptionEditActivity extends ASAPActivity {
         }
 
         try {
-            TCPHubConnectorDescription descriptionFromGUI =
-                    new TCPHubConnectorDescription(hostNameString, port, multiChannel);
+            HubConnectorDescription descriptionFromGUI =
+                    new TCPHubConnectorDescriptionImpl(hostNameString, port, multiChannel);
 
             SharkPeer sPeer = SharkNetApp.getSharkNetApp().getSharkPeer();
 

@@ -51,6 +51,13 @@
         android:id="@+id/abortButton"
         android:text="Abort"
         android:layout_gravity="left|top"
-        android:onClick="onAbortClick"
+        android:onClick="onClick"
+        />
+
+    <Button
+        android:id="@+id/defaultButton"
+        android:text="Set Default"
+        android:layout_gravity="left|top"
+        android:onClick="onClick"
         />
 </GridLayout>
