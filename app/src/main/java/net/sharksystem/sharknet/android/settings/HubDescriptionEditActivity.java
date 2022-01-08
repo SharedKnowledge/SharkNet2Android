@@ -77,7 +77,7 @@ public class HubDescriptionEditActivity extends ASAPActivity {
 
             etHostName.setText("asaphub.f4.htw-berlin.de");
             etPort.setText("6910");
-            tbMultiChannel.setChecked(true);
+            tbMultiChannel.setChecked(false);
             return;
         }
 

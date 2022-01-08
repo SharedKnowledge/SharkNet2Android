@@ -18,7 +18,8 @@
 
         <activity android:name=".sharknet.android.SNTestActivity"></activity>
 
-        <activity android:name=".sharknet.android.InitActivity">
+        <activity android:name=".sharknet.android.InitActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
