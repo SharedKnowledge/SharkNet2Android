@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/personEditUserID"
+        android:layout_width="93dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:text="UserID"
+        android:textSize="8pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/personEditIdentityAssuranceLevel"
+        android:layout_width="77dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="44dp"
+        android:text="IdentityAssuranceLevel"
+        android:textSize="8pt"
+        app:layout_constraintStart_toEndOf="@+id/personEditUserID"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/personName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:text=""
+        app:layout_constraintStart_toStartOf="@+id/personEditUserID"
+        app:layout_constraintTop_toBottomOf="@+id/personEditUserID" />
+
+    <SeekBar
+        android:id="@+id/personEditSigningFailureRateSeekBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="282dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="Certificate Exchange Failure Rate"
+        android:max="10"
+        android:min="1"
+        android:progress="5"
+        android:thumbTint="#00FF00"
+        android:thumbTintMode="add"
+        android:tickMarkTint="#FF0000"
+        android:tickMarkTintMode="screen"
+        android:progressTint="#00FF00"
+        android:progressTintMode="src_over"
+        android:progressBackgroundTint="#0000FF"
+        android:progressBackgroundTintMode="src_over"
+        app:layout_constraintStart_toStartOf="@+id/personName"
+        app:layout_constraintTop_toBottomOf="@+id/personName" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="76dp"
+        android:onClick="onSaveClick"
+        android:text="@string/save"
+        app:layout_constraintStart_toStartOf="@+id/personEditSigningFailureRateSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/personEditSigningFailureRateSeekBar" />
+
+    <Button
+        android:id="@+id/abortButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="84dp"
+        android:onClick="onAbortClick"
+        android:text="@string/abort"
+        app:layout_constraintStart_toEndOf="@+id/saveButton"
+        app:layout_constraintTop_toBottomOf="@+id/personEditSigningFailureRateSeekBar" />
+
+    <Button
+        android:id="@+id/showOwnerCertificates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:onClick="onShowOwnCertificatesClick"
+        android:text="@string/certificatedDescriptionText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+
+    <Button
+        android:id="@+id/showSignedCertificates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:onClick="onShowSignedCertificatesClick"
+        android:text="@string/wasCertifiedDescriptionText"
+        app:layout_constraintStart_toEndOf="@+id/showOwnerCertificates"
+        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+
+    <Button
+        android:id="@+id/explainIdentityAssurance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onShowExplainIdentityAssuranceClick"
+        android:text="@string/showExplainIdentityAssuranceButtonText"
+        app:layout_constraintStart_toEndOf="@+id/personEditIdentityAssuranceLevel"
+        app:layout_constraintTop_toTopOf="@+id/personEditIdentityAssuranceLevel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

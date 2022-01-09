@@ -11,7 +11,8 @@
     <string name="appBubble">Bubble</string>
     <string name="appRadar">Radar</string>
     <string name="appTellPosition">Position</string>
-    <string name="appPersons">Persons</string>
+    <string name="appPersons">Contacts</string>
+    <string name="appMeetPeers">New Peers</string>
 
     <string name="bubbleAuthority">net.sharksystem.bubble</string>
     <string name="syncAuthority">net.sharksystem.sync</string>
@@ -19,6 +20,13 @@
     <string name="add">add</string>
     <string name="abort">abort</string>
     <string name="save">Save</string>
+    <string name="show">Show</string>
+    <string name="explain">Explain</string>
+
+    <string name="userID">userID</string>
+    <string name="userName">userName</string>
+    <string name="identityAssurance">identityAssurance</string>
+    <string name="signingFailure">signingFailure</string>
 
     <string name="networksettings">Network Settings</string>
     <string name="title_activity_settings">Settings</string>
@@ -37,7 +45,7 @@
     <string name="makanMenuRemoveAllButtonText">Remove</string>
     <string name="title_activity_makan_view">Makan View</string>
     <string name="makanMenuAddMessageButtonText">Add</string>
-    <string name="appIdentity">Identity</string>
+    <string name="appIdentity">Your Settings</string>
     <string name="settingsBluetoothDiscoverableButtonExplanation">Activate BT Discoverable</string>
 
     <string name="settingsBluetoothDiscoveryButtonExplanation">Activate BT Discovery</string>
@@ -54,14 +62,16 @@
     <string name="personListViewButtonAddText">Add</string>
 
     <string name="sendCredentialsButtonText">Send Credentials</string>
+    <string name="receiveCredentialsButtonText">Receive Credentials</string>
     <string name="doneButtonText">Done</string>
 
     <string name="iAmAbsolutelySureButtonText">I understand and I confirm</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="createNewKeysButtonText">Create New RSA Key</string>
 
-    <string name="showSignedCertificatesButtonText">SignedCerts</string>
-    <string name="showOwnCertificatesButtonText">OwnedCerts</string>
+    <string name="wasCertifiedDescriptionText">was certified</string>
+    <string name="certificatedDescriptionText">issued certificates</string>
+
     <string name="showExplainIdentityAssuranceButtonText">Explain IA</string>
     <string name="delete">delete</string>
     <string name="identityAssuranceCalculatedWords">identity assurance of </string>
@@ -96,5 +106,26 @@
     <string name="hostNameText">hostname</string>
     <string name="settingsTCPHubDescriptionPortExplanationText">port number</string>
     <string name="settingsTCPHubDescriptionMultiChannelExplanationText">multiChannel</string>
+
+    <!-- PKI explanations -->
+    <string name="explainUserIDText">unique ID. Created by the system. Cannot be changed.</string>
+    <string name="explainUserNameText">Created by user and transmitted to you.</string>
+
+    <string name="explainWasCertifiedText">Certificates issued for this person.</string>
+    <string name="explainCertifiedText">Certificates issued from this person.</string>
+
+    <string name="explainIdentityAssuranceText">
+        Indicates how sure you can be of this persons identity.
+    </string>
+    <string name="explainSigningFailureText">SF TODO</string>
+
+    <string name="exchangeCredentialsExplanationDescription">
+        Credentials exchange is a very crucial process. Take it very carefully.
+        \n
+        One peer must start to send information. Can be you or the new peer. Decide.
+        \n
+        One press send the other receive. Following the instructions very carefully.
+        Afterwords, reverse your roles and do it again.
+    </string>
 
 </resources>

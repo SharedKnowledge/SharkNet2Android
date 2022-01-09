@@ -14,7 +14,8 @@ import net.sharksystem.sharknet.android.SharkNetActivity;
 
 import java.util.Iterator;
 
-public class PersonWaitForCredentialActivity extends SharkNetActivity implements SharkCredentialReceivedListener {
+public class PersonWaitForCredentialActivity extends SharkNetActivity
+        implements SharkCredentialReceivedListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

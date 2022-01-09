@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.SeekBar;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
@@ -15,7 +19,9 @@ import net.sharksystem.asap.android.Util;
 import net.sharksystem.asap.persons.PersonValues;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 
-public class PersonEditActivity extends SharkNetActivity {
+public class PersonEditActivity extends SharkNetActivity
+        implements AdapterView.OnItemSelectedListener {
+
     private CharSequence userID;
 
     @Override
@@ -29,6 +35,11 @@ public class PersonEditActivity extends SharkNetActivity {
 
             this.userID = personIntent.getSubjectID();
 
+            if(this.userID == null || this.userID.length() == 0) {
+                Toast.makeText(this, "no user id - fatal", Toast.LENGTH_LONG).show();
+                this.finish();
+            }
+
             PersonValues personValues =
                     this.getSharkNetApp().getSharkPKI().getPersonValuesByID(this.userID);
 
@@ -38,10 +49,15 @@ public class PersonEditActivity extends SharkNetActivity {
             TextView tv = findViewById(R.id.personName);
             tv.setText(personValues.getName());
 
-            SeekBar certExchangeFailureBar =
-                    findViewById(R.id.personEditSigningFailureRateSeekBar);
+            Spinner sfSpinner = (Spinner) this.findViewById(R.id.signingFailureValue);
+            ArrayAdapter<CharSequence> sfAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.identityAssuranceValues, android.R.layout.simple_spinner_item);
+            sfAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            sfSpinner.setAdapter(sfAdapter);
+            sfSpinner.setOnItemSelectedListener(this);
 
-            certExchangeFailureBar.setProgress(personValues.getSigningFailureRate());
+            // set current value
+            sfSpinner.setSelection(personValues.getSigningFailureRate());
 
             tv = findViewById(R.id.personEditIdentityAssuranceLevel);
             tv.setText(String.valueOf(personValues.getIdentityAssurance()));
@@ -57,23 +73,42 @@ public class PersonEditActivity extends SharkNetActivity {
     }
 
     public void onSaveClick(View view) {
-        SeekBar certExchangeFailureSeekBar =
-                findViewById(R.id.personEditSigningFailureRateSeekBar);
-
-        int certExchangeFailure = certExchangeFailureSeekBar.getProgress();
-
-        try {
-            this.getSharkNetApp().getSharkPKI().setSigningFailureRate(this.userID, certExchangeFailure);
-        } catch (ASAPSecurityException e) {
-            Log.e(this.getLogStart(), "couldn't save data: " + e.getLocalizedMessage());
-            Toast.makeText(this, "couldn't save data", Toast.LENGTH_SHORT).show();
-        }
-
+        // nothing to do..
         this.finish();
     }
 
     public void onAbortClick(View view) {
         this.finish();
+    }
+
+    public void onExplainUserIDClick(View view) {
+        Snackbar.make(view, R.string.explainUserIDText, Snackbar.LENGTH_LONG).show();
+//        Toast.makeText(this, R.string.explainUserIDText, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onExplainUserNameClick(View view) {
+        Snackbar.make(view, R.string.explainUserNameText, Snackbar.LENGTH_LONG).show();
+//        Toast.makeText(this, R.string.explainUserNameText, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onExplainIdentityAssuranceClick(View view) {
+        Snackbar.make(view, R.string.explainIdentityAssuranceText, Snackbar.LENGTH_LONG).show();
+//        Toast.makeText(this, R.string.explainIdentityAssuranceText, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onExplainSigningFailureClick(View view) {
+        Snackbar.make(view, R.string.explainSigningFailureText, Snackbar.LENGTH_LONG).show();
+//        Toast.makeText(this, R.string.explainSigningFailureText, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onExplainWasCertifiedClick(View view) {
+        Snackbar.make(view, R.string.explainWasCertifiedText, Snackbar.LENGTH_LONG).show();
+//        Toast.makeText(this, R.string.explainWasCertifiedText, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onExplainCertifiedClick(View view) {
+        Snackbar.make(view, R.string.explainCertifiedText, Snackbar.LENGTH_LONG).show();
+//        Toast.makeText(this, R.string.explainCertifiedText, Toast.LENGTH_SHORT).show();
     }
 
     public void onShowOwnCertificatesClick(View view) {
@@ -101,5 +136,27 @@ public class PersonEditActivity extends SharkNetActivity {
 
     protected String getLogStart() {
         return this.getClass().getSimpleName();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //                             identity assurance spinner                            //
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int newSigningFailure, long id) {
+        Log.d(this.getLogStart(), "signing failure set: " + newSigningFailure);
+
+        try {
+            this.getSharkNetApp().getSharkPKI().setSigningFailureRate(this.userID,newSigningFailure);
+        } catch (ASAPSecurityException e) {
+            Log.e(this.getLogStart(), "couldn't save data: " + e.getLocalizedMessage());
+            Toast.makeText(this, "couldn't save data", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

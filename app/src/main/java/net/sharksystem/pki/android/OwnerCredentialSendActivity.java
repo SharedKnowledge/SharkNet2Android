@@ -7,12 +7,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPHop;
 import net.sharksystem.asap.ASAPMessageReceivedListener;
 import net.sharksystem.asap.ASAPMessages;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+import java.io.IOException;
 import java.util.List;
 
 public class OwnerCredentialSendActivity extends SharkNetActivity {
@@ -38,43 +40,13 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
     }
 
     public void onSendClick(View v) {
-        /*
-        if(!sended) {
-            // send credential message
-            try {
-                sended = true;
-
-                PersonsStorageAndroidComponent personsAppAndroid =
-                        PersonsStorageAndroidComponent.getPersonsStorage();
-
-                CredentialMessage credentialMessage = personsAppAndroid.createCredentialMessage();
-
-                // set control number
-                TextView tv = this.findViewById(R.id.credentialsControlNumber);
-                tv.setText(CredentialMessage.sixDigitsToString(credentialMessage.getRandomInt()));
-
-                Log.d(this.getLogStart(), "send credentials: " + credentialMessage);
-                this.sendASAPMessage(ASAPPKI.CREDENTIAL_APP_NAME,
-                        ASAPPKI.CREDENTIAL_URI,
-                        credentialMessage.getMessageAsBytes(),
-                        true);
-
-            } catch (Exception e) {
-                Log.d(this.getLogStart(), "Exception when sending credential: "
-                        + e.getLocalizedMessage());
-
-                Toast.makeText(this, "Exception when sending credential: "
-                        + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-                this.finish();
-                return;
-            }
-        } else {
-            Toast.makeText(this, "credential already sent", Toast.LENGTH_SHORT).show();
+        try {
+            this.getSharkNetApp().getSharkPKI().sendOnlineCredentialMessage();
+        } catch (ASAPException | IOException e) {
+            Log.d(this.getLogStart(), "could not send credential: " + e.getLocalizedMessage());
+            Toast.makeText(this, "could not send credential: " + e.getLocalizedMessage(),
+                    Toast.LENGTH_SHORT).show();
         }
-
-         */
-        Toast.makeText(this, "implementation removed", Toast.LENGTH_LONG).show();
     }
 
     private void doHandleCertificateMessage(ASAPMessages asapMessages) {

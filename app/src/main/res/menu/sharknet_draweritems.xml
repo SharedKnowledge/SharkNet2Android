@@ -13,6 +13,9 @@
             android:id="@+id/modulePersons"
             android:title="@string/appPersons" />
         <item
+            android:id="@+id/moduleMeetPeers"
+            android:title="@string/appMeetPeers" />
+        <item
             android:id="@+id/moduleRadar"
             android:title="@string/appRadar" />
         <!--

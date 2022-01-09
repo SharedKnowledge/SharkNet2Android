@@ -34,7 +34,16 @@
         <activity android:name=".pki.android.PersonAddReceivedCredentialsActivity" />
         <activity android:name=".pki.android.PersonAddExplanationActivity" />
         <activity android:name=".pki.android.PersonWaitForCredentialActivity" />
-        <activity android:name=".pki.android.OwnerCredentialSendActivity" /> <!-- SN Channels -->
+        <activity android:name=".pki.android.OwnerCredentialSendActivity" />
+        <activity android:name=".pki.android.CredentialExchangeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- SN Channels -->
         <activity android:name=".messenger.android.SNChannelsListActivity" />
         <activity android:name=".messenger.android.SNChannelAddActivity" />
         <activity android:name=".messenger.android.SNChannelViewActivity" />

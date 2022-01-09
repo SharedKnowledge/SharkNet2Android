@@ -12,6 +12,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import net.sharksystem.R;
 import net.sharksystem.messenger.android.SNChannelsListActivity;
+import net.sharksystem.pki.android.CredentialExchangeActivity;
 import net.sharksystem.pki.android.OwnerActivity;
 import net.sharksystem.pki.android.PersonListViewActivity;
 import net.sharksystem.radar.android.RadarActivity;
@@ -50,6 +51,11 @@ public class DrawerOnNavigationItemListener implements
 
                 case R.id.modulePersons:
                     intent = new Intent(this.activity, PersonListViewActivity.class);
+                    this.activity.startActivity(intent);
+                    break;
+
+                case R.id.moduleMeetPeers:
+                    intent = new Intent(this.activity, CredentialExchangeActivity.class);
                     this.activity.startActivity(intent);
                     break;
 
