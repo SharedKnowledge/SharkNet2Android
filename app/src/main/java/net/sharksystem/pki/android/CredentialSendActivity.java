@@ -1,5 +1,6 @@
 package net.sharksystem.pki.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -7,18 +8,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.ASAPException;
+import net.sharksystem.SharkException;
+import net.sharksystem.android.util.KeysIntent;
+import net.sharksystem.android.util.ObjectHolder;
 import net.sharksystem.asap.ASAPHop;
 import net.sharksystem.asap.ASAPMessageReceivedListener;
 import net.sharksystem.asap.ASAPMessages;
+import net.sharksystem.pki.CredentialMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 import java.util.List;
 
-public class OwnerCredentialSendActivity extends SharkNetActivity {
+public class CredentialSendActivity extends SharkNetActivity {
     private boolean sended = false;
+    public static final String CREDENTIAL_MESSAGE_STORAGE_KEY = "credentialMessageStorageKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +46,27 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
 
     public void onSendClick(View v) {
         try {
-            this.getSharkNetApp().getSharkPKI().sendOnlineCredentialMessage();
-        } catch (ASAPException | IOException e) {
+            CredentialMessage credentialMessage =
+                    this.getSharkNetApp().getSharkPKI().createCredentialMessage();
+
+            ObjectHolder.getObjectHolder().setObject(
+                    CREDENTIAL_MESSAGE_STORAGE_KEY, credentialMessage);
+
+            ObjectHolder.getObjectHolder().setObject(
+                    CredentialViewActivity.CREDENTIAL_VIEW_BEHAVIOUR_KEY,
+                    CredentialViewActivity.CREDENTIAL_VIEW_BEHAVIOUR_VIEW_ONLY);
+
+            this.getSharkNetApp().getSharkPKI().sendOnlineCredentialMessage(credentialMessage);
+
+            Intent intent = new KeysIntent(
+                    this, new String[] {CREDENTIAL_MESSAGE_STORAGE_KEY},
+                    CredentialViewActivity.class);
+
+            this.startActivity(intent);
+
+            this.finish();
+
+        } catch (SharkException | IOException e) {
             Log.d(this.getLogStart(), "could not send credential: " + e.getLocalizedMessage());
             Toast.makeText(this, "could not send credential: " + e.getLocalizedMessage(),
                     Toast.LENGTH_SHORT).show();
@@ -75,12 +99,12 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
     }
 
     private class CertificateMessageReceivedListener implements ASAPMessageReceivedListener {
-        private final OwnerCredentialSendActivity ownerCredentialSendActivity;
+        private final CredentialSendActivity credentialSendActivity;
 
         public CertificateMessageReceivedListener(
-                OwnerCredentialSendActivity ownerCredentialSendActivity) {
+                CredentialSendActivity credentialSendActivity) {
 
-            this.ownerCredentialSendActivity = ownerCredentialSendActivity;
+            this.credentialSendActivity = credentialSendActivity;
         }
 
         @Override
@@ -88,7 +112,7 @@ public class OwnerCredentialSendActivity extends SharkNetActivity {
                                          String senderE2E, // E2E part
                                          List<ASAPHop> asapHops) {
             Log.d(getLogStart(), "asapMessageReceived");
-            this.ownerCredentialSendActivity.doHandleCertificateMessage(asapMessages);
+            this.credentialSendActivity.doHandleCertificateMessage(asapMessages);
         }
     }
 

@@ -123,21 +123,6 @@ public class SharkNetApp {
             SharkNetApp.singleton.sharkPeer.start(applicationSideASAPPeer);
             Log.d(getLogStart(), "shark net application launched");
 
-            ///////////////////////////////////// set behaviour
-
-            ///////////////////////////////////// PKI
-            Log.d(getLogStart(), "set pki behaviour: send credential message if possible");
-            /*
-            sharkPKI.setBehaviour(
-                    SharkPKIComponent.BEHAVIOUR_SEND_CREDENTIAL_FIRST_ENCOUNTER, true);
-             */
-
-            // set credential received listener
-            SharkNetApp.singleton.receivedCredentialListener =
-                    new SharkPKIReceivedCredentialMessageHandler(initialActivity);
-            sharkPKI.setSharkCredentialReceivedListener(
-                    SharkNetApp.singleton.receivedCredentialListener);
-
             ///////////////////////////////////// testing: example data
             Log.d(getLogStart(), "fill pki with example data");
             HelperPKITests.fillWithExampleData((SharkPKIComponent) sharkPKI);

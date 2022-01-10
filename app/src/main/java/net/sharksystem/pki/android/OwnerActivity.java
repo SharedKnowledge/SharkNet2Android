@@ -61,7 +61,7 @@ public class OwnerActivity extends SharkNetActivity {
 
     public void onSendCredentials(View view) {
         this.finish();
-        this.startActivity(new Intent(this, OwnerCredentialSendActivity.class));
+        this.startActivity(new Intent(this, CredentialSendActivity.class));
     }
 
     public void onSaveClick(View view) throws SharkException {
