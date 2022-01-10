@@ -128,4 +128,22 @@
         Afterwords, reverse your roles and do it again.
     </string>
 
+    <string name="credentialDescription">
+        This credential is exchanged between peers. Receivers must very carefully ensure
+        sender\'s identity. ASk for an ID or something else. Ensure that the information below are
+        really sent be the peer or device that is nearby.
+        \n
+        This exchange is crucial. It is the very basis of this network of trust and your reputation.
+        \n
+        Senders help receivers in any possible way to ensure their identity. Receiver must not
+        accept those information if sender does not cooperate.
+    </string>
+
+    <string name="credentialSubjectIDTag">Peer ID</string>
+    <string name="credentialSubjectNameTag">Peer name</string>
+    <string name="credentialValidSinceTag">Key valid since</string>
+    <string name="credentialRandomNumberTag">Random number</string>
+    <string name="credentialHashPublicKeyTag">Key Hash</string>
+
+
 </resources>

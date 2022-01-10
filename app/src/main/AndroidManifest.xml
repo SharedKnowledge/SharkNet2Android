@@ -34,7 +34,7 @@
         <activity android:name=".pki.android.PersonAddReceivedCredentialsActivity" />
         <activity android:name=".pki.android.PersonAddExplanationActivity" />
         <activity android:name=".pki.android.CredentialWaitToReceiveActivity" />
-        <activity android:name=".pki.android.CredentialSendActivity" />
+        <activity android:name=".pki.android.CredentialViewActivity" />
         <activity android:name=".pki.android.CredentialExchangeActivity"
             android:exported="true">
             <intent-filter>

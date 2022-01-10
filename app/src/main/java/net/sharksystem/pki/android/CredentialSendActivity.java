@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.android.util.KeysIntent;
 import net.sharksystem.android.util.ObjectHolder;
 import net.sharksystem.asap.ASAPHop;
 import net.sharksystem.asap.ASAPMessageReceivedListener;
@@ -22,8 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class CredentialSendActivity extends SharkNetActivity {
+    private static final String CREDENTIAL_MESSAGE_KEY = "credentialMessageKey";
     private boolean sended = false;
-    public static final String CREDENTIAL_MESSAGE_STORAGE_KEY = "credentialMessageStorageKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +48,31 @@ public class CredentialSendActivity extends SharkNetActivity {
             CredentialMessage credentialMessage =
                     this.getSharkNetApp().getSharkPKI().createCredentialMessage();
 
+            /**
+             * tag (defined by ViewActivity) -> key (defined here); key -> value (actual value)
+             */
+
+            // credential message stored under a key
             ObjectHolder.getObjectHolder().setObject(
-                    CREDENTIAL_MESSAGE_STORAGE_KEY, credentialMessage);
+                    CREDENTIAL_MESSAGE_KEY, credentialMessage);
+
+            // key can be found with that taG
+            ObjectHolder.getObjectHolder().setObject(
+                    CredentialViewActivity.CREDENTIAL_MESSAGE_KEY_TAG, CREDENTIAL_MESSAGE_KEY);
+
+            // view only
+            String key = CredentialViewActivity.CREDENTIAL_VIEW_ONLY_TAG
+                    + Long.toString(System.currentTimeMillis());
 
             ObjectHolder.getObjectHolder().setObject(
-                    CredentialViewActivity.CREDENTIAL_VIEW_BEHAVIOUR_KEY,
-                    CredentialViewActivity.CREDENTIAL_VIEW_BEHAVIOUR_VIEW_ONLY);
+                    key, Boolean.TRUE);
+
+            ObjectHolder.getObjectHolder().setObject(
+                    CredentialViewActivity.CREDENTIAL_VIEW_ONLY_TAG, key);
 
             this.getSharkNetApp().getSharkPKI().sendOnlineCredentialMessage(credentialMessage);
 
-            Intent intent = new KeysIntent(
-                    this, new String[] {CREDENTIAL_MESSAGE_STORAGE_KEY},
-                    CredentialViewActivity.class);
+            Intent intent = new Intent(this, CredentialViewActivity.class);
 
             this.startActivity(intent);
 

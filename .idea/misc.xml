@@ -72,9 +72,12 @@
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/_Shark/sharkNet2Android/app/src/main/res/layout/sn_channel_add_message.xml" value="0.16802536231884058" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/certificate_exchange_layout.xml" value="0.1" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/certificate_list_drawer_layout.xml" value="0.18161094224924013" />
+        <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/certificate_view_layout.xml" value="0.271875" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/credential_exchange_drawer_layout.xml" value="0.18161094224924013" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/credential_view_layout.xml" value="0.18161094224924013" />
+        <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/credential_view_only_layout.xml" value="0.3875" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/owner_drawer_layout.xml" value="0.18161094224924013" />
+        <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/owner_layout.xml" value="0.271875" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/person_add_received_credential_layout.xml" value="0.1879432624113475" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/person_edit_layout.xml" value="0.18161094224924013" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/person_wait_for_credential_layout.xml" value="0.1879432624113475" />
