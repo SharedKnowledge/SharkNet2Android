@@ -73,8 +73,11 @@
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/certificate_exchange_layout.xml" value="0.1" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/certificate_list_drawer_layout.xml" value="0.18161094224924013" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/credential_exchange_drawer_layout.xml" value="0.18161094224924013" />
+        <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/credential_view_layout.xml" value="0.18161094224924013" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/owner_drawer_layout.xml" value="0.18161094224924013" />
+        <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/person_add_received_credential_layout.xml" value="0.1879432624113475" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/person_edit_layout.xml" value="0.18161094224924013" />
+        <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/person_wait_for_credential_layout.xml" value="0.1879432624113475" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/layout/sharknet_drawer_navigation_view.xml" value="0.18161094224924013" />
         <entry key="..\:/user/thsc/_code_aktuell/_code_aktuell_Shark/sharkNet2Android/app/src/main/res/menu/sharknet_draweritems.xml" value="0.29259259259259257" />
       </map>
