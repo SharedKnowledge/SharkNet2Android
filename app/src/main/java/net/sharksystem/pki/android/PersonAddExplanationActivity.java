@@ -19,7 +19,7 @@ public class PersonAddExplanationActivity extends SharkNetActivity {
 
     public void onContinueClick(View v) {
         this.finish();
-        this.startActivity(new Intent(this, CredentialWaitToReceiveActivity.class));
+        this.startActivity(new Intent(this, CredentialReceiveActivity.class));
     }
 
     public void onGotoRadarClick(View v) {

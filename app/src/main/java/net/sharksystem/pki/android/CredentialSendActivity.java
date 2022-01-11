@@ -58,7 +58,7 @@ public class CredentialSendActivity extends SharkNetActivity {
 
             // key can be found with that taG
             ObjectHolder.getObjectHolder().setObject(
-                    CredentialViewActivity.CREDENTIAL_MESSAGE_KEY_TAG, CREDENTIAL_MESSAGE_KEY);
+                    CredentialViewActivity.CREDENTIAL_MESSAGE_TAG, CREDENTIAL_MESSAGE_KEY);
 
             // view only
             String key = CredentialViewActivity.CREDENTIAL_VIEW_ONLY_TAG

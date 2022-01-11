@@ -84,7 +84,8 @@ public class SharkNetApp {
 
             // create a pki component factory with android key store
             SharkPKIComponentFactory pkiComponentFactory =
-                    new SharkPKIComponentFactory(androidASAPKeyStore);
+                    new SharkPKIComponentFactory(androidASAPKeyStore,
+                            SharkNetApp.singleton.ownerName);
 
             // register this component with shark peer
             SharkNetApp.singleton.sharkPeer.addComponent(

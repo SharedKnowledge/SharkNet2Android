@@ -18,7 +18,7 @@ import net.sharksystem.sharknet.android.SharkNetActivity;
 import java.io.IOException;
 
 public class CredentialViewActivity extends SharkNetActivity {
-    public static final String CREDENTIAL_MESSAGE_KEY_TAG = "credentialMessageKeyTag";
+    public static final String CREDENTIAL_MESSAGE_TAG = "credentialMessageKeyTag";
     public static final String CREDENTIAL_VIEW_ONLY_TAG =
         "CREDENTIAL_VIEW_BEHAVIOUR_KEY";
 
@@ -35,12 +35,11 @@ public class CredentialViewActivity extends SharkNetActivity {
         try {
             // get Credential message
             ObjectHolder objectHolder = ObjectHolder.getObjectHolder();
-            String key = (String) objectHolder.getAndRemoveObject(CREDENTIAL_MESSAGE_KEY_TAG);
-            this.credentialMessage = (CredentialMessage) objectHolder.getAndRemoveObject(key);
+            this.credentialMessage = (CredentialMessage)
+                    objectHolder.getAndRemoveObject(CREDENTIAL_MESSAGE_TAG);
 
             // what to do.
-            key = (String) objectHolder.getAndRemoveObject(CREDENTIAL_VIEW_ONLY_TAG);
-            this.viewOnly = (boolean) objectHolder.getAndRemoveObject(key);
+            this.viewOnly = (boolean) objectHolder.getAndRemoveObject(CREDENTIAL_VIEW_ONLY_TAG);
 
             // set values
             TextView tv = this.findViewById(R.id.credentialSubjectIDValue);

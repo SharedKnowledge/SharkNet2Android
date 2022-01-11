@@ -26,32 +26,26 @@ public class CredentialExchangeActivity extends SharkNetActivity {
         this.getSharkNetApp().setupDrawerLayout(this);
     }
 
+    static void addCredentialMessageToObjectHolder(CredentialMessage credentialMessage,
+                                                   boolean viewOnly) {
+        /**
+         * tag (defined by ViewActivity) -> key (defined here); key -> value (actual value)
+         */
+
+        ObjectHolder objectHolder = ObjectHolder.getObjectHolder();
+        // credential message stored under a key
+        objectHolder.setObject(CredentialViewActivity.CREDENTIAL_MESSAGE_TAG, credentialMessage);
+
+        // behaviour
+        objectHolder.setObject(CredentialViewActivity.CREDENTIAL_VIEW_ONLY_TAG, Boolean.TRUE);
+    }
+
     public void onSendCredentialsClick(View view) {
         try {
             CredentialMessage credentialMessage =
                     this.getSharkNetApp().getSharkPKI().createCredentialMessage();
 
-            /**
-             * tag (defined by ViewActivity) -> key (defined here); key -> value (actual value)
-             */
-
-            // credential message stored under a key
-            ObjectHolder.getObjectHolder().setObject(
-                    CREDENTIAL_MESSAGE_KEY, credentialMessage);
-
-            // key can be found with that taG
-            ObjectHolder.getObjectHolder().setObject(
-                    CredentialViewActivity.CREDENTIAL_MESSAGE_KEY_TAG, CREDENTIAL_MESSAGE_KEY);
-
-            // view only
-            String key = CredentialViewActivity.CREDENTIAL_VIEW_ONLY_TAG
-                    + Long.toString(System.currentTimeMillis());
-
-            ObjectHolder.getObjectHolder().setObject(
-                    key, Boolean.TRUE);
-
-            ObjectHolder.getObjectHolder().setObject(
-                    CredentialViewActivity.CREDENTIAL_VIEW_ONLY_TAG, key);
+            CredentialExchangeActivity.addCredentialMessageToObjectHolder(credentialMessage, true);
 
             this.getSharkNetApp().getSharkPKI().sendOnlineCredentialMessage(credentialMessage);
 
@@ -69,7 +63,8 @@ public class CredentialExchangeActivity extends SharkNetActivity {
     }
 
     public void onReceiveCredentialsClick(View view) {
-        Toast.makeText(this, "receive credentials - TODO", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, CredentialReceiveActivity.class);
+        this.startActivity(intent);
+        this.finish();
     }
-
 }

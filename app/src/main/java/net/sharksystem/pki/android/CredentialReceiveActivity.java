@@ -14,7 +14,7 @@ import net.sharksystem.sharknet.android.SharkNetActivity;
 
 import java.util.Iterator;
 
-public class CredentialWaitToReceiveActivity extends SharkNetActivity
+public class CredentialReceiveActivity extends SharkNetActivity
         implements SharkCredentialReceivedListener {
 
     @Override
@@ -34,8 +34,13 @@ public class CredentialWaitToReceiveActivity extends SharkNetActivity
 
     @Override
     public void credentialReceived(CredentialMessage credentialMessage) {
-        // store it
-        Intent intent = new Intent(this, PersonAddReceivedCredentialsActivity.class);
+        CredentialExchangeActivity.addCredentialMessageToObjectHolder(credentialMessage, false);
+
+        Intent intent = new Intent(this, CredentialViewActivity.class);
+
+        this.startActivity(intent);
+
+        this.finish();
 
     }
 }
