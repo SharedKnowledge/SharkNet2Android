@@ -19,8 +19,9 @@ class SelectableListContentAdapterHelper {
 
     void setSelectedText(CharSequence itemID, View selectableItemView, TextView selectedTextView) {
         selectableItemView.setTag(itemID);
-        selectedTextView.setText(
-                this.selectedItemIDs.contains(itemID) ? "SELECTED" : "");
+        // TODO make this more visually pleasing
+//        selectedTextView.setText(this.selectedItemIDs.contains(itemID) ? "SELECTED" : "");
+        selectableItemView.setBackgroundColor(this.selectedItemIDs.contains(itemID) ? 0x88888888 : 0xFFFFFFFF);
     }
 
     void setSelectedText(CharSequence itemID, CharSequence uid,
