@@ -144,6 +144,7 @@
     <string name="credentialValidSinceTag">Key valid since</string>
     <string name="credentialRandomNumberTag">Random number</string>
     <string name="credentialHashPublicKeyTag">Key Hash</string>
+    <string name="credentialExtraDataTag">Extra Data</string>
 
 
 </resources>

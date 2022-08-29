@@ -16,11 +16,12 @@ import net.sharksystem.pki.CredentialMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class CredentialViewActivity extends SharkNetActivity {
     public static final String CREDENTIAL_MESSAGE_TAG = "credentialMessageKeyTag";
-    public static final String CREDENTIAL_VIEW_ONLY_TAG =
-        "CREDENTIAL_VIEW_BEHAVIOUR_KEY";
+    public static final String CREDENTIAL_VIEW_ONLY_TAG = "CREDENTIAL_VIEW_BEHAVIOUR_KEY";
+    private static final String DEFAULT_EXTRA_DATA = "No extra Data given";
 
     private CredentialMessage credentialMessage;
     private boolean viewOnly = true;
@@ -57,6 +58,19 @@ public class CredentialViewActivity extends SharkNetActivity {
             tv = this.findViewById(R.id.credentialHashPublicKeyValue);
             tv.setText("TODO create a hash from key");
 
+            // check if there is any extra data has been sent with the credential message
+            // if there is extra data put it on the screen, otherwise show default value
+            String extraData;
+            try {
+                extraData = new String(credentialMessage.getExtraData(), StandardCharsets.UTF_8);
+                if (extraData.isEmpty())
+                    extraData = DEFAULT_EXTRA_DATA;
+            } catch (NullPointerException e) {
+                extraData = DEFAULT_EXTRA_DATA;
+            }
+            tv = this.findViewById(R.id.credentialExtraDataValue);
+            tv.setText(extraData);
+
             Button button = this.findViewById(R.id.actionButton);
             if(this.viewOnly) button.setText("Dismiss");
             else button.setText("Approve - I certify");
@@ -71,7 +85,7 @@ public class CredentialViewActivity extends SharkNetActivity {
     }
 
     public void onClick(View view) {
-        if(viewOnly) {
+        if (this.viewOnly) {
             this.finish();
             return;
         }
@@ -82,7 +96,8 @@ public class CredentialViewActivity extends SharkNetActivity {
             String s = "fatal: could not add certificate: " + e.getLocalizedMessage();
             Log.e(this.getLogStart(), s);
             Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        } finally { // TODO should this Activity be finished now?
+            this.finish();
         }
-
     }
 }
