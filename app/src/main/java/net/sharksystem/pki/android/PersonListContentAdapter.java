@@ -76,9 +76,9 @@ public class PersonListContentAdapter extends
             holder.itemView.setTag(R.id.user_id_tag, userID);
             holder.personName.setText(personValues.getName());
 
-            int idenityAssurance = personValues.getIdentityAssurance();
-            Log.d(this.getLogStart(), "identity Assurance: " + idenityAssurance);
-            holder.personIdentityAssurance.setText(String.valueOf(idenityAssurance));
+            int identityAssurance = personValues.getIdentityAssurance();
+            Log.d(this.getLogStart(), "identity Assurance: " + identityAssurance);
+            holder.personIdentityAssurance.setText(String.valueOf(identityAssurance));
 
             int signingFailureRate = personValues.getSigningFailureRate();
             Log.d(this.getLogStart(), "signing failure: " + signingFailureRate);
@@ -86,7 +86,6 @@ public class PersonListContentAdapter extends
 
         } catch (ASAPSecurityException e) {
             Toast.makeText(this.ctx, "error finding person information: ", Toast.LENGTH_SHORT).show();
-            return;
         }
     }
 

@@ -87,13 +87,7 @@ public class CertificateListActivity extends SharkNetActivity {
     }
 
     private List<ASAPCertificate> produceCertList(Collection<ASAPCertificate> certColl) {
-        List<ASAPCertificate> certList = new ArrayList<>();
-
-        for(ASAPCertificate cert : certColl) {
-            certList.add(cert);
-        }
-
-        return certList;
+        return new ArrayList<>(certColl);
     }
 
     private List<ASAPCertificate> produceListBySubject(CharSequence userID) throws ASAPSecurityException {
@@ -123,7 +117,7 @@ public class CertificateListActivity extends SharkNetActivity {
             return null;
         }
 
-        if(idPath.get(0).toString().equalsIgnoreCase(this.getSharkNetApp().getID().toString())) {
+        if(idPath.get(0).toString().equalsIgnoreCase(this.getSharkNetApp().getOwnerID().toString())) {
             // direct certificate
             Toast.makeText(this, "You met this person and signed a certificate",
                     Toast.LENGTH_LONG).show();

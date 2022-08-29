@@ -20,9 +20,9 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 import java.io.IOException;
 import java.util.List;
 
+@Deprecated
 public class CredentialSendActivity extends SharkNetActivity {
     private static final String CREDENTIAL_MESSAGE_KEY = "credentialMessageKey";
-    private boolean sended = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class CredentialSendActivity extends SharkNetActivity {
 
         // set user name in layout
         TextView tv = this.findViewById(R.id.ownerDisplayName);
-        tv.setText(SharkNetApp.getSharkNetApp().getDisplayName());
+        tv.setText(SharkNetApp.getSharkNetApp().getOwnerName());
 
         // set control number
         tv = this.findViewById(R.id.credentialsControlNumber);

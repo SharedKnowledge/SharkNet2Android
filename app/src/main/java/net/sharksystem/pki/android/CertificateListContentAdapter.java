@@ -95,7 +95,7 @@ class CertificateListContentAdapter extends
 
         CharSequence signerName;
         if(asapCertificate.getIssuerID().toString().
-                equalsIgnoreCase(SharkNetApp.getSharkNetApp().getID().toString())) {
+                equalsIgnoreCase(SharkNetApp.getSharkNetApp().getOwnerID().toString())) {
             signerName = "You";
         } else {
             signerName = asapCertificate.getIssuerName();

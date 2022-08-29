@@ -10,11 +10,9 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
-import net.sharksystem.asap.ASAPException;
 import net.sharksystem.messenger.android.SNChannelsListActivity;
 import net.sharksystem.pki.android.CredentialExchangeActivity;
 import net.sharksystem.pki.android.OwnerActivity;
-import net.sharksystem.pki.android.PersonListActivity;
 import net.sharksystem.pki.android.PersonListViewActivity;
 import net.sharksystem.sharknet.android.settings.SettingsActivity;
 
@@ -31,8 +29,7 @@ public class InitActivity extends Activity {
             String ownerID = SharkNetApp.getOwnerID(this);
             // yes - ignition!
             this.initializeSystem(ownerID);
-        }
-        catch(SharkException se) {
+        } catch(SharkException se) {
             Log.d(this.getLogStart(), "most probably first app usage: "
                     + se.getLocalizedMessage());
 
@@ -81,12 +78,11 @@ public class InitActivity extends Activity {
 
         String ownerName = ownerNameEditText.getText().toString();
 
-        if(ownerName.equalsIgnoreCase(SharkNetApp.DEFAULT_OWNER_NAME)) {
-            Toast.makeText(this, "you must define another name",
-                    Toast.LENGTH_SHORT).show();
-        } else {
+        try {
             SharkNetApp.initializeSystem(this, ownerName);
             this.initializeSystem(null);
+        } catch (SharkException e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

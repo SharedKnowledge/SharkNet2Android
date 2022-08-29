@@ -227,7 +227,7 @@ public class AndroidASAPKeyStore extends InMemoASAPKeyStore {
         editor.putLong(KEYPAIR_CREATION_TIME, time);
 
         // create owner id
-        editor.commit();
+        editor.apply();
     }
 
     @Override

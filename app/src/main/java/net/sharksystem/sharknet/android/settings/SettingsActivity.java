@@ -110,7 +110,7 @@ public class SettingsActivity extends ASAPActivity {
                                 startBluetoothDiscoverable();
                             } else {
                                 Log.d(getLogStart(), "ui said: switch off BT - TODO nyi");
-                                //sharkNetApp.stopBluetooth();
+                                //sharkNetApp.stopBluetooth(); TODO
                             }
                         }
                     }

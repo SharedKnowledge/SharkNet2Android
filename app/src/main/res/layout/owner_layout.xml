@@ -5,46 +5,58 @@
 
     <EditText
         android:id="@+id/ownerDisplayName"
-        android:layout_width="258dp"
-        android:layout_height="43dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:ems="10"
-        />
+        android:hint="user name"
+        android:minHeight="48dp" />
 
-    <TextView
-        android:id="@+id/ownerID"
-        android:layout_width="258dp"
-        android:layout_height="43dp"
-        android:ems="10"
-        />
+    <Button
+        android:id="@+id/changeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onSaveClick"
+        android:text="@string/save" />
 
-    <TextView
-        android:id="@+id/ownerCreationTimeKeys"
-        android:layout_width="258dp"
-        android:layout_height="43dp"
-        android:ems="10"
-        android:text="no set"
-        />
+    <Button
+        android:id="@+id/abortButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onAbortClick"
+        android:text="@string/abort" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ownerID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="ownerID not set" />
+
+        <TextView
+            android:id="@+id/ownerKeysCreationTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="Creation time not available" />
 
         <Button
             android:id="@+id/createNewKeys"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onCreateNewKeys"
-            android:text="@string/createNewKeysButtonText"
-            />
+            android:text="@string/createNewKeysButtonText" />
 
         <Button
-            android:id="@+id/sendCredentials"
+            android:id="@+id/sendReceiveCredentials"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onSendCredentials"
-            android:text="@string/sendCredentialsButtonText"
-            />
+            android:onClick="onSendOrReceiveCredentials"
+            android:text="@string/sendReceiveCredentialsButtonText" />
 
         <Button
             android:id="@+id/showOwnerAsSubjectCertificates"
@@ -52,22 +64,6 @@
             android:layout_height="wrap_content"
             android:onClick="onShowOwnerAsSubjectCertificates"
             android:text="@string/showOwnerAsSubjectCertificatesButtonText"
-            />
-
-        <Button
-            android:id="@+id/changeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onSaveClick"
-            android:text="@string/save"
-            />
-
-        <Button
-            android:id="@+id/abortButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onAbortClick"
-            android:text="@string/abort"
             />
 
     </LinearLayout>

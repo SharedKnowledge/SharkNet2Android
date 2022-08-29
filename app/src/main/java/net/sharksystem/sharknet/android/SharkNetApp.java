@@ -36,15 +36,15 @@ public class SharkNetApp {
     private SharkPKIReceivedCredentialMessageHandler receivedCredentialListener;
 
     public static SharkNetApp getSharkNetApp() {
-        if(SharkNetApp.singleton == null) throw
-                new SharkStatusException("SharkNetApplication not yet initialized");
+        if(SharkNetApp.singleton == null)
+            throw new SharkStatusException("SharkNetApplication not yet initialized");
 
         return SharkNetApp.singleton;
     }
 
     public SharkPeer getSharkPeer() {
-        if(this.sharkPeer == null) throw
-                new SharkStatusException("Shark peer not yet initialized");
+        if(this.sharkPeer == null)
+            throw new SharkStatusException("Shark peer not yet initialized");
 
         return this.sharkPeer;
     }
@@ -53,9 +53,8 @@ public class SharkNetApp {
     //                                     system setup                                        //
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static SharkNetApp initializeSharkNetApp(Activity initialActivity, String ownerID)
-            throws SharkException, IOException, ASAPException {
-
+    public static void initializeSharkNetApp(Activity initialActivity, String ownerID)
+            throws SharkException, IOException {
         ///////////////////////////////////// get saved data of this app.
         if(SharkNetApp.singleton == null) {
             Log.d(getLogStart(), "going to initialize shark net application");
@@ -67,7 +66,7 @@ public class SharkNetApp {
 
             // produce application side shark peer
             SharkNetApp.singleton.sharkPeer = new SharkPeerFS(
-                    SharkNetApp.singleton.getID(),
+                    SharkNetApp.singleton.getOwnerID(),
                     rootDir.getAbsolutePath()
             );
 
@@ -130,8 +129,6 @@ public class SharkNetApp {
         } else {
             Log.d(getLogStart(), "shark net application already initialized - ignore");
         }
-
-        return SharkNetApp.singleton;
     }
 
     private void setApplicationSideASAPAndroidPeer(ASAPAndroidPeer asapAndroidPeer) {
@@ -155,7 +152,7 @@ public class SharkNetApp {
 
     public SharkPKIComponent getSharkPKI() {
         try {
-            return (SharkPKIComponent)this.sharkPeer.getComponent(SharkPKIComponent.class);
+            return (SharkPKIComponent) this.sharkPeer.getComponent(SharkPKIComponent.class);
         } catch (SharkException e) {
             // this cannot happen - this component is initialized in init
             throw new SharkStatusException("internal error: " + e.getLocalizedMessage());
@@ -164,7 +161,8 @@ public class SharkNetApp {
 
     public SharkMessengerComponent getSharkMessenger() {
         try {
-            return (SharkMessengerComponent)this.sharkPeer.getComponent(SharkMessengerComponent.class);
+            return (SharkMessengerComponent)
+                    this.sharkPeer.getComponent(SharkMessengerComponent.class);
         } catch (SharkException e) {
             // this cannot happen - this component is initialized in init
             throw new SharkStatusException("internal error: " + e.getLocalizedMessage());
@@ -178,13 +176,12 @@ public class SharkNetApp {
     public void setupDrawerLayout(Activity activity) {
         DrawerLayout mDrawerLayout = activity.findViewById(R.id.sharknet_drawer_layout);
         if(mDrawerLayout == null) {
-            Log.d(this.getLogStart(), "cannot find drawer layout: " + R.id.sharknet_drawer_layout);
+            Log.d(getLogStart(), "cannot find drawer layout: " + R.id.sharknet_drawer_layout);
             return;
         }
 
         // add listener to drawer items
         NavigationView navigationView = activity.findViewById(R.id.sharknet_drawer_navigation_view);
-
         navigationView.setNavigationItemSelectedListener(
                 new DrawerOnNavigationItemListener(activity, mDrawerLayout));
     }
@@ -202,9 +199,13 @@ public class SharkNetApp {
     private CharSequence ownerName;
     private CharSequence ownerID;
 
-    public CharSequence getUUID() { return this.getID(); }
-    public CharSequence getID() { return this.ownerID; }
-    public CharSequence getDisplayName() { return this.ownerName; }
+    public CharSequence getOwnerID() {
+        return this.ownerID;
+    }
+
+    public CharSequence getOwnerName() {
+        return this.ownerName;
+    }
 
     private SharkNetApp(Context initialContext, String ownerID) {
         SharedPreferences sharedPref = initialContext.getSharedPreferences(
@@ -220,11 +221,10 @@ public class SharkNetApp {
     }
 
     /**
-     * Return ownerID or throws an exception is no ID is set. The id is created by
-     * automatically when the system is initialized
-     * @param context
-     * @return id
-     * @throws SharkException
+     * Return ownerID. The id is created automatically when the system is initialized
+     * @param context app context
+     * @return String - ownerID
+     * @throws SharkException if ownerID has not been created yet.
      * @see #initializeSystem(Context, CharSequence)
      */
     public static String getOwnerID(Context context) throws SharkException {
@@ -237,12 +237,17 @@ public class SharkNetApp {
     }
 
     /**
-     * Static method to initialize system with a name. An ID is automatically created and will
-     * not be changed.
-     * @param ctx
-     * @param ownerName
+     * Static method to initialize system with a name.
+     * An ID is automatically created and will not be changed.
+     * @param ctx App context
+     * @param ownerName The name the User defined for themselves.
+     * @throws SharkException if owner name is null, empty or default
+     * @see #DEFAULT_OWNER_NAME
      */
-    public static void initializeSystem(Context ctx, CharSequence ownerName) {
+    public static void initializeSystem(Context ctx, CharSequence ownerName)
+            throws SharkException {
+        checkOwnerName(ownerName);
+
         SharedPreferences sharedPref = ctx.getSharedPreferences(
                 PREFERENCES_FILE, Context.MODE_PRIVATE);
 
@@ -251,24 +256,45 @@ public class SharkNetApp {
         editor.putString(OWNER_NAME, ownerName.toString());
 
         // create owner id
-        String ownerID = ASAP.createUniqueID();
-        editor.putString(OWNER_ID, ownerID);
+//        if (!sharedPref.contains(OWNER_ID)) {
+            String ownerID = ASAP.createUniqueID(); // TODO is changed on every startup - correct?
+            editor.putString(OWNER_ID, ownerID);
+//        }
+        editor.apply();
+    }
 
-        editor.commit();
+    /**
+     * Checks owner name for valid syntax and throws exception on wrong syntax,
+     * does nothing if syntax is correct
+     * @param ownerName name to be checked
+     * @throws SharkException if owner name is null empty or default
+     * @see #DEFAULT_OWNER_NAME
+     */
+    private static void checkOwnerName(CharSequence ownerName) throws SharkException {
+        if (ownerName == null || ownerName.equals(""))
+            throw new SharkException("Owner name is null or empty");
+
+        if (ownerName.equals(DEFAULT_OWNER_NAME))
+            throw new SharkException("Owner name can't be default name: " + DEFAULT_OWNER_NAME);
     }
 
     /**
      * Change owner name (but not id)
-     * @param ctx
-     * @param userName new owner name
+     * @param ctx app context
+     * @param ownerName new owner name
+     * @throws SharkException if the new owner name is null, empty or equals the default owner name
+     * @see #DEFAULT_OWNER_NAME
      */
-    public void changeOwnerName(Context ctx, CharSequence userName) {
+    public void changeOwnerName(Context ctx, String ownerName) throws SharkException {
+        checkOwnerName(ownerName);
+
         SharedPreferences sharedPref = ctx.getSharedPreferences(
                 PREFERENCES_FILE, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(OWNER_NAME, userName.toString());
-        editor.commit();
+        editor.putString(OWNER_NAME, ownerName);
+        editor.apply();
+        this.ownerName = ownerName;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////

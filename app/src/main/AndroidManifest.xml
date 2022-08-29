@@ -16,13 +16,11 @@
         android:theme="@style/NoActionBar"
         tools:replace="android:theme">
 
-        <activity android:name=".sharknet.android.SNTestActivity"></activity>
+        <activity android:name=".sharknet.android.SNTestActivity" />
 
-        <activity android:name=".sharknet.android.InitActivity"
-            android:exported="true">
+        <activity android:name=".sharknet.android.InitActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- tools:replace="android:theme" needed to import ASAPAndroidService module -->
@@ -35,8 +33,7 @@
         <activity android:name=".pki.android.PersonAddExplanationActivity" />
         <activity android:name=".pki.android.CredentialReceiveActivity" />
         <activity android:name=".pki.android.CredentialViewActivity" />
-        <activity android:name=".pki.android.CredentialExchangeActivity"
-            android:exported="true">
+        <activity android:name=".pki.android.CredentialExchangeActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -50,27 +47,19 @@
         <activity android:name=".messenger.android.SNChannelAddMessageActivity" />
         <activity android:name=".messenger.android.SNMessageViewActivity" />
 
-        <activity
-            android:name=".pki.android.PersonListViewActivity"
+        <activity android:name=".pki.android.PersonListViewActivity"
             android:launchMode="singleTask" />
         <activity android:name=".pki.android.PersonListSelectionActivity" />
-        <activity
-            android:name=".radar.android.RadarActivity"
-            android:launchMode="singleTask" />
+        <activity android:name=".radar.android.RadarActivity" android:launchMode="singleTask" />
 
         <!-- settings -->
         <!--            android:launchMode="singleTask" -->
-        <activity
-            android:name=".sharknet.android.settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            />
+        <activity android:name=".sharknet.android.settings.SettingsActivity"
+            android:label="@string/title_activity_settings" />
 
         <activity android:name=".sharknet.android.settings.HubDescriptionsListActivity" />
         <activity android:name=".sharknet.android.settings.HubDescriptionEditActivity" />
 
-        <activity
-            android:name=".pki.android.OwnerActivity"
-            android:launchMode="singleTask" />
+        <activity android:name=".pki.android.OwnerActivity" android:launchMode="singleTask" />
     </application>
-
 </manifest>

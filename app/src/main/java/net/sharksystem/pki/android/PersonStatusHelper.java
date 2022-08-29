@@ -16,7 +16,7 @@ public class PersonStatusHelper {
     }
 
     public Set<CharSequence> getLastPersonsSelection() {
-        if(this.selectedItemIDs == null) return new HashSet();
+        if(this.selectedItemIDs == null) return new HashSet<>();
         else return this.selectedItemIDs;
     }
 
@@ -34,7 +34,7 @@ public class PersonStatusHelper {
     }
 
     public Set<CharSequence> getPreselectionSet() {
-        if(this.preselectedIDs == null) return new HashSet();
+        if(this.preselectedIDs == null) return new HashSet<>();
         else return this.preselectedIDs;
     }
 

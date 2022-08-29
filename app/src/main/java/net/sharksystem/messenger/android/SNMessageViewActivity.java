@@ -89,11 +89,7 @@ public class SNMessageViewActivity extends ASAPActivity {
             asapHopsView.setText(asapHopsSequence);
 
 
-        } catch (SharkMessengerException e) {
-            Log.e(this.getLogStart(), "cannot get message: " + e);
-        } catch (IOException e) {
-            Log.e(this.getLogStart(), "cannot get message: " + e);
-        } catch (SharkException e) {
+        } catch (IOException | SharkException e) {
             Log.e(this.getLogStart(), "cannot get message: " + e);
         }
     }

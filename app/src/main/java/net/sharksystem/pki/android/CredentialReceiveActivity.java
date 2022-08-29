@@ -35,13 +35,13 @@ public class CredentialReceiveActivity extends SharkNetActivity
     @Override
     public void credentialReceived(CredentialMessage credentialMessage) {
         CredentialExchangeActivity.addCredentialMessageToObjectHolder(credentialMessage, false);
-
+        // TODO shouldn't it be possible to remove the listener
+        //  since this is a manual process of receiving credentials?
         Intent intent = new Intent(this, CredentialViewActivity.class);
 
         this.startActivity(intent);
 
         this.finish();
-
     }
 }
 

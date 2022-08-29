@@ -14,6 +14,7 @@ import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.asap.utils.DateTimeHelper;
 import net.sharksystem.sharknet.android.SharkNetActivity;
+import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class OwnerActivity extends SharkNetActivity {
     @Override
@@ -22,13 +23,13 @@ public class OwnerActivity extends SharkNetActivity {
 
         setContentView(R.layout.owner_drawer_layout);
 
-        // set user name in layout
-        EditText userNameView = this.findViewById(R.id.ownerDisplayName);
-        TextView userIDTV = this.findViewById(R.id.ownerID);
+        // set user information in layout
+        EditText ownerNameEditText = this.findViewById(R.id.ownerDisplayName);
+        TextView ownerIdTextView = this.findViewById(R.id.ownerID);
 
         try {
-            userNameView.setText(this.getSharkNetApp().getDisplayName());
-            userIDTV.setText(this.getSharkNetApp().getUUID());
+            ownerNameEditText.setText(this.getSharkNetApp().getOwnerName());
+            ownerIdTextView.setText(this.getSharkNetApp().getOwnerID());
             this.setKeyCreationDateView();
         } catch (ASAPSecurityException e) {
             Log.e(this.getLogStart(), "serious problem: " + e.getLocalizedMessage());
@@ -39,7 +40,7 @@ public class OwnerActivity extends SharkNetActivity {
     }
 
     private void setKeyCreationDateView() throws ASAPSecurityException {
-        TextView creationTime = this.findViewById(R.id.ownerCreationTimeKeys);
+        TextView creationTime = this.findViewById(R.id.ownerKeysCreationTime);
         // that's funny because long is a homonym: data type but also means a long periode of time... ok, this is not funny at all... :/
         long longTime = this.getSharkNetApp().getSharkPKI().getKeysCreationTime();
 
@@ -59,21 +60,22 @@ public class OwnerActivity extends SharkNetActivity {
         this.startActivity(new Intent(this, OwnerActivity.class));
     }
 
-    public void onSendCredentials(View view) {
+    public void onSendOrReceiveCredentials(View view) {
         this.finish();
-        this.startActivity(new Intent(this, CredentialSendActivity.class));
+        this.startActivity(new Intent(this, CredentialExchangeActivity.class));
     }
 
-    public void onSaveClick(View view) throws SharkException {
-        EditText userNameView = (EditText) findViewById(R.id.ownerDisplayName);
-        String userNameString = userNameView.getText().toString();
+    public void onSaveClick(View view) {
+        EditText ownerNameEditText = findViewById(R.id.ownerDisplayName);
+        String ownerNameString = ownerNameEditText.getText().toString();
 
-        if(userNameString == null || userNameString.isEmpty()) {
-            Toast.makeText(this, "user name is", Toast.LENGTH_SHORT).show();
-        } else {
-            Log.d(this.getLogStart(), "set new user name: " + userNameString);
-            this.getSharkNetApp().initializeSystem(this, userNameString);
-
+        try {
+            SharkNetApp app = SharkNetApp.getSharkNetApp();
+            app.changeOwnerName(this, ownerNameString); // TODO should this be initialize system? that would change ownerID
+        } catch (SharkException e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Log.d(this.getLogStart(), e.getLocalizedMessage());
+        } finally {
             // re-launch
             this.finish();
             this.startActivity(new Intent(this, OwnerActivity.class));
@@ -84,13 +86,13 @@ public class OwnerActivity extends SharkNetActivity {
         Log.d(Util.getLogStart(this), "onShowOwnerAsSubjectCertificates");
         Intent intent = null;
         intent = new PersonIntent(this,
-                this.getSharkNetApp().getID(),
+                this.getSharkNetApp().getOwnerID(),
                 CertificateListActivity.class);
         this.startActivity(intent);
     }
 
     public void onCreateNewKeys(View view) {
-        (new CreateKeyPairThread(this)).start();
+        new CreateKeyPairThread(this).start();
     }
 
     public void onAbortClick(View view) {
