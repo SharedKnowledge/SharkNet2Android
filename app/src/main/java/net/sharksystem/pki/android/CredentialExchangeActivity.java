@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import net.sharksystem.R;
@@ -13,6 +14,7 @@ import net.sharksystem.pki.CredentialMessage;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class CredentialExchangeActivity extends SharkNetActivity {
     private static final String CREDENTIAL_MESSAGE_KEY = "credentialMessageKey";
@@ -28,7 +30,7 @@ public class CredentialExchangeActivity extends SharkNetActivity {
 
     static void addCredentialMessageToObjectHolder(CredentialMessage credentialMessage,
                                                    boolean viewOnly) {
-        /**
+        /*
          * tag (defined by ViewActivity) -> key (defined here); key -> value (actual value)
          */
 
@@ -41,9 +43,12 @@ public class CredentialExchangeActivity extends SharkNetActivity {
     }
 
     public void onSendCredentialsClick(View view) {
+        EditText cicEditText = findViewById(R.id.editTextCic);
+        byte[] cic = cicEditText.getText().toString().getBytes(StandardCharsets.UTF_8);
+
         try {
             CredentialMessage credentialMessage =
-                    this.getSharkNetApp().getSharkPKI().createCredentialMessage();
+                    this.getSharkNetApp().getSharkPKI().createCredentialMessage(cic);
 
             CredentialExchangeActivity.addCredentialMessageToObjectHolder(credentialMessage, true);
 

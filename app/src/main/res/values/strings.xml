@@ -61,6 +61,7 @@
     <string name="personListViewButtonRemoveText">Remove</string>
     <string name="personListViewButtonAddText">Add</string>
 
+    <string name="sendReceiveCredentialsButtonText">Send or Receive Credentials</string>
     <string name="sendCredentialsButtonText">Send Credentials</string>
     <string name="receiveCredentialsButtonText">Receive Credentials</string>
     <string name="doneButtonText">Done</string>
@@ -130,7 +131,7 @@
 
     <string name="credentialDescription">
         This credential is exchanged between peers. Receivers must very carefully ensure
-        sender\'s identity. ASk for an ID or something else. Ensure that the information below are
+        sender\'s identity. Ask for an ID or something else. Ensure that the information below are
         really sent be the peer or device that is nearby.
         \n
         This exchange is crucial. It is the very basis of this network of trust and your reputation.
@@ -138,6 +139,19 @@
         Senders help receivers in any possible way to ensure their identity. Receiver must not
         accept those information if sender does not cooperate.
     </string>
+
+    <string name="credentialCicSender">
+        You can attach a Custom Identification Code (CIC) to your credentials.
+        This code is given to you by the receiver and is used to prove to them
+        that you are how you claim to be.
+    </string>
+    <string name="credentialCicReceiver">
+        You can give the receiver a Custom Identification Code (CIC).
+        The sender should attach this code to their credentials.
+        This way you can make sure that the credentials belong to the sender.
+    </string>
+
+    <string name="cicHint">CIC</string>
 
     <string name="credentialSubjectIDTag">Peer ID</string>
     <string name="credentialSubjectNameTag">Peer name</string>
