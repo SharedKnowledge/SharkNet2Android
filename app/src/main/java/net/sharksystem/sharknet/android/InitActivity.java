@@ -49,11 +49,11 @@ public class InitActivity extends Activity {
             SharkNetApp.initializeSharkNetApp(this, ownerID);
             Log.d(this.getLogStart(), "shark system is initialized - start first activity");
 
-//            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : SNChannelsListActivity.class;
+            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : SNChannelsListActivity.class;
 //            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : SNTestActivity.class;
 //            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : PersonListViewActivity.class;
 //            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : SettingsActivity.class;
-            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : CredentialExchangeActivity.class;
+//            Class firstActivity = veryFirstLaunch ? OwnerActivity.class : CredentialExchangeActivity.class;
 
 
             Log.d(this.getLogStart(), "shark system is initialized - start first activity:"
