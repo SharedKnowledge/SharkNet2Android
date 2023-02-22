@@ -107,11 +107,9 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
                 CheckBox encryptedCheckBox = findViewById(R.id.snEncrypted);
                 boolean encrypt = encryptedCheckBox.isChecked();
 
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 // send with shark messenger
                 this.getSharkNetApp().getSharkMessenger().sendSharkMessage(
                         content, this.uri, sign, encrypt);
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
             } catch (IOException | SharkMessengerException e) {
                 Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
