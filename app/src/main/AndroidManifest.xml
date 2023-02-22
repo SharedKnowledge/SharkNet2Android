@@ -23,7 +23,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- tools:replace="android:theme" needed to import ASAPAndroidService module -->
+        </activity>
+
+        <!-- tools:replace="android:theme" needed to import ASAPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
 
         <activity android:name=".pki.android.CertificateViewActivity" />
@@ -33,12 +35,17 @@
         <activity android:name=".pki.android.PersonAddExplanationActivity" />
         <activity android:name=".pki.android.CredentialReceiveActivity" />
         <activity android:name=".pki.android.CredentialViewActivity" />
+
         <activity android:name=".pki.android.CredentialExchangeActivity" android:exported="true">
+        <!-- why should this activity also have the following intent-filter?; commented these lines
+        as this activity can't be opened separately anyways
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        -->
         </activity>
+
 
         <!-- SN Channels -->
         <activity android:name=".messenger.android.SNChannelsListActivity" />
