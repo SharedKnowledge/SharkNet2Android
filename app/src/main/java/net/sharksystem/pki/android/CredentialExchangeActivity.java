@@ -42,6 +42,9 @@ public class CredentialExchangeActivity extends SharkNetActivity {
         objectHolder.setObject(CredentialViewActivity.CREDENTIAL_VIEW_ONLY_TAG, Boolean.TRUE);
     }
 
+    /**
+     * Called when the user wants to send his own credentials
+     */
     public void onSendCredentialsClick(View view) {
         EditText cicEditText = findViewById(R.id.editTextCic);
         byte[] cic = cicEditText.getText().toString().getBytes(StandardCharsets.UTF_8);
@@ -67,6 +70,9 @@ public class CredentialExchangeActivity extends SharkNetActivity {
         }
     }
 
+    /**
+     * Called when the user wants to receive the credentials from another user
+     */
     public void onReceiveCredentialsClick(View view) {
         Intent intent = new Intent(this, CredentialReceiveActivity.class);
         this.startActivity(intent);

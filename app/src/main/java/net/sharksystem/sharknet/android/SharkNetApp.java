@@ -246,6 +246,7 @@ public class SharkNetApp {
      */
     public static void initializeSystem(Context ctx, CharSequence ownerName)
             throws SharkException {
+        //owner name can't be empty or the default name
         checkOwnerName(ownerName);
 
         SharedPreferences sharedPref = ctx.getSharedPreferences(
@@ -253,11 +254,12 @@ public class SharkNetApp {
 
         SharedPreferences.Editor editor = sharedPref.edit();
 
+        //owner name saved under associated tag
         editor.putString(OWNER_NAME, ownerName.toString());
 
         // create owner id
 //        if (!sharedPref.contains(OWNER_ID)) {
-            String ownerID = ASAP.createUniqueID(); // TODO is changed on every startup - correct?
+            String ownerID = ASAP.createUniqueID(); // TODO is changed on every startup - correct? Otherwise uncomment
             editor.putString(OWNER_ID, ownerID);
 //        }
         editor.apply();
