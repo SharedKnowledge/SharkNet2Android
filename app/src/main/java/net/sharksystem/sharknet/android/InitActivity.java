@@ -11,61 +11,80 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.messenger.android.SNChannelsListActivity;
-import net.sharksystem.pki.android.OwnerActivity;
-
 import java.io.IOException;
 
 /**
- * Start Activity
+ * Initial Activity which is the entry point of the Shark Messenger application
  */
 public class InitActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(this.getLogStart(), "Startup SharkNetApplication");
 
+        //Log that the SharkMessenger was started the first time
+        Log.d(this.getLogStart(), "Shark Messenger was started!");
+
+        //check if this start is the first one ever on this device
         try {
-            // used before? is there an ownerID? else wise the exception below is thrown
+            //if the owner id is already present, the user already entered it, so this can't be
+            //  the first start
+            //if this call throws an exception, then this is in fact the first start, so in the
+            //  catch block this case is treated. To be concise: this could actually be the second
+            //  or further time this app was started, as the user may cancelled the app before
+            //  setting his name, so the owner id is still not set. When the owner id was confirmed,
+            //  any further starts aren't counting as initial first start ever again.
             String ownerID = SharkNetApp.getOwnerID(this);
-            // yes - ignition!
             this.initializeSystem(ownerID);
-        } catch(SharkException se) {
-            Log.d(this.getLogStart(), "most probably first app usage: "
-                    + se.getLocalizedMessage());
 
-            // no - ask for name with this activity
+        } catch(SharkException se) {
+            Log.d(this.getLogStart(), getString(R.string.activity_init_first_time_log) +
+                    se.getLocalizedMessage());
+
+            //as this is the first start, the owner id was never set before. This needs to be done
+            //  now. It's done within this activity by displaying the therefor intended layout
             setContentView(R.layout.init);
         }
     }
 
     private void initializeSystem(String ownerID) {
         try {
+
+            /* This code will almost certainly be removed in a later step. Differentiating between
+                the first and any other launch isn't necessary anymore
             //if it's the first launch ever
             boolean veryFirstLaunch = false;
             if(ownerID == null) {
                 veryFirstLaunch = true;
                 ownerID = SharkNetApp.getOwnerID(this);
             }
+             */
 
             //core initialization
             SharkNetApp.initializeSharkNetApp(this, ownerID);
-            Log.d(this.getLogStart(), "shark system is initialized - start first activity");
+            Log.d(this.getLogStart(), "Shark system was initialized. The main Shark Messenger Activity is started now.");
 
-            //if it's the first launch, then always open the OwnerActivity next
-            //else wise, the next activity is chosen by the following "switch"
+
+            /*
+                TODO: this code isn't necessary:
+                 1. at the end, there should be one app which includes all functionality
+                 2. opening channels and sending messages can be done without exchanging
+                    certificates, as you can send information to anyone.
+
+            if it's the first launch, then always open the OwnerActivity next
+            else wise, the next activity is chosen by the following "switch"
             Class<?> firstActivity = veryFirstLaunch ? OwnerActivity.class : SNChannelsListActivity.class;
-//          Class<?> firstActivity = veryFirstLaunch ? OwnerActivity.class : SNTestActivity.class;
-//          Class<?> firstActivity = veryFirstLaunch ? OwnerActivity.class : PersonListViewActivity.class;
-//          Class<?> firstActivity = veryFirstLaunch ? OwnerActivity.class : SettingsActivity.class;
-//          Class<?> firstActivity = veryFirstLaunch ? OwnerActivity.class : CredentialExchangeActivity.class;
+            Class<?> firstActivity = veryFirstLaunch ? OwnerActivity.class : SNTestActivity.class;
+            Class<?> firstActivity = veryFirstLaunch ? OwnerActivity.class : PersonListViewActivity.class;
+            Class<?> firstActivity = veryFirstLaunch ? OwnerActivity.class : SettingsActivity.class;
+            Class<?> firstActivity = veryFirstLaunch ? OwnerActivity.class : CredentialExchangeActivity.class;
+
+             */
 
 
-            Log.d(this.getLogStart(), "shark system is initialized - start first activity:"
-                    + firstActivity.getSimpleName());
             this.finish();
 
-            //launch next activity of the application
-            Intent intent = new Intent(this, firstActivity);
+            //launch main Shark Messenger activity
+            Intent intent = new Intent(this, SNChannelsListActivity.class);
             this.startActivity(intent);
         }
         catch(SharkException se) {
@@ -80,7 +99,8 @@ public class InitActivity extends Activity {
     }
 
     /**
-     * Called when user clicks the save button.
+     * This method is called when the user wants to save his owner id and can therefor only be
+     * invoked, when it was the first time, the user opened this app.
      */
     public void onSaveClick(View view) {
         //Read string from text field
@@ -99,7 +119,11 @@ public class InitActivity extends Activity {
         }
     }
 
+    /**
+     * Returns the log identifier for this class. It is for logging purposes only
+     * @return the identifying tag for this class
+     */
     private String getLogStart() {
-        return "SharkNet2 InitActivity";
+        return "SharkMessenger InitActivity";
     }
 }
