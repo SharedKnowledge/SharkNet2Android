@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+@Deprecated
 public class PermissionCheck {
     public static void askForPermissions(Activity activity, String[] permissions) {
         if(permissions == null || permissions.length < 1) return;
