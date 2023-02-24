@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_channels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@android:drawable/ic_menu_send"
+            android:title="@string/menu_channels" />
+        <item
+            android:id="@+id/nav_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="@string/menu_settings" />
+        <item
+            android:id="@+id/nav_contacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:title="@string/menu_contacts" />
+        <item
+            android:id="@+id/nav_newPeer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="@string/menu_newPeer" />
+        <item
+            android:id="@+id/nav_radar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/menu_radar" />
+        <item
+            android:id="@+id/nav_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:title="@string/menu_network" />
+    </group>
+</menu>
