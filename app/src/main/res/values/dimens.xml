@@ -10,4 +10,6 @@
     <dimen name="textSizeHuge">30pt</dimen>
     <dimen name="textSizeGoodReadable">12pt</dimen>
     <dimen name="textSizeGoodReadableSmall">8pt</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
 </resources>
