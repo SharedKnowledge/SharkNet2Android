@@ -23,12 +23,6 @@
             android:icon="@android:drawable/ic_menu_my_calendar"
             android:title="@string/menu_contacts" />
         <item
-            android:id="@+id/nav_newPeer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@android:drawable/ic_menu_add"
-            android:title="@string/menu_newPeer" />
-        <item
             android:id="@+id/nav_radar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
