@@ -85,7 +85,7 @@
             />
 
         <Button
-            android:id="@+id/abortButton"
+            android:id="@+id/fragment_receive_credentials_abort_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onAbortClick"
