@@ -24,8 +24,14 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
+/**
+ * Fragment for adding a new Channel
+ */
 public class AddChannelFragment extends Fragment {
 
+    /**
+     * Binding to access elements from the layout
+     */
     private FragmentAddChannelBinding binding;
 
     @Override
@@ -34,21 +40,28 @@ public class AddChannelFragment extends Fragment {
 
         this.binding = FragmentAddChannelBinding.inflate(inflater, container, false);
 
+        //Create a new unique id for the channel and set it in the view
         String uniqueID = PeerIDHelper.createUniqueID();
         String channelUri = "sn2://" + uniqueID;
         this.binding.fragmentAddChannelChannelUri.setText(channelUri);
 
+        //add an onClickListener when the user wants to create the specified channel
         this.binding.fragmentAddChannelAddButton.setOnClickListener(view ->  {
+
+            //get the needed data from the view
             EditText nameText = this.binding.fragmentAddChannelAddNameInputField;
             String channelNameString = nameText.getEditableText().toString();
             TextView tvUri = this.binding.fragmentAddChannelChannelUri;
             String uriString = tvUri.getText().toString();
 
             try {
+                //create the channel
                 SharkNetApp.getSharkNetApp().getSharkMessenger().createChannel(
                         uriString, channelNameString
                 );
-                Navigation.findNavController(view).navigate(R.id.nav_channels);
+
+                //navigate back
+                Navigation.findNavController(view).navigate(R.id.action_nav_add_channel_to_nav_channels);
 
             } catch (IOException e) {
                 String text = "failure: " + e.getLocalizedMessage();
@@ -61,6 +74,7 @@ public class AddChannelFragment extends Fragment {
             }
         });
 
+        //add onClickListener for aborting the addition of a new channel
         this.binding.fragmentAddChannelExitButton.setOnClickListener(view -> {
             Navigation.findNavController(view).navigate(R.id.nav_channels);
         });
