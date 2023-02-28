@@ -159,7 +159,7 @@ public class CertificateListActivity extends SharkNetActivity {
                     Toast.makeText(this, "something clicked", Toast.LENGTH_SHORT).show();
                     return true;
 
-                case R.id.abortButton:
+                case R.id.fragment_receive_credentials_abort_button:
                     this.finish();
                     return true;
 
