@@ -34,7 +34,7 @@ public class PersonListSelectionActivity extends PersonListActivity {
                     this.doDone();
                     return true;
 
-                case R.id.abortButton:
+                case R.id.fragment_receive_credentials_abort_button:
                     this.finish();
                     return true;
 

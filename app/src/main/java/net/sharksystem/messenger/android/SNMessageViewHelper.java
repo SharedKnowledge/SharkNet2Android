@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
-class SNMessageViewHelper {
+public class SNMessageViewHelper {
     static CharSequence getReceiversCharSequence(SharkMessage sharkMessage) {
         CharSequence receiversCharSequence;
         Set<CharSequence> recipients = sharkMessage.getRecipients();
@@ -52,7 +52,7 @@ class SNMessageViewHelper {
         return receiversCharSequence;
     }
 
-    static CharSequence getEncryptedCharSequence(SharkMessage sharkMessage) {
+    public static CharSequence getEncryptedCharSequence(SharkMessage sharkMessage) {
         CharSequence encryptedCharSequence = "not E2E encrypted";
         if (sharkMessage.encrypted()) {
             encryptedCharSequence = "is E2E encrypted";
@@ -61,7 +61,7 @@ class SNMessageViewHelper {
         return encryptedCharSequence;
     }
 
-    static CharSequence getSenderCharSequence(SharkMessage sharkMessage) {
+    public static CharSequence getSenderCharSequence(SharkMessage sharkMessage) {
 
         CharSequence senderName;
 

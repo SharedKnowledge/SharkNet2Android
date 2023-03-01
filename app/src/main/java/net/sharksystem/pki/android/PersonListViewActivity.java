@@ -45,7 +45,7 @@ public class PersonListViewActivity extends PersonListActivity {
                     this.doAddPerson();
                     return true;
 
-                case R.id.abortButton:
+                case R.id.fragment_receive_credentials_abort_button:
                     this.finish();
                     return true;
 
