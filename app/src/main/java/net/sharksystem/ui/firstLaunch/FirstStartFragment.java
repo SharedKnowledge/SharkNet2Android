@@ -1,6 +1,5 @@
 package net.sharksystem.ui.firstLaunch;
 
-import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 
@@ -19,23 +18,25 @@ import net.sharksystem.SharkException;
 import net.sharksystem.databinding.FragmentFirstStartBinding;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.io.IOException;
-import java.util.Objects;
-
+/**
+ * Fragment showed at the first start of the app. The user must set his name.
+ * //TODO: it is possible to go back to the main application. Must be stopped
+ */
 public class FirstStartFragment extends Fragment {
 
+    /**
+     * Binding to access elements from the layout
+     */
     private FragmentFirstStartBinding binding;
-    private FirstStartViewModel mViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         binding = FragmentFirstStartBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
         //add onClickListener for the save button
-        binding.save.setOnClickListener(view -> {
+        binding.fragmentFirstStartSaveButton.setOnClickListener(view -> {
             try {
                 SharkNetApp.initializeSystem(this.getContext(), binding.fragmentFirstStartNameInput.getText().toString());
                 Navigation.findNavController(view).navigate(R.id.nav_channels);
@@ -44,7 +45,7 @@ public class FirstStartFragment extends Fragment {
             }
         });
 
-        return root;
+        return binding.getRoot();
     }
 
 }
