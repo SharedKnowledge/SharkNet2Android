@@ -34,7 +34,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/save"
+        android:id="@+id/fragment_first_start_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save"
@@ -54,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_hub_view_save_button"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

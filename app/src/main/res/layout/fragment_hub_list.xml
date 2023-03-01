@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.channels.massage.ChannelViewFragment">
+    tools:context=".ui.network.hub.HubListFragment">
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fragment_channel_view_add_message_button"
+        android:id="@+id/fragment_hub_list_add_hub_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -22,10 +23,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         android:focusable="true"
-        android:contentDescription="Write a new Message" />
+        android:contentDescription="Add Hub" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_channel_view_recycler_view"
+        android:id="@+id/fragment_hub_list_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
