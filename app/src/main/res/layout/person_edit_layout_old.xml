@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/personName" />
 
     <Button
-        android:id="@+id/saveButton"
+        android:id="@+id/fragment_receive_credentials_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -70,14 +70,14 @@
         app:layout_constraintTop_toBottomOf="@+id/personEditSigningFailureRateSeekBar" />
 
     <Button
-        android:id="@+id/abortButton"
+        android:id="@+id/fragment_receive_credentials_abort_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="84dp"
         android:layout_marginTop="84dp"
         android:onClick="onAbortClick"
         android:text="@string/abort"
-        app:layout_constraintStart_toEndOf="@+id/saveButton"
+        app:layout_constraintStart_toEndOf="@+id/fragment_receive_credentials_save_button"
         app:layout_constraintTop_toBottomOf="@+id/personEditSigningFailureRateSeekBar" />
 
     <Button
@@ -89,7 +89,7 @@
         android:onClick="onShowOwnCertificatesClick"
         android:text="@string/certificatedDescriptionText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_receive_credentials_save_button" />
 
     <Button
         android:id="@+id/showSignedCertificates"
@@ -100,7 +100,7 @@
         android:onClick="onShowSignedCertificatesClick"
         android:text="@string/wasCertifiedDescriptionText"
         app:layout_constraintStart_toEndOf="@+id/showOwnerCertificates"
-        app:layout_constraintTop_toBottomOf="@+id/saveButton" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_receive_credentials_save_button" />
 
     <Button
         android:id="@+id/explainIdentityAssurance"

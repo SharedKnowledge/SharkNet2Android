@@ -31,6 +31,8 @@
     <string name="networksettings">Network Settings</string>
     <string name="title_activity_settings">Settings</string>
 
+    <string name="initSetYourNameText">Set your name</string>
+
 
     <!-- Settings explanation texts -->
     <string name="bluetoothToggleExplanationText">BT on / off</string>
@@ -156,6 +158,8 @@
     <string name="firstStart_hint_text">You can change your name later at any time.</string>
     <string name="firstLaunch_enter_name_text">Please enter your name:</string>
 
+    <string name="contacts_floating_button_description">Add Contact</string>
+
     <string name="credentialSubjectIDTag">Peer ID</string>
     <string name="credentialSubjectNameTag">Peer name</string>
     <string name="credentialValidSinceTag">Key valid since</string>
@@ -186,6 +190,7 @@
     <string name="exit">Exit</string>
     <string name="menu_add_channel">Add Channel</string>
     <string name="menu_channel">Channel</string>
+    <string name="menu_channel_list_delete_description">delete</string>
 
 
 </resources>

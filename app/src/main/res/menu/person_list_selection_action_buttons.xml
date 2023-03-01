@@ -10,7 +10,7 @@
         app:showAsAction="always|withText"
         />
     <item
-        android:id="@+id/abortButton"
+        android:id="@+id/fragment_receive_credentials_abort_button"
         android:checkable="true"
         android:title="@string/abort"
         app:showAsAction="always|withText"

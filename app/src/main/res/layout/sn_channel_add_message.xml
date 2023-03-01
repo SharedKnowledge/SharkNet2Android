@@ -5,7 +5,7 @@
 
     <!-- line 1 -->
     <TextView
-        android:id="@+id/snChannelName"
+        android:id="@+id/fragment_add_message_channel_name"
         android:layout_width="258dp"
         android:layout_height="26dp"
         android:text="no ownerName"
@@ -13,7 +13,7 @@
 
     <!-- line 2 -->
     <EditText
-        android:id="@+id/snMessage"
+        android:id="@+id/fragment_add_message_message_input"
         android:layout_width="258dp"
         android:layout_height="43dp"
         android:ems="10"
@@ -27,14 +27,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/recipientsText"
+            android:id="@+id/fragment_add_message_recipients_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="recipients: "
             />
 
         <TextView
-            android:id="@+id/snMessageRecipients"
+            android:id="@+id/fragment_add_message_message_recipients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="anybody"
@@ -47,7 +47,7 @@
             android:orientation="horizontal">
 
         <Button
-            android:id="@+id/selectRecipients"
+            android:id="@+id/fragment_add_message_select_recipients_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSelectRecipients"
@@ -55,7 +55,7 @@
             />
 
         <Button
-            android:id="@+id/removeAllRecipients"
+            android:id="@+id/fragment_add_message_select_anybody_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onRemoveRecipients"
@@ -71,14 +71,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/end2end"
+            android:id="@+id/fragment_add_message_end_to_end_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="E2E security: "
             />
 
         <CheckBox
-            android:id="@+id/snSigned"
+            android:id="@+id/fragment_add_message_signed_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -86,7 +86,7 @@
             android:text="sign" />
 
         <CheckBox
-            android:id="@+id/snEncrypted"
+            android:id="@+id/fragment_add_message_encrypted_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -103,7 +103,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/comments"
+            android:id="@+id/fragment_add_message_comments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
@@ -118,7 +118,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/addButton"
+            android:id="@+id/fragment_add_message_send_message_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSendClick"
@@ -126,7 +126,7 @@
             />
 
         <Button
-            android:id="@+id/abortButton"
+            android:id="@+id/fragment_receive_credentials_abort_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onAbortClick"

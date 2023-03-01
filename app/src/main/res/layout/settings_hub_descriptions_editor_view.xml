@@ -9,53 +9,53 @@
     android:rowCount="2"
     android:orientation="horizontal">
     <TextView
-        android:id="@+id/settingsTCPHubDescriptionHostNameExplanation"
+        android:id="@+id/fragment_hub_view_host_name_text"
         android:text="@string/hostNameText"
         android:layout_gravity="left|top" />
 
     <EditText
-        android:id="@+id/settingsTCPHubDescriptionHostName"
+        android:id="@+id/fragment_hub_view_host_name_input"
         android:inputType="text"
         android:text="hostname"
         android:layout_gravity="left|top"
         />
 
     <TextView
-        android:id="@+id/settingsTCPHubDescriptionPortExplanation"
+        android:id="@+id/fragment_hub_view_port_text"
         android:text="@string/settingsTCPHubDescriptionPortExplanationText"
         android:layout_gravity="left|top" />
 
     <EditText
-        android:id="@+id/settingsTCPHubDescriptionPort"
+        android:id="@+id/fragment_hub_view_port_input"
         android:inputType="numberDecimal"
         android:layout_gravity="left|top" />
 
     <TextView
-        android:id="@+id/settingsTCPHubDescriptionMultiChannelExplanation"
+        android:id="@+id/fragment_hub_view_multi_channel_text"
         android:text="@string/settingsTCPHubDescriptionMultiChannelExplanationText"
         android:layout_gravity="left|top" />
 
     <ToggleButton
-        android:id="@+id/settingsTCPHubDescriptionMultiChannel"
+        android:id="@+id/fragment_hub_view_multi_channel_button"
         android:text="on | off"
         android:layout_gravity="left|top" />
 
     <Button
-        android:id="@+id/save"
+        android:id="@+id/fragment_hub_view_save_button"
         android:text="Save"
         android:onClick="onClick"
         android:layout_gravity="left|top"
         />
 
     <Button
-        android:id="@+id/abortButton"
+        android:id="@+id/fragment_receive_credentials_abort_button"
         android:text="Abort"
         android:layout_gravity="left|top"
         android:onClick="onClick"
         />
 
     <Button
-        android:id="@+id/defaultButton"
+        android:id="@+id/fragment_hub_view_default_values_button"
         android:text="Set Default"
         android:layout_gravity="left|top"
         android:onClick="onClick"
