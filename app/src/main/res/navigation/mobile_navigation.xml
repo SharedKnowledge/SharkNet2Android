@@ -9,25 +9,50 @@
         android:id="@+id/nav_firstStart"
         android:name="net.sharksystem.ui.firstLaunch.FirstStartFragment"
         android:label="Shark"
-        tools:layout="@layout/fragment_first_start" />
+        tools:layout="@layout/fragment_first_start" >
+        <action
+            android:id="@+id/action_nav_firstStart_to_nav_channels"
+            app:destination="@id/nav_channels" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_channels"
         android:name="net.sharksystem.ui.channels.ChannelListFragment"
         android:label="@string/menu_channels"
-        tools:layout="@layout/fragment_channel_list" />
+        tools:layout="@layout/fragment_channel_list" >
+        <action
+            android:id="@+id/action_nav_channels_to_nav_add_channel"
+            app:destination="@id/nav_add_channel" />
+        <action
+            android:id="@+id/action_nav_channels_to_nav_channel_view"
+            app:destination="@id/nav_channel_view" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_add_channel"
         android:name="net.sharksystem.ui.channels.AddChannelFragment"
         android:label="@string/menu_add_channel"
-        tools:layout="@layout/fragment_add_channel" />
+        tools:layout="@layout/fragment_add_channel" >
+        <action
+            android:id="@+id/action_nav_add_channel_to_nav_channels"
+            app:destination="@id/nav_channels" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_channel_view"
         android:name="net.sharksystem.ui.channels.massage.ChannelViewFragment"
         android:label="@string/menu_channel"
-        tools:layout="@layout/fragment_channel_view" />
+        tools:layout="@layout/fragment_channel_view" >
+        <action
+            android:id="@+id/action_nav_channel_view_to_nav_channels"
+            app:destination="@id/nav_channels" />
+        <action
+            android:id="@+id/action_nav_channel_view_to_nav_add_message"
+            app:destination="@id/nav_add_message" />
+        <action
+            android:id="@+id/action_nav_channel_view_to_nav_message_view"
+            app:destination="@id/nav_message_view" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"
@@ -39,13 +64,14 @@
         android:id="@+id/nav_contacts"
         android:name="net.sharksystem.ui.contacts.ContactsFragment"
         android:label="@string/menu_contacts"
-        tools:layout="@layout/fragment_contacts" />
-
-    <fragment
-        android:id="@+id/nav_newPeer"
-        android:name="net.sharksystem.ui.newPeer.NewPeerFragment"
-        android:label="@string/menu_newPeer"
-        tools:layout="@layout/fragment_new_peer" />
+        tools:layout="@layout/fragment_contacts" >
+        <action
+            android:id="@+id/action_nav_contacts_to_add_contact"
+            app:destination="@id/nav_add_contact" />
+        <action
+            android:id="@+id/action_nav_contacts_to_nav_contact_view"
+            app:destination="@id/nav_contact_view" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_radar"
@@ -57,7 +83,85 @@
         android:id="@+id/nav_network"
         android:name="net.sharksystem.ui.network.NetworkFragment"
         android:label="@string/menu_network"
-        tools:layout="@layout/fragment_network" />
+        tools:layout="@layout/fragment_network" >
+        <action
+            android:id="@+id/action_nav_network_to_nav_hub_list"
+            app:destination="@id/nav_hub_list" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_add_contact"
+        android:name="net.sharksystem.ui.contacts.AddContactFragment"
+        android:label="fragment_add_contact"
+        tools:layout="@layout/fragment_add_contact" >
+        <action
+            android:id="@+id/action_nav_add_contact_to_nav_contacts"
+            app:destination="@id/nav_contacts" />
+        <action
+            android:id="@+id/action_nav_add_contact_to_nav_receive_credentials"
+            app:destination="@id/receiveCredentialsFragment" />
+        <action
+            android:id="@+id/action_nav_add_contact_to_nav_radar"
+            app:destination="@id/nav_radar" />
+        <action
+            android:id="@+id/action_nav_add_contact_to_nav_network"
+            app:destination="@id/nav_network" />
+    </fragment>
+    <fragment
+        android:id="@+id/receiveCredentialsFragment"
+        android:name="net.sharksystem.ui.contacts.receiveCredentials.ReceiveCredentialsFragment"
+        android:label="fragment_receive_credentials"
+        tools:layout="@layout/fragment_receive_credentials" >
+        <action
+            android:id="@+id/action_nav_receive_credentials_to_nav_add_contact"
+            app:destination="@id/nav_add_contact" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_add_message"
+        android:name="net.sharksystem.ui.channels.massage.AddMessageFragment"
+        android:label="fragment_add_massage"
+        tools:layout="@layout/fragment_add_massage" >
+        <action
+            android:id="@+id/action_nav_add_message_to_nav_channel_view"
+            app:destination="@id/nav_channel_view" />
+        <action
+            android:id="@+id/action_nav_add_message_to_nav_contacts"
+            app:destination="@id/nav_contacts" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_contact_view"
+        android:name="net.sharksystem.ui.contacts.ContactViewFragment"
+        android:label="fragment_contact_view"
+        tools:layout="@layout/fragment_contact_view" >
+        <action
+            android:id="@+id/action_nav_contact_view_to_nav_contacts"
+            app:destination="@id/nav_contacts" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_hub_list"
+        android:name="net.sharksystem.ui.network.hub.HubListFragment"
+        android:label="fragment_hub_list"
+        tools:layout="@layout/fragment_hub_list" >
+        <action
+            android:id="@+id/action_nav_hub_list_to_nav_network"
+            app:destination="@id/nav_network" />
+        <action
+            android:id="@+id/action_nav_hub_list_to_nav_hub_view"
+            app:destination="@id/nav_hub_view" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_hub_view"
+        android:name="net.sharksystem.ui.network.hub.HubViewFragment"
+        android:label="fragment_hub_view"
+        tools:layout="@layout/fragment_hub_view" >
+        <action
+            android:id="@+id/action_nav_hub_view_to_nav_hub_list"
+            app:destination="@id/nav_hub_list" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_message_view"
+        android:name="net.sharksystem.ui.channels.massage.MessageViewFragment"
+        android:label="fragment_message_view"
+        tools:layout="@layout/fragment_message_view" />
 
 
 </navigation>
