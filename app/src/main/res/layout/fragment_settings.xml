@@ -6,6 +6,7 @@
     tools:context=".ui.settings.SettingsFragment">
 
     <TextView
+        android:id="@+id/fragment_settings_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/work_in_progress" />

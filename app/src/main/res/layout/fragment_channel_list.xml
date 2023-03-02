@@ -7,7 +7,7 @@
     tools:context=".ui.channels.ChannelListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_channels_recycler_view"
+        android:id="@+id/fragment_channel_list_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -7,7 +7,7 @@
     tools:context=".ui.radar.RadarFragment">
 
     <TextView
-        android:id="@+id/radarOnlinePeersList"
+        android:id="@+id/fragment_radar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Online Peers List - not yet set"
