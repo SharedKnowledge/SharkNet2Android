@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (SharkException e) {
             //as this is the first start, the owner id was never set before. This needs to be done
             //  now. It's done within this activity by displaying the therefor intended layout
+            //navController.popBackStack();
             navController.navigate(R.id.nav_firstStart);
         }
 

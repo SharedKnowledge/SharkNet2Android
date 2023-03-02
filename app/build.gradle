@@ -28,35 +28,77 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
     implementation 'androidx.core:core:1.9.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "androidx.test:core:1.5.0"
-    implementation 'junit:junit:4.13.2'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
     implementation "com.google.android.material:material:1.8.0"
-    implementation 'androidx.test.espresso:espresso-core:3.5.1'
-    implementation 'androidx.test:runner:1.5.2'
-    implementation 'androidx.test:rules:1.5.0'
-    implementation 'androidx.test.ext:junit:1.1.5'
-    implementation "org.mockito:mockito-core:3.12.4"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+
+    //ViewModels
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation "io.mockk:mockk:2"
 
+    //Navigation
     def nav_version = "2.5.3"
-
-    // Java language implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
-
-    // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-
-    // Testing Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-
-    // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                          Testing                                           //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Required -- JUnit 4 framework
+    def jUnitVersion = "4.13.2"
+    testImplementation "junit:junit:$jUnitVersion"
+    // Optional -- Robolectric environment
+    //testImplementation("androidx.test:core:$androidXTestVersion")
+    // Optional -- Mockito framework
+    //testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    // Optional -- mockito-kotlin
+    //testImplementation("org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion")
+    // Optional -- Mockk framework
+    //testImplementation("io.mockk:mockk:$mockkVersion")
+
+
+    //Fragments
+    def fragment_version = "1.5.5"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+
+    //Navigation
+    def test_nav_version = "2.5.3"
+    androidTestImplementation "androidx.navigation:navigation-testing:$test_nav_version"
+
+    // Core library
+    def androidXTestVersion = "1.4.0"
+    androidTestImplementation "androidx.test:core-ktx:1.5.0"
+
+    // AndroidJUnitRunner and JUnit Rules
+    def testRunnerVersion = "1.5.2"
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    def testRulesVersion = "1.5.0"
+    androidTestImplementation "androidx.test:rules:$testRulesVersion"
+
+    // Assertions
+    def testJunitVersion = "1.1.5"
+    androidTestImplementation "androidx.test.ext:junit:$testJunitVersion"
+    def truthVersion = "1.5.0"
+    androidTestImplementation "androidx.test.ext:truth:$truthVersion"
+
+    // Espresso dependencies
+    def espressoVersion = "3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
+
+    // The following Espresso dependency can be either "implementation",
+    // or "androidTestImplementation", depending on whether you want the
+    // dependency to appear on your APK"s compile classpath or the test APK
+    // classpath.
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 }

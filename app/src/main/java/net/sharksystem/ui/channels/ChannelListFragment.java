@@ -74,7 +74,7 @@ public class ChannelListFragment extends Fragment implements ChannelSelectedList
         recyclerView.setAdapter(adapter);
 
         //add the onClickListener for the add button to add a new channel
-        this.binding.floatingActionButton.setOnClickListener(view ->
+        this.binding.fragmentChannelListAddChannelButton.setOnClickListener(view ->
                 Navigation.findNavController(view)
                         .navigate(R.id.action_nav_channels_to_nav_add_channel));
 
