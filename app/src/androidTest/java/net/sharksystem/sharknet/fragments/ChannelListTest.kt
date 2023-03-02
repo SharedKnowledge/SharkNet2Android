@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.ui.channel
+package net.sharksystem.sharknet.fragments
 
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso
@@ -15,8 +15,10 @@ import net.sharksystem.R
 class ChannelListTest {
 
     @Test
-    fun test() {
+    fun allComponentsDisplayed() {
         val scenario = launchFragmentInContainer<ChannelListFragment>()
         Espresso.onView(withId(R.layout.fragment_channel_list)).check(matches(isDisplayed()))
+        Espresso.onView(withId(R.id.fragment_channel_list_add_channel_button)).check(matches(isDisplayed()))
+        Espresso.onView(withId(R.id.fragment_channel_list_recycler_view)).check(matches(isDisplayed()))
     }
 }

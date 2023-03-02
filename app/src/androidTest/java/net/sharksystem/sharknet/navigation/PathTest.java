@@ -32,7 +32,7 @@ public class PathTest {
         Espresso.onView(withId(R.layout.fragment_channel_list)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.fragment_channel_list_add_channel_button)).perform(click());
         Espresso.onView(withId(R.id.fragment_add_channel_add_button)).perform(click());
-        Espresso.onView(withId(R.id.fragment_channels_recycler_view)).perform(click());
+        Espresso.onView(withId(R.id.fragment_channel_list_recycler_view)).perform(click());
         Espresso.onView(withId(R.layout.fragment_channel_view)).check(matches(isDisplayed()));
     }
 }
