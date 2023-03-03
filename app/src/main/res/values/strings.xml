@@ -191,6 +191,12 @@
     <string name="menu_add_channel">Add Channel</string>
     <string name="menu_channel">Channel</string>
     <string name="menu_channel_list_delete_description">delete</string>
+    <string name="menu_add_message">Add Message</string>
+    <string name="menu_add_contact">Add Contact</string>
+    <string name="menu_hub_list">Hubs</string>
+    <string name="menu_message_view">Message</string>
+    <string name="menu_receive_credentials">Receive Credentials</string>
+    <string name="menu_first_start">Shark</string>
 
 
 </resources>

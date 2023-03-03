@@ -18,6 +18,7 @@ import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.databinding.ActivityMainBinding;
 import net.sharksystem.sharknet.android.SharkNetApp;
+import net.sharksystem.ui.channels.massage.AddMessageViewModel;
 
 import java.io.IOException;
 
@@ -78,6 +79,14 @@ public class MainActivity extends AppCompatActivity {
         //The Navigation Controller manages the navigation. Mainly used to navigate to a new
         //  destination (= display new fragment based on user input).
         this.navController = navHostFragment.getNavController();
+
+        this.navController.addOnDestinationChangedListener(((controller, destination, bundle) -> {
+            if(destination.getId() == R.id.nav_channel_view) {
+                new ViewModelProvider(this).get(AddMessageViewModel.class).
+                        getUri().observe(this, destination::setLabel);
+            }
+        }));
+
         NavigationUI.setupActionBarWithNavController(this, navController, this.appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_firstStart"
         android:name="net.sharksystem.ui.firstLaunch.FirstStartFragment"
-        android:label="Shark"
+        android:label="@string/menu_first_start"
         tools:layout="@layout/fragment_first_start" >
         <action
             android:id="@+id/action_nav_firstStart_to_nav_channels"
@@ -41,7 +41,6 @@
     <fragment
         android:id="@+id/nav_channel_view"
         android:name="net.sharksystem.ui.channels.massage.ChannelViewFragment"
-        android:label="@string/menu_channel"
         tools:layout="@layout/fragment_channel_view" >
         <action
             android:id="@+id/action_nav_channel_view_to_nav_channels"
@@ -91,7 +90,7 @@
     <fragment
         android:id="@+id/nav_add_contact"
         android:name="net.sharksystem.ui.contacts.AddContactFragment"
-        android:label="fragment_add_contact"
+        android:label="@string/menu_add_contact"
         tools:layout="@layout/fragment_add_contact" >
         <action
             android:id="@+id/action_nav_add_contact_to_nav_contacts"
@@ -109,7 +108,7 @@
     <fragment
         android:id="@+id/receiveCredentialsFragment"
         android:name="net.sharksystem.ui.contacts.receiveCredentials.ReceiveCredentialsFragment"
-        android:label="fragment_receive_credentials"
+        android:label="@string/menu_receive_credentials"
         tools:layout="@layout/fragment_receive_credentials" >
         <action
             android:id="@+id/action_nav_receive_credentials_to_nav_add_contact"
@@ -118,8 +117,8 @@
     <fragment
         android:id="@+id/nav_add_message"
         android:name="net.sharksystem.ui.channels.massage.AddMessageFragment"
-        android:label="fragment_add_massage"
-        tools:layout="@layout/fragment_add_massage" >
+        android:label="@string/menu_add_message"
+        tools:layout="@layout/fragment_add_massage">
         <action
             android:id="@+id/action_nav_add_message_to_nav_channel_view"
             app:destination="@id/nav_channel_view" />
@@ -130,7 +129,7 @@
     <fragment
         android:id="@+id/nav_contact_view"
         android:name="net.sharksystem.ui.contacts.ContactViewFragment"
-        android:label="fragment_contact_view"
+        android:label=""
         tools:layout="@layout/fragment_contact_view" >
         <action
             android:id="@+id/action_nav_contact_view_to_nav_contacts"
@@ -139,7 +138,7 @@
     <fragment
         android:id="@+id/nav_hub_list"
         android:name="net.sharksystem.ui.network.hub.HubListFragment"
-        android:label="fragment_hub_list"
+        android:label="@string/menu_hub_list"
         tools:layout="@layout/fragment_hub_list" >
         <action
             android:id="@+id/action_nav_hub_list_to_nav_network"
@@ -151,7 +150,7 @@
     <fragment
         android:id="@+id/nav_hub_view"
         android:name="net.sharksystem.ui.network.hub.HubViewFragment"
-        android:label="fragment_hub_view"
+        android:label=""
         tools:layout="@layout/fragment_hub_view" >
         <action
             android:id="@+id/action_nav_hub_view_to_nav_hub_list"
@@ -160,7 +159,7 @@
     <fragment
         android:id="@+id/nav_message_view"
         android:name="net.sharksystem.ui.channels.massage.MessageViewFragment"
-        android:label="fragment_message_view"
+        android:label="@string/menu_message_view"
         tools:layout="@layout/fragment_message_view" />
 
 
