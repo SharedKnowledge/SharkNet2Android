@@ -57,7 +57,20 @@
         android:id="@+id/nav_settings"
         android:name="net.sharksystem.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_nav_settings_to_nav_rsa"
+            app:destination="@id/nav_rsa" />
+        <action
+            android:id="@+id/action_nav_settings_to_nav_certificate_list"
+            app:destination="@id/nav_certificate_list" />
+        <action
+            android:id="@+id/action_nav_settings_to_nav_personal_data"
+            app:destination="@id/nav_personal_data" />
+        <action
+            android:id="@+id/action_nav_settings_to_nav_send_credentials_info"
+            app:destination="@id/nav_send_credentials_info" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_contacts"
@@ -161,6 +174,54 @@
         android:name="net.sharksystem.ui.channels.massage.MessageViewFragment"
         android:label="@string/menu_message_view"
         tools:layout="@layout/fragment_message_view" />
+    <fragment
+        android:id="@+id/nav_rsa"
+        android:name="net.sharksystem.ui.settings.rsa.RsaFragment"
+        android:label="RSA Settings"
+        tools:layout="@layout/fragment_rsa">
+        <action
+            android:id="@+id/action_nav_rsa_to_nav_settings"
+            app:destination="@id/nav_settings" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_certificate_list"
+        android:name="net.sharksystem.ui.settings.certificates.CertificateListFragment"
+        android:label="Certificates"
+        tools:layout="@layout/fragment_certificate_list">
+        <action
+            android:id="@+id/action_nav_certificate_list_to_nav_settings"
+            app:destination="@id/nav_settings" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_personal_data"
+        android:name="net.sharksystem.ui.settings.personal.PersonalDataFragment"
+        android:label="Personal Data"
+        tools:layout="@layout/fragment_personal_data">
+        <action
+            android:id="@+id/action_nav_personal_data_to_nav_settings"
+            app:destination="@id/nav_settings" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_send_credentials"
+        android:name="net.sharksystem.ui.settings.sendCredentials.SendCredentialsFragment"
+        android:label="Send Credentials"
+        tools:layout="@layout/fragment_send_credentials">
+        <action
+            android:id="@+id/action_nav_send_credentials_to_nav_send_credentials_info"
+            app:destination="@id/nav_send_credentials_info" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_send_credentials_info"
+        android:name="net.sharksystem.ui.settings.sendCredentials.SendCredentialsInfoFragment"
+        android:label="Send Credentials"
+        tools:layout="@layout/fragment_send_credentials_info">
+        <action
+            android:id="@+id/action_nav_send_credentials_info_to_nav_settings"
+            app:destination="@id/nav_settings" />
+        <action
+            android:id="@+id/action_nav_send_credentials_info_to_nav_send_credentials"
+            app:destination="@id/nav_send_credentials" />
+    </fragment>
 
 
 </navigation>

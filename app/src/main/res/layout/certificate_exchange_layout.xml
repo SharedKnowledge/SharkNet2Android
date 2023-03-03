@@ -7,14 +7,14 @@
     >
 
     <TextView
-        android:id="@+id/exchangeCredentialsExplanation"
+        android:id="@+id/fragment_send_credentials_info_explanation_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/exchangeCredentialsExplanationDescription"
         android:textSize="@dimen/textSizeGoodReadableSmall" />
 
     <TextView
-        android:id="@+id/cicSenderExplaination"
+        android:id="@+id/fragment_send_credentials_info_cic_explanation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/credentialCicSender"
@@ -27,7 +27,8 @@
         android:ems="10"
         android:hint="@string/cicHint"
         android:minHeight="48dp"
-        android:textSize="@dimen/textSizeGoodReadableSmall" />
+        android:textSize="@dimen/textSizeGoodReadableSmall"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/sendCredentialsButton"

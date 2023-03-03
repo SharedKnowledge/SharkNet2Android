@@ -40,6 +40,7 @@ dependencies {
     //ViewModels
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
 
     //Navigation
     def nav_version = "2.5.3"

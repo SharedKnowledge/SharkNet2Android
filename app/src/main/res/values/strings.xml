@@ -197,6 +197,9 @@
     <string name="menu_message_view">Message</string>
     <string name="menu_receive_credentials">Receive Credentials</string>
     <string name="menu_first_start">Shark</string>
+    <string name="fragment_settings_certificates">Certificates</string>
+    <string name="fragment_settings_rsa_key">RSA Key</string>
+    <string name="fragment_settings_personal_data">Personal Data</string>
 
 
 </resources>
