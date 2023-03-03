@@ -42,8 +42,9 @@ public class FirstStartFragment extends Fragment {
         binding.fragmentFirstStartSaveButton.setOnClickListener(view -> {
             try {
                 String inputName = this.binding.fragmentFirstStartNameInput.getText().toString();
-                new ViewModelProvider(this.requireActivity()).get(MainAppViewModel.class).setName(inputName);
-                SharkNetApp.initializeSystem(this.getContext(), inputName);
+                SharkNetApp.initializeSystem(this.requireActivity(), inputName);
+                new ViewModelProvider(this.requireActivity()).get(MainAppViewModel.class)
+                        .setName(SharkNetApp.getOwnerID(this.requireActivity()));
 
                 Navigation.findNavController(view).navigate(R.id.action_nav_firstStart_to_nav_channels);
             } catch (SharkException se) {

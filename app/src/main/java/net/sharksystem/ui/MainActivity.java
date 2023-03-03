@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (SharkException | IOException e) {
                 Log.d(this.getClass().getSimpleName(), e.getLocalizedMessage());
             }
-
         });
     }
 
@@ -108,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
             //  setting his name, so the owner id is still not set. When the owner id was confirmed,
             //  any further starts aren't counting as initial first start ever again.
             String name = SharkNetApp.getOwnerID(this);
+            //if already initialize once before, update view model, which will inform any observers
+            //  an observer was defined in the onCreate method of this activity. The observer will
+            //  initialize the SharkNetApp
             this.viewModel.setName(name);
         } catch (SharkException e) {
             //as this is the first start, the owner id was never set before. This needs to be done
