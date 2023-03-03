@@ -16,6 +16,10 @@ import android.view.ViewGroup;
 
 import net.sharksystem.R;
 import net.sharksystem.databinding.FragmentContactsBinding;
+import net.sharksystem.pki.android.PersonStatusHelper;
+import net.sharksystem.pki.android.SelectableListContentAdapterHelper;
+
+import java.util.Set;
 
 /**
  * Fragment for displaying all contacts in a list
@@ -32,6 +36,18 @@ public class ContactsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         this.binding = FragmentContactsBinding.inflate(inflater, container, false);
+
+        PersonStatusHelper personsApp =
+                PersonStatusHelper.getPersonsStorage();
+
+        Set<CharSequence> preselectionSet = personsApp.getPreselectionSet();
+        //Log.d(this.getLogStart(), "got preselectedset: " + preselectionSet);
+        if(preselectionSet != null && !preselectionSet.isEmpty()) {
+            SelectableListContentAdapterHelper selectableContentSource = new SelectableListContentAdapterHelper();
+            selectableContentSource.setPreselection(preselectionSet);
+            personsApp.setPreselectionSet(null);
+        }
+
 
         //Set-Up RecyclerView
         RecyclerView recyclerView = this.binding.fragmentContactsRecyclerView;

@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.HashSet;
 import java.util.Set;
 
-class SelectableListContentAdapterHelper {
+public class SelectableListContentAdapterHelper {
     private Set<CharSequence> selectedItemIDs = new HashSet<>();
     private Set<CharSequence> uidSet = new HashSet<>();
     private Set<CharSequence> preselectedUIDSet = null;
 
-    void setPreselection(Set<CharSequence> preselected) {
+    public void setPreselection(Set<CharSequence> preselected) {
         this.preselectedUIDSet = preselected;
     }
 
