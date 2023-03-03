@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -34,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
      * Binding to access elements from the layout
      */
     private ActivityMainBinding binding;
+
+    private MainAppViewModel viewModel;
+
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +77,26 @@ public class MainActivity extends AppCompatActivity {
 
         //The Navigation Controller manages the navigation. Mainly used to navigate to a new
         //  destination (= display new fragment based on user input).
-        NavController navController = navHostFragment.getNavController();
+        this.navController = navHostFragment.getNavController();
         NavigationUI.setupActionBarWithNavController(this, navController, this.appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        this.viewModel = new ViewModelProvider(this).get(MainAppViewModel.class);
+
+        this.viewModel.getName().observe(this, name -> {
+            //initialize SharkNetApp
+            try {
+                SharkNetApp.initializeSharkNetApp(this, name);
+            } catch (SharkException | IOException e) {
+                Log.d(this.getClass().getSimpleName(), e.getLocalizedMessage());
+            }
+
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         //check if this start is the first one ever on this device
         try {
@@ -85,23 +107,15 @@ public class MainActivity extends AppCompatActivity {
             //  or further time this app was started, as the user may cancelled the app before
             //  setting his name, so the owner id is still not set. When the owner id was confirmed,
             //  any further starts aren't counting as initial first start ever again.
-            SharkNetApp.getOwnerID(this);
-
+            String name = SharkNetApp.getOwnerID(this);
+            this.viewModel.setName(name);
         } catch (SharkException e) {
             //as this is the first start, the owner id was never set before. This needs to be done
             //  now. It's done within this activity by displaying the therefor intended layout
             //navController.popBackStack();
-            navController.navigate(R.id.nav_firstStart);
-        }
-
-        //initialize SharkNetApp
-        try {
-            SharkNetApp.initializeSharkNetApp(this, SharkNetApp.getOwnerID(this));
-        } catch (SharkException | IOException e) {
-            Log.d(this.getClass().getSimpleName(), e.getLocalizedMessage());
+            this.navController.navigate(R.id.nav_firstStart);
         }
     }
-
 
     /**
      * Navigating up means pressing the back button. In this case the home screen is displayed.

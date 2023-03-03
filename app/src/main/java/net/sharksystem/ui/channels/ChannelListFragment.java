@@ -60,7 +60,7 @@ public class ChannelListFragment extends Fragment implements ChannelSelectedList
         this.viewModel.setMode(SelectionMode.SELECT);
 
         //Set-Up RecyclerView
-        RecyclerView recyclerView = binding.fragmentChannelsRecyclerView;
+        RecyclerView recyclerView = binding.fragmentChannelListRecyclerView;
 
         ChannelListContentAdapter adapter = new ChannelListContentAdapter();
         //add this fragment as a listener to the adapter
@@ -103,7 +103,7 @@ public class ChannelListFragment extends Fragment implements ChannelSelectedList
             //  selected.
             new ViewModelProvider(this.requireActivity()).get(AddMessageViewModel.class).setUri(uri);
 
-            Navigation.findNavController(this.binding.fragmentChannelsRecyclerView)
+            Navigation.findNavController(this.binding.fragmentChannelListRecyclerView)
                     .navigate(R.id.action_nav_channels_to_nav_channel_view);
 
         } else {
