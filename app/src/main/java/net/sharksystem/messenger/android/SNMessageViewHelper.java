@@ -1,24 +1,19 @@
 package net.sharksystem.messenger.android;
 
-import android.widget.Toast;
-
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPHop;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.asap.utils.ASAPSerialization;
 import net.sharksystem.asap.utils.DateTimeHelper;
 import net.sharksystem.messenger.SharkMessage;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
 public class SNMessageViewHelper {
-    static CharSequence getReceiversCharSequence(SharkMessage sharkMessage) {
+    public static CharSequence getReceiversCharSequence(SharkMessage sharkMessage) {
         CharSequence receiversCharSequence;
         Set<CharSequence> recipients = sharkMessage.getRecipients();
         if (recipients == null || recipients.isEmpty()) {
@@ -35,7 +30,7 @@ public class SNMessageViewHelper {
                     sb.append("|");
                 }
 
-                CharSequence recipientName = null;
+                CharSequence recipientName;
                 try {
                     recipientName = SharkNetApp.getSharkNetApp().getSharkPKI()
                             .getPersonValuesByID(recipientID).getName();
@@ -96,7 +91,7 @@ public class SNMessageViewHelper {
     }
 
     public static CharSequence getVerifiedCharSequence(SharkMessage sharkMessage) {
-        CharSequence verified2View = "not verified";
+        CharSequence verified2View;
         if (sharkMessage.couldBeDecrypted()) {
             try {
                 if (sharkMessage.verified()) {
@@ -115,10 +110,10 @@ public class SNMessageViewHelper {
     }
 
     public static CharSequence getCreationTimeCharSequence(SharkMessage sharkMessage) {
-        CharSequence creationTimeCharSequence = "time: unknown";
+        CharSequence creationTimeCharSequence;
 
         if(sharkMessage.couldBeDecrypted()) {
-            Timestamp creationTime = null;
+            Timestamp creationTime;
             try {
                 creationTime = sharkMessage.getCreationTime();
                 creationTimeCharSequence = DateTimeHelper.long2DateString(creationTime.getTime());

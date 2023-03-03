@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
@@ -18,6 +17,8 @@ import net.sharksystem.messenger.android.SNMessageViewHelper;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ContentAdapter for the message list in the channel view
@@ -42,12 +43,6 @@ public class ChannelViewContentAdapter extends RecyclerView.Adapter<ChannelViewC
             this.senderTextView = view.findViewById(R.id.sn_channel_message_row_sender);
             this.encryptedTextView = view.findViewById(R.id.sn_channel_message_row_encrypted);
             this.verifiedTextView = view.findViewById(R.id.sn_channel_message_row_verified);
-
-            //TODO: message view should slide in and out from the right side of the screen
-            view.setOnClickListener(itemView -> {
-                Navigation.findNavController(itemView)
-                        .navigate(R.id.action_nav_channel_view_to_nav_message_view);
-            });
         }
     }
 
@@ -56,13 +51,21 @@ public class ChannelViewContentAdapter extends RecyclerView.Adapter<ChannelViewC
      */
     private final CharSequence uri;
 
+    private final List<MessageSelectedListener> listeners;
+
     /**
      * Constructor of the ContentAdapter
      * @param uri the uri of the selected channel
      */
     public ChannelViewContentAdapter(CharSequence uri) {
         this.uri = uri;
+        this.listeners = new ArrayList<>();
     }
+
+    public void addListener(MessageSelectedListener listener) {
+        this.listeners.add(listener);
+    }
+
 
     @NonNull
     @Override
@@ -70,7 +73,15 @@ public class ChannelViewContentAdapter extends RecyclerView.Adapter<ChannelViewC
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.sn_channel_message_row, parent, false);
 
-        return new ViewHolder(itemView);
+        ViewHolder viewHolder = new ViewHolder(itemView);
+
+        itemView.setOnClickListener(view -> {
+            for (MessageSelectedListener listener : this.listeners) {
+                listener.onMessageSelected(view.getId());
+            }
+        });
+
+        return viewHolder;
     }
 
     @Override
@@ -95,7 +106,6 @@ public class ChannelViewContentAdapter extends RecyclerView.Adapter<ChannelViewC
             holder.senderTextView.setText(sender2View);
             holder.encryptedTextView.setText(encrypted2View);
             holder.verifiedTextView.setText(verified2View);
-
             holder.itemView.setId(position);
 
         } catch (Throwable e) {
@@ -110,12 +120,11 @@ public class ChannelViewContentAdapter extends RecyclerView.Adapter<ChannelViewC
     @Override
     public int getItemCount() {
         try {
-            int size = SharkNetApp.getSharkNetApp()
+            return SharkNetApp.getSharkNetApp()
                     .getSharkMessenger()
                     .getChannel(this.uri)
                     .getMessages()
                     .size();
-            return size;
 
         } catch (IOException | SharkMessengerException e) {
             Log.e("", "cannot access message storage (yet?)");
