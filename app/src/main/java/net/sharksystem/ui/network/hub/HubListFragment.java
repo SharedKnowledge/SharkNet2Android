@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,9 +44,11 @@ public class HubListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         //Set OnClickListener when the user clicks the add button
-        this.binding.fragmentHubListAddHubButton.setOnClickListener(view ->
-                Navigation.findNavController(view)
-                        .navigate(R.id.action_nav_hub_list_to_nav_hub_view));
+        this.binding.fragmentHubListAddHubButton.setOnClickListener(view -> {
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_nav_hub_list_to_nav_hub_view);
+        });
+
 
         return this.binding.getRoot();
     }

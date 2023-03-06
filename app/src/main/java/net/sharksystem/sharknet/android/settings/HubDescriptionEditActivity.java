@@ -28,7 +28,7 @@ public class HubDescriptionEditActivity extends ASAPActivity {
         super.onCreate(savedInstanceState);
         Intent intent = this.getIntent();
 
-        // prepare defaults if a new enty is created
+        // prepare defaults if a new entry is created
         CharSequence hostNameString = "hostName";
         CharSequence portString = String.valueOf(Hub.DEFAULT_PORT);
         int layout = R.layout.settings_hub_description_editor_drawer_layout;
