@@ -142,8 +142,8 @@
     <fragment
         android:id="@+id/nav_contact_view"
         android:name="net.sharksystem.ui.contacts.ContactViewFragment"
-        android:label=""
-        tools:layout="@layout/fragment_contact_view" >
+        android:label="Contact"
+        tools:layout="@layout/fragment_contact_view">
         <action
             android:id="@+id/action_nav_contact_view_to_nav_contacts"
             app:destination="@id/nav_contacts" />

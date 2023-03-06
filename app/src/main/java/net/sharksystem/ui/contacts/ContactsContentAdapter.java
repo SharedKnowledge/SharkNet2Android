@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
@@ -22,6 +23,7 @@ public class ContactsContentAdapter extends RecyclerView.Adapter<ContactsContent
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         private final TextView personName;
         private final TextView personIdentityAssurance;
         private final TextView personSelected;
@@ -43,6 +45,16 @@ public class ContactsContentAdapter extends RecyclerView.Adapter<ContactsContent
             //view.setOnLongClickListener(contactView -> {
             //});
         }
+    }
+
+    private SelectionTracker<Long> tracker;
+
+    public ContactsContentAdapter() {
+        this.setHasStableIds(true);
+    }
+
+    public void setTracker(SelectionTracker<Long> tracker) {
+        this.tracker = tracker;
     }
 
 
@@ -72,6 +84,9 @@ public class ContactsContentAdapter extends RecyclerView.Adapter<ContactsContent
             holder.personIdentityAssurance.setText(String.valueOf(identityAssurance));
             holder.personCertificateExchangeFailure.setText(String.valueOf(signingFailureRate));
 
+            holder.itemView.setActivated(this.tracker.
+                    isSelected((long) holder.getBindingAdapterPosition()));
+
         } catch (ASAPSecurityException e) {
             //Toast.makeText(this.ctx, "error finding person information: ", Toast.LENGTH_SHORT).show();
         }
@@ -80,5 +95,10 @@ public class ContactsContentAdapter extends RecyclerView.Adapter<ContactsContent
     @Override
     public int getItemCount() {
         return SharkNetApp.getSharkNetApp().getSharkPKI().getNumberOfPersons();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 }

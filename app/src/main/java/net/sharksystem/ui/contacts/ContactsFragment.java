@@ -6,6 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.selection.SelectionPredicates;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StableIdKeyProvider;
+import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +46,7 @@ public class ContactsFragment extends Fragment {
 
         Set<CharSequence> preselectionSet = personsApp.getPreselectionSet();
         //Log.d(this.getLogStart(), "got preselectedset: " + preselectionSet);
-        if(preselectionSet != null && !preselectionSet.isEmpty()) {
+        if (preselectionSet != null && !preselectionSet.isEmpty()) {
             SelectableListContentAdapterHelper selectableContentSource = new SelectableListContentAdapterHelper();
             selectableContentSource.setPreselection(preselectionSet);
             personsApp.setPreselectionSet(null);
@@ -60,12 +64,23 @@ public class ContactsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+        SelectionTracker<Long> tracker = new SelectionTracker.Builder<>(
+                "my-selection-id",
+                recyclerView,
+                new StableIdKeyProvider(recyclerView),
+                new MyDetailsLookup(recyclerView),
+                StorageStrategy.createLongStorage()).
+                withSelectionPredicate(SelectionPredicates.createSelectAnything()).
+                build();
+
+        adapter.setTracker(tracker);
+
+
         //add onClickListener when the user clicks the button to add a contact
         this.binding.fragmentContactsAddContactButton.setOnClickListener(view ->
-            Navigation.findNavController(view).navigate(R.id.action_nav_contacts_to_add_contact)
+                Navigation.findNavController(view).navigate(R.id.action_nav_contacts_to_add_contact)
         );
 
         return this.binding.getRoot();
     }
-
 }
