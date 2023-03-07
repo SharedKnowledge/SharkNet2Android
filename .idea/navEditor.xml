@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="672" />
-                            <option name="y" value="-552" />
+                            <option name="x" value="663" />
+                            <option name="y" value="-682" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -164,6 +164,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_nav_channels_to_nav_firstStart">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -293,6 +298,15 @@
                             <option name="y" value="-382" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_nav_message_view_to_nav_channel_view">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -343,8 +357,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="993" />
-                            <option name="y" value="1104" />
+                            <option name="x" value="1001" />
+                            <option name="y" value="1092" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -380,6 +394,15 @@
                             <option name="y" value="1091" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_nav_send_credentials_to_nav_send_credentials_info">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -391,6 +414,20 @@
                             <option name="x" value="-465" />
                             <option name="y" value="1103" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_nav_send_credentials_info_to_nav_send_credentials">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_nav_send_credentials_info_to_nav_settings">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -417,6 +454,11 @@
                               </value>
                             </entry>
                             <entry key="action_nav_settings_to_nav_rsa">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_nav_settings_to_nav_send_credentials_info">
                               <value>
                                 <LayoutPositions />
                               </value>
