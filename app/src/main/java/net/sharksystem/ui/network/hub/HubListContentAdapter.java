@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
@@ -37,6 +38,19 @@ public class HubListContentAdapter extends RecyclerView.Adapter<HubListContentAd
         }
     }
 
+
+
+    private SelectionTracker<Long> tracker;
+
+    public HubListContentAdapter() {
+        this.setHasStableIds(true);
+    }
+
+    public void setTracker(SelectionTracker<Long> tracker) {
+        this.tracker = tracker;
+    }
+
+
     @NonNull
     @Override
     public HubListContentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -65,6 +79,9 @@ public class HubListContentAdapter extends RecyclerView.Adapter<HubListContentAd
             holder.connectorDescriptionString.setText(hubDescriptions.toString());
             holder.multiChannel.setText(multiChannelString);
 
+            holder.itemView.setActivated(this.tracker.
+                    isSelected((long) holder.getBindingAdapterPosition()));
+
         } catch (SharkException e) {
             Log.e(this.getClass().getSimpleName(), "problems while showing channel information: "
                     + e.getLocalizedMessage());
@@ -76,4 +93,9 @@ public class HubListContentAdapter extends RecyclerView.Adapter<HubListContentAd
     public int getItemCount() {
         return SharkNetApp.getSharkNetApp().getSharkPeer().getHubDescriptions().size();
     }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
 }

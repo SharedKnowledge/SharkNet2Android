@@ -69,7 +69,7 @@ public class HubViewFragment extends Fragment {
                         setText(hcd.getHostName());
 
                 this.binding.fragmentHubViewPortInput.
-                        setText(hcd.getPortNumber());
+                        setText(String.valueOf(hcd.getPortNumber()));
 
                 this.binding.fragmentHubViewMultiChannelButton.
                         setChecked(hcd.canMultiChannel());
@@ -81,7 +81,6 @@ public class HubViewFragment extends Fragment {
 
         //..when the configured hub should be saved
         this.binding.fragmentHubViewSaveButton.setOnClickListener(view -> {
-            //TODO: save hub
 
             String hostName = this.binding.fragmentHubViewHostNameInput.getText().toString();
             String portString = this.binding.fragmentHubViewPortInput.getText().toString();
