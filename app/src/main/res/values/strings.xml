@@ -55,7 +55,7 @@
     <string name="snMessagerChannelNameExplanationText">enter channel name</string>
     <string name="settingsBluetoothD_And_D_Explanation">Scan BT</string>
     <string name="settingsASAPHubsExplanation">Connect Hubs</string>
-    <string name="configHubsButtonText">Config Hubs</string>
+    <string name="configHubsButtonText">Configure</string>
     <string name="settingsConfigASAPHubsExplanation">Configure Hubs</string>
     <string name="identityShowPersonListExplanationText">No one selected yet</string>
 
