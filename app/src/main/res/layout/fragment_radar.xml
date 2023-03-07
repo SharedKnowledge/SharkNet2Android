@@ -10,7 +10,7 @@
         android:id="@+id/fragment_radar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Online Peers List - not yet set"
+        android:text="@string/radar_peer_list_output"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

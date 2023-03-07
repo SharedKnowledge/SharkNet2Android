@@ -23,7 +23,7 @@
             android:id="@+id/fragment_network_bluetooth_on_off_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bluetoothToggleExplanationText"
+            android:text="@string/network_bluetooth_on_off_title"
             android:textSize="16sp"
             app:layout_column="0"
             app:layout_row="1" />
@@ -32,14 +32,14 @@
             android:id="@+id/fragment_network_bluetooth_on_off_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="Bluetooth" />
+            android:layout_marginStart="16dp"
+            android:text="@string/network_bluetooth_button" />
 
         <TextView
             android:id="@+id/fragment_network_bluetooth_scan_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settingsBluetoothD_And_D_Explanation"
+            android:text="@string/network_bluetooth_scan_title"
             android:textSize="16sp"
             app:layout_column="0"
             app:layout_row="2" />
@@ -48,15 +48,15 @@
             android:id="@+id/fragment_network_bluetooth_scan_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="Scan Neighbourhood" />
+            android:layout_marginStart="16dp"
+            android:text="@string/network_bluetooth_scan_button" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Hubs:"
+            android:text="@string/network_hubs_title"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_column="0"
@@ -66,7 +66,7 @@
             android:id="@+id/fragment_network_bluetooth_connect_hubs_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settingsASAPHubsExplanation"
+            android:text="@string/network_connect_hubs_title"
             android:textSize="16sp"
             app:layout_column="0"
             app:layout_row="4" />
@@ -75,14 +75,14 @@
             android:id="@+id/fragment_network_bluetooth_connect_hubs_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="Hubs on | off" />
+            android:layout_marginStart="16dp"
+            android:text="@string/network_connect_hubs_button" />
 
         <TextView
             android:id="@+id/fragment_network_bluetooth_configure_hubs_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settingsConfigASAPHubsExplanation"
+            android:text="@string/network_configure_hubs_title"
             android:textSize="16sp"
             app:layout_column="0"
             app:layout_row="5" />
@@ -91,14 +91,14 @@
             android:id="@+id/fragment_network_bluetooth_configure_hubs_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="@string/configHubsButtonText" />
+            android:layout_marginStart="16dp"
+            android:text="@string/network_configure_hubs_button" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bluetooth:"
+            android:text="@string/network_bluetooth_title"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_column="0"

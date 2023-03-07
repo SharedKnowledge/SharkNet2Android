@@ -10,7 +10,7 @@
     android:orientation="horizontal">
     <TextView
         android:id="@+id/fragment_hub_view_host_name_text"
-        android:text="@string/hostNameText"
+        android:text="@string/hub_view_host_name_title"
         android:layout_gravity="left|top" />
 
     <EditText
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/fragment_hub_view_port_text"
-        android:text="@string/settingsTCPHubDescriptionPortExplanationText"
+        android:text="@string/hub_view_port_title"
         android:layout_gravity="left|top" />
 
     <EditText
@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/fragment_hub_view_multi_channel_text"
-        android:text="@string/settingsTCPHubDescriptionMultiChannelExplanationText"
+        android:text="@string/hub_view_multi_channel_title"
         android:layout_gravity="left|top" />
 
     <ToggleButton

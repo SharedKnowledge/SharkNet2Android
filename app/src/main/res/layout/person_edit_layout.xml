@@ -115,7 +115,7 @@
         android:layout_row="5"
         android:layout_column="0"
         android:onClick="onShowOwnCertificatesClick"
-        android:text="@string/show"
+        android:text="@string/global_show"
         />
 
     <!-- 6: issued certificates -->
@@ -136,7 +136,7 @@
         android:layout_row="6"
         android:layout_column="0"
         android:onClick="onShowSignedCertificatesClick"
-        android:text="@string/show"
+        android:text="@string/global_show"
         />
 
     <!-- 7: save / abort -->
@@ -147,7 +147,7 @@
         android:layout_row="7"
         android:layout_column="1"
         android:onClick="onSaveClick"
-        android:text="@string/save" />
+        android:text="@string/global_save" />
 
     <Button
         android:id="@+id/fragment_receive_credentials_abort_button"
@@ -156,6 +156,6 @@
         android:layout_row="7"
         android:layout_column="0"
         android:onClick="onAbortClick"
-        android:text="@string/abort" />
+        android:text="@string/global_abort" />
 
 </GridLayout>

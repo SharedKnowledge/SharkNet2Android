@@ -60,7 +60,7 @@
         android:id="@+id/fragment_add_contact_abort_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/abort"
+        android:text="@string/global_abort"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

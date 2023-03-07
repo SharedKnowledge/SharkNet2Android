@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onDeleteClick"
-            android:text="@string/delete"
+            android:text="@string/global_delete"
             />
 
         <Button
@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onAbortClick"
-            android:text="@string/abort"
+            android:text="@string/global_abort"
             />
 
     </LinearLayout>

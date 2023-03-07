@@ -10,7 +10,7 @@
         android:id="@+id/fragment_message_view_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="message"
+        android:text="@string/message_view_message_output"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView9"
@@ -22,7 +22,7 @@
         android:id="@+id/fragment_message_view_hops"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="hops"
+        android:text="@string/message_view_hops_output"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView14"
@@ -37,7 +37,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
-        android:text="Message:"
+        android:text="@string/message_view_message_title"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -54,7 +54,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:text="Hops:"
+        android:text="@string/message_view_hops_title"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +81,7 @@
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Signed:"
+            android:text="@string/message_view_signed_title"
             android:textSize="16sp"
             app:layout_column="0"
             app:layout_row="1" />
@@ -90,7 +90,7 @@
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Encrypted:"
+            android:text="@string/message_view_encrypted_title"
             android:textSize="16sp"
             app:layout_column="0"
             app:layout_row="2" />
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:text="Time:"
+            android:text="@string/message_view_time_title"
             android:textSize="16sp"
             app:layout_column="0"
             app:layout_row="0" />
@@ -110,8 +110,8 @@
             android:id="@+id/fragment_message_view_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="time"
+            android:layout_marginStart="16dp"
+            android:text="@string/message_view_time_output"
             android:textSize="16sp"
             app:layout_column="1"
             app:layout_row="0" />
@@ -120,8 +120,8 @@
             android:id="@+id/fragment_message_view_verified"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="verified"
+            android:layout_marginStart="16dp"
+            android:text="@string/message_view_verified_output"
             android:textSize="16sp"
             app:layout_column="1"
             app:layout_row="1" />
@@ -130,8 +130,8 @@
             android:id="@+id/fragment_message_view_encrypted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="encrypted"
+            android:layout_marginStart="16dp"
+            android:text="@string/message_view_encrypted_output"
             android:textSize="16sp"
             app:layout_column="1"
             app:layout_row="2" />
@@ -140,7 +140,7 @@
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Identity Assurance:"
+            android:text="@string/message_view_identity_assurance_title"
             android:textSize="16sp"
             app:layout_column="0"
             app:layout_row="3" />
@@ -149,8 +149,8 @@
             android:id="@+id/fragment_message_view_iA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="iA"
+            android:layout_marginStart="16dp"
+            android:text="@string/message_view_ia_output"
             android:textSize="16sp"
             app:layout_column="1"
             app:layout_row="3" />
@@ -169,21 +169,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Sender:"
+                android:text="@string/message_view_sender_title"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -191,7 +192,7 @@
                 android:id="@+id/fragment_message_view_sender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="sender"
+                android:text="@string/message_view_sender_output"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -199,17 +200,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_weight="1"
-                android:text="Recipients:"
+                android:text="@string/message_view_recipients_title"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -217,7 +218,7 @@
                 android:id="@+id/fragment_message_view_recipients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="recipients"
+                android:text="@string/message_view_recipients_output"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -230,7 +231,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
-        android:text="Properties:"
+        android:text="@string/message_view_properties_title"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

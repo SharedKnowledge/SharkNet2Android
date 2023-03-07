@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         android:focusable="true"
-        android:contentDescription="Write a new Message" />
+        android:contentDescription="@string/channel_view_new_message_button_content_description" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_channel_view_recycler_view"

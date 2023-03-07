@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         android:focusable="true"
-        android:contentDescription="Add Hub" />
+        android:contentDescription="@string/hub_list_add_hub_button_content_description" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_hub_list_recycler_view"

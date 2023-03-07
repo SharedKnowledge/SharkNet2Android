@@ -58,7 +58,9 @@
         android:layout_height="wrap_content"
         android:layout_row="2"
         android:layout_column="0"
-        android:text="_setDuringStart_" />
+        android:text="_setDuringStart_"
+        android:autofillHints=""
+        android:inputType="text" />
 
     <!-- 3: identity assurance -->
     <Button
@@ -108,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_row="5"
         android:layout_column="0"
-        android:text="@string/show" />
+        android:text="@string/global_show" />
 
     <!-- 6: issued certificates -->
     <Button
@@ -125,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_row="6"
         android:layout_column="0"
-        android:text="@string/show" />
+        android:text="@string/global_show" />
 
     <!-- 7: save / abort -->
     <Button
@@ -134,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_row="7"
         android:layout_column="1"
-        android:text="@string/save" />
+        android:text="@string/global_save" />
 
     <Button
         android:id="@+id/fragment_receive_credentials_abort_button"
@@ -142,6 +144,6 @@
         android:layout_height="wrap_content"
         android:layout_row="7"
         android:layout_column="0"
-        android:text="@string/abort" />
+        android:text="@string/global_abort" />
 
 </GridLayout>

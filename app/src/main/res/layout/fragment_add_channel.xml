@@ -2,7 +2,6 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,12 +21,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -35,7 +35,7 @@
                 android:id="@+id/fragment_add_channel_add_name_explanation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Channel name:"
+                android:text="@string/add_channel_channel_name_title"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -43,16 +43,17 @@
                 android:id="@+id/fragment_add_channel_add_name_input_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="channel name"
+                android:hint="@string/add_channel_channel_name_hint"
                 android:inputType="text"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:autofillHints="" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -60,7 +61,7 @@
                 android:id="@+id/fragment_add_channel_channel_uri_explanation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Generated ID:"
+                android:text="@string/add_channel_generated_id_title"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -69,8 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:inputType="text"
-                android:text="sn2://ChannelURI"
+                android:text="@string/add_channel_channel_uri_output"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -81,7 +81,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/exit"
+        android:text="@string/global_exit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/fragment_add_channel_add_button"
         app:layout_constraintStart_toStartOf="@+id/fragment_add_channel_add_button"
@@ -96,7 +96,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="64dp"
         android:onClick="onClick"
-        android:text="@string/add"
+        android:text="@string/global_add"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
