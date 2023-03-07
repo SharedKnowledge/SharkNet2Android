@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_first_start" >
         <action
             android:id="@+id/action_nav_firstStart_to_nav_channels"
-            app:destination="@id/nav_channels" />
+            app:destination="@id/nav_channels"
+            app:popUpTo="@id/nav_firstStart"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -26,6 +28,11 @@
         <action
             android:id="@+id/action_nav_channels_to_nav_channel_view"
             app:destination="@id/nav_channel_view" />
+        <action
+            android:id="@+id/action_nav_channels_to_nav_firstStart"
+            app:destination="@id/nav_firstStart"
+            app:popUpTo="@id/nav_channels"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -74,9 +81,9 @@
 
     <fragment
         android:id="@+id/nav_contacts"
-        android:name="net.sharksystem.ui.contacts.ContactsFragment"
+        android:name="net.sharksystem.ui.contacts.ContactListFragment"
         android:label="@string/menu_contacts"
-        tools:layout="@layout/fragment_contacts" >
+        tools:layout="@layout/fragment_contact_list" >
         <action
             android:id="@+id/action_nav_contacts_to_add_contact"
             app:destination="@id/nav_add_contact" />

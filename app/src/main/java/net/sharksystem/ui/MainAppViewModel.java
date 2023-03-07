@@ -13,11 +13,18 @@ public class MainAppViewModel extends ViewModel {
      */
     private final MutableLiveData<String> inputName;
 
+    private final MutableLiveData<Boolean> bluetoothEnabled;
+
+    private final MutableLiveData<Boolean> drawerShouldBeLocked;
+
     /**
      * Constructor for ViewModel
      */
     public MainAppViewModel() {
         this.inputName = new MutableLiveData<>();
+        this.bluetoothEnabled = new MutableLiveData<>();
+        this.drawerShouldBeLocked = new MutableLiveData<>();
+        this.drawerShouldBeLocked.setValue(false);
     }
 
     /**
@@ -35,4 +42,26 @@ public class MainAppViewModel extends ViewModel {
     public void setName(String name) {
         this.inputName.setValue(name);
     }
+
+    public LiveData<Boolean> isBluetoothEnabled() {
+        return this.bluetoothEnabled;
+    }
+
+    public void setBluetoothEnabled(boolean enable) {
+        this.bluetoothEnabled.setValue(enable);
+    }
+
+    public LiveData<Boolean> shouldDrawerBeLocked() {
+        return this.drawerShouldBeLocked;
+    }
+
+    public void requestLockDrawer() {
+        this.drawerShouldBeLocked.setValue(true);
+    }
+
+    public void requestUnlockDrawer() {
+        this.drawerShouldBeLocked.setValue(false);
+    }
+
+
 }

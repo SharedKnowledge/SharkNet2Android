@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         //use bindings for easier use of view elements
         //  see: https://developer.android.com/topic/libraries/view-binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        this.viewModel = new ViewModelProvider(this).get(MainAppViewModel.class);
+
         this.setContentView(binding.getRoot());
 
         //set action bar at the top of the screen
@@ -55,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
 
         //find the drawer layout and the navigation view (equivalent to findViewById call)
         DrawerLayout drawer = binding.drawerLayout;
+
+        this.viewModel.shouldDrawerBeLocked().observe(this, shouldBeLocked -> {
+            if(shouldBeLocked) {
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            } else {
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+        });
+
         NavigationView navigationView = binding.navView;
 
         // Passing each menu ID as a set of Ids because each
@@ -90,8 +101,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, this.appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        this.viewModel = new ViewModelProvider(this).get(MainAppViewModel.class);
-
         this.viewModel.getName().observe(this, name -> {
             //initialize SharkNetApp
             try {
@@ -124,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             //as this is the first start, the owner id was never set before. This needs to be done
             //  now. It's done within this activity by displaying the therefor intended layout
             //navController.popBackStack();
-            this.navController.navigate(R.id.nav_firstStart);
+            this.navController.navigate(R.id.action_nav_channels_to_nav_firstStart);
         }
     }
 
