@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +18,7 @@ import net.sharksystem.sharknet.android.SharkNetApp;
  * ContentAdapter for items in the contact list fragment
  * //TODO: implement
  */
-public class ContactsContentAdapter extends RecyclerView.Adapter<ContactsContentAdapter.ViewHolder> {
+public class ContactListContentAdapter extends RecyclerView.Adapter<ContactListContentAdapter.ViewHolder> {
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -37,10 +36,6 @@ public class ContactsContentAdapter extends RecyclerView.Adapter<ContactsContent
             this.personSelected = view.findViewById(R.id.cert_exchange_failure);
             this.personCertificateExchangeFailure = view.findViewById(R.id.person_list_row_selected);
 
-            view.setOnClickListener(itemView ->
-                Navigation.findNavController(itemView).navigate(R.id.action_nav_contacts_to_nav_contact_view)
-            );
-
             //TODO: add OnLongClickListener to delete contact(s)
             //view.setOnLongClickListener(contactView -> {
             //});
@@ -49,7 +44,7 @@ public class ContactsContentAdapter extends RecyclerView.Adapter<ContactsContent
 
     private SelectionTracker<Long> tracker;
 
-    public ContactsContentAdapter() {
+    public ContactListContentAdapter() {
         this.setHasStableIds(true);
     }
 
@@ -60,15 +55,15 @@ public class ContactsContentAdapter extends RecyclerView.Adapter<ContactsContent
 
     @NonNull
     @Override
-    public ContactsContentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ContactListContentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.person_list_row, parent, false);
 
-        return new ContactsContentAdapter.ViewHolder(view);
+        return new ContactListContentAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContactsContentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ContactListContentAdapter.ViewHolder holder, int position) {
         try {
             PersonValues personValues =
                     SharkNetApp.getSharkNetApp().getSharkPKI().getPersonValuesByPosition(position);

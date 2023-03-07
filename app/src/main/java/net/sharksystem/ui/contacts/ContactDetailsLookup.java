@@ -8,11 +8,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyDetailsLookup extends ItemDetailsLookup<Long> {
+public class ContactDetailsLookup extends ItemDetailsLookup<Long> {
 
     private final RecyclerView recyclerView;
 
-    public MyDetailsLookup(RecyclerView recyclerView) {
+    public ContactDetailsLookup(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
     }
 
@@ -22,9 +22,9 @@ public class MyDetailsLookup extends ItemDetailsLookup<Long> {
         View view = this.recyclerView.findChildViewUnder(e.getX(), e.getY());
         RecyclerView.ViewHolder viewHolder = this.recyclerView.getChildViewHolder(view);
 
-        if (viewHolder instanceof ContactsContentAdapter.ViewHolder) {
-            ContactsContentAdapter.ViewHolder specificViewHolder =
-                    (ContactsContentAdapter.ViewHolder) viewHolder;
+        if (viewHolder instanceof ContactListContentAdapter.ViewHolder) {
+            ContactListContentAdapter.ViewHolder specificViewHolder =
+                    (ContactListContentAdapter.ViewHolder) viewHolder;
 
             return new ItemDetailsLookup.ItemDetails<Long>() {
                 @Override
