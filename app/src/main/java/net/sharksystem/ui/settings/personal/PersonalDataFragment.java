@@ -16,8 +16,14 @@ import net.sharksystem.SharkException;
 import net.sharksystem.databinding.FragmentPersonalDataBinding;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
+/**
+ * This fragments displays the user's personal data.
+ */
 public class PersonalDataFragment extends Fragment {
 
+    /**
+     * Binding for easy access to layout elements
+     */
     private FragmentPersonalDataBinding binding;
 
 
@@ -27,9 +33,15 @@ public class PersonalDataFragment extends Fragment {
 
         this.binding = FragmentPersonalDataBinding.inflate(this.getLayoutInflater());
 
+        //Get the current username and update user interface
         this.binding.fragmentPersonalDataNameInput.
                 setText(SharkNetApp.getSharkNetApp().getOwnerName());
 
+        //Get the current OwnerID and update user interface
+        this.binding.fragmentPersonalDataOwnerId.
+                setText(SharkNetApp.getSharkNetApp().getOwnerID());
+
+        //ClickListener for saving data
         this.binding.fragmentPersonalDataSaveButton.setOnClickListener(view ->  {
 
             String ownerNameString = this.binding.fragmentPersonalDataNameInput.getText().toString();
@@ -42,6 +54,7 @@ public class PersonalDataFragment extends Fragment {
                 Toast.makeText(this.getContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
 
+            //Navigate back to main settings view
             Navigation.findNavController(view).
                     navigate(R.id.action_nav_personal_data_to_nav_settings);
         });
