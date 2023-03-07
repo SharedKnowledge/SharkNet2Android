@@ -12,12 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.sharksystem.R;
-import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.databinding.FragmentSendCredentialsInfoBinding;
-import net.sharksystem.pki.CredentialMessage;
-import net.sharksystem.sharknet.android.SharkNetApp;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * This fragment informs the user about the earnestness of exchanging credentials and lets the
@@ -51,21 +46,11 @@ public class SendCredentialsInfoFragment extends Fragment {
 
         //If the user continues, the credentials will be saved including optional CIC
         this.binding.fragmentSendCredentialsInfoContinueButton.setOnClickListener(view -> {
-            try {
-                byte[] cic = this.binding.fragmentSendCredentialsInfoCicInput.getText().
-                        toString().getBytes(StandardCharsets.UTF_8);
+            this.viewModel.setCIC(this.binding.fragmentSendCredentialsInfoCicInput.getText().
+                    toString());
 
-                CredentialMessage credentialMessage = SharkNetApp.getSharkNetApp().
-                        getSharkPKI().createCredentialMessage(cic);
-
-                this.viewModel.setCredentialMessage(credentialMessage);
-
-                Navigation.findNavController(view)
-                        .navigate(R.id.action_nav_send_credentials_info_to_nav_send_credentials);
-
-            } catch (ASAPSecurityException e) {
-                throw new RuntimeException(e);
-            }
+            Navigation.findNavController(view).
+                    navigate(R.id.action_nav_send_credentials_info_to_nav_send_credentials);
         });
 
         return this.binding.getRoot();

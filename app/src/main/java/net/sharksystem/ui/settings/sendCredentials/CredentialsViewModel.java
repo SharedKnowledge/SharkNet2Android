@@ -1,24 +1,21 @@
 package net.sharksystem.ui.settings.sendCredentials;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import net.sharksystem.pki.CredentialMessage;
 
 public class CredentialsViewModel extends ViewModel {
 
-    private final MutableLiveData<CredentialMessage> credentialMessage;
+    private CharSequence cic;
+
 
     public CredentialsViewModel() {
-        this.credentialMessage = new MutableLiveData<>();
+        this.cic = "";
     }
 
-    LiveData<CredentialMessage> getCredentialMessage() {
-        return this.credentialMessage;
+    CharSequence getCIC() {
+        return this.cic;
     }
 
-    void setCredentialMessage(CredentialMessage credentialMessage) {
-        this.credentialMessage.setValue(credentialMessage);
+    void setCIC(CharSequence cic) {
+        this.cic = cic;
     }
 }
