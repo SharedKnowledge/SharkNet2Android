@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import com.google.android.material.snackbar.Snackbar;
 
 import net.sharksystem.R;
+import net.sharksystem.asap.persons.PersonValues;
 import net.sharksystem.databinding.FragmentContactViewBinding;
 
 /**
@@ -25,12 +27,27 @@ public class ContactViewFragment extends Fragment {
      */
     private FragmentContactViewBinding binding;
 
+    private ContactViewModel viewModel;
+
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         this.binding = FragmentContactViewBinding.inflate(inflater, container, false);
+        this.viewModel = new ViewModelProvider(this.requireActivity()).get(ContactViewModel.class);
+
+        PersonValues personValues = this.viewModel.getPersonValues();
+
+        CharSequence userID = personValues.getUserID();
+        CharSequence username = personValues.getName();
+        int iA = personValues.getIdentityAssurance();
+        int signingFailure = personValues.getSigningFailureRate();
+
+        this.binding.personEditUserID.setText(userID);
+        this.binding.personName.setText(username);
+        this.binding.personEditIdentityAssuranceLevel.setText(String.valueOf(iA));
+        this.binding.signingFailureValue.setSelection(signingFailure);
 
         //Set-Up OnClickListeners
         this.binding.fragmentContactViewUserIDDescriptionButton.setOnClickListener(view ->
