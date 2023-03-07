@@ -51,9 +51,6 @@ public class ChannelViewFragment extends Fragment implements MessageSelectedList
                 Navigation.findNavController(view)
                         .navigate(R.id.action_nav_channel_view_to_nav_add_message));
 
-        //TODO: make channel name visible in app bar instead of "Channel"
-        // Inflate the layout for this fragment
-
         return this.binding.getRoot();
     }
 

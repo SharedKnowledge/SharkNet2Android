@@ -16,7 +16,6 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 
 /**
  * ContentAdapter for items in the contact list fragment
- * //TODO: implement
  */
 public class ContactListContentAdapter extends RecyclerView.Adapter<ContactListContentAdapter.ViewHolder> {
 

@@ -17,7 +17,6 @@ import net.sharksystem.sharknet.android.SharkNetApp;
 
 /**
  * ContentAdapter for items in the recycler view of the HubListFragment
- * //TODO: implement
  */
 public class HubListContentAdapter extends RecyclerView.Adapter<HubListContentAdapter.ViewHolder> {
 

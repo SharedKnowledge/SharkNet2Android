@@ -21,7 +21,6 @@ import java.io.IOException;
 
 /**
  * Fragment to display detailed information about a message
- * //TODO: implement
  */
 public class MessageViewFragment extends Fragment {
 

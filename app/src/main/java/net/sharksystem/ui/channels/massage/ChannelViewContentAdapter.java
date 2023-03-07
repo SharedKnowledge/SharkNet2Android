@@ -109,11 +109,11 @@ public class ChannelViewContentAdapter extends RecyclerView.Adapter<ChannelViewC
             holder.itemView.setId(position);
 
         } catch (Throwable e) {
-            //TODO: "" was LOGSTART before. see what can be done
-            Log.e("", "cannot access message storage (yet?)");
-            Log.e("", "position == " + position);
-            Log.e("", e.getClass().getName());
-            Log.e("", e.getLocalizedMessage());
+            String a = this.getClass().getSimpleName();
+            Log.e(a, "cannot access message storage (yet?)");
+            Log.e(a, "position == " + position);
+            Log.e(a, e.getClass().getName());
+            Log.e(a, e.getLocalizedMessage());
         }
     }
 

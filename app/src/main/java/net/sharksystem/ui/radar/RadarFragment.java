@@ -13,9 +13,6 @@ import android.view.ViewGroup;
 import net.sharksystem.databinding.FragmentRadarBinding;
 
 
-/**
- * TODO: what's the purpose
- */
 public class RadarFragment extends Fragment {
 
     /**
@@ -26,8 +23,6 @@ public class RadarFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-        //TODO: What is this view supposed to display? An OSM-Map based visualization of peers?
 
         this.binding = FragmentRadarBinding.inflate(inflater, container, false);
 

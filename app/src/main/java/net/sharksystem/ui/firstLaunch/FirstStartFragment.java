@@ -23,7 +23,6 @@ import net.sharksystem.ui.MainAppViewModel;
 
 /**
  * Fragment showed at the first start of the app. The user must set his name.
- * //TODO: it is possible to go back to the main application. Must be stopped
  */
 public class FirstStartFragment extends Fragment {
 
