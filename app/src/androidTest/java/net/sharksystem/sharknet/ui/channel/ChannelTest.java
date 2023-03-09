@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-public class ChannelListViewTest {
+public class ChannelTest {
 
     @Rule
     public ActivityScenarioRule<SNChannelsListActivity> activityRule =

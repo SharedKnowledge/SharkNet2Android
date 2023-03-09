@@ -29,6 +29,7 @@ import net.sharksystem.pki.android.PersonStatusHelper;
 import net.sharksystem.pki.android.SelectableListContentAdapterHelper;
 import net.sharksystem.sharknet.android.SharkNetApp;
 import net.sharksystem.asap.persons.PersonValues;
+import net.sharksystem.ui.SelectionMode;
 
 import java.util.Set;
 
@@ -50,6 +51,17 @@ public class ContactListFragment extends Fragment implements OnItemActivatedList
 
         this.binding = FragmentContactListBinding.inflate(inflater, container, false);
         this.viewModel = new ViewModelProvider(this.requireActivity()).get(ContactViewModel.class);
+
+        this.viewModel.getSelectionMode().observe(this.getViewLifecycleOwner(), selectionMode -> {
+            if(selectionMode == SelectionMode.SELECT) {
+                this.binding.fragmentContactsAddContactButton.
+                        setImageResource(R.drawable.ic_sync_black_24dp);
+
+                this.binding.fragmentContactsAddContactButton.setOnClickListener(view -> {
+                    System.out.println("Moin");
+                });
+            }
+        });
 
         PersonStatusHelper personsApp =
                 PersonStatusHelper.getPersonsStorage();
@@ -86,6 +98,13 @@ public class ContactListFragment extends Fragment implements OnItemActivatedList
 
         adapter.setTracker(tracker);
 
+        tracker.addObserver(new SelectionTracker.SelectionObserver<Long>() {
+            @Override
+            public void onItemStateChanged(@NonNull Long key, boolean selected) {
+                super.onItemStateChanged(key, selected);
+
+            }
+        });
 
         //add onClickListener when the user clicks the button to add a contact
         this.binding.fragmentContactsAddContactButton.setOnClickListener(view ->
@@ -110,7 +129,5 @@ public class ContactListFragment extends Fragment implements OnItemActivatedList
         } catch (ASAPSecurityException ex) {
             return false;
         }
-
-
     }
 }

@@ -57,9 +57,9 @@
 
     <string name="channel_view_new_message_button_content_description">Write a new Message</string>
 
-    <string name="add_message_owner_name_output">no ownerName</string>
+    <string name="add_message_owner_name_output">no owner</string>
     <string name="add_message_message_input_hint">message</string>
-    <string name="add_message_recipients_title">recipients:</string>
+    <string name="add_message_recipients_title">Recipients:</string>
     <string name="add_message_recipients_output">anybody</string>
     <string name="add_message_anybody_button">to anybody</string>
     <string name="add_message_e2e_security_title">E2E security:</string>
@@ -286,4 +286,5 @@
     </string>
 
     <string name="cicHint">CIC</string>
+    <string name="add_message_message_title">Message:</string>
 </resources>

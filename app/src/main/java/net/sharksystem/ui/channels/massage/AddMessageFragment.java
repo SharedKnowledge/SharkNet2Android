@@ -18,6 +18,8 @@ import net.sharksystem.R;
 import net.sharksystem.databinding.FragmentAddMassageBinding;
 import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetApp;
+import net.sharksystem.ui.SelectionMode;
+import net.sharksystem.ui.contacts.ContactViewModel;
 
 import java.io.IOException;
 
@@ -47,6 +49,8 @@ public class AddMessageFragment extends Fragment {
         //Set-Up onClickListeners
         this.binding.fragmentAddMessageSelectRecipientsButton.setOnClickListener(view -> {
             //TODO: select recipients
+            new ViewModelProvider(this.requireActivity()).get(ContactViewModel.class).
+                    setSelectionMode(SelectionMode.SELECT);
             Navigation.findNavController(view).navigate(R.id.action_nav_add_message_to_nav_contacts);
         });
 
