@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_hub_view"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +12,7 @@
         android:id="@+id/fragment_hub_view_host_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hostNameText"
+        android:text="@string/hub_view_host_name_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -24,20 +25,21 @@
         android:id="@+id/fragment_hub_view_host_name_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:text="hostname"
+        android:autofillHints=""
+        android:hint="@string/hub_view_hostname_input_hint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fragment_hub_view_host_name_text"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:inputType="text" />
 
 
     <TextView
         android:id="@+id/fragment_hub_view_port_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/settingsTCPHubDescriptionPortExplanationText"
+        android:text="@string/hub_view_port_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -55,13 +57,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fragment_hub_view_port_text"
         app:layout_constraintTop_toBottomOf="@+id/fragment_hub_view_host_name_input"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:hint="@string/hub_view_port_input_hint"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/fragment_hub_view_multi_channel_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/settingsTCPHubDescriptionMultiChannelExplanationText"
+        android:text="@string/hub_view_multi_channel_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -74,7 +78,7 @@
         android:id="@+id/fragment_hub_view_multi_channel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="on | off"
+        android:text="@string/hub_view_on_off_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fragment_hub_view_multi_channel_text"
@@ -86,7 +90,7 @@
         android:id="@+id/fragment_hub_view_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/global_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -98,7 +102,7 @@
         android:id="@+id/fragment_hub_view_abort_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Abort"
+        android:text="@string/global_abort"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -110,21 +114,10 @@
         android:id="@+id/fragment_hub_view_default_values_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Default"
+        android:text="@string/hub_view_set_default_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fragment_hub_view_abort_button"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_hub_view_delete_button"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/fragment_hub_view_delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fragment_hub_view_save_button"
         app:layout_constraintTop_toBottomOf="@+id/fragment_hub_view_multi_channel_button"
         app:layout_constraintVertical_bias="0.0" />
 

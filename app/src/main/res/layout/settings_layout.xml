@@ -9,7 +9,7 @@
     android:orientation="horizontal">
     <TextView
         android:id="@+id/fragment_network_bluetooth_on_off_text"
-        android:text="@string/bluetoothToggleExplanationText"
+        android:text="@string/network_bluetooth_on_off_title"
         android:layout_gravity="left|top" />
 
     <ToggleButton
@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/fragment_network_bluetooth_scan_text"
-        android:text="@string/settingsBluetoothD_And_D_Explanation"
+        android:text="@string/network_bluetooth_scan_title"
         android:layout_gravity="left|top" />
 
     <ToggleButton
@@ -51,7 +51,7 @@
 
     <TextView
         android:id="@+id/fragment_network_bluetooth_connect_hubs_text"
-        android:text="@string/settingsASAPHubsExplanation"
+        android:text="@string/network_connect_hubs_title"
         android:layout_gravity="left|top" />
 
     <ToggleButton
@@ -61,14 +61,14 @@
 
     <TextView
         android:id="@+id/fragment_network_bluetooth_configure_hubs_text"
-        android:text="@string/settingsConfigASAPHubsExplanation"
+        android:text="@string/network_configure_hubs_title"
         android:layout_gravity="left|top"
         android:onClick="onConfigASAPHubs"
         />
 
     <Button
         android:id="@+id/fragment_network_bluetooth_configure_hubs_button"
-        android:text="@string/configHubsButtonText"
+        android:text="@string/network_configure_hubs_button"
         android:onClick="onConfigASAPHubs"
         android:layout_gravity="left|top" />
 </GridLayout>

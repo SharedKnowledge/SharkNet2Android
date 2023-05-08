@@ -39,7 +39,7 @@ public class DrawerTest {
         Espresso.onView(withId(R.id.nav_view)).
                 perform(NavigationViewActions.navigateTo(R.id.nav_contacts));
 
-        Espresso.onView(withId(R.layout.fragment_contacts)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.layout.fragment_contact_list)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class DrawerTest {
         Espresso.onView(withId(R.id.nav_view)).
                 perform(NavigationViewActions.navigateTo(R.id.nav_contacts));
 
-        Espresso.onView(withId(R.layout.fragment_contacts)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.layout.fragment_contact_list)).check(matches(isDisplayed()));
 
         Espresso.onView(withId(R.id.drawer_layout)).
                 check(matches(isClosed(Gravity.LEFT))).
@@ -150,7 +150,7 @@ public class DrawerTest {
         Espresso.onView(withId(R.id.nav_view)).
                 perform(NavigationViewActions.navigateTo(R.id.nav_contacts));
 
-        Espresso.onView(withId(R.layout.fragment_contacts)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.layout.fragment_contact_list)).check(matches(isDisplayed()));
 
         Espresso.onView(withId(R.id.drawer_layout)).
                 check(matches(isClosed(Gravity.LEFT))).

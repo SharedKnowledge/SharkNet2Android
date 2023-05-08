@@ -26,6 +26,7 @@ import net.sharksystem.SharkNotSupportedException;
 import net.sharksystem.databinding.FragmentChannelListBinding;
 import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetApp;
+import net.sharksystem.ui.SelectionMode;
 import net.sharksystem.ui.channels.massage.AddMessageViewModel;
 
 import java.io.IOException;

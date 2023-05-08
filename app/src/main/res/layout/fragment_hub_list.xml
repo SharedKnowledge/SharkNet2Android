@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_hub_list"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         android:focusable="true"
-        android:contentDescription="Add Hub" />
+        android:contentDescription="@string/hub_list_add_hub_button_content_description" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_hub_list_recycler_view"

@@ -13,12 +13,12 @@
         android:id="@+id/personListViewRemoveButton"
         android:checkable="true"
         android:title="@string/personListViewButtonRemoveText"
-        app:showAsAction="always|withText"
+        app:showAsAction="ifRoom|withText"
         />
     <item
         android:id="@+id/fragment_receive_credentials_abort_button"
         android:checkable="true"
-        android:title="@string/abort"
+        android:title="@string/global_abort"
         app:showAsAction="always|withText"
         />
 </menu>

@@ -23,7 +23,6 @@ import net.sharksystem.ui.MainAppViewModel;
 
 /**
  * Fragment showed at the first start of the app. The user must set his name.
- * //TODO: it is possible to go back to the main application. Must be stopped
  */
 public class FirstStartFragment extends Fragment {
 
@@ -32,15 +31,22 @@ public class FirstStartFragment extends Fragment {
      */
     private FragmentFirstStartBinding binding;
 
+    private MainAppViewModel mainAppViewModel;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        binding = FragmentFirstStartBinding.inflate(inflater, container, false);
+        this.binding = FragmentFirstStartBinding.inflate(inflater, container, false);
+        this.mainAppViewModel = new ViewModelProvider(this.requireActivity()).
+                get(MainAppViewModel.class);
+
+        mainAppViewModel.requestLockDrawer();
 
         //add onClickListener for the save button
         binding.fragmentFirstStartSaveButton.setOnClickListener(view -> {
             try {
+                mainAppViewModel.requestUnlockDrawer();
                 String inputName = this.binding.fragmentFirstStartNameInput.getText().toString();
                 SharkNetApp.initializeSystem(this.requireActivity(), inputName);
                 new ViewModelProvider(this.requireActivity()).get(MainAppViewModel.class)
@@ -54,5 +60,4 @@ public class FirstStartFragment extends Fragment {
 
         return binding.getRoot();
     }
-
 }

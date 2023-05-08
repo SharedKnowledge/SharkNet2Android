@@ -10,14 +10,14 @@
         android:id="@+id/fragment_send_credentials_info_explanation_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/exchangeCredentialsExplanationDescription"
+        android:text="@string/send_credentials_info_explanation_text"
         android:textSize="@dimen/textSizeGoodReadableSmall" />
 
     <TextView
         android:id="@+id/fragment_send_credentials_info_cic_explanation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/credentialCicSender"
+        android:text="@string/send_credentials_info_cic_explanation_text"
         android:textSize="@dimen/textSizeGoodReadableSmall" />
 
     <EditText

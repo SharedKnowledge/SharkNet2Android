@@ -1,4 +1,4 @@
-package net.sharksystem.ui.channels;
+package net.sharksystem.ui;
 
 /**
  * Mode in which a fragment with a recycler view can be, if the items can be deleted

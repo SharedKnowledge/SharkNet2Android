@@ -16,14 +16,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onSaveClick"
-        android:text="@string/save" />
+        android:text="@string/global_save" />
 
     <Button
         android:id="@+id/fragment_receive_credentials_abort_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onAbortClick"
-        android:text="@string/abort" />
+        android:text="@string/global_abort" />
 
     <LinearLayout
     android:layout_width="match_parent"

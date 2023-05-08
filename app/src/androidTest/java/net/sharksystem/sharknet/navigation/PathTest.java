@@ -23,9 +23,9 @@ public class PathTest {
 
     @Test
     public void fromChannelListToChannelView() {
-        Espresso.onView(withId(R.layout.fragment_channel_list)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.fragment_channel_list)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.fragment_channel_list_add_channel_button)).perform(click());
-        Espresso.onView(withId(R.layout.fragment_add_channel)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.fragment_add_channel)).check(matches(isDisplayed()));
     }
 
     @Test

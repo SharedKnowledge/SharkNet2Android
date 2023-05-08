@@ -1,9 +1,180 @@
 <resources>
-    <string name="defaultOwnerName">SNUser</string>
+    <!--#######################################   Global   ######################################-->
+    <string name="app_name">Shark</string>
 
-    <string name="app_name">SN2</string>
-    <string name="send">Send</string>
-    <string name="hello">hello</string>
+    <string name="global_select">Select</string>
+    <string name="global_add">Add</string>
+    <string name="global_abort">Abort</string>
+    <string name="global_save">Save</string>
+    <string name="global_show">Show</string>
+    <string name="global_explain">Explain</string>
+    <string name="global_continue">Continue</string>
+    <string name="global_exit">Exit</string>
+    <string name="global_send">Send</string>
+    <string name="global_hello">Hello</string>
+    <string name="global_delete">Delete</string>
+
+    <!--########################################   Menu   #######################################-->
+    <string name="menu_channels">Channels</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_newPeer">New Peer</string>
+    <string name="menu_contacts">Contacts</string>
+    <string name="menu_radar">Radar</string>
+    <string name="menu_network">Network</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_add_channel">Add Channel</string>
+    <string name="menu_channel">Channel</string>
+    <string name="menu_channel_list_delete_description">delete</string>
+    <string name="menu_add_message">Add Message</string>
+    <string name="menu_add_contact">Add Contact</string>
+    <string name="menu_hub_list">Hubs</string>
+    <string name="menu_message_view">Message</string>
+    <string name="menu_receive_credentials">Receive Credentials</string>
+    <string name="menu_first_start">Shark</string>
+
+    <!--####################################   Navigation   #####################################-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_header_title">Shark</string>
+    <string name="nav_header_subtitle">http://www.sharksystem.net/</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <!--#####################################   Fragments   #####################################-->
+    <string name="first_start_enter_name_text">Please enter your name:</string>
+    <string name="first_start_name_input_hint">your name</string>
+    <string name="first_start_hint_text">You can change your name at any time.</string>
+
+    <string name="fragment_channels_floating_button_content_description">Add Channel</string>
+
+    <string name="add_channel_channel_name_title">Channel name:</string>
+    <string name="add_channel_channel_name_hint">channel name</string>
+    <string name="add_channel_generated_id_title">Generated ID:</string>
+    <string name="add_channel_channel_uri_output">sn2://ChannelURI</string>
+
+    <string name="channel_view_new_message_button_content_description">Write a new Message</string>
+
+    <string name="add_message_owner_name_output">no owner</string>
+    <string name="add_message_message_input_hint">message</string>
+    <string name="add_message_recipients_title">Recipients:</string>
+    <string name="add_message_recipients_output">anybody</string>
+    <string name="add_message_anybody_button">to anybody</string>
+    <string name="add_message_e2e_security_title">E2E security:</string>
+    <string name="add_message_sign_checkbox">sign</string>
+    <string name="add_message_encrypt_checkbox">encrypt</string>
+
+    <string name="message_view_message_title">Message:</string>
+    <string name="message_view_message_output">message</string>
+    <string name="message_view_hops_title">Hops:</string>
+    <string name="message_view_hops_output">hops</string>
+    <string name="message_view_time_title">Time:</string>
+    <string name="message_view_time_output">time</string>
+    <string name="message_view_signed_title">Signed:</string>
+    <string name="message_view_verified_output">verified</string>
+    <string name="message_view_encrypted_title">Encrypted:</string>
+    <string name="message_view_encrypted_output">encrypted</string>
+    <string name="message_view_identity_assurance_title">Identity Assurance:</string>
+    <string name="message_view_ia_output">iA</string>
+    <string name="message_view_sender_title">Sender:</string>
+    <string name="message_view_sender_output">sender</string>
+    <string name="message_view_recipients_title">Recipients:</string>
+    <string name="message_view_recipients_output">recipients</string>
+    <string name="message_view_properties_title">Properties:</string>
+
+    <string name="contacts_floating_button_description">Add Contact</string>
+
+    <string name="hub_list_add_hub_button_content_description">Add Hub</string>
+
+    <string name="hub_view_host_name_title">hostname</string>
+    <string name="hub_view_hostname_input_hint">hostname</string>
+    <string name="hub_view_port_title">port number</string>
+    <string name="hub_view_port_input_hint">port</string>
+    <string name="hub_view_multi_channel_title">multiChannel</string>
+    <string name="hub_view_on_off_button">on | off</string>
+    <string name="hub_view_set_default_button">Set Default</string>
+
+    <string name="network_bluetooth_button">Bluetooth</string>
+    <string name="network_bluetooth_scan_button">Scan Neighbourhood</string>
+    <string name="network_hubs_title">Hubs:</string>
+    <string name="network_connect_hubs_button">Hubs on | off</string>
+    <string name="network_bluetooth_title">Bluetooth:</string>
+    <string name="network_bluetooth_scan_title">Scan BT</string>
+    <string name="network_connect_hubs_title">Connect Hubs</string>
+    <string name="network_configure_hubs_button">Configure</string>
+    <string name="network_configure_hubs_title">Configure Hubs</string>
+
+    <string name="personal_data_name_title">Your Name:</string>
+    <string name="personal_data_name_input_hint">Name</string>
+    <string name="personal_data_generated_id_title">Generated ID:</string>
+    <string name="personal_data_generated_id_output">id</string>
+
+    <string name="radar_peer_list_output">Online Peers List - not yet set</string>
+
+    <string name="rsa_creation_time_title">Creation Time:</string>
+    <string name="rsa_date_output">date</string>
+    <string name="rsa_generate_button">Generate</string>
+
+    <string name="send_credential_credential_description">
+        This credential is exchanged between peers. Receivers must very carefully ensure
+        sender\'s identity. Ask for an ID or something else. Ensure that the information below are
+        really sent be the peer or device that is nearby.
+        \n
+        This exchange is crucial. It is the very basis of this network of trust and your reputation.
+        \n
+        Senders help receivers in any possible way to ensure their identity. Receiver must not
+        accept those information if sender does not cooperate.
+    </string>
+    <string name="send_credential_peer_id_title">Peer ID</string>
+    <string name="send_credentials_peer_id_output">_set_</string>
+    <string name="send_credentials_peer_name_output">_set_</string>
+    <string name="send_credentials_valid_since_output">_set_</string>
+    <string name="send_credentials_random_number_output">_set_</string>
+    <string name="send_credentials_key_hash_output">_set_</string>
+    <string name="send_credentials_extra_data_output">_set_</string>
+    <string name="send_credentials_action_button">_set</string>
+    <string name="send_credentials_peer_name_title">Peer name</string>
+    <string name="send_credentials_valid_since_title">Key valid since</string>
+    <string name="send_credentials_random_number_title">Random number</string>
+    <string name="send_credentials_key_hash_title">Key Hash</string>
+    <string name="send_credentials_extra_data_title">Extra Data</string>
+
+    <string name="send_credentials_info_cic_title">Custom Identification Code:</string>
+    <string name="send_credentials_info_cic_input_hint">CIC</string>
+    <string name="send_credentials_info_explanation_text">
+        Credentials exchange is a very crucial process. Take it very carefully.
+        \n
+        One peer must start to send information. Can be you or the new peer. Decide.
+        \n
+        One press send the other receive. Following the instructions very carefully.
+        Afterwords, reverse your roles and do it again.
+    </string>
+    <string name="send_credentials_info_cic_explanation_text">
+        You can attach a Custom Identification Code (CIC) to your credentials.
+        This code is given to you by the receiver and is used to prove to them
+        that you are how you claim to be.
+    </string>
+
+    <string name="settings_certificates_button">Certificates</string>
+    <string name="settings_rsa_key_button">RSA Key</string>
+    <string name="settings_personal_data_button">Personal Data</string>
+    <string name="settings_send_credentials_button">Send Credentials</string>
+
+
+
+
+
+
+
+
+
+
+    <!--########################################################################################-->
+    <!--########################################################################################-->
+    <!--########################################################################################-->
+    <string name="defaultOwnerName">SNUser</string>
 
     <string name="bubbleAddBubbleText">bubble</string>
     <string name="bubbleRemoveAllText">clear</string>
@@ -17,12 +188,6 @@
     <string name="bubbleAuthority">net.sharksystem.bubble</string>
     <string name="syncAuthority">net.sharksystem.sync</string>
 
-    <string name="add">add</string>
-    <string name="abort">abort</string>
-    <string name="save">Save</string>
-    <string name="show">Show</string>
-    <string name="explain">Explain</string>
-
     <string name="userID">userID</string>
     <string name="userName">userName</string>
     <string name="identityAssurance">identityAssurance</string>
@@ -33,9 +198,8 @@
 
     <string name="initSetYourNameText">Set your name</string>
 
-
     <!-- Settings explanation texts -->
-    <string name="bluetoothToggleExplanationText">BT on / off</string>
+    <string name="network_bluetooth_on_off_title">BT on / off</string>
 
     <string name="settingsWifiDirectToggleButtonExplaination">Switch Wifi Direct on / off</string>
 
@@ -53,10 +217,6 @@
     <string name="settingsBluetoothDiscoveryButtonExplanation">Activate BT Discovery</string>
     <string name="snMessageURIExplanationText">set by system</string>
     <string name="snMessagerChannelNameExplanationText">enter channel name</string>
-    <string name="settingsBluetoothD_And_D_Explanation">Scan BT</string>
-    <string name="settingsASAPHubsExplanation">Connect Hubs</string>
-    <string name="configHubsButtonText">Config Hubs</string>
-    <string name="settingsConfigASAPHubsExplanation">Configure Hubs</string>
     <string name="identityShowPersonListExplanationText">No one selected yet</string>
 
     <string name="personListSelectionDoneText">Done Selection</string>
@@ -76,11 +236,10 @@
     <string name="certificatedDescriptionText">issued certificates</string>
 
     <string name="showExplainIdentityAssuranceButtonText">Explain IA</string>
-    <string name="delete">delete</string>
+
     <string name="identityAssuranceCalculatedWords">identity assurance of </string>
     <string name="signingFailureWords">signing failure set to: </string>
     <string name="showOwnerAsSubjectCertificatesButtonText">Your Certs</string>
-
 
     <string name="continueButtonText">Continue</string>
 
@@ -106,9 +265,6 @@
     <string name="snChannelMenuAddMessageButtonText">Add message</string>
     <string name="channel_name">receivedCredential</string>
     <string name="channel_description">Credential received</string>
-    <string name="hostNameText">hostname</string>
-    <string name="settingsTCPHubDescriptionPortExplanationText">port number</string>
-    <string name="settingsTCPHubDescriptionMultiChannelExplanationText">multiChannel</string>
 
     <!-- PKI explanations -->
     <string name="explainUserIDText">unique ID. Created by the system. Cannot be changed.</string>
@@ -122,31 +278,7 @@
     </string>
     <string name="explainSigningFailureText">SF TODO</string>
 
-    <string name="exchangeCredentialsExplanationDescription">
-        Credentials exchange is a very crucial process. Take it very carefully.
-        \n
-        One peer must start to send information. Can be you or the new peer. Decide.
-        \n
-        One press send the other receive. Following the instructions very carefully.
-        Afterwords, reverse your roles and do it again.
-    </string>
 
-    <string name="credentialDescription">
-        This credential is exchanged between peers. Receivers must very carefully ensure
-        sender\'s identity. Ask for an ID or something else. Ensure that the information below are
-        really sent be the peer or device that is nearby.
-        \n
-        This exchange is crucial. It is the very basis of this network of trust and your reputation.
-        \n
-        Senders help receivers in any possible way to ensure their identity. Receiver must not
-        accept those information if sender does not cooperate.
-    </string>
-
-    <string name="credentialCicSender">
-        You can attach a Custom Identification Code (CIC) to your credentials.
-        This code is given to you by the receiver and is used to prove to them
-        that you are how you claim to be.
-    </string>
     <string name="credentialCicReceiver">
         You can give the receiver a Custom Identification Code (CIC).
         The sender should attach this code to their credentials.
@@ -154,52 +286,5 @@
     </string>
 
     <string name="cicHint">CIC</string>
-
-    <string name="firstStart_hint_text">You can change your name later at any time.</string>
-    <string name="firstLaunch_enter_name_text">Please enter your name:</string>
-
-    <string name="contacts_floating_button_description">Add Contact</string>
-
-    <string name="credentialSubjectIDTag">Peer ID</string>
-    <string name="credentialSubjectNameTag">Peer name</string>
-    <string name="credentialValidSinceTag">Key valid since</string>
-    <string name="credentialRandomNumberTag">Random number</string>
-    <string name="credentialHashPublicKeyTag">Key Hash</string>
-    <string name="credentialExtraDataTag">Extra Data</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Shark</string>
-    <string name="nav_header_subtitle">http://www.sharksystem.net/</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="menu_channels">Channels</string>
-    <string name="menu_settings">Settings</string>
-    <string name="menu_newPeer">New Peer</string>
-    <string name="menu_contacts">Contacts</string>
-    <string name="menu_radar">Radar</string>
-    <string name="menu_network">Network</string>
-
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="work_in_progress">Work in progress</string>
-    <string name="fragment_channels_floating_button_content_description">Add Channel</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="fragment_add_channel_add_name_input">channelName</string>
-    <string name="exit">Exit</string>
-    <string name="menu_add_channel">Add Channel</string>
-    <string name="menu_channel">Channel</string>
-    <string name="menu_channel_list_delete_description">delete</string>
-    <string name="menu_add_message">Add Message</string>
-    <string name="menu_add_contact">Add Contact</string>
-    <string name="menu_hub_list">Hubs</string>
-    <string name="menu_message_view">Message</string>
-    <string name="menu_receive_credentials">Receive Credentials</string>
-    <string name="menu_first_start">Shark</string>
-    <string name="fragment_settings_certificates">Certificates</string>
-    <string name="fragment_settings_rsa_key">RSA Key</string>
-    <string name="fragment_settings_personal_data">Personal Data</string>
-
-
+    <string name="add_message_message_title">Message:</string>
 </resources>

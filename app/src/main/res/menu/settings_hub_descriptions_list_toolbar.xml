@@ -6,13 +6,13 @@
     <item
         android:id="@+id/settingHubDescriptionsAdd"
         android:checkable="true"
-        android:title="@string/add"
-        app:showAsAction="always|withText"
+        android:title="@string/global_add"
+        app:showAsAction="ifRoom|withText"
         />
     <item
         android:id="@+id/settingHubDescriptionsCancel"
         android:checkable="true"
-        android:title="@string/abort"
+        android:title="@string/global_abort"
         app:showAsAction="always|withText"
         />
 </menu>
