@@ -16,10 +16,6 @@ import net.sharksystem.asap.utils.DateTimeHelper;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-/**
- * This activity is responsible for allowing the user to change the previously specified owner name
- * and to initialize the exchange of the pki credentials
- */
 public class OwnerActivity extends SharkNetActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +39,9 @@ public class OwnerActivity extends SharkNetActivity {
         this.getSharkNetApp().setupDrawerLayout(this);
     }
 
-
     private void setKeyCreationDateView() throws ASAPSecurityException {
         TextView creationTime = this.findViewById(R.id.ownerKeysCreationTime);
-        // that's funny because long is a homonym: data type but also means a long period of time... ok, this is not funny at all... :/
+        // that's funny because long is a homonym: data type but also means a long periode of time... ok, this is not funny at all... :/
         long longTime = this.getSharkNetApp().getSharkPKI().getKeysCreationTime();
 
         if(longTime == DateTimeHelper.TIME_NOT_SET) {
@@ -65,18 +60,11 @@ public class OwnerActivity extends SharkNetActivity {
         this.startActivity(new Intent(this, OwnerActivity.class));
     }
 
-    /**
-     * Called when the user wants to send/receive the credentials to/from another user
-     */
     public void onSendOrReceiveCredentials(View view) {
         this.finish();
         this.startActivity(new Intent(this, CredentialExchangeActivity.class));
     }
 
-
-    /**
-     * Called when the user clicks the save button to save the new owner name
-     */
     public void onSaveClick(View view) {
         EditText ownerNameEditText = findViewById(R.id.ownerDisplayName);
         String ownerNameString = ownerNameEditText.getText().toString();
@@ -94,35 +82,24 @@ public class OwnerActivity extends SharkNetActivity {
         }
     }
 
-
-
     public void onShowOwnerAsSubjectCertificates(View view) {
         Log.d(Util.getLogStart(this), "onShowOwnerAsSubjectCertificates");
-        Intent intent;
+        Intent intent = null;
         intent = new PersonIntent(this,
                 this.getSharkNetApp().getOwnerID(),
                 CertificateListActivity.class);
         this.startActivity(intent);
     }
 
-    /**
-     * Creates a new key pair in a new Thread
-     */
     public void onCreateNewKeys(View view) {
         new CreateKeyPairThread(this).start();
     }
 
-    /**
-     * Clicked by the user to get back to the last activity
-     */
     public void onAbortClick(View view) {
         // go back to previous activity
         this.finish();
     }
 
-    /**
-     * Thread for generating key pairs
-     */
     private class CreateKeyPairThread extends Thread {
         private final OwnerActivity ownerActivity;
 
@@ -131,7 +108,7 @@ public class OwnerActivity extends SharkNetActivity {
         }
 
         public void run() {
-            String text;
+            String text = null;
             try {
                 OwnerActivity.this.getSharkNetApp().getSharkPKI().generateKeyPair();
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     package="net.sharksystem">
     <!-- ASAPEngine needs to write in files -->
@@ -14,26 +15,17 @@
         android:supportsRtl="true"
         android:theme="@style/NoActionBar"
         tools:replace="android:theme">
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="true"
-            android:label="@string/title_activity_main">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".sharknet.android.SNTestActivity" />
-        <activity
-            android:name=".sharknet.android.InitActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
+        <activity android:name=".sharknet.android.SNTestActivity" />
+
+        <activity android:name=".sharknet.android.InitActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- tools:replace="android:theme" needed to import ASAPAndroidService module -->
         <!-- should be android:launchMode="singleTask" -->
+
         <activity android:name=".pki.android.CertificateViewActivity" />
         <activity android:name=".pki.android.CertificateListActivity" />
         <activity android:name=".pki.android.PersonEditActivity" />
@@ -41,40 +33,33 @@
         <activity android:name=".pki.android.PersonAddExplanationActivity" />
         <activity android:name=".pki.android.CredentialReceiveActivity" />
         <activity android:name=".pki.android.CredentialViewActivity" />
-        <activity
-            android:name=".pki.android.CredentialExchangeActivity"
-            android:exported="true">
-
-            <!--
-        why should this activity also have the following intent-filter?; commented these lines
-        as this activity can't be opened separately anyways
+        <activity android:name=".pki.android.CredentialExchangeActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
-        </activity> <!-- SN Channels -->
+        </activity>
+
+        <!-- SN Channels -->
         <activity android:name=".messenger.android.SNChannelsListActivity" />
         <activity android:name=".messenger.android.SNChannelAddActivity" />
         <activity android:name=".messenger.android.SNChannelViewActivity" />
         <activity android:name=".messenger.android.SNChannelAddMessageActivity" />
         <activity android:name=".messenger.android.SNMessageViewActivity" />
-        <activity
-            android:name=".pki.android.PersonListViewActivity"
+
+        <activity android:name=".pki.android.PersonListViewActivity"
             android:launchMode="singleTask" />
         <activity android:name=".pki.android.PersonListSelectionActivity" />
-        <activity
-            android:name=".radar.android.RadarActivity"
-            android:launchMode="singleTask" /> <!-- settings -->
-        <!-- android:launchMode="singleTask" -->
-        <activity
-            android:name=".sharknet.android.settings.SettingsActivity"
+        <activity android:name=".radar.android.RadarActivity" android:launchMode="singleTask" />
+
+        <!-- settings -->
+        <!--            android:launchMode="singleTask" -->
+        <activity android:name=".sharknet.android.settings.SettingsActivity"
             android:label="@string/title_activity_settings" />
+
         <activity android:name=".sharknet.android.settings.HubDescriptionsListActivity" />
         <activity android:name=".sharknet.android.settings.HubDescriptionEditActivity" />
-        <activity
-            android:name=".pki.android.OwnerActivity"
-            android:launchMode="singleTask" />
-    </application>
 
+        <activity android:name=".pki.android.OwnerActivity" android:launchMode="singleTask" />
+    </application>
 </manifest>

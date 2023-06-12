@@ -45,7 +45,7 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
 
         Log.d(this.getLogStart(), "created with name: " + this.name + " / " + this.uri);
 
-        TextView topicTextView = (TextView) findViewById(R.id.fragment_add_message_channel_name);
+        TextView topicTextView = (TextView) findViewById(R.id.snChannelName);
         topicTextView.setText(this.name);
     }
 
@@ -61,10 +61,10 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
     }
 
     private void redrawComments() {
-        TextView commentsTextView = findViewById(R.id.fragment_add_message_comments);
+        TextView commentsTextView = findViewById(R.id.comments);
         commentsTextView.setText("");
 
-        CheckBox encryptedCheckBox = findViewById(R.id.fragment_add_message_encrypted_checkbox);
+        CheckBox encryptedCheckBox = findViewById(R.id.snEncrypted);
 
         if(this.selectedRecipients != null && this.selectedRecipients.size() > 1) {
             if (encryptedCheckBox.isChecked()) {
@@ -90,7 +90,7 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
 
     public void onSendClick(View view) {
         // get new message
-        EditText messageTextView = (EditText) findViewById(R.id.fragment_add_message_message_input);
+        EditText messageTextView = (EditText) findViewById(R.id.snMessage);
 
         String messageText = messageTextView.getText().toString();
 
@@ -101,10 +101,10 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
                 // let's sort things out.
                 byte[] content = messageText.getBytes();
 
-                CheckBox signCheckBox = findViewById(R.id.fragment_add_message_signed_checkbox);
+                CheckBox signCheckBox = findViewById(R.id.snSigned);
                 boolean sign = signCheckBox.isChecked();
 
-                CheckBox encryptedCheckBox = findViewById(R.id.fragment_add_message_encrypted_checkbox);
+                CheckBox encryptedCheckBox = findViewById(R.id.snEncrypted);
                 boolean encrypt = encryptedCheckBox.isChecked();
 
                 // send with shark messenger
@@ -154,7 +154,7 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
             recipientsString = sb.toString();
         }
 
-        TextView tv = this.findViewById(R.id.fragment_add_message_message_recipients);
+        TextView tv = this.findViewById(R.id.snMessageRecipients);
         tv.setText(recipientsString);
 
         this.redrawComments();

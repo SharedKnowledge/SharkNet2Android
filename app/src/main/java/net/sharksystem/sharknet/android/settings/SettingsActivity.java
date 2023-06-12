@@ -9,6 +9,7 @@ import android.widget.ToggleButton;
 
 import net.sharksystem.R;
 import net.sharksystem.asap.android.apps.ASAPActivity;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 public class SettingsActivity extends ASAPActivity {
@@ -27,7 +28,7 @@ public class SettingsActivity extends ASAPActivity {
         ////////////////////////////////////////////////////////////////////////////
 
         ///////////////// BLUETOOTH
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_on_off_button);
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.settingsBluetoothToggleButton);
         // set initial status
         toggle.setChecked(this.isBluetoothEnvironmentOn());
 
@@ -93,7 +94,7 @@ public class SettingsActivity extends ASAPActivity {
                 });
  */
         ///////////////// BLUETOOTH DISCOVERY AND DISCOVERABLE = SCAN BT
-        toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_scan_button);
+        toggle = (ToggleButton) findViewById(R.id.settingsBluetoothD_And_D_ExplanationButton);
         // set initial status
         toggle.setChecked(isBluetoothDiscovery());
 
@@ -116,7 +117,7 @@ public class SettingsActivity extends ASAPActivity {
                 });
 
         ///////////////// ASAP Hub on / off
-        toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_connect_hubs_button);
+        toggle = (ToggleButton) findViewById(R.id.settingsASAPHubsExplanationButton);
         // set initial status
         toggle.setChecked(isASAPHubsConnected());
 
@@ -142,7 +143,7 @@ public class SettingsActivity extends ASAPActivity {
     private void refreshToggleButtons() {
         this.dontDoAnything = true;
 
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_on_off_button);
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.settingsBluetoothToggleButton);
         toggle.setChecked(this.isBluetoothEnvironmentOn());
         toggle.refreshDrawableState();
 
@@ -156,7 +157,7 @@ public class SettingsActivity extends ASAPActivity {
         toggle.refreshDrawableState();
          */
 
-        toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_scan_button);
+        toggle = (ToggleButton) findViewById(R.id.settingsBluetoothD_And_D_ExplanationButton);
         toggle.setChecked(this.isBluetoothDiscovery());
         toggle.refreshDrawableState();
 
