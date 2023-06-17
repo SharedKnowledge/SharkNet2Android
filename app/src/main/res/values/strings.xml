@@ -55,6 +55,12 @@
     <string name="settingsASAPHubsExplanation">Connect Hubs</string>
     <string name="configHubsButtonText">Config Hubs</string>
     <string name="settingsConfigASAPHubsExplanation">Configure Hubs</string>
+    <string name="settingsRefreshHubListExplanation">Refresh Hub List</string>
+    <string name="settingsRefreshHubListText">Refresh</string>
+    <string name="settingsConnectedHubListExplanation">Connected Hubs</string>
+    <string name="settingsFailedAttemptsListExplanation">Failed Attempts</string>
+
+
     <string name="identityShowPersonListExplanationText">No one selected yet</string>
 
     <string name="personListSelectionDoneText">Done Selection</string>

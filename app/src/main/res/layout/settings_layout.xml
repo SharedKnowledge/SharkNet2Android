@@ -71,6 +71,47 @@
         android:text="@string/configHubsButtonText"
         android:onClick="onConfigASAPHubs"
         android:layout_gravity="left|top" />
+
+    <TextView
+        android:id="@+id/settingsRefreshHubList"
+        android:text="@string/settingsRefreshHubListExplanation"
+        android:layout_gravity="left|top"
+        android:onClick="onConfigASAPHubs"
+        />
+
+    <Button
+        android:id="@+id/settingsRefreshHubListButton"
+        android:text="@string/settingsRefreshHubListText"
+        android:onClick="onConfigASAPHubs"
+        android:layout_gravity="left|top" />
+
+    <TextView
+        android:id="@+id/settingsConnectedHubs"
+        android:text="@string/settingsConnectedHubListExplanation"
+        android:layout_gravity="left|top"
+        android:onClick="onConfigASAPHubs"
+        />
+
+    <ListView
+        android:id="@+id/settingsConnectedHubsList"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
+        android:layout_gravity="left|top"
+        />
+
+    <TextView
+        android:id="@+id/settingsFailedConnectionAttempts"
+        android:text="@string/settingsFailedAttemptsListExplanation"
+        android:layout_gravity="left|top"
+        android:onClick="onConfigASAPHubs"
+        />
+
+    <ListView
+        android:id="@+id/settingsFailedAttemptsList"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
+        android:layout_gravity="left|top"
+        />
 </GridLayout>
 
     <!-- https://developer.android.com/guide/topics/resources/layout-resource -->
