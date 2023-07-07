@@ -109,7 +109,7 @@ public class TestAddMessageScenarios {
     }
 
     @Test
-    public void scenarioX_sendMessageToAnybody() {
+    public void scenario1_sendMessageToAnybody() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -143,7 +143,7 @@ public class TestAddMessageScenarios {
     }
 
     @Test
-    public void scenarioX_sendMessageToAnybody_signed() {
+    public void scenario2_sendMessageToAnybody_signed() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -170,7 +170,7 @@ public class TestAddMessageScenarios {
     }
 
     @Test
-    public void scenarioX_sendMessageToAnybody_abortContactSelection() {
+    public void scenario3_sendMessageToAnybody_abortContactSelection() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -204,7 +204,7 @@ public class TestAddMessageScenarios {
     }
 
     @Test
-    public void scenarioX_sendMessageToContact() {
+    public void scenario4_sendMessageToContact() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -238,7 +238,7 @@ public class TestAddMessageScenarios {
 
     // TODO: right now no encrypted exchange with contacts possible
     @Test
-    public void scenarioX_sendMessageToContact_encrypted() {
+    public void scenario5_sendMessageToContact_encrypted() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -271,7 +271,7 @@ public class TestAddMessageScenarios {
     }
 
     @Test
-    public void scenarioX_sendMessageToContact_signed() {
+    public void scenario6_sendMessageToContact_signed() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -305,7 +305,7 @@ public class TestAddMessageScenarios {
     }
 
     @Test
-    public void scenarioX_sendMessageToContact_signedAndEncrypted() {
+    public void scenario7_sendMessageToContact_signedAndEncrypted() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -340,7 +340,7 @@ public class TestAddMessageScenarios {
     }
 
     @Test
-    public void scenarioX_abortSendingMessage() {
+    public void scenario8_abortSendingMessage() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -361,7 +361,7 @@ public class TestAddMessageScenarios {
     }
 
     @Test
-    public void scenarioX_sendEmptyMessageIsProhibited_sendButtonDisabled() {
+    public void scenario9_sendEmptyMessageIsProhibited_sendButtonDisabled() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -375,7 +375,7 @@ public class TestAddMessageScenarios {
     }
 
     @Test
-    public void scenarioX_sendMultipleMessagesShowsAllMessagesInChannel() {
+    public void scenario10_sendMultipleMessagesShowsAllMessagesInChannel() {
         // go to channel
         Espresso.onView(withId(R.id.sn_channel_list_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
