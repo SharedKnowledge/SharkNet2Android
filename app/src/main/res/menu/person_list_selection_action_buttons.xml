@@ -7,12 +7,12 @@
         android:id="@+id/personListSelectionDoneButton"
         android:checkable="true"
         android:title="@string/personListSelectionDoneText"
-        app:showAsAction="ifRoom|withText"
+        app:showAsAction="always|withText"
         />
     <item
-        android:id="@+id/fragment_receive_credentials_abort_button"
+        android:id="@+id/abortButton"
         android:checkable="true"
-        android:title="@string/global_abort"
+        android:title="@string/abort"
         app:showAsAction="always|withText"
         />
 </menu>

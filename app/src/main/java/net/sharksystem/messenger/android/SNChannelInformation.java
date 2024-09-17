@@ -1,6 +1,5 @@
 package net.sharksystem.messenger.android;
 
-@Deprecated
 class SNChannelInformation {
     final CharSequence uri;
     final CharSequence name;

@@ -28,7 +28,7 @@ public class HubDescriptionEditActivity extends ASAPActivity {
         super.onCreate(savedInstanceState);
         Intent intent = this.getIntent();
 
-        // prepare defaults if a new entry is created
+        // prepare defaults if a new enty is created
         CharSequence hostNameString = "hostName";
         CharSequence portString = String.valueOf(Hub.DEFAULT_PORT);
         int layout = R.layout.settings_hub_description_editor_drawer_layout;
@@ -57,23 +57,23 @@ public class HubDescriptionEditActivity extends ASAPActivity {
 
         SharkNetApp.getSharkNetApp().setupDrawerLayout(this);
 
-        EditText etHostName = this.findViewById(R.id.fragment_hub_view_host_name_input);
-        EditText etPort = this.findViewById(R.id.fragment_hub_view_port_input);
+        EditText etHostName = this.findViewById(R.id.settingsTCPHubDescriptionHostName);
+        EditText etPort = this.findViewById(R.id.settingsTCPHubDescriptionPort);
 
         etHostName.setText(hostNameString);
         etPort.setText(portString);
     }
 
     public void onClick(View view) {
-        if(view == this.findViewById(R.id.fragment_receive_credentials_abort_button)) {
+        if(view == this.findViewById(R.id.abortButton)) {
             this.finish();
             return;
         }
 
-        if(view == this.findViewById(R.id.fragment_hub_view_default_values_button)) {
-            EditText etHostName = this.findViewById(R.id.fragment_hub_view_host_name_input);
-            EditText etPort = this.findViewById(R.id.fragment_hub_view_port_input);
-            ToggleButton tbMultiChannel = this.findViewById(R.id.fragment_hub_view_multi_channel_button);
+        if(view == this.findViewById(R.id.defaultButton)) {
+            EditText etHostName = this.findViewById(R.id.settingsTCPHubDescriptionHostName);
+            EditText etPort = this.findViewById(R.id.settingsTCPHubDescriptionPort);
+            ToggleButton tbMultiChannel = this.findViewById(R.id.settingsTCPHubDescriptionMultiChannel);
 
             etHostName.setText("asaphub.f4.htw-berlin.de");
             etPort.setText("6910");
@@ -84,9 +84,9 @@ public class HubDescriptionEditActivity extends ASAPActivity {
         // remove or add - in any case create a description object from GUI entries
 
         // add new one
-        EditText etHostName = this.findViewById(R.id.fragment_hub_view_host_name_input);
-        EditText etPort = this.findViewById(R.id.fragment_hub_view_port_input);
-        ToggleButton tbMultiChannel = this.findViewById(R.id.fragment_hub_view_multi_channel_button);
+        EditText etHostName = this.findViewById(R.id.settingsTCPHubDescriptionHostName);
+        EditText etPort = this.findViewById(R.id.settingsTCPHubDescriptionPort);
+        ToggleButton tbMultiChannel = this.findViewById(R.id.settingsTCPHubDescriptionMultiChannel);
 
         String hostNameString = etHostName.getEditableText().toString();
         String portString = etPort.getEditableText().toString();
@@ -110,7 +110,7 @@ public class HubDescriptionEditActivity extends ASAPActivity {
             if(view == this.findViewById(R.id.deleteButton)) {
                 sPeer.removeHubDescription(descriptionFromGUI);
             }
-            else if(view == this.findViewById(R.id.fragment_hub_view_save_button)) {
+            else if(view == this.findViewById(R.id.save)) {
                 // remove old one - it was most probably changed
                 if(this.origHubDescription != null) {
                     sPeer.removeHubDescription(this.origHubDescription);

@@ -41,8 +41,8 @@ class SNChannelsListContentAdapter extends
 
         public MyViewHolder(View view) {
             super(view);
-            uriTextView = view.findViewById(R.id.sn_channel_list_row_uri);
-            nameTextView = view.findViewById(R.id.sn_channel_list_row_name);
+            uriTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_uri);
+            nameTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_name);
             view.setOnClickListener(clickListener);
         }
     }
@@ -98,10 +98,10 @@ class SNChannelsListContentAdapter extends
     public void onClick(View view) {
         Log.d(this.getLogStart(), "click on view recognized");
 
-        TextView uriTextView = view.findViewById(R.id.sn_channel_list_row_uri);
+        TextView uriTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_uri);
         Log.d(this.getLogStart(), "uri: " + uriTextView.getText());
 
-        TextView nameTextView = view.findViewById(R.id.sn_channel_list_row_name);
+        TextView nameTextView = (TextView) view.findViewById(R.id.sn_channel_list_row_name);
         Log.d(this.getLogStart(), "name: " + nameTextView.getText());
 
         ASAPChannelIntent intent =

@@ -4,14 +4,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.ToggleButton;
 
 import net.sharksystem.R;
+import net.sharksystem.SharkPeer;
 import net.sharksystem.asap.android.apps.ASAPActivity;
+import net.sharksystem.asap.android.apps.ASAPAndroidPeer;
+import net.sharksystem.asap.android.apps.HubConnectionManagerApplicationSide;
+import net.sharksystem.asap.android.apps.HubManagerStatusChangedListener;
+import net.sharksystem.hub.HubConnectionManager;
+import net.sharksystem.hub.peerside.HubConnectorDescription;
+import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-public class SettingsActivity extends ASAPActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SettingsActivity extends ASAPActivity implements HubManagerStatusChangedListener {
+    private HubConnectionManagerApplicationSide hubConnectionManager;
+    private ListView listViewConnectedHubs;
+    private ListView listViewFailedAttempts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +37,10 @@ public class SettingsActivity extends ASAPActivity {
 
         SharkNetApp.getSharkNetApp().setupDrawerLayout(this);
 
+        hubConnectionManager = (HubConnectionManagerApplicationSide) this.getHubConnectionManager();
+        listViewConnectedHubs = findViewById(R.id.settingsConnectedHubsList);
+        listViewFailedAttempts = findViewById(R.id.settingsFailedAttemptsList);
+        hubConnectionManager.addListener(this);
         // add listener for each setting
 
         ////////////////////////////////////////////////////////////////////////////
@@ -27,7 +48,7 @@ public class SettingsActivity extends ASAPActivity {
         ////////////////////////////////////////////////////////////////////////////
 
         ///////////////// BLUETOOTH
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_on_off_button);
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.settingsBluetoothToggleButton);
         // set initial status
         toggle.setChecked(this.isBluetoothEnvironmentOn());
 
@@ -93,7 +114,7 @@ public class SettingsActivity extends ASAPActivity {
                 });
  */
         ///////////////// BLUETOOTH DISCOVERY AND DISCOVERABLE = SCAN BT
-        toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_scan_button);
+        toggle = (ToggleButton) findViewById(R.id.settingsBluetoothD_And_D_ExplanationButton);
         // set initial status
         toggle.setChecked(isBluetoothDiscovery());
 
@@ -116,7 +137,7 @@ public class SettingsActivity extends ASAPActivity {
                 });
 
         ///////////////// ASAP Hub on / off
-        toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_connect_hubs_button);
+        toggle = (ToggleButton) findViewById(R.id.settingsASAPHubsExplanationButton);
         // set initial status
         toggle.setChecked(isASAPHubsConnected());
 
@@ -127,14 +148,25 @@ public class SettingsActivity extends ASAPActivity {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (!dontDoAnything) {
                             if (isChecked) {
-                                Log.d(getLogStart(), "ui said: switch on BT D and D");
-                                connectASAPHubs();
+                                Log.d(getLogStart(), String.format("connect ASAPHubs.. Available " +
+                                        "descriptions: %d",SharkNetApp.getSharkNetApp().getSharkPeer().getHubDescriptions().size()));
+                                for (HubConnectorDescription hcd: SharkNetApp.getSharkNetApp().getSharkPeer().getHubDescriptions() ) {
+                                    connectASAPHubs(hcd);
+                                }
                             } else {
-                                disconnectASAPHubs();
+                                for (HubConnectorDescription hcd: SharkNetApp.getSharkNetApp().getSharkPeer().getHubDescriptions() ) {
+                                    disconnectASAPHubs(hcd);
+                                }
                             }
                         }
                     }
                 });
+
+        ///////////////// ASAP Hub refresh connected hubs list and failed connection attempts list
+        Button refreshButton = findViewById(R.id.settingsRefreshHubListButton);
+        refreshButton.setOnClickListener(view -> {
+            hubConnectionManager.refreshHubList();
+        });
     }
 
     private boolean dontDoAnything = false;
@@ -142,7 +174,7 @@ public class SettingsActivity extends ASAPActivity {
     private void refreshToggleButtons() {
         this.dontDoAnything = true;
 
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_on_off_button);
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.settingsBluetoothToggleButton);
         toggle.setChecked(this.isBluetoothEnvironmentOn());
         toggle.refreshDrawableState();
 
@@ -156,7 +188,7 @@ public class SettingsActivity extends ASAPActivity {
         toggle.refreshDrawableState();
          */
 
-        toggle = (ToggleButton) findViewById(R.id.fragment_network_bluetooth_scan_button);
+        toggle = (ToggleButton) findViewById(R.id.settingsBluetoothD_And_D_ExplanationButton);
         toggle.setChecked(this.isBluetoothDiscovery());
         toggle.refreshDrawableState();
 
@@ -219,5 +251,19 @@ public class SettingsActivity extends ASAPActivity {
     public void asapNotifyBTDiscoveryStopped() {
         super.asapNotifyBTDiscoveryStopped();
         this.refreshToggleButtons();
+    }
+
+    @Override
+    public void notifyHubListReceived() {
+        List<String> connectedHubs = new ArrayList<>();
+        for (HubConnectorDescription hcd : hubConnectionManager.getConnectedHubs()) {
+            connectedHubs.add(hcd.toString());
+        }
+        List<String> failedAttempts = new ArrayList<>();
+        for (HubConnectionManager.FailedConnectionAttempt attempt : hubConnectionManager.getFailedConnectionAttempts()) {
+            failedAttempts.add(attempt.getHubConnectorDescription().toString());
+        }
+        listViewConnectedHubs.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, connectedHubs.toArray(new String[0])));
+        listViewFailedAttempts.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, failedAttempts.toArray(new String[0])));
     }
 }
