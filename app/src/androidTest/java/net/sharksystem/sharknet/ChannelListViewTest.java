@@ -11,7 +11,7 @@ import net.sharksystem.R;
 import net.sharksystem.ui.MainActivity;
 
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @LargeTest
 public class ChannelListViewTest {

@@ -13,12 +13,12 @@ import androidx.test.espresso.contrib.NavigationViewActions;
 
 import net.sharksystem.R;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DrawerTest {
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void fromChannelListToSettings() {
         Espresso.onView(withId(R.id.drawer_layout)).
                 check(matches(isClosed(Gravity.LEFT))).
@@ -30,7 +30,7 @@ public class DrawerTest {
         Espresso.onView(withId(R.layout.fragment_settings)).check(matches(isDisplayed()));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void fromChannelListToContactList() {
         Espresso.onView(withId(R.id.drawer_layout)).
                 check(matches(isClosed(Gravity.LEFT))).
@@ -42,7 +42,7 @@ public class DrawerTest {
         Espresso.onView(withId(R.layout.fragment_contact_list)).check(matches(isDisplayed()));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void fromChannelListToRadar() {
         Espresso.onView(withId(R.id.drawer_layout)).
                 check(matches(isClosed(Gravity.LEFT))).
@@ -54,7 +54,7 @@ public class DrawerTest {
         Espresso.onView(withId(R.layout.fragment_radar)).check(matches(isDisplayed()));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void fromChannelListToNetwork() {
         Espresso.onView(withId(R.id.drawer_layout)).
                 check(matches(isClosed(Gravity.LEFT))).
@@ -66,7 +66,7 @@ public class DrawerTest {
         Espresso.onView(withId(R.layout.fragment_network)).check(matches(isDisplayed()));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void drawerTopToBottom() {
         Espresso.onView(withId(R.id.drawer_layout)).
                 check(matches(isClosed(Gravity.LEFT))).

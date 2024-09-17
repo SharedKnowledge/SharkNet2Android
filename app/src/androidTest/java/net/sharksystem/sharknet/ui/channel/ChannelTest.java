@@ -6,7 +6,7 @@ import net.sharksystem.SharkException;
 import net.sharksystem.messenger.android.SNChannelsListActivity;
 
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 

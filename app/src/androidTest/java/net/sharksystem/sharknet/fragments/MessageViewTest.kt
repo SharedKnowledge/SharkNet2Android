@@ -5,12 +5,12 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import net.sharksystem.R
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import net.sharksystem.ui.channels.massage.MessageViewFragment
 
 class MessageViewTest {
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun allComponentsDisplayed() {
         val scenario = launchFragmentInContainer<MessageViewFragment>()
         Espresso.onView(ViewMatchers.withId(R.layout.fragment_message_view)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))

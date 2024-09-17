@@ -6,7 +6,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import net.sharksystem.R
 import net.sharksystem.ui.contacts.receiveCredentials.ReceiveCredentialsFragment
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ReceiveCredentialsTest {
 

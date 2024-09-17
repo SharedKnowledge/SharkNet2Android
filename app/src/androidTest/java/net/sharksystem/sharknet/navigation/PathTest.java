@@ -13,7 +13,7 @@ import net.sharksystem.R;
 import net.sharksystem.ui.MainActivity;
 
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PathTest {
 
@@ -28,7 +28,7 @@ public class PathTest {
         Espresso.onView(withId(R.id.fragment_add_channel)).check(matches(isDisplayed()));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void fromChannelListToAddChannel() {
         Espresso.onView(withId(R.layout.fragment_channel_list)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.fragment_channel_list_add_channel_button)).perform(click());

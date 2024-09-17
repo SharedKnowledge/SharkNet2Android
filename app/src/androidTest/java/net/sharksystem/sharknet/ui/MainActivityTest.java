@@ -5,7 +5,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import net.sharksystem.ui.MainActivity;
 
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MainActivityTest {
 

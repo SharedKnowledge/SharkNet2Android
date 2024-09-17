@@ -6,11 +6,11 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import net.sharksystem.R
 import net.sharksystem.ui.firstLaunch.FirstStartFragment
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class FirstStartTest {
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun allComponentsDisplayed() {
         val scenario = launchFragmentInContainer<FirstStartFragment>()
         Espresso.onView(ViewMatchers.withId(R.layout.fragment_first_start)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
