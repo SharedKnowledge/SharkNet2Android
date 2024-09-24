@@ -102,15 +102,11 @@ public class SNChannelViewActivity extends SharkNetActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         try {
-            switch (item.getItemId()) {
-                case R.id.snChannelViewMenuAddMessage:
-                    this.doAddMessage();
-                    return true;
-
-                default:
-                    // If we got here, the user's action was not recognized.
-                    // Invoke the superclass to handle it.
-                    return super.onOptionsItemSelected(item);
+            if(item.getItemId() == R.id.snChannelViewMenuAddMessage) {
+                this.doAddMessage();
+                return true;
+            } else {
+                return super.onOptionsItemSelected(item);
             }
         }
         catch(Exception e) {

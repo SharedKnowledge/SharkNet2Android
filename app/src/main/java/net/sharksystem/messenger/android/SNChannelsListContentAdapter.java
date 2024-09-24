@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.ASAPChannelIntent;
-import net.sharksystem.messenger.SharkMessengerChannel;
-import net.sharksystem.messenger.SharkMessengerException;
+import net.sharksystem.app.messenger.SharkMessengerChannel;
+import net.sharksystem.app.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;

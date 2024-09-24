@@ -29,19 +29,14 @@ public class PersonListSelectionActivity extends PersonListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         try {
-            switch (item.getItemId()) {
-                case R.id.personListSelectionDoneButton:
-                    this.doDone();
-                    return true;
-
-                case R.id.abortButton:
-                    this.finish();
-                    return true;
-
-                default:
-                    // If we got here, the user's action was not recognized.
-                    // Invoke the superclass to handle it.
-                    return super.onOptionsItemSelected(item);
+            if(item.getItemId() == R.id.personListSelectionDoneButton) {
+                this.doDone();
+                return true;
+            } else if(item.getItemId() == R.id.abortButton) {
+                this.finish();
+                return true;
+            } else {
+                return super.onOptionsItemSelected(item);
             }
         }
         catch(Exception e) {

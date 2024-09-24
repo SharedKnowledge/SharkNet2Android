@@ -1,12 +1,16 @@
 package net.sharksystem.sharknet.android;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import net.sharksystem.R;
+import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.pki.CredentialMessage;
 import net.sharksystem.pki.android.SharkPKIReceivedCredentialMessageHandler;
+
+import java.io.IOException;
 
 public class SNTestActivity extends SharkNetActivity {
 
@@ -20,14 +24,15 @@ public class SNTestActivity extends SharkNetActivity {
 
         // create test credential message
         try {
-            CredentialMessage credentialMessage =
-                    SharkNetApp.getSharkNetApp().getSharkPKI().createCredentialMessage();
+            SharkNetApp.getSharkNetApp().getSharkPKI().sendTransientCredentialMessage();
 
             SharkPKIReceivedCredentialMessageHandler receivedCredentialListener =
                     SharkNetApp.getSharkNetApp().getReceivedCredentialListener();
 
-            receivedCredentialListener.credentialReceived(credentialMessage);
-        } catch (ASAPSecurityException e) {
+            Log.d(this.getLogStart(), "credential sent but nothing else - TODO");
+
+            // receivedCredentialListener.credentialReceived(credentialMessage);
+        } catch (Throwable e) {
             e.printStackTrace();
         }
     }

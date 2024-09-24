@@ -53,7 +53,7 @@ public class OwnerActivity extends SharkNetActivity {
 
     private void notifyKeyPairCreated() {
         // sync
-        this.getSharkNetApp().getSharkPKI().syncNewReceivedCertificates();
+        //this.getSharkNetApp().getSharkPKI().syncNewReceivedCertificates();
 
         // re-launch
         this.finish();

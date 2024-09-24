@@ -2,17 +2,14 @@ package net.sharksystem.messenger.android;
 
 import android.widget.Toast;
 
+import net.sharksystem.app.messenger.SharkMessage;
 import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPHop;
 import net.sharksystem.asap.ASAPSecurityException;
-import net.sharksystem.asap.utils.ASAPSerialization;
 import net.sharksystem.asap.utils.DateTimeHelper;
-import net.sharksystem.messenger.SharkMessage;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
@@ -118,10 +115,10 @@ class SNMessageViewHelper {
         CharSequence creationTimeCharSequence = "time: unknown";
 
         if(sharkMessage.couldBeDecrypted()) {
-            Timestamp creationTime = null;
+            long creationTime = 0;
             try {
                 creationTime = sharkMessage.getCreationTime();
-                creationTimeCharSequence = DateTimeHelper.long2DateString(creationTime.getTime());
+                creationTimeCharSequence = DateTimeHelper.long2DateString(creationTime);
             } catch (ASAPException | IOException e) {
                 creationTimeCharSequence = "failure while reading timestamp";
             }

@@ -1,5 +1,6 @@
 package net.sharksystem.messenger.android;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
-import net.sharksystem.messenger.SharkMessengerException;
+import net.sharksystem.app.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetActivity;
-import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
 
@@ -84,24 +84,20 @@ public class SNChannelsListActivity extends SharkNetActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
-            switch (item.getItemId()) {
-                case R.id.snAddChannelButton:
-                    this.doAddChannel();
-                    return true;
-
-                case R.id.snRemoveAllChannelButton:
-                    this.doRemoveAll();
-                    // force adapter to refresh ui
-                    this.mAdapter.notifyDataSetChanged();
-                    return true;
-
-                default:
-                    // If we got here, the user's action was not recognized.
-                    // Invoke the superclass to handle it.
-                    return super.onOptionsItemSelected(item);
+            if(item.getItemId() == R.id.snAddChannelButton) {
+                this.doAddChannel();
+                return true;
+            } else if(item.getItemId() == R.id.snRemoveAllChannelButton) {
+                this.doRemoveAll();
+                // force adapter to refresh ui
+                this.mAdapter.notifyDataSetChanged();
+                return true;
+            } else {
+                return super.onOptionsItemSelected(item);
             }
         }
         catch(Exception e) {
@@ -138,11 +134,11 @@ public class SNChannelsListActivity extends SharkNetActivity {
 
     private void doRemoveAll() throws IOException, SharkMessengerException {
         String sampleLine = Long.toString(System.currentTimeMillis());
-        Log.d(this.getLogStart(), "doRemoveAll called");
+        Log.e(this.getLogStart(), "doRemoveAll called - TODO - nyi");
 
-        SharkNetApp.getSharkNetApp().getSharkMessenger().removeAllChannels();
+        //SharkNetApp.getSharkNetApp().getSharkMessenger().removeAllChannels();
 
-        Toast.makeText(this, "done - removed all makan", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "done - removed all channels - TODO", Toast.LENGTH_SHORT).show();
     }
 
 //    @Override

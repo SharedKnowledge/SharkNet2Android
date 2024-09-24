@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 import net.sharksystem.R;
 import net.sharksystem.android.ASAPChannelIntent;
+import net.sharksystem.app.messenger.SharkMessengerException;
 import net.sharksystem.asap.utils.PeerIDHelper;
-import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
@@ -52,16 +52,11 @@ public class SNChannelAddActivity extends SharkNetActivity {
 
                 this.startActivity(intent);
 
-            } catch (IOException e) {
+            } catch (IOException | SharkMessengerException e) {
                 String text = "failure: " + e.getLocalizedMessage();
                 Log.e(this.getLogStart(), text);
                 Toast.makeText(this, "IO error - that's serious", Toast.LENGTH_SHORT).show();
-            } catch (SharkMessengerException e) {
-                String text = "failure: " + e.getLocalizedMessage();
-                Log.w(this.getLogStart(), text);
-                Toast.makeText(this, "already exists(?)", Toast.LENGTH_SHORT).show();
-            }
-            finally {
+            } finally {
                 this.finish();
             }
         }

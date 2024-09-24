@@ -38,37 +38,24 @@ public class DrawerOnNavigationItemListener implements
         try {
 
             Intent intent = null;
-            switch (itemId) {
-                case R.id.moduleSharkNetChannels:
-                    intent = new Intent(this.activity, SNChannelsListActivity.class);
-                    this.activity.startActivity(intent);
-                    break;
-
-                case R.id.moduleIdentity:
+            if (itemId == R.id.moduleSharkNetChannels) {
+                intent = new Intent(this.activity, SNChannelsListActivity.class);
+                this.activity.startActivity(intent);
+            } else if (itemId == R.id.moduleIdentity) {
                     intent = new Intent(this.activity, OwnerActivity.class);
                     this.activity.startActivity(intent);
-                    break;
-
-                case R.id.modulePersons:
+            } else if (itemId == R.id.modulePersons) {
                     intent = new Intent(this.activity, PersonListViewActivity.class);
                     this.activity.startActivity(intent);
-                    break;
-
-                case R.id.moduleMeetPeers:
+            } else if (itemId == R.id.moduleMeetPeers) {
                     intent = new Intent(this.activity, CredentialExchangeActivity.class);
                     this.activity.startActivity(intent);
-                    break;
-
-                case R.id.moduleRadar:
+            } else if (itemId == R.id.moduleRadar) {
                     intent = new Intent(this.activity, RadarActivity.class);
                     this.activity.startActivity(intent);
-                    break;
-
-                case R.id.moduleNetworkSettings:
+            } else if (itemId == R.id.moduleNetworkSettings) {
                     intent = new Intent(this.activity, SettingsActivity.class);
                     this.activity.startActivity(intent);
-                    break;
-
             }
 
             this.mDrawerLayout.closeDrawers();

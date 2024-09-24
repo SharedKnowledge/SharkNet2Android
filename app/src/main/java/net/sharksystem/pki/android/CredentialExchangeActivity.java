@@ -47,12 +47,7 @@ public class CredentialExchangeActivity extends SharkNetActivity {
         byte[] cic = cicEditText.getText().toString().getBytes(StandardCharsets.UTF_8);
 
         try {
-            CredentialMessage credentialMessage =
-                    this.getSharkNetApp().getSharkPKI().createCredentialMessage(cic);
-
-            CredentialExchangeActivity.addCredentialMessageToObjectHolder(credentialMessage, true);
-
-            this.getSharkNetApp().getSharkPKI().sendOnlineCredentialMessage(credentialMessage);
+            this.getSharkNetApp().getSharkPKI().sendTransientCredentialMessage();
 
             Intent intent = new Intent(this, CredentialViewActivity.class);
 

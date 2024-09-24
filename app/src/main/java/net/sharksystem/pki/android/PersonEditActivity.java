@@ -60,7 +60,10 @@ public class PersonEditActivity extends SharkNetActivity
             sfSpinner.setSelection(personValues.getSigningFailureRate());
 
             tv = findViewById(R.id.personEditIdentityAssuranceLevel);
-            tv.setText(String.valueOf(personValues.getIdentityAssurance()));
+
+            tv.setText(String.valueOf(
+                this.getSharkNetApp().getSharkPKI().getIdentityAssurance(
+                        personValues.getUserID())));
 
         } catch (SharkException e) {
             Log.e(Util.getLogStart(this), "fatal: " + e.getLocalizedMessage());

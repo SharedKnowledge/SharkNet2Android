@@ -12,8 +12,8 @@ import android.widget.Toast;
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
 import net.sharksystem.android.ASAPChannelIntent;
+import net.sharksystem.app.messenger.SharkMessengerException;
 import net.sharksystem.asap.ASAPException;
-import net.sharksystem.messenger.SharkMessengerException;
 import net.sharksystem.pki.android.PersonListSelectionActivity;
 import net.sharksystem.pki.android.PersonStatusHelper;
 import net.sharksystem.sharknet.android.SharkNetActivity;
@@ -109,7 +109,7 @@ public class SNChannelAddMessageActivity extends SharkNetActivity {
 
                 // send with shark messenger
                 this.getSharkNetApp().getSharkMessenger().sendSharkMessage(
-                        content, this.uri, sign, encrypt);
+                        content, this.uri, sign);
 
             } catch (IOException | SharkMessengerException e) {
                 Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();

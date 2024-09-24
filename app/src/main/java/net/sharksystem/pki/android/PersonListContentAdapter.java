@@ -76,7 +76,8 @@ public class PersonListContentAdapter extends
             holder.itemView.setTag(R.id.user_id_tag, userID);
             holder.personName.setText(personValues.getName());
 
-            int identityAssurance = personValues.getIdentityAssurance();
+            int identityAssurance = SharkNetApp.getSharkNetApp().getSharkPKI()
+                    .getIdentityAssurance(personValues.getUserID());
             Log.d(this.getLogStart(), "identity Assurance: " + identityAssurance);
             holder.personIdentityAssurance.setText(String.valueOf(identityAssurance));
 

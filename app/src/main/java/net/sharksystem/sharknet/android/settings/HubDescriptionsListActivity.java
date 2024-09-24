@@ -79,23 +79,18 @@ public class HubDescriptionsListActivity extends ASAPActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         try {
-            switch (item.getItemId()) {
-                case R.id.settingHubDescriptionsAdd:
+            if(item.getItemId() == R.id.settingHubDescriptionsAdd) {
                     Intent intent = new Intent(this, HubDescriptionEditActivity.class);
                     this.startActivity(intent);
                     return true;
-
-                case R.id.settingHubDescriptionsCancel:
-                    //this.doRemoveAll();
-                    // force adapter to refresh ui
-                    //this.mAdapter.notifyDataSetChanged();
-                    this.finish();
-                    return true;
-
-                default:
-                    // If we got here, the user's action was not recognized.
-                    // Invoke the superclass to handle it.
-                    return super.onOptionsItemSelected(item);
+            } else if (item.getItemId() == R.id.settingHubDescriptionsCancel) {
+                //this.doRemoveAll();
+                // force adapter to refresh ui
+                //this.mAdapter.notifyDataSetChanged();
+                this.finish();
+                return true;
+            } else {
+                return super.onOptionsItemSelected(item);
             }
         }
         catch(Exception e) {

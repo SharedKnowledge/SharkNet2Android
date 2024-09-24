@@ -43,14 +43,11 @@ public class CredentialSendActivity extends SharkNetActivity {
         //this.getSharkNetApp().getSharkPKI().setSharkCredentialReceivedListener(this);
     }
 
+    /*
     public void onSendClick(View v) {
         try {
             CredentialMessage credentialMessage =
                     this.getSharkNetApp().getSharkPKI().createCredentialMessage();
-
-            /**
-             * tag (defined by ViewActivity) -> key (defined here); key -> value (actual value)
-             */
 
             // credential message stored under a key
             ObjectHolder.getObjectHolder().setObject(
@@ -103,7 +100,6 @@ public class CredentialSendActivity extends SharkNetActivity {
         Toast.makeText(this,
                 "You received a signed certificate. Do you already have public key of the signer?"
                 , Toast.LENGTH_LONG).show();
-         */
     }
 
     public void onDoneClick(View v) {
@@ -127,5 +123,5 @@ public class CredentialSendActivity extends SharkNetActivity {
             this.credentialSendActivity.doHandleCertificateMessage(asapMessages);
         }
     }
-
+     */
 }

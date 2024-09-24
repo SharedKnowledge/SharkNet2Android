@@ -7,16 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.sharksystem.R;
-import net.sharksystem.android.ASAPChannelIntent;
-import net.sharksystem.asap.ASAPException;
-import net.sharksystem.asap.utils.DateTimeHelper;
-import net.sharksystem.messenger.SharkMessage;
-import net.sharksystem.messenger.SharkMessengerComponent;
-import net.sharksystem.messenger.SharkMessengerException;
+import net.sharksystem.app.messenger.SharkMessage;
+import net.sharksystem.app.messenger.SharkMessengerComponent;
+import net.sharksystem.app.messenger.SharkMessengerException;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;

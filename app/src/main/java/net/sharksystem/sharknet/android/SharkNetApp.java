@@ -13,17 +13,16 @@ import net.sharksystem.SharkException;
 import net.sharksystem.SharkPeer;
 import net.sharksystem.SharkPeerFS;
 import net.sharksystem.SharkStatusException;
+import net.sharksystem.app.messenger.SharkMessengerComponent;
 import net.sharksystem.asap.ASAP;
-import net.sharksystem.asap.ASAPException;
 import net.sharksystem.asap.ASAPSecurityException;
 import net.sharksystem.asap.android.Util;
 import net.sharksystem.asap.android.apps.ASAPAndroidPeer;
-import net.sharksystem.messenger.SharkMessengerComponent;
-import net.sharksystem.messenger.SharkMessengerComponentFactory;
 import net.sharksystem.pki.HelperPKITests;
 import net.sharksystem.pki.SharkPKIComponent;
 import net.sharksystem.pki.SharkPKIComponentFactory;
 import net.sharksystem.pki.android.SharkPKIReceivedCredentialMessageHandler;
+import net.sharksystem.app.messenger.SharkMessengerComponentFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +54,7 @@ public class SharkNetApp {
 
     public static void initializeSharkNetApp(Activity initialActivity, String ownerID)
             throws SharkException, IOException {
-        ///////////////////////////////////// get saved data of this app.
+        ///////////////////////////////////// restore app data - if any
         if(SharkNetApp.singleton == null) {
             Log.d(getLogStart(), "going to initialize shark net application");
             SharkNetApp.singleton = new SharkNetApp(initialActivity, ownerID);
@@ -70,7 +69,7 @@ public class SharkNetApp {
                     rootDir.getAbsolutePath()
             );
 
-            ///////////////////////////////////// setup PKI
+            /////////////////////////// setup PKI /////////////////////////////////////////////
             // create Android specific key store
             AndroidASAPKeyStore androidASAPKeyStore = null;
             try {
@@ -82,9 +81,7 @@ public class SharkNetApp {
             }
 
             // create a pki component factory with android key store
-            SharkPKIComponentFactory pkiComponentFactory =
-                    new SharkPKIComponentFactory(androidASAPKeyStore,
-                            SharkNetApp.singleton.ownerName);
+            SharkPKIComponentFactory pkiComponentFactory = new SharkPKIComponentFactory();
 
             // register this component with shark peer
             SharkNetApp.singleton.sharkPeer.addComponent(
@@ -95,8 +92,11 @@ public class SharkNetApp {
 
             ///////////////////////////////////// setup SharkMessenger
             // create messenger factory - needs a pki
+            // get messenger factory with pki component as parameter.
             SharkMessengerComponentFactory messengerFactory =
-                    new SharkMessengerComponentFactory(SharkNetApp.singleton.getSharkPKI());
+                    new SharkMessengerComponentFactory(
+                            (SharkPKIComponent) SharkNetApp.singleton.sharkPeer
+                                    .getComponent(SharkPKIComponent.class));
 
             // register this component with shark peer
             SharkNetApp.singleton.sharkPeer.addComponent(
@@ -112,6 +112,8 @@ public class SharkNetApp {
                     SharkNetApp.APP_FOLDER_NAME,
                     initialActivity);
 
+            // TODO - need to inject keystore
+
             // launch service side
             ASAPAndroidPeer applicationSideASAPPeer = ASAPAndroidPeer.startPeer(initialActivity);
             Log.d(getLogStart(), "ASAP had a liftoff");
@@ -124,8 +126,8 @@ public class SharkNetApp {
             Log.d(getLogStart(), "shark net application launched");
 
             ///////////////////////////////////// testing: example data
-            Log.d(getLogStart(), "fill pki with example data");
-            HelperPKITests.fillWithExampleData((SharkPKIComponent) sharkPKI);
+            //Log.d(getLogStart(), "fill pki with example data");
+            //HelperPKITests.fillWithExampleData((SharkPKIComponent) sharkPKI);
         } else {
             Log.d(getLogStart(), "shark net application already initialized - ignore");
         }

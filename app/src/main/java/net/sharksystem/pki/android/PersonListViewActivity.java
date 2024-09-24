@@ -34,25 +34,19 @@ public class PersonListViewActivity extends PersonListActivity {
         Log.d(this.getLogStart(), "onOptionsItemSelected");
 
         try {
-            switch (item.getItemId()) {
-                case R.id.personListViewRemoveButton:
-                    Log.d(this.getLogStart(), "personListViewRemoveButton");
-                    this.doRemovePersons();
-                    return true;
-
-                case R.id.personListViewAddButton:
-                    Log.d(this.getLogStart(), "personListViewAddButton");
-                    this.doAddPerson();
-                    return true;
-
-                case R.id.abortButton:
-                    this.finish();
-                    return true;
-
-                default:
-                    // If we got here, the user's action was not recognized.
-                    // Invoke the superclass to handle it.
-                    return super.onOptionsItemSelected(item);
+            if(item.getItemId() == R.id.personListViewRemoveButton) {
+                Log.d(this.getLogStart(), "personListViewRemoveButton");
+                this.doRemovePersons();
+                return true;
+            } else if(item.getItemId() == R.id.personListViewAddButton) {
+                Log.d(this.getLogStart(), "personListViewAddButton");
+                this.doAddPerson();
+                return true;
+            } else if(item.getItemId() == R.id.abortButton) {
+                this.finish();
+                return true;
+            } else {
+                return super.onOptionsItemSelected(item);
             }
         } catch (Exception e) {
             Log.d(this.getLogStart(), e.getLocalizedMessage());

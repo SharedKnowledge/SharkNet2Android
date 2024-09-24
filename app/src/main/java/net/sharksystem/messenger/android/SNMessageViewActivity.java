@@ -1,17 +1,14 @@
 package net.sharksystem.messenger.android;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 import net.sharksystem.R;
 import net.sharksystem.SharkException;
+import net.sharksystem.app.messenger.SharkMessage;
+import net.sharksystem.app.messenger.SharkMessengerComponent;
 import net.sharksystem.asap.android.apps.ASAPActivity;
-import net.sharksystem.messenger.SharkMessage;
-import net.sharksystem.messenger.SharkMessengerComponent;
-import net.sharksystem.messenger.SharkMessengerException;
-import net.sharksystem.sharknet.android.SharkNetActivity;
 import net.sharksystem.sharknet.android.SharkNetApp;
 
 import java.io.IOException;
